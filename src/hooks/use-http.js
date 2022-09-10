@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Services } from "../services/service";
+import { Services } from "../api/service";
 import { notify } from "../utils/funcs";
 
 const useHttp = () => {
@@ -38,9 +38,9 @@ const useHttp = () => {
         }
         if (responseHandler) responseHandler(data);
       } catch (err) {
-        console.log(err?.response?.data?.message);
-        if (err?.response?.data?.message) {
-          notify.error(err?.response?.data?.message);
+        console.log(err);
+        if (err?.response?.data?.msg) {
+          notify.error(err?.response?.data?.msg);
         } else {
           notify.error("Something Wents Wrong Please Try again");
         }

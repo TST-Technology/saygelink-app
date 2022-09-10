@@ -1,12 +1,16 @@
 const theme = {
   lightTheme: {
     primary: {
-      color: "#ededeb",
+      color: "#ABE9DC",
       font: "#000000",
     },
     secondary: {
-      color: "#242533",
-      font: "#6c6c6c",
+      color: "#F62E5F",
+      font: "#5C5353",
+    },
+    ternory: {
+      color: "#ABE9DC",
+      font: "#939393",
     },
     font: {
       small: "12px",
