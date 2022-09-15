@@ -21,6 +21,10 @@ const LoginIDPassword = () => {
     setIsPasswordVisible(true);
   };
 
+  const CheckUserErrorHandeler = (message) => {
+    console.log(message);
+  };
+
   const formSubmitHandler = (e) => {
     e.preventDefault();
     if (isPasswordVisible) {
@@ -34,7 +38,13 @@ const LoginIDPassword = () => {
         ...CONSTANT.API.checkUser,
         endpoint: `/auth/whitelist/${process.env.REACT_APP_UNIVERSITY_ID}/${e.target.email.value}`,
       };
-      loginApi.sendRequest(url, CheckUserResponseHandeler);
+      loginApi.sendRequest(
+        url,
+        CheckUserResponseHandeler,
+        null,
+        null,
+        CheckUserErrorHandeler
+      );
     }
   };
 

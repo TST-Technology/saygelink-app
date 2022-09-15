@@ -16,7 +16,7 @@ const RequestInfo = () => {
   return (
     <InfoCard>
       <Header>
-        <ImageIcon src={main_icon} alt="mail" />{" "}
+        <ImageIcon src={main_icon} alt="mail" />
         <DarkGrayLable style={{ padding: 0, margin: 0 }}>
           &nbsp;Check your email
         </DarkGrayLable>

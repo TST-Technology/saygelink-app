@@ -6,7 +6,7 @@ const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const sendRequest = useCallback(
-    async (url, responseHandler, payload, successMessage) => {
+    async (url, responseHandler, payload, successMessage, errorHandler) => {
       setIsLoading(true);
       try {
         let response;
@@ -38,9 +38,11 @@ const useHttp = () => {
         }
         if (responseHandler) responseHandler(data);
       } catch (err) {
-        console.log(err);
         if (err?.response?.data?.msg) {
           notify.error(err?.response?.data?.msg);
+          if (errorHandler) {
+            errorHandler(err?.response?.data?.msg);
+          }
         } else {
           notify.error("Something Wents Wrong Please Try again");
         }
