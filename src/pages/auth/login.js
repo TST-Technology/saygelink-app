@@ -90,7 +90,11 @@ const LoginIDPassword = () => {
           </PinkLink>
         </Lable>
         <ButtonWithShedo disabled={loginApi.isLoading}>
-          {loginApi.isLoading ? "Loading..." : "Log in"}
+          {loginApi.isLoading
+            ? "Loading..."
+            : isPasswordVisible
+            ? "Login"
+            : "Verify Email"}
         </ButtonWithShedo>
       </form>
     </Card>
