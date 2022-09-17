@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Login from "../pages/auth";
+import { Login, Signup } from "../pages/auth";
 
 const MainRoutes = () => {
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ const MainRoutes = () => {
     <Fragment>
       <Routes>
         <Route path="auth/*" element={<Login />} />
+        <Route path="register/" element={<Signup />} />
       </Routes>
     </Fragment>
   );
