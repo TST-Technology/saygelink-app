@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useHttp from "../../hooks/use-http";
 
 import {
@@ -16,13 +16,23 @@ import CONSTANT from "../../utils/constants";
 const LoginIDPassword = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const loginApi = useHttp();
+  const navigate = useNavigate();
 
-  const CheckUserResponseHandeler = (e) => {
-    setIsPasswordVisible(true);
+  const CheckUserResponseHandeler = (res) => {
+    if (res?.data?.verified == "pending") {
+      navigate("/auth/pendingreq");
+    } else if (!res?.data?.registered && res?.data?.verified === "verified") {
+      navigate("/register");
+    } else if (res?.data?.registered && res?.data?.verified === "verified") {
+      setIsPasswordVisible(true);
+    }
   };
 
   const CheckUserErrorHandeler = (message) => {
     console.log(message);
+    if (message.includes("is not in whitelist")) {
+      navigate("/auth/invitelink");
+    }
   };
 
   const formSubmitHandler = (e) => {
@@ -49,7 +59,6 @@ const LoginIDPassword = () => {
   };
 
   const LoginHandeler = (res) => {
-    console.log(res);
     if (res?.token) {
       localStorage.setItem("authToken", res?.data?.token);
     }
@@ -90,7 +99,11 @@ const LoginIDPassword = () => {
           </PinkLink>
         </Lable>
         <ButtonWithShedo disabled={loginApi.isLoading}>
-          {loginApi.isLoading ? "Loading..." : "Log in"}
+          {loginApi.isLoading
+            ? "Loading..."
+            : isPasswordVisible
+            ? "Login"
+            : "Verify Email"}
         </ButtonWithShedo>
       </form>
     </Card>

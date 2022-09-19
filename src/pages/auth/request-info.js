@@ -1,11 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import main_icon from "../../assets/images/main_icon.svg";
-import ImageIcon, {
-  Header,
-  InfoCard,
-} from "../../style-component/auth/request-info";
-import { DarkGrayLable } from "../../style-component/general";
-import { ButtonWithShedo, Lable } from "../../style-component/auth/login";
+import InfoCard from "../../components/general/info-card";
 
 const RequestInfo = () => {
   const navigate = useNavigate();
@@ -13,21 +8,15 @@ const RequestInfo = () => {
   const LoginClickHandler = () => {
     navigate(`/auth`);
   };
+
   return (
-    <InfoCard>
-      <Header>
-        <ImageIcon src={main_icon} alt="mail" />
-        <DarkGrayLable style={{ padding: 0, margin: 0 }}>
-          &nbsp;Check your email
-        </DarkGrayLable>
-      </Header>
-      <Lable>
-        Your temporary password has been successfully sent to {emailId}.
-      </Lable>
-      <ButtonWithShedo onClick={LoginClickHandler}>
-        Back to login
-      </ButtonWithShedo>
-    </InfoCard>
+    <InfoCard
+      iconSrc={main_icon}
+      heading="Check your email"
+      description={`Your temporary password has been successfully sent to ${emailId}`}
+      btnText="Back to login"
+      onClick={LoginClickHandler}
+    />
   );
 };
 
