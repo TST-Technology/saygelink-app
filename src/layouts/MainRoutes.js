@@ -1,17 +1,9 @@
-import React, { Fragment, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { Login, Signup } from "../pages/auth";
+import React, { Fragment } from "react";
+import { Routes, Route } from "react-router-dom";
+import Login from "../pages/auth";
+import Signup from "../pages/register/signup";
 
 const MainRoutes = () => {
-  const navigate = useNavigate();
-  const [isUserLogIn, setIsUserLogin] = useState(
-    localStorage.getItem("authToken") == null ? false : true
-  );
-  console.log(isUserLogIn);
-  if (isUserLogIn) {
-  } else {
-  }
-
   return (
     <Fragment>
       <Routes>

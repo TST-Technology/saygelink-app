@@ -1,13 +1,16 @@
+import styled from "styled-components";
 import {
   ButtonWithPending,
   CardPending,
-  CrossIconPending,
-  ImageIconpending,
   PendingLable,
   TextPending,
 } from "../../style-component/auth/pending";
 import { Header } from "../../style-component/auth/request-info";
-import crossIcon2 from "../../assets/images/CrossIcon.svg";
+
+export const ImageIconpending = styled.img`
+  width: 40px;
+  margin-right: 12px;
+`;
 
 const InfoCard = (props) => {
   return (
@@ -15,13 +18,12 @@ const InfoCard = (props) => {
       <Header>
         <ImageIconpending src={props.iconSrc} alt="reqpendingicon" />
         <PendingLable style={{ padding: 0, margin: 0 }}>
-          &nbsp; {props.heading}
+          {props.heading}
         </PendingLable>
-        <CrossIconPending src={crossIcon2} alt="crossicon" />
       </Header>
       <TextPending>{props.description}</TextPending>
 
-      {props.btnText != "" && (
+      {props.btnText !== "" && (
         <ButtonWithPending onClick={props.onClick}>
           {props.btnText}
         </ButtonWithPending>

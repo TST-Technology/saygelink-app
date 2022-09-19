@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { InputField } from "../../style-component/auth/login";
 import {
@@ -7,39 +7,44 @@ import {
   LoginTextinvite,
 } from "../../style-component/auth/invitelink";
 import { DarkGrayLable } from "../../style-component/general";
+import CONSTANT from "../../utils/constants";
+import useHttp from "../../hooks/use-http";
 
 const InviteLink = () => {
+  const addUserToWhitelist = useHttp();
+  const navigate = useNavigate();
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    const payload = {
+      organization_id: process.env.REACT_APP_UNIVERSITY_ID,
+      email: e.target.email.value,
+      first_name: e.target.email.first_name,
+      last_name: e.target.email.last_name,
+    };
+    addUserToWhitelist.sendRequest(
+      CONSTANT.API.addUserToWhitelist,
+      () => navigate(`/auth/sendinvitation`),
+      payload
+    );
+  };
   return (
     <CardInvite>
-      <form>
+      <form onSubmit={onSubmitHandler}>
         <DarkGrayLable>
           Request an Invitation from your organization
         </DarkGrayLable>
-        <InputField
-          fname="fname"
-          type="text"
-          required={true}
-          placeholder="First Name"
-        />
-        <InputField
-          lname="fname"
-          type="text"
-          required={true}
-          placeholder="Last Name"
-        />
-        <InputField
-          name="email"
-          type="email"
-          required={true}
-          placeholder="Email Address"
-        />
-        <ButtonWithInvite>Request Link</ButtonWithInvite>
-        <LoginTextinvite>
-          &nbsp; Have an account ? &nbsp;
-          <Link to="/auth" style={{ textDecoration: "none" }}>
-            log in
-          </Link>
-        </LoginTextinvite>
+        {CONSTANT.FORM.inviteLink.map((inputField) => (
+          <InputField key={inputField.id} {...inputField} />
+        ))}
+        <ButtonWithInvite disabled={addUserToWhitelist.isLoading}>
+          {addUserToWhitelist.isLoading ? "Sending Request..." : "Request Link"}
+        </ButtonWithInvite>
+        <Link to="/auth" style={{ textDecoration: "none" }}>
+          <LoginTextinvite>
+            &nbsp; Have an account ? &nbsp; log in
+          </LoginTextinvite>
+        </Link>
       </form>
     </CardInvite>
   );

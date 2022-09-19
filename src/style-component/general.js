@@ -16,6 +16,7 @@ export const InputStyle = css`
 export const Button = css`
   background: #abe9dc;
   border-radius: 8px;
+  margin: 25px 0px;
   box-shadow: 0px 4px 15px rgba(64, 189, 163, 0.4);
   border: 0px;
   font-weight: 600;
@@ -72,6 +73,7 @@ export const DarkGrayLable = styled.p`
   font-style: normal;
   font-weight: 600;
   font-size: 25px;
+  line-height: 38px;
 `;
 
 export const CheckBox = styled.input``;

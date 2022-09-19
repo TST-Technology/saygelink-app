@@ -20,11 +20,8 @@ export const CardPending = styled.div`
 export const ButtonWithPending = styled.button`
   ${Button}
   width: 100%;
-  margin: 25px 0px;
   margin-top: 40px;
-  font-size: 20px;
   font-weight: 600;
-  color: ${theme.lightTheme.secondary.font};
 `;
 
 export const TextPending = styled.p`
@@ -41,9 +38,7 @@ export const PendingLable = styled.p`
   font-size: 25px;
   color: ${theme.lightTheme.ternory.color};
 `;
-export const ImageIconpending = styled.img`
-  width: 40px;
-`;
+
 export const CrossIconPending = styled.img`
   margin-left: 10px;
   @media ${devices.tablet} {

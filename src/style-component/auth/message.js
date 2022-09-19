@@ -20,10 +20,8 @@ export const CardMessage = styled.div`
 export const ButtonWithMessage = styled.button`
   ${Button}
   width: 100%;
-  margin: 25px 0px;
   margin-top: 40px;
   font-size: 20px;
-  font-weight: 600;
   color: ${theme.lightTheme.secondary.font};
 `;
 
@@ -46,13 +44,4 @@ export const ImageIcon = styled.img`
 `;
 export const CrossIcon = styled.img`
   margin-left: 50px;
-  @media ${devices.tablet} {
-    margin-left: 0px;
-    width: 400px;
-  }
-
-  @media ${devices.mobileL} {
-    margin-left: 0px;
-    width: 300px;
-  }
 `;

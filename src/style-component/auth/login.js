@@ -134,7 +134,6 @@ export const CheckBoxField = styled.input`
 export const ButtonWithShedo = styled.button`
   ${Button}
   width: 100%;
-  margin: 25px 0px;
   font-size: 16px;
 `;
 export default LoginWraper;

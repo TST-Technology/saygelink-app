@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { devices } from "../../utils/constants";
 import { CardStyle, GraysmallText, Button } from "../general";
-import theme from "../../utils/variables";
 
 export const CardInvite = styled.div`
   ${CardStyle}
@@ -20,11 +19,7 @@ export const CardInvite = styled.div`
 export const ButtonWithInvite = styled.button`
   ${Button}
   width: 100%;
-  margin: 25px 0px;
   margin-top: 50px;
-  font-size: 20px;
-  font-weight: 600;
-  color: ${theme.lightTheme.secondary.font};
 `;
 
 export const LoginTextinvite = styled.p`

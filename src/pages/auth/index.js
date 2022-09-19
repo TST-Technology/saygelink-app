@@ -8,15 +8,13 @@ import LoginWraper, {
 
 import saygelink_logo from "../../assets/images/saygelink_logo.png";
 import columbia_logo from "../../assets/images/columbia_logo.png";
-import signup_icon from "../../assets/images/RegisterIcon.svg";
 import LoginIDPassword from "./login";
 import ForgotPassword from "./forgot-password";
 import RequestInfo from "./request-info";
 import InviteLink from "./invite-link";
 import UnauthenticationInfo from "./unauthentication";
 import PendingInfo from "./requestpending";
-import SignUp from "./signup";
-import { FullScreen } from "../../style-component/auth/signup";
+import SendInvitation from "./send-invitation";
 
 const Login = () => {
   return (
@@ -35,32 +33,11 @@ const Login = () => {
           <Route path="invitelink" element={<InviteLink />} />
           <Route path="unauthentication" element={<UnauthenticationInfo />} />
           <Route path="pendingreq" element={<PendingInfo />} />
+          <Route path="sendinvitation" element={<SendInvitation />} />
         </Routes>
       </HalfScreen>
     </LoginWraper>
   );
 };
 
-const Signup = () => {
-  return (
-    <LoginWraper>
-      <FullScreen>
-        <HalfScreen>
-          <LogoContainer>
-            <LogoWrapper
-              src={signup_icon}
-              style={{ width: "400px", height: "350px" }}
-            />
-          </LogoContainer>
-        </HalfScreen>
-        <HalfScreen>
-          <Routes>
-            <Route path="/" element={<SignUp />} />
-          </Routes>
-        </HalfScreen>
-      </FullScreen>
-    </LoginWraper>
-  );
-};
-
-export { Login, Signup };
+export default Login;

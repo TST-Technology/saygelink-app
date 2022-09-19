@@ -28,20 +28,27 @@ const CONSTANT = {
   ],
 
   FORM: {
-    login: [
+    inviteLink: [
       {
-        id: "Login1",
+        id: "first_name",
+        name: "first_name",
+        type: "text",
+        required: true,
+        placeholder: "First Name",
+      },
+      {
+        id: "last_name",
+        name: "last_name",
+        type: "text",
+        required: true,
+        placeholder: "Last Name",
+      },
+      {
+        id: "last_nemailame",
         name: "email",
         type: "email",
         required: true,
-        placeholder: "Email",
-      },
-      {
-        id: "Login2",
-        name: "password",
-        type: "password",
-        required: true,
-        placeholder: "password",
+        placeholder: "Email ID",
       },
     ],
   },
@@ -52,6 +59,10 @@ const CONSTANT = {
       type: "GET",
     },
     forgot: { endpoint: `/auth/forgotPassword`, type: "POST" },
+    addUserToWhitelist: {
+      endpoint: `/auth/whitelist/request-access`,
+      type: "POST",
+    },
   },
 };
 

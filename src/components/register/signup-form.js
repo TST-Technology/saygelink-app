@@ -10,13 +10,13 @@ import {
   Cardsignup,
   ImgEye,
   LoginTextsignup,
-} from "../../style-component/auth/signup";
+} from "../../style-component/register/signup";
 import { DarkGrayLable, PinkLink } from "../../style-component/general";
 import Eye from "../../assets/images/eye.svg";
 import Eyeslash from "../../assets/images/eye-off.svg";
 import { useState } from "react";
 
-const SignUp = () => {
+const SignUpForm = () => {
   const [pass, setPass] = useState(false);
   const [confirmpass, setConfirmpass] = useState(false);
 
@@ -92,4 +92,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpForm;

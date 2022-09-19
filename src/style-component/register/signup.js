@@ -20,11 +20,6 @@ export const Cardsignup = styled.div`
 export const ButtonWithSignup = styled.button`
   ${Button}
   width: 100%;
-  margin: 25px 0px;
-  margin-top: 25px;
-  font-size: 20px;
-  font-weight: 600;
-  color: ${theme.lightTheme.secondary.font};
 `;
 
 export const LoginTextsignup = styled.p`
@@ -42,9 +37,8 @@ export const LoginTextsignup = styled.p`
 
 export const FullScreen = styled.div`
   display: flex;
-  width: 100%;
   border-radius: 17px;
-  margin: 169px;
+  justify-content: center;
   box-shadow: 0px 0px 15px rgba(125, 125, 125, 0.1);
   background-color: #ffffff;
   @media ${devices.tablet} {
@@ -56,10 +50,10 @@ export const FullScreen = styled.div`
     flex-direction: column;
   }
 `;
-export const ButtonPassshow = styled.button`
+export const ButtonPassshow = styled.div`
   background: none;
   border: none;
-  margin-left: 250px;
+  margin-left: 260px;
   margin-top: -33px;
   position: relative;
   display: flex;
