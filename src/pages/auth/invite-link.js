@@ -19,8 +19,8 @@ const InviteLink = () => {
     const payload = {
       organization_id: process.env.REACT_APP_UNIVERSITY_ID,
       email: e.target.email.value,
-      first_name: e.target.email.first_name,
-      last_name: e.target.email.last_name,
+      first_name: e.target.first_name.value,
+      last_name: e.target.last_name.value,
     };
     addUserToWhitelist.sendRequest(
       CONSTANT.API.addUserToWhitelist,
