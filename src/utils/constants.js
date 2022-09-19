@@ -52,6 +52,7 @@ const CONSTANT = {
       },
     ],
   },
+
   API: {
     login: { endpoint: `/auth/login`, type: "POST" },
     checkUser: {
@@ -63,6 +64,7 @@ const CONSTANT = {
       endpoint: `/auth/whitelist/request-access`,
       type: "POST",
     },
+    register: { endpoint: `/auth/register`, type: "POST" },
   },
 };
 

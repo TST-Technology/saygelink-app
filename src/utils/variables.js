@@ -3,6 +3,7 @@ const theme = {
     primary: {
       color: "#ABE9DC",
       font: "#000000",
+      textcolor: "#262626",
     },
     secondary: {
       color: "#F62E5F",

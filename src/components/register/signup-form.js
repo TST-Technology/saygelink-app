@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   CheckBoxField,
   InputField,
@@ -15,11 +15,32 @@ import { DarkGrayLable, PinkLink } from "../../style-component/general";
 import Eye from "../../assets/images/eye.svg";
 import Eyeslash from "../../assets/images/eye-off.svg";
 import { useState } from "react";
+import useHttp from "../../hooks/use-http";
+import CONSTANT from "../../utils/constants";
 
 const SignUpForm = () => {
   const [pass, setPass] = useState(false);
   const [confirmpass, setConfirmpass] = useState(false);
+  const registerApi = useHttp();
+  const navigate = useNavigate();
 
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    const payload = {
+      organization_id: process.env.REACT_APP_UNIVERSITY_ID,
+      name: e.target.name.value,
+      email: e.target.email.value,
+      password: e.target.password.value,
+    };
+    console.log(payload);
+    registerApi.sendRequest(
+      CONSTANT.API.register,
+      () => navigate(`/welcome`),
+      payload
+    );
+  };
+
+  
   const togglePassword = () => {
     setPass(!pass);
   };
@@ -28,10 +49,10 @@ const SignUpForm = () => {
   };
   return (
     <Cardsignup>
-      <form>
+      <form onSubmit={onSubmitHandler}>
         <DarkGrayLable>Sign up</DarkGrayLable>
         <InputField
-          fname="Fullname"
+          name="name"
           type="text"
           required={true}
           placeholder="Full Name"
@@ -43,7 +64,7 @@ const SignUpForm = () => {
           placeholder="Email Address"
         />
         <InputField
-          name="createpassword"
+          name="password"
           type={pass ? "text" : "password"}
           required={true}
           placeholder="Create Password"
@@ -58,7 +79,7 @@ const SignUpForm = () => {
 
         <InputField
           style={{ marginTop: "30px" }}
-          name="confirmpassword"
+          name="password"
           type={confirmpass ? "text" : "password"}
           required={true}
           placeholder="Confirm Password  "
@@ -80,7 +101,9 @@ const SignUpForm = () => {
             Term & Conditions
           </PinkLink>
         </Lable>
-        <ButtonWithSignup>Sign up</ButtonWithSignup>
+        <ButtonWithSignup disabled={registerApi.isLoading}>
+          {registerApi.isLoading ? "Loading..." : "Sign Up"}
+        </ButtonWithSignup>
         <LoginTextsignup>
           &nbsp; Have an account ? &nbsp;
           <Link to="/auth" style={{ textDecoration: "none", color: "#F62E5F" }}>
