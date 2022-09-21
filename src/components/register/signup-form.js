@@ -16,7 +16,8 @@ import Eye from "../../assets/images/eye.svg";
 import Eyeslash from "../../assets/images/eye-off.svg";
 import { useState } from "react";
 import useHttp from "../../hooks/use-http";
-import CONSTANT from "../../utils/constants";
+import CONSTANT, { UserProfile } from "../../utils/constants";
+import { notify } from "../../utils/funcs";
 
 const SignUpForm = () => {
   const [pass, setPass] = useState(false);
@@ -24,23 +25,30 @@ const SignUpForm = () => {
   const registerApi = useHttp();
   const navigate = useNavigate();
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    const payload = {
-      organization_id: process.env.REACT_APP_UNIVERSITY_ID,
-      name: e.target.name.value,
-      email: e.target.email.value,
-      password: e.target.password.value,
-    };
-    console.log(payload);
-    registerApi.sendRequest(
-      CONSTANT.API.register,
-      () => navigate(`/welcome`),
-      payload
-    );
+  const responseHandler = (res) => {
+    if (res?.success === true) {
+      UserProfile.userDetails["name"] = res?.user?.name;
+      navigate(`/welcome`);
+    }
   };
 
-  
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log(e.target.password);
+
+    if (e.target.password.value !== e.target.confirmPassword.value) {
+      notify.error("Password and Confirm Password must be the same");
+    } else {
+      const payload = {
+        organization_id: process.env.REACT_APP_UNIVERSITY_ID,
+        name: e.target.name.value,
+        email: e.target.email.value,
+        password: e.target.password.value,
+      };
+      registerApi.sendRequest(CONSTANT.API.register, responseHandler, payload);
+    }
+  };
+
   const togglePassword = () => {
     setPass(!pass);
   };
@@ -79,7 +87,7 @@ const SignUpForm = () => {
 
         <InputField
           style={{ marginTop: "30px" }}
-          name="password"
+          name="confirmPassword"
           type={confirmpass ? "text" : "password"}
           required={true}
           placeholder="Confirm Password  "

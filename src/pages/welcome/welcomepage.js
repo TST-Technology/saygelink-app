@@ -16,7 +16,7 @@ import {
 } from "../../style-component/welcome/welcome";
 import welcomeicon from "../../assets/images/welcomeIcon.svg";
 import treeIcon from "../../assets/images/horiz logo.svg";
-import ColumbiaIcon from "../../assets/images/columbia_logo.png";
+import { UNIVERSITY_DATA, UserProfile } from "../../utils/constants";
 
 const Welcome = () => {
   return (
@@ -35,14 +35,15 @@ const Welcome = () => {
             </LogoContainer>
             <LogoContainer>
               <LogoWrapper
-                src={ColumbiaIcon}
+                src={UNIVERSITY_DATA.logo}
                 style={{ height: "154px", width: "216px" }}
               ></LogoWrapper>
             </LogoContainer>
           </FullScreenWelcome>
           <WelcomeContainer>
             <WelcomeTextHello>
-              Hello ,<WelcomeTextspan>Lia</WelcomeTextspan>
+              Hello ,
+              <WelcomeTextspan>{UserProfile.userDetails?.name}</WelcomeTextspan>
             </WelcomeTextHello>
             <WelcomeText>Welcome To Columbia HPM SAYge Link</WelcomeText>
             <ButtonWithCreateProfile>

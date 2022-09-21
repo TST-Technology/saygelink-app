@@ -1,3 +1,5 @@
+import UNIVERSITY_LOGO from "../assets/images/columbia_logo.png";
+
 const CONSTANT = {
   URLS: {
     signUp: {
@@ -66,6 +68,14 @@ const CONSTANT = {
     },
     register: { endpoint: `/auth/register`, type: "POST" },
   },
+};
+
+export const UNIVERSITY_DATA = {
+  logo: UNIVERSITY_LOGO,
+};
+
+export const UserProfile = {
+  userDetails: {},
 };
 
 export const screenSizes = {

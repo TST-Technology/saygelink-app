@@ -7,7 +7,6 @@ import LoginWraper, {
 } from "../../style-component/auth/login";
 
 import saygelink_logo from "../../assets/images/saygelink_logo.png";
-import columbia_logo from "../../assets/images/columbia_logo.png";
 import LoginIDPassword from "./login";
 import ForgotPassword from "./forgot-password";
 import RequestInfo from "./request-info";
@@ -15,6 +14,7 @@ import InviteLink from "./invite-link";
 import UnauthenticationInfo from "./unauthentication";
 import PendingInfo from "./requestpending";
 import SendInvitation from "./send-invitation";
+import { UNIVERSITY_DATA } from "../../utils/constants";
 
 const Login = () => {
   return (
@@ -22,7 +22,7 @@ const Login = () => {
       <HalfScreen>
         <LogoContainer>
           <LogoWrapper src={saygelink_logo} />
-          <LogoWrapper src={columbia_logo} />
+          <LogoWrapper src={UNIVERSITY_DATA.logo} />
         </LogoContainer>
       </HalfScreen>
       <HalfScreen>

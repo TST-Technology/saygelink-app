@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { devices } from "../../utils/constants";
-import { CardStyle, GraysmallText, Button } from "../general";
-import theme from "../../utils/variables";
+import { GraysmallText, Button } from "../general";
 
 export const Cardsignup = styled.div`
   user-select: none;
