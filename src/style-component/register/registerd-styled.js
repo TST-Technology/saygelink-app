@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import login_background from "../../assets/images/login_background.png";
 import { devices } from "../../utils/constants";
+import login_background from "../../assets/images/login_background.png";
 
 const RegisterWraper = styled.div`
   background-image: url(${login_background});

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-
+import CONSTANT from "../../utils/constants";
+import useHttp from "../../hooks/use-http";
 import { InputField } from "../../style-component/auth/login";
 import {
   ButtonWithInvite,
@@ -7,8 +8,6 @@ import {
   LoginTextinvite,
 } from "../../style-component/auth/invitelink";
 import { DarkGrayLable } from "../../style-component/general";
-import CONSTANT from "../../utils/constants";
-import useHttp from "../../hooks/use-http";
 
 const InviteLink = () => {
   const addUserToWhitelist = useHttp();

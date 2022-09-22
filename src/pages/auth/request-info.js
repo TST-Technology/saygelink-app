@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import main_icon from "../../assets/images/main_icon.svg";
 import InfoCard from "../../components/general/info-card";
+import main_icon from "../../assets/images/main_icon.svg";
 
 const RequestInfo = () => {
   const navigate = useNavigate();

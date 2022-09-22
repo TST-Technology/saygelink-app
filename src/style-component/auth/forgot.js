@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { devices } from "../../utils/constants";
+import theme from "../../utils/variables";
 import { CardStyle, GraysmallText, Button } from "../general";
 
 const ForgotCard = styled.div`
@@ -25,11 +26,11 @@ export const LoginText = styled.p`
   cursor: pointer;
   margin: 20px 0px 0px 0px;
   &:hover {
-    color: #000;
-    font-weight: 600;
+    color: ${theme.lightTheme.color};
+    font-weight: ${theme.lightTheme.weight.bold};
   }
   & a {
-    color: #5c5353;
+    color: ${theme.lightTheme.secondary.font};
   }
 `;
 
@@ -37,7 +38,7 @@ export const ButtonWithShedo = styled.button`
   ${Button}
   width: 100%;
   margin: 35px 0px 0px 0px;
-  font-size: 16px;
+  font-size: ${theme.lightTheme.font.large};
 `;
 
 export default ForgotCard;

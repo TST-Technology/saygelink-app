@@ -1,12 +1,13 @@
+import { UNIVERSITY_DATA, UserProfile } from "../../utils/constants";
+import welcomeicon from "../../assets/images/welcomeIcon.svg";
+import treeIcon from "../../assets/images/horiz logo.svg";
 import RegisterWraper from "../../style-component/register/registerd-styled";
-import {
-  HalfScreen,
-  LogoContainer,
-  LogoWrapper,
-} from "../../style-component/auth/login";
+import { HalfScreen, LogoContainer } from "../../style-component/auth/login";
 import {
   ButtonWithCreateProfile,
   FullScreenWelcome,
+  LogoWelcomeheader,
+  LogoWelcometree,
   Textwith,
   WelcomeContainer,
   WelcomeLogoWrapper,
@@ -14,9 +15,6 @@ import {
   WelcomeTextHello,
   WelcomeTextspan,
 } from "../../style-component/welcome/welcome";
-import welcomeicon from "../../assets/images/welcomeIcon.svg";
-import treeIcon from "../../assets/images/horiz logo.svg";
-import { UNIVERSITY_DATA, UserProfile } from "../../utils/constants";
 
 const Welcome = () => {
   return (
@@ -25,19 +23,13 @@ const Welcome = () => {
         <div>
           <FullScreenWelcome>
             <LogoContainer>
-              <LogoWrapper
-                src={treeIcon}
-                style={{ height: "190px", width: "178px" }}
-              ></LogoWrapper>
+              <LogoWelcometree src={treeIcon}></LogoWelcometree>
             </LogoContainer>
             <LogoContainer>
               <Textwith>With</Textwith>
             </LogoContainer>
             <LogoContainer>
-              <LogoWrapper
-                src={UNIVERSITY_DATA.logo}
-                style={{ height: "154px", width: "216px" }}
-              ></LogoWrapper>
+              <LogoWelcomeheader src={UNIVERSITY_DATA.logo}></LogoWelcomeheader>
             </LogoContainer>
           </FullScreenWelcome>
           <WelcomeContainer>

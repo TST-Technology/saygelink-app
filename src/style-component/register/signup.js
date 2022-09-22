@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { devices } from "../../utils/constants";
+import theme from "../../utils/variables";
+import { LogoWrapper } from "../auth/login";
 import { GraysmallText, Button } from "../general";
 
 export const Cardsignup = styled.div`
@@ -26,11 +28,11 @@ export const LoginTextsignup = styled.p`
   text-align: center;
   transition: 0.1s;
   cursor: pointer;
-  color: #000;
-  font-weight: 600;
+  color: ${theme.lightTheme.color};
+  font-weight: ${theme.lightTheme.weight.bold};
 
   & a {
-    color: #000;
+    color: ${theme.lightTheme.color};
   }
 `;
 
@@ -39,7 +41,7 @@ export const FullScreen = styled.div`
   border-radius: 17px;
   justify-content: center;
   box-shadow: 0px 0px 15px rgba(125, 125, 125, 0.1);
-  background-color: #ffffff;
+  background-color: ${theme.lightTheme.background.primary};
   @media ${devices.tablet} {
     justify-content: flex-start;
     flex-direction: column;
@@ -64,4 +66,14 @@ export const ButtonPassshow = styled.div`
 export const ImgEye = styled.img`
   width: 20px;
   height: 20px;
+`;
+export const LogoWrapperRegister = styled.img`
+  ${LogoWrapper}
+  width: 400px;
+  @media ${devices.tablet} {
+    width: 300px;
+  }
+  @media ${devices.mobileL} {
+    width: 250px;
+  }
 `;

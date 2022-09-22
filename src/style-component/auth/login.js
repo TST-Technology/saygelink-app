@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import login_background from "../../assets/images/login_background.png";
 import { devices } from "../../utils/constants";
+import theme from "../../utils/variables";
+import login_background from "../../assets/images/login_background.png";
 import { Button, CardStyle, GraysmallText, InputStyle } from "../general";
 
 const LoginWraper = styled.div`
@@ -48,22 +49,22 @@ export const LogoContainer = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 2;
-  font-size: 28px;
+  font-size: ${theme.lightTheme.font.largest};
   text-align: center;
-  font-weight: 600;
+  font-weight: ${theme.lightTheme.weight.bold};
   flex-direction: column;
 
   @media ${devices.tablet} {
     row-gap: 30px;
     margin-top: 24px;
-    font-size: 25px;
+    font-size: ${theme.lightTheme.font.large_25};
     margin-bottom: 40px;
   }
 
   @media ${devices.mobileL} {
     row-gap: 22px;
     margin-top: 24px;
-    font-size: 25px;
+    font-size: ${theme.lightTheme.font.large_25};
     margin-bottom: 40px;
   }
 `;
@@ -109,8 +110,8 @@ export const ForGotText = styled.p`
   cursor: pointer;
   margin: 15px 0px 0px 0px;
   &:hover {
-    color: #000;
-    font-weight: 600;
+    color: ${theme.lightTheme.color};
+    font-weight: ${theme.lightTheme.weight.bold};
   }
 `;
 
@@ -127,13 +128,13 @@ export const CheckBoxField = styled.input`
   border-radius: 3px;
 
   &.checked {
-    color: #000;
+    color: ${theme.lightTheme.color};
   }
 `;
 
 export const ButtonWithShedo = styled.button`
   ${Button}
   width: 100%;
-  font-size: 16px;
+  font-size: ${theme.lightTheme.font.large};
 `;
 export default LoginWraper;

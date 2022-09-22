@@ -1,11 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-
-import LoginWraper, {
-  HalfScreen,
-  LogoContainer,
-  LogoWrapper,
-} from "../../style-component/auth/login";
-
 import saygelink_logo from "../../assets/images/saygelink_logo.png";
 import LoginIDPassword from "./login";
 import ForgotPassword from "./forgot-password";
@@ -15,6 +8,11 @@ import UnauthenticationInfo from "./unauthentication";
 import PendingInfo from "./requestpending";
 import SendInvitation from "./send-invitation";
 import { UNIVERSITY_DATA } from "../../utils/constants";
+import LoginWraper, {
+  HalfScreen,
+  LogoContainer,
+  LogoWrapper,
+} from "../../style-component/auth/login";
 
 const Login = () => {
   return (

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { devices } from "../../utils/constants";
+import theme from "../../utils/variables";
 import { CardStyle, GraysmallText, Button } from "../general";
 
 export const CardInvite = styled.div`
@@ -27,10 +28,9 @@ export const LoginTextinvite = styled.p`
   text-align: center;
   transition: 0.1s;
   cursor: pointer;
-  color: #000;
-  font-weight: 600;
+  font-weight: ${theme.lightTheme.weight.bold};
 
   & a {
-    color: #000;
+    color: ${theme.lightTheme.color};
   }
 `;

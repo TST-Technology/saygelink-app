@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import pendingIcon from "../../assets/images/RequestpendingIcon.svg";
 import InfoCard from "../../components/general/info-card";
+import pendingIcon from "../../assets/images/RequestpendingIcon.svg";
 
 const PendingInfo = () => {
   const navigate = useNavigate();

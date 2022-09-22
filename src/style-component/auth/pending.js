@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { devices } from "../../utils/constants";
-import { CardStyle, GraysmallText, Button } from "../general";
 import theme from "../../utils/variables";
+import { CardStyle, GraysmallText, Button } from "../general";
 
 export const CardPending = styled.div`
   ${CardStyle}
@@ -21,7 +21,7 @@ export const ButtonWithPending = styled.button`
   ${Button}
   width: 100%;
   margin-top: 40px;
-  font-weight: 600;
+  font-weight: ${theme.lightTheme.weight.bold};
 `;
 
 export const TextPending = styled.p`
@@ -32,10 +32,10 @@ export const TextPending = styled.p`
   color: ${theme.lightTheme.secondary.font};
 `;
 export const PendingLable = styled.p`
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 25px;
+  ${GraysmallText}
+  padding: 0px;
+  margin: 0px;
+  font-size: ${theme.lightTheme.font.large_25};
   color: ${theme.lightTheme.ternory.color};
 `;
 
@@ -50,4 +50,8 @@ export const CrossIconPending = styled.img`
     margin-left: 0px;
     width: 300px;
   }
+`;
+export const ImageIconpending = styled.img`
+  width: 40px;
+  margin-right: 12px;
 `;

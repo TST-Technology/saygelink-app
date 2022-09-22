@@ -18,6 +18,8 @@ const theme = {
       medium: "14px",
       large: "15px",
       larger: "18px",
+      large_25: "25px",
+      largest: "28px",
       xLarge: "35px",
     },
     weight: {
@@ -31,10 +33,10 @@ const theme = {
     },
     black: "#ffffff",
     white: "#000000",
+    color: "#000",
     titleFont: `"DM Sans", Helvetica, Arial, sans-serif`,
     heartLiked: "#EC7498",
     heartUnliked: "rgba(0, 0, 0, .2)",
-    background: "#dbded6",
   },
 };
 

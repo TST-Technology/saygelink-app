@@ -1,4 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import useHttp from "../../hooks/use-http";
+import CONSTANT, { UserProfile } from "../../utils/constants";
+import { notify } from "../../utils/funcs";
+import Eye from "../../assets/images/eye.svg";
+import Eyeslash from "../../assets/images/eye-off.svg";
 import {
   CheckBoxField,
   InputField,
@@ -12,12 +18,6 @@ import {
   LoginTextsignup,
 } from "../../style-component/register/signup";
 import { DarkGrayLable, PinkLink } from "../../style-component/general";
-import Eye from "../../assets/images/eye.svg";
-import Eyeslash from "../../assets/images/eye-off.svg";
-import { useState } from "react";
-import useHttp from "../../hooks/use-http";
-import CONSTANT, { UserProfile } from "../../utils/constants";
-import { notify } from "../../utils/funcs";
 
 const SignUpForm = () => {
   const [pass, setPass] = useState(false);

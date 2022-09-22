@@ -19,7 +19,7 @@ export const Button = css`
   margin: 25px 0px;
   box-shadow: 0px 4px 15px rgba(64, 189, 163, 0.4);
   border: 0px;
-  font-weight: 600;
+  font-weight: ${theme.lightTheme.weight.bold};
   padding: 10px;
   color: ${theme.lightTheme.secondary.color};
   cursor: pointer;
@@ -44,13 +44,13 @@ export const GraysmallText = css`
   font-family: Poppins;
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
+  font-size: ${theme.lightTheme.font.medium};
   line-height: 21px;
   color: #5c5353;
 `;
 
 export const CardStyle = css`
-  background: #ffffff;
+  background: ${theme.lightTheme.background.primary};
   box-sizing: border-box;
   box-shadow: 0px 0px 15px rgb(125 125 125 / 10%);
   border-radius: 17px;
@@ -71,8 +71,8 @@ const BodyStyled = styled.div`
 export const DarkGrayLable = styled.p`
   font-family: Poppins;
   font-style: normal;
-  font-weight: 600;
-  font-size: 25px;
+  font-weight: ${theme.lightTheme.weight.bold};
+  font-size: ${theme.lightTheme.font.large_25};
   line-height: 38px;
 `;
 
@@ -83,7 +83,7 @@ export const PinkLink = styled.a`
   text-decoration: none;
   cursor: pointer;
   &:hover {
-    font-weight: 600;
+    font-weight: ${theme.lightTheme.weight.bold};
   }
 `;
 

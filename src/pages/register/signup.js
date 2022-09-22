@@ -1,14 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import signup_icon from "../../assets/images/RegisterIcon.svg";
 import SignUpForm from "../../components/register/signup-form";
-import {
-  HalfScreen,
-  LogoContainer,
-  LogoWrapper,
-} from "../../style-component/auth/login";
+import { HalfScreen, LogoContainer } from "../../style-component/auth/login";
 
 import RegisterWraper from "../../style-component/register/registerd-styled";
-import { FullScreen } from "../../style-component/register/signup";
+import {
+  FullScreen,
+  LogoWrapperRegister,
+} from "../../style-component/register/signup";
 
 const Signup = () => {
   return (
@@ -16,10 +15,7 @@ const Signup = () => {
       <FullScreen>
         <HalfScreen>
           <LogoContainer>
-            <LogoWrapper
-              src={signup_icon}
-              style={{ width: "400px", height: "350px" }}
-            />
+            <LogoWrapperRegister src={signup_icon} />
           </LogoContainer>
         </HalfScreen>
         <HalfScreen>

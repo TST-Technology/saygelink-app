@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import useHttp from "../../hooks/use-http";
+import CONSTANT from "../../utils/constants";
 import ForgotCard, {
   ButtonWithShedo,
   LoginText,
 } from "../../style-component/auth/forgot";
 import { InputField } from "../../style-component/auth/login";
 import { DarkGrayLable } from "../../style-component/general";
-import CONSTANT from "../../utils/constants";
 
 const ForgotPassword = () => {
   const forgotPasswordApi = useHttp();

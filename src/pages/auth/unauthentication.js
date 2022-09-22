@@ -1,5 +1,5 @@
-import unauth_icon from "../../assets/images/unauthrizedIcon.svg";
 import { InfoCard } from "../../style-component/auth/request-info";
+import unauth_icon from "../../assets/images/unauthrizedIcon.svg";
 
 const UnauthenticationInfo = () => {
   return (

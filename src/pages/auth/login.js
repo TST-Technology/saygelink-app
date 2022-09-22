@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useHttp from "../../hooks/use-http";
+import CONSTANT from "../../utils/constants";
 
 import {
   ButtonWithShedo,
@@ -11,7 +12,6 @@ import {
   Lable,
 } from "../../style-component/auth/login";
 import { DarkGrayLable, PinkLink } from "../../style-component/general";
-import CONSTANT from "../../utils/constants";
 
 const LoginIDPassword = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
