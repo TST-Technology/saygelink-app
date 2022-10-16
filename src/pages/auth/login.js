@@ -11,7 +11,7 @@ import {
   Lable,
 } from "../../style-component/auth/login";
 import { DarkGrayLable, PinkLink } from "../../style-component/general";
-import CONSTANT from "../../utils/constants";
+import CONSTANT, { userInviteEmail } from "../../utils/constants";
 
 const LoginIDPassword = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -22,6 +22,7 @@ const LoginIDPassword = () => {
     if (res?.data?.verified == "pending") {
       navigate("/auth/pendingreq");
     } else if (!res?.data?.registered && res?.data?.verified === "verified") {
+      userInviteEmail.userData = res?.data;
       navigate("/register");
     } else if (res?.data?.registered && res?.data?.verified === "verified") {
       setIsPasswordVisible(true);
@@ -73,6 +74,7 @@ const LoginIDPassword = () => {
           type="email"
           required={true}
           placeholder="Email"
+          disabled={isPasswordVisible}
         />
 
         {isPasswordVisible && (

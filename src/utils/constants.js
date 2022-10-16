@@ -98,4 +98,7 @@ export const devices = {
   desktop: `(max-width: ${screenSizes.desktop})`,
 };
 
+export const userInviteEmail = {
+  userData: {},
+};
 export default CONSTANT;

@@ -16,7 +16,7 @@ import Eye from "../../assets/images/eye.svg";
 import Eyeslash from "../../assets/images/eye-off.svg";
 import { useState } from "react";
 import useHttp from "../../hooks/use-http";
-import CONSTANT, { UserProfile } from "../../utils/constants";
+import CONSTANT, { userInviteEmail, UserProfile } from "../../utils/constants";
 import { notify } from "../../utils/funcs";
 
 const SignUpForm = () => {
@@ -64,12 +64,15 @@ const SignUpForm = () => {
           type="text"
           required={true}
           placeholder="Full Name"
+          defaultValue={`${userInviteEmail.userData?.first_name} ${userInviteEmail.userData?.last_name}`}
         />
         <InputField
           name="email"
           type="email"
           required={true}
           placeholder="Email Address"
+          disabled={true}
+          defaultValue={userInviteEmail.userData?.email}
         />
         <InputField
           name="password"
