@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   CheckBoxField,
   InputField,
@@ -15,35 +15,70 @@ import { DarkGrayLable, PinkLink } from "../../style-component/general";
 import Eye from "../../assets/images/eye.svg";
 import Eyeslash from "../../assets/images/eye-off.svg";
 import { useState } from "react";
+import useHttp from "../../hooks/use-http";
+import CONSTANT, { userInviteEmail, UserProfile } from "../../utils/constants";
+import { notify } from "../../utils/funcs";
 
 const SignUpForm = () => {
   const [pass, setPass] = useState(false);
   const [confirmpass, setConfirmpass] = useState(false);
+  const registerApi = useHttp();
+  const navigate = useNavigate();
+
+  const responseHandler = (res) => {
+    if (res?.success === true) {
+      UserProfile.userDetails["user"] = res?.user;
+      UserProfile.userDetails["token"] = res?.token;
+      navigate(`/welcome`);
+    }
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log(e.target.password);
+
+    if (e.target.password.value !== e.target.confirmPassword.value) {
+      notify.error("Password and Confirm Password must be the same");
+    } else {
+      const payload = {
+        organization_id: process.env.REACT_APP_UNIVERSITY_ID,
+        name: e.target.name.value,
+        email: e.target.email.value,
+        password: e.target.password.value,
+      };
+      registerApi.sendRequest(CONSTANT.API.register, responseHandler, payload);
+    }
+  };
 
   const togglePassword = () => {
     setPass(!pass);
   };
+
   const toggleConfirmPassword = () => {
     setConfirmpass(!confirmpass);
   };
+
   return (
     <Cardsignup>
-      <form>
+      <form onSubmit={onSubmitHandler}>
         <DarkGrayLable>Sign up</DarkGrayLable>
         <InputField
-          fname="Fullname"
+          name="name"
           type="text"
           required={true}
           placeholder="Full Name"
+          defaultValue={`${userInviteEmail.userData?.first_name} ${userInviteEmail.userData?.last_name}`}
         />
         <InputField
           name="email"
           type="email"
           required={true}
           placeholder="Email Address"
+          disabled={true}
+          defaultValue={userInviteEmail.userData?.email}
         />
         <InputField
-          name="createpassword"
+          name="password"
           type={pass ? "text" : "password"}
           required={true}
           placeholder="Create Password"
@@ -58,7 +93,7 @@ const SignUpForm = () => {
 
         <InputField
           style={{ marginTop: "30px" }}
-          name="confirmpassword"
+          name="confirmPassword"
           type={confirmpass ? "text" : "password"}
           required={true}
           placeholder="Confirm Password  "
@@ -80,7 +115,9 @@ const SignUpForm = () => {
             Term & Conditions
           </PinkLink>
         </Lable>
-        <ButtonWithSignup>Sign up</ButtonWithSignup>
+        <ButtonWithSignup disabled={registerApi.isLoading}>
+          {registerApi.isLoading ? "Loading..." : "Sign Up"}
+        </ButtonWithSignup>
         <LoginTextsignup>
           &nbsp; Have an account ? &nbsp;
           <Link to="/auth" style={{ textDecoration: "none", color: "#F62E5F" }}>

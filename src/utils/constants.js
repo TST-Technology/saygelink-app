@@ -1,3 +1,5 @@
+import UNIVERSITY_LOGO from "../assets/images/columbia_logo.png";
+
 const CONSTANT = {
   URLS: {
     signUp: {
@@ -52,6 +54,7 @@ const CONSTANT = {
       },
     ],
   },
+
   API: {
     login: { endpoint: `/auth/login`, type: "POST" },
     checkUser: {
@@ -63,7 +66,22 @@ const CONSTANT = {
       endpoint: `/auth/whitelist/request-access`,
       type: "POST",
     },
+    register: { endpoint: `/auth/register`, type: "POST" },
   },
+  planningStage: [
+    "Tell us about yourself",
+    "Upload profile picture",
+    "Set up your calendar",
+    "Select your experiences",
+  ],
+};
+
+export const UNIVERSITY_DATA = {
+  logo: UNIVERSITY_LOGO,
+};
+
+export const UserProfile = {
+  userDetails: {},
 };
 
 export const screenSizes = {
@@ -84,6 +102,10 @@ export const devices = {
   laptop: `(max-width: ${screenSizes.laptop})`,
   laptopL: `(max-width: ${screenSizes.laptopL})`,
   desktop: `(max-width: ${screenSizes.desktop})`,
+};
+
+export const userInviteEmail = {
+  userData: {},
 };
 
 export default CONSTANT;

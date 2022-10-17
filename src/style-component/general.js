@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { devices } from "../utils/constants";
 import theme from "../utils/variables";
 
 export const InputStyle = css`
@@ -56,6 +57,35 @@ export const CardStyle = css`
   border-radius: 17px;
   z-index: 1;
   user-select: none;
+`;
+
+export const HeadingStyle = css`
+  font-weight: 700;
+  font-size: 40px;
+
+  @media ${devices.desktop} {
+    font-weight: 700;
+    font-size: 40px;
+  }
+
+  @media ${devices.laptop} {
+    font-weight: 600;
+    font-size: 35px;
+  }
+`;
+
+export const LineText = css`
+  font-weight: 500;
+  font-size: 25px;
+
+  @media ${devices.desktop} {
+    font-weight: 500;
+    font-size: 25px;
+  }
+  @media ${devices.laptop} {
+    font-weight: 450;
+    font-size: 20px;
+  }
 `;
 
 const BodyStyled = styled.div`
