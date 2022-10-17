@@ -1,60 +1,36 @@
 import RegisterWraper from "../../style-component/register/registerd-styled";
-import {
-  HalfScreen,
-  LogoContainer,
-  LogoWrapper,
-} from "../../style-component/auth/login";
+import { LogoContainer } from "../../style-component/auth/login";
 import {
   ButtonWithCreateProfile,
-  FullScreenWelcome,
-  Textwith,
-  WelcomeContainer,
+  HalfScreen,
+  WelcomeImageWrapper,
   WelcomeLogoWrapper,
   WelcomeText,
   WelcomeTextHello,
   WelcomeTextspan,
+  WelcomeTextWrapper,
 } from "../../style-component/welcome/welcome";
-import welcomeicon from "../../assets/images/welcomeIcon.svg";
-import treeIcon from "../../assets/images/horiz logo.svg";
-import { UNIVERSITY_DATA, UserProfile } from "../../utils/constants";
+import welcomeicon from "../../assets/images/welcomeIcon.png";
+import shortLogo from "../../assets/images/short_logo.png";
+import { UserProfile } from "../../utils/constants";
 
 const Welcome = () => {
   return (
     <RegisterWraper>
       <HalfScreen>
-        <div>
-          <FullScreenWelcome>
-            <LogoContainer>
-              <LogoWrapper
-                src={treeIcon}
-                style={{ height: "190px", width: "178px" }}
-              ></LogoWrapper>
-            </LogoContainer>
-            <LogoContainer>
-              <Textwith>With</Textwith>
-            </LogoContainer>
-            <LogoContainer>
-              <LogoWrapper
-                src={UNIVERSITY_DATA.logo}
-                style={{ height: "154px", width: "216px" }}
-              ></LogoWrapper>
-            </LogoContainer>
-          </FullScreenWelcome>
-          <WelcomeContainer>
-            <WelcomeTextHello>
-              Hello ,
-              <WelcomeTextspan>{UserProfile.userDetails?.name}</WelcomeTextspan>
-            </WelcomeTextHello>
-            <WelcomeText>Welcome To Columbia HPM SAYge Link</WelcomeText>
-            <ButtonWithCreateProfile>
-              Create Your Profile
-            </ButtonWithCreateProfile>
-          </WelcomeContainer>
-        </div>
+        <WelcomeLogoWrapper src={shortLogo} />
+        <WelcomeTextWrapper>
+          <WelcomeTextHello>
+            Hello,{" "}
+            <WelcomeTextspan>{UserProfile.userDetails?.name}</WelcomeTextspan>
+          </WelcomeTextHello>
+          <WelcomeText>Welcome to Columbia HPM SAYge Link</WelcomeText>
+          <ButtonWithCreateProfile>Create your profile</ButtonWithCreateProfile>
+        </WelcomeTextWrapper>
       </HalfScreen>
       <HalfScreen>
         <LogoContainer>
-          <WelcomeLogoWrapper src={welcomeicon}></WelcomeLogoWrapper>
+          <WelcomeImageWrapper src={welcomeicon}></WelcomeImageWrapper>
         </LogoContainer>
       </HalfScreen>
     </RegisterWraper>

@@ -27,7 +27,8 @@ const SignUpForm = () => {
 
   const responseHandler = (res) => {
     if (res?.success === true) {
-      UserProfile.userDetails["name"] = res?.user?.name;
+      UserProfile.userDetails["user"] = res?.user;
+      UserProfile.userDetails["token"] = res?.token;
       navigate(`/welcome`);
     }
   };
@@ -52,9 +53,11 @@ const SignUpForm = () => {
   const togglePassword = () => {
     setPass(!pass);
   };
+
   const toggleConfirmPassword = () => {
     setConfirmpass(!confirmpass);
   };
+
   return (
     <Cardsignup>
       <form onSubmit={onSubmitHandler}>

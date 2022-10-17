@@ -68,6 +68,12 @@ const CONSTANT = {
     },
     register: { endpoint: `/auth/register`, type: "POST" },
   },
+  planningStage: [
+    "Tell us about yourself",
+    "Upload profile picture",
+    "Set up your calendar",
+    "Select your experiences",
+  ],
 };
 
 export const UNIVERSITY_DATA = {
@@ -101,4 +107,5 @@ export const devices = {
 export const userInviteEmail = {
   userData: {},
 };
+
 export default CONSTANT;

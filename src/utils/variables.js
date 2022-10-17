@@ -1,3 +1,5 @@
+import { UNIVERSITY_DATA } from "./constants";
+
 const theme = {
   lightTheme: {
     primary: {
@@ -20,6 +22,10 @@ const theme = {
       larger: "18px",
       xLarge: "35px",
     },
+    fontColor: {
+      darkFornt: "#5C5353",
+      pinkFonrt: "#F62E5F",
+    },
     weight: {
       thin: "200",
       reguler: "300",
@@ -36,6 +42,10 @@ const theme = {
     heartUnliked: "rgba(0, 0, 0, .2)",
     background: "#dbded6",
   },
+};
+
+export const UNIVERSITY_COLOR = {
+  primary: "#1186EF",
 };
 
 export default theme;

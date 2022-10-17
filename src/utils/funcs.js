@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { UserProfile } from "./constants";
 
 var EmailValidationRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -29,4 +31,19 @@ export const notify = {
       progress: undefined,
     });
   },
+};
+
+export const getToken = () => {
+  if (UserProfile.userDetails?.token) {
+    return UserProfile.userDetails?.token;
+  } else {
+    return localStorage.getItem("authtoken");
+  }
+};
+
+export const CheckIsLogin = () => {
+  const navigate = useNavigate();
+  if (!getToken()) {
+    navigate(`/auth`);
+  }
 };
