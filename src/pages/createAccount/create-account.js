@@ -7,32 +7,34 @@ import CreateAccountWrapper, {
   StepStatus,
   StepWrapper,
   WhiteLineText,
-} from "../../style-component/createAccount/create-account";
-import shortLogo from "../../assets/images/short_logo.png";
-import CONSTANT from "../../utils/constants";
+  StepperBodyContainer
+} from '../../style-component/createAccount/create-account'
+import shortLogo from '../../assets/images/short_logo.png'
+import CONSTANT from '../../utils/constants'
+import Yourself from './tell-about-youself'
 
 const CreateAccount = () => {
-  const [step, steStep] = useState(1);
+  const [step, setStep] = useState(1)
 
-  let StepView = <p></p>;
+  let StepView = <p></p>
   switch (step) {
     case 1:
-      StepView = <p>Tell us about yourself</p>;
-      break;
+      StepView = <Yourself />
+      break
     case 2:
-      StepView = <p>Now upload your profile picture. </p>;
-      break;
+      StepView = <p>Now upload your profile picture. </p>
+      break
     case 3:
-      StepView = <p>My availability </p>;
-      break;
+      StepView = <p>My availability </p>
+      break
     case 4:
-      StepView = <p>Important step! Select the experiences you have.</p>;
-      break;
+      StepView = <p>Important step! Select the experiences you have.</p>
+      break
     case 5:
-      StepView = <p>Congratulations</p>;
-      break;
+      StepView = <p>Congratulations</p>
+      break
     default:
-      <></>;
+      ;<></>
   }
   return (
     <>
@@ -48,18 +50,20 @@ const CreateAccount = () => {
                   {MenuItem}
                   <StepStatus>fbvhjb</StepStatus>
                 </PlanItem>
-              );
+              )
             })}
           </StepWrapper>
         </RegisterLeftSideBarWrapper>
 
-        {StepView}
-        <button onClick={() => steStep((previous) => previous + 1)}>
-          Click
-        </button>
+        <StepperBodyContainer>
+          {StepView}
+          <button onClick={() => setStep((previous) => previous + 1)}>
+            Click
+          </button>
+        </StepperBodyContainer>
       </CreateAccountWrapper>
     </>
-  );
+  )
 };
 
 export default CreateAccount;
