@@ -2,18 +2,32 @@ import React from 'react'
 import {
   StyleCard,
   StyleCardIcon,
-  StyleText
+  StyleText,
+  StyleGenderContainer
 } from '../../style-component/createAccount/gender-card'
 
-const SelectGender = ({ text, icon }) => {
+const SelectGender = ({ items, selectedItemLabel, onCardClick }) => {
   return (
-    <StyleCard>
-      <StyleText>{text}</StyleText>
+    <StyleGenderContainer>
+      {items &&
+        items.map((item) => {
+          return (
+            <StyleCard
+              key={item.label}
+              selected={item.label === selectedItemLabel}
+              onClick={() => {
+                onCardClick(item.label)
+              }}
+            >
+              <StyleText>{item.label}</StyleText>
 
-      <StyleCardIcon>
-        <img src={icon} />
-      </StyleCardIcon>
-    </StyleCard>
+              <StyleCardIcon>
+                <img src={item.icon} />
+              </StyleCardIcon>
+            </StyleCard>
+          )
+        })}
+    </StyleGenderContainer>
   )
 }
 

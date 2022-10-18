@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { devices } from '../../utils/constants'
 import { UNIVERSITY_COLOR } from '../../utils/variables'
 import {
   DropdownStyle,
@@ -9,6 +10,14 @@ import {
 
 export const StyleYourselfContainer = styled.div`
   width: 70%;
+
+  @media ${devices.laptop} {
+    width: 100%;
+  }
+
+  @media ${devices.tablet} {
+    width: 100%;
+  }
 `
 
 export const TextAreaStyled = styled.textarea`
@@ -73,9 +82,4 @@ export const StyleAddLink = styled.a`
 export const StyleInputContainer = styled.div`
   margin-top: 2rem;
   width: 70%;
-`
-
-export const StyleGenderContainer = styled.div`
-  display: flex;
-  gap: 2rem;
 `

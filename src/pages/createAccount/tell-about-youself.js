@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DarkGrayLable } from '../../style-component/general'
 import {
   StepperSubtitle,
@@ -24,6 +24,12 @@ import SelectGender from '../../components/create-account/gender-card'
 import CONSTANT from '../../utils/constants'
 
 const Yourself = () => {
+  const [selectedGender, setSelectedGender] = useState()
+
+  const onGenderChange = (val) => {
+    setSelectedGender(val)
+  }
+
   return (
     <StyleYourselfContainer>
       <DarkGrayLable>Tell us about yourself</DarkGrayLable>
@@ -61,17 +67,11 @@ const Yourself = () => {
       <StyleDropdownContainer>
         <DarkGrayLable>My pronouns</DarkGrayLable>
 
-        <StyleGenderContainer>
-          {CONSTANT.gender.map((gender) => {
-            return (
-              <SelectGender
-                key={gender.label}
-                icon={gender.icon}
-                text={gender.label}
-              />
-            )
-          })}
-        </StyleGenderContainer>
+        <SelectGender
+          items={CONSTANT.gender}
+          selectedItemLabel={selectedGender}
+          onCardClick={onGenderChange}
+        />
       </StyleDropdownContainer>
 
       <StyleNextButtonContainer>

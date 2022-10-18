@@ -31,6 +31,10 @@ export const RegisterLeftSideBarWrapper = styled.div`
   height: 100vh;
   width: 300px;
   padding: 18px;
+
+  @media ${devices.tablet} {
+    width: 100%;
+  }
 `
 
 export const RegisterLeftSideBarLogoWrapper = styled.img`
@@ -82,6 +86,11 @@ export const StepStatus = styled.div`
 export const StepperBodyContainer = styled.div`
   width: calc(100% - 300px);
   padding: 5rem 4rem;
+  overflow-y: auto;
+
+  @media ${devices.tablet} {
+    width: 100%;
+  }
 `
 
 export const StepperSubtitle = styled.p`
