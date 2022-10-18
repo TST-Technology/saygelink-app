@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from 'react'
 import CreateAccountWrapper, {
   Dot,
   PlanItem,
@@ -12,9 +12,18 @@ import CreateAccountWrapper, {
 import shortLogo from '../../assets/images/short_logo.png'
 import CONSTANT from '../../utils/constants'
 import Yourself from './tell-about-youself'
+import UploadProfilePicture from './upload-profile-picture'
+
+export const CreateAccountContext = createContext({
+  step: 1,
+  setStep: (val) => {},
+  formData: null,
+  setFormData: (val) => {}
+})
 
 const CreateAccount = () => {
   const [step, setStep] = useState(1)
+  const [formData, setFormData] = useState(null)
 
   let StepView = <p></p>
   switch (step) {
@@ -22,7 +31,7 @@ const CreateAccount = () => {
       StepView = <Yourself />
       break
     case 2:
-      StepView = <p>Now upload your profile picture. </p>
+      StepView = <UploadProfilePicture />
       break
     case 3:
       StepView = <p>My availability </p>
@@ -38,32 +47,44 @@ const CreateAccount = () => {
   }
   return (
     <>
-      <CreateAccountWrapper>
-        <RegisterLeftSideBarWrapper>
-          <RegisterLeftSideBarLogoWrapper src={shortLogo} />
-          <WhiteLineText>Quick & Easy Setup</WhiteLineText>
-          <StepWrapper>
-            {CONSTANT.planningStage.map((MenuItem, index) => {
-              return (
-                <PlanItem key={`MenuItem${index}`} active={index + 1 === step}>
-                  <Dot />
-                  {MenuItem}
-                  <StepStatus>fbvhjb</StepStatus>
-                </PlanItem>
-              )
-            })}
-          </StepWrapper>
-        </RegisterLeftSideBarWrapper>
+      <CreateAccountContext.Provider
+        value={{
+          step: step,
+          setStep: setStep,
+          formData: formData,
+          setFormData: setFormData
+        }}
+      >
+        <CreateAccountWrapper>
+          <RegisterLeftSideBarWrapper>
+            <RegisterLeftSideBarLogoWrapper src={shortLogo} />
+            <WhiteLineText>Quick & Easy Setup</WhiteLineText>
+            <StepWrapper>
+              {CONSTANT.planningStage.map((MenuItem, index) => {
+                return (
+                  <PlanItem
+                    key={`MenuItem${index}`}
+                    active={index + 1 === step}
+                  >
+                    <Dot />
+                    {MenuItem}
+                    <StepStatus>fbvhjb</StepStatus>
+                  </PlanItem>
+                )
+              })}
+            </StepWrapper>
+          </RegisterLeftSideBarWrapper>
 
-        <StepperBodyContainer>
-          {StepView}
-          <button onClick={() => setStep((previous) => previous + 1)}>
+          <StepperBodyContainer>
+            {StepView}
+            {/* <button onClick={() => setStep((previous) => previous + 1)}>
             Click
-          </button>
-        </StepperBodyContainer>
-      </CreateAccountWrapper>
+          </button> */}
+          </StepperBodyContainer>
+        </CreateAccountWrapper>
+      </CreateAccountContext.Provider>
     </>
   )
-};
+}
 
-export default CreateAccount;
+export default CreateAccount

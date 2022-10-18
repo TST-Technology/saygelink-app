@@ -113,13 +113,21 @@ export const StyleNextButtonContainer = styled.div`
   justify-content: end;
 `
 
-export const StyleNextButton = styled.div`
+export const StyleNextButton = styled.button`
   ${Button}
   background-color: ${theme.lightTheme.radicalRed};
   color: ${theme.lightTheme.alabaster};
   padding: 0.7rem 3.8rem;
 `
+export const StyleCreateAccountBodyContainer = styled.div`
+  width: 70%;
 
+  @media ${devices.laptop} {
+    width: 100%;
+  }
 
-
+  @media ${devices.tablet} {
+    width: 100%;
+  }
+`
 export default CreateAccountWrapper;

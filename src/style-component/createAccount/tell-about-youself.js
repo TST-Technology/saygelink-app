@@ -8,18 +8,6 @@ import {
   TextAreaStyle
 } from '../general'
 
-export const StyleYourselfContainer = styled.div`
-  width: 70%;
-
-  @media ${devices.laptop} {
-    width: 100%;
-  }
-
-  @media ${devices.tablet} {
-    width: 100%;
-  }
-`
-
 export const TextAreaStyled = styled.textarea`
   ${TextAreaStyle}
   width: 100%;

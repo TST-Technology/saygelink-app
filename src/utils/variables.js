@@ -43,7 +43,8 @@ const theme = {
     background: '#dbded6',
     alabaster: '#FAFAFA',
     greenWhite: '#E8E8E8',
-    radicalRed: '#FA2F66'
+    radicalRed: '#FA2F66',
+    mediumGrey: '#807D7D'
   }
 }
 
