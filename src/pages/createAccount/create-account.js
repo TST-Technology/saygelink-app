@@ -13,6 +13,7 @@ import shortLogo from '../../assets/images/short_logo.png'
 import CONSTANT from '../../utils/constants'
 import Yourself from './tell-about-youself'
 import UploadProfilePicture from './upload-profile-picture'
+import Availability from './availability'
 
 export const CreateAccountContext = createContext({
   step: 1,
@@ -34,7 +35,7 @@ const CreateAccount = () => {
       StepView = <UploadProfilePicture />
       break
     case 3:
-      StepView = <p>My availability </p>
+      StepView = <Availability />
       break
     case 4:
       StepView = <p>Important step! Select the experiences you have.</p>

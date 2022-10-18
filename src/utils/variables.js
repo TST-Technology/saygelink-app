@@ -44,7 +44,8 @@ const theme = {
     alabaster: '#FAFAFA',
     greenWhite: '#E8E8E8',
     radicalRed: '#FA2F66',
-    mediumGrey: '#807D7D'
+    mediumGrey: '#807D7D',
+    desertStorm: '#f8f8f8'
   }
 }
 
