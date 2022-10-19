@@ -45,7 +45,10 @@ const theme = {
     greenWhite: '#E8E8E8',
     radicalRed: '#FA2F66',
     mediumGrey: '#807D7D',
-    desertStorm: '#f8f8f8'
+    desertStorm: '#f8f8f8',
+    mistBlue: '#696F79',
+    lightGrey: '#D9D9D9',
+    grey: '#939393'
   }
 }
 

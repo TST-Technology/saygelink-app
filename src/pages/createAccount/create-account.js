@@ -23,6 +23,7 @@ export const CreateAccountContext = createContext({
 })
 
 const CreateAccount = () => {
+  const TOTAL_STEPS = 4
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState(null)
 
@@ -69,7 +70,9 @@ const CreateAccount = () => {
                   >
                     <Dot />
                     {MenuItem}
-                    <StepStatus>fbvhjb</StepStatus>
+                    {index + 1 === step ? (
+                      <StepStatus>{`${step} out of ${TOTAL_STEPS}`}</StepStatus>
+                    ) : null}
                   </PlanItem>
                 )
               })}

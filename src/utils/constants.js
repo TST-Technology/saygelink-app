@@ -81,6 +81,11 @@ const CONSTANT = {
     { label: 'He', icon: male },
     { label: 'She', icon: female },
     { label: 'Non-binary', icon: other }
+  ],
+  role: [
+    { label: 'Faculty', value: 'Faculty' },
+    { label: 'Student', value: 'Student' },
+    { label: 'Alumni', value: 'Alumni' }
   ]
 }
 

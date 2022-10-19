@@ -64,9 +64,13 @@ const Yourself = () => {
             <DarkGrayLable>Role</DarkGrayLable>
             <RoledDropdown>
               <option></option>
-              <option>option 1</option>
-              <option>option 2</option>
-              <option>option 3</option>
+              {CONSTANT.role.map((item) => {
+                return (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                )
+              })}
             </RoledDropdown>
           </StyleDropdownContainer>
 

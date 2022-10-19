@@ -77,7 +77,7 @@ export const StepWrapper = styled.div`
 export const StepStatus = styled.div`
   background: #fff;
   font-size: 13px;
-  padding: 2px 17px;
+  padding: 3px 11px;
   font-weight: 600;
   border-radius: 18px;
   color: #fa2f66;
@@ -95,7 +95,7 @@ export const StepperBodyContainer = styled.div`
 
 export const StepperSubtitle = styled.p`
   font-family: Poppins;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 30px;
   font-weight: 400;
   width: 70%;
@@ -103,7 +103,7 @@ export const StepperSubtitle = styled.p`
 
 export const StepperSubtitleBold = styled.span`
   font-family: Poppins;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 30px;
   font-weight: 700;
 `
