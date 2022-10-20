@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import useHttp from '../../hooks/use-http'
 import {
   StepperSubtitle,
@@ -7,6 +7,7 @@ import {
 } from '../../style-component/createAccount/create-account'
 import { DarkGrayLable } from '../../style-component/general'
 import CONSTANT from '../../utils/constants'
+import { StyledExperienceContainer } from '../../style-component/createAccount/experiences'
 
 const Experiences = () => {
   const categoryApi = useHttp()
@@ -44,6 +45,24 @@ const Experiences = () => {
           would be willing to share.
         </StepperSubtitle>
       </StyleMarginTop2>
+
+      <StyledExperienceContainer>
+        <div className='categoryContainer'>
+          {categories &&
+            categories.map((category) => {
+              return (
+                <div className='categoryCard' key={category?._id}>
+                  <div className='imageContainer'>
+                    <img src={category?.image} />
+                  </div>
+                  <div className='labelContainer'>
+                    <span className='label'>{category?.name}</span>
+                  </div>
+                </div>
+              )
+            })}
+        </div>
+      </StyledExperienceContainer>
     </>
   )
 }
