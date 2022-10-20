@@ -14,6 +14,7 @@ import CONSTANT from '../../utils/constants'
 import Yourself from './tell-about-youself'
 import UploadProfilePicture from './upload-profile-picture'
 import Availability from './availability'
+import Experiences from './experiences'
 
 export const CreateAccountContext = createContext({
   step: 1,
@@ -39,7 +40,7 @@ const CreateAccount = () => {
       StepView = <Availability />
       break
     case 4:
-      StepView = <p>Important step! Select the experiences you have.</p>
+      StepView = <Experiences />
       break
     case 5:
       StepView = <p>Congratulations</p>

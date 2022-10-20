@@ -99,14 +99,15 @@ export const StyleDayTimeContainer = styled.div`
         font-weight: 500;
       }
     }
+
+    .removeIcon {
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
   }
 `
 
 export const StyleAddIntervalButton = styled.button`
   ${Button}
   margin: 0;
-`
-
-export const StyleMarginTop = styled.div`
-  margin-top: 2rem;
 `

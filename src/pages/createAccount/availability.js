@@ -6,18 +6,19 @@ import {
   StyleDayTimeContainer,
   StyleInput,
   StyleInputButton,
-  StyleInputButtonContainer,
-  StyleMarginTop
+  StyleInputButtonContainer
 } from '../../style-component/createAccount/availability'
 import {
   StepperSubtitle,
   StepperSubtitleBold,
   StyleCreateAccountBodyContainer,
   StyleNextButton,
-  StyleNextButtonContainer
+  StyleNextButtonContainer,
+  StyleMarginTop2
 } from '../../style-component/createAccount/create-account'
 import { DarkGrayLable } from '../../style-component/general'
 import { CreateAccountContext } from './create-account'
+import CloseIcon from '../../assets/images/CrossIcon.svg'
 
 const Availability = () => {
   const [requests, setRequests] = useState(1)
@@ -26,15 +27,22 @@ const Availability = () => {
   const [selectedWeek, setSelectedWeek] = useState(null)
   const [startTime, setStartTime] = useState(null)
   const [endTime, setEndTime] = useState(null)
+  const [dateEx7, setDateEx7] = useState('10:12')
 
   const INIT_TIME = {
+    hour: '',
+    minute: '',
+    time: ''
+  }
+
+  const INIT_INTERVAL = {
     day: 'Sat',
-    start_time: '',
-    end_time: '',
+    start_time: JSON.parse(JSON.stringify(INIT_TIME)),
+    end_time: JSON.parse(JSON.stringify(INIT_TIME)),
     timezone: 'EDT'
   }
 
-  const [timeData, setTimeData] = useState([INIT_TIME])
+  const [timeData, setTimeData] = useState([INIT_INTERVAL])
 
   const weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -52,22 +60,44 @@ const Availability = () => {
 
   const onAddTimeInterval = (e) => {
     e.preventDefault()
-    console.log('called')
     setTimeData((prevValue) => {
-      console.log(prevValue)
       const temp = prevValue.slice()
-      temp.push(INIT_TIME)
-      console.log(temp)
+      temp.push(INIT_INTERVAL)
       return [...temp]
     })
+  }
+
+  const removeInterval = (index) => {
+    setTimeData((prevValue) => {
+      const temp = prevValue.slice()
+      temp.splice(index, 1)
+      return [...temp]
+    })
+  }
+
+  const onChangeInterval = (key, subKey, value, index) => {
+    setTimeData((prevValue) => {
+      const temp = prevValue
+
+      if (temp) {
+        temp[index][key][subKey] = value
+
+        return [...temp]
+      }
+    })
+  }
+
+  const handleNextButtonClick = (e) => {
+    e.preventDefault()
+    setStep((prevValue) => prevValue + 1)
   }
 
   return (
     <>
       <DarkGrayLable>My availability</DarkGrayLable>
-      <StyleMarginTop>
+      <StyleMarginTop2>
         <StepperSubtitleBold>Maximum chat requests</StepperSubtitleBold>
-      </StyleMarginTop>
+      </StyleMarginTop2>
 
       <StepperSubtitle>
         Select a limit for the number of chat requests you would like to receive
@@ -116,15 +146,40 @@ const Availability = () => {
                 <div className='timePickerContainer'>
                   <div className='startTimeContainer'>
                     <p className='timeLabel'>Start time</p>
+
                     <TimePicker
-                      onChange={(val) => onChangeTime('start_time', val, index)}
+                      name={`startTime${index}`}
+                      hour={row.start_time.hour}
+                      minute={row.start_time.minute}
+                      time={row.start_time.time}
+                      onChangeHour={(val) =>
+                        onChangeInterval('start_time', 'hour', val, index)
+                      }
+                      onChangeMinute={(val) =>
+                        onChangeInterval('start_time', 'minute', val, index)
+                      }
+                      onChangeTime={(val) =>
+                        onChangeInterval('start_time', 'time', val, index)
+                      }
                     />
                   </div>
 
                   <div className='endTimeContainer'>
                     <p className='timeLabel'>End time</p>
                     <TimePicker
-                      onChange={(val) => onChangeTime('end_time', val, index)}
+                      name={`endTime${index}`}
+                      hour={row.end_time.hour}
+                      minute={row.end_time.minute}
+                      time={row.end_time.time}
+                      onChangeHour={(val) =>
+                        onChangeInterval('end_time', 'hour', val, index)
+                      }
+                      onChangeMinute={(val) =>
+                        onChangeInterval('end_time', 'minute', val, index)
+                      }
+                      onChangeTime={(val) =>
+                        onChangeInterval('end_time', 'time', val, index)
+                      }
                     />
                   </div>
 
@@ -135,13 +190,28 @@ const Availability = () => {
                   >
                     Add interval
                   </StyleAddIntervalButton>
+
+                  {timeData.length > 1 ? (
+                    <a
+                      className='removeIcon'
+                      onClick={(e) => removeInterval(index)}
+                    >
+                      <img src={CloseIcon} />
+                    </a>
+                  ) : null}
                 </div>
               </div>
             )
           })}
       </StyleDayTimeContainer>
       <StyleNextButtonContainer>
-        <StyleNextButton>Next</StyleNextButton>
+        <StyleNextButton
+          onClick={(e) => {
+            handleNextButtonClick(e)
+          }}
+        >
+          Next
+        </StyleNextButton>
       </StyleNextButtonContainer>
     </>
   )

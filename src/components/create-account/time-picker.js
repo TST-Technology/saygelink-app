@@ -6,20 +6,17 @@ import {
   StyleTimePickerContainer
 } from '../../style-component/createAccount/time-picker'
 
-const TimePicker = ({ onChange }) => {
-  const [hour, setHour] = useState(null)
-  const [minute, setMinute] = useState(null)
-  const [time, setTime] = useState('AM')
-
-  useEffect(() => {
-    if (hour && minute && time) {
-      onChange(`${hour}:${minute}${time}`)
-    }
-  }, [hour, minute, time])
-
-  const onTimeChange = (value) => {
-    setTime(value)
-    console.log(value)
+const TimePicker = ({
+  name,
+  hour,
+  minute,
+  time,
+  onChangeHour,
+  onChangeMinute,
+  onChangeTime
+}) => {
+  const handleHourChange = (val) => {
+    onChangeHour(val)
   }
 
   return (
@@ -27,12 +24,10 @@ const TimePicker = ({ onChange }) => {
       <div className='minHourContainer'>
         <StyledHourMinuteInput
           value={hour}
-          name='hour'
+          name={`hour${name}`}
           type='tel'
           maxLength={2}
-          min={1}
-          max={12}
-          onChange={(e) => setHour(e.target.value)}
+          onChange={(e) => handleHourChange(e.target.value)}
         />
 
         <span className='divider'>:</span>
@@ -40,15 +35,17 @@ const TimePicker = ({ onChange }) => {
         <StyledHourMinuteInput
           value={minute}
           type='tel'
-          name='minute'
+          name={`minute${name}`}
           maxLength={2}
-          min={0}
-          max={60}
-          onChange={(e) => setMinute(e.target.value)}
+          onChange={(e) => onChangeMinute(e.target.value)}
         />
       </div>
 
-      <StyleTimeDropdown onChange={(e) => onTimeChange(e.target.value)}>
+      <StyleTimeDropdown
+        name={`time${name}`}
+        value={time}
+        onChange={(e) => onChangeTime(e.target.value)}
+      >
         <option value='AM'>AM</option>
         <option value='PM'>PM</option>
       </StyleTimeDropdown>

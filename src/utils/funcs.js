@@ -37,7 +37,7 @@ export const getToken = () => {
   if (UserProfile.userDetails?.token) {
     return UserProfile.userDetails?.token;
   } else {
-    return localStorage.getItem("authtoken");
+    return localStorage.getItem('authToken')
   }
 };
 

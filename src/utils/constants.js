@@ -69,7 +69,8 @@ const CONSTANT = {
       endpoint: `/auth/whitelist/request-access`,
       type: 'POST'
     },
-    register: { endpoint: `/auth/register`, type: 'POST' }
+    register: { endpoint: `/auth/register`, type: 'POST' },
+    getCategories: { endpoint: `/categories`, type: 'GET' }
   },
   planningStage: [
     'Tell us about yourself',

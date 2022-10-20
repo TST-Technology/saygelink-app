@@ -130,4 +130,8 @@ export const StyleCreateAccountBodyContainer = styled.div`
     width: 100%;
   }
 `
+
+export const StyleMarginTop2 = styled.div`
+  margin-top: 2rem;
+`
 export default CreateAccountWrapper;

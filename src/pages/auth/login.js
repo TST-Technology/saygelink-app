@@ -61,7 +61,7 @@ const LoginIDPassword = () => {
 
   const LoginHandeler = (res) => {
     if (res?.token) {
-      localStorage.setItem("authToken", res?.data?.token);
+      localStorage.setItem('authToken', res?.token)
     }
   };
 
