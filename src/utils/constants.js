@@ -70,7 +70,15 @@ const CONSTANT = {
       type: 'POST'
     },
     register: { endpoint: `/auth/register`, type: 'POST' },
-    getCategories: { endpoint: `/categories`, type: 'GET' }
+    getCategories: { endpoint: `/categories`, type: 'GET' },
+    getSubcategories: {
+      endpoint: `/subcategories/search/:categoryId`,
+      type: 'GET'
+    },
+    addExperience: {
+      endpoint: `/users/organization/addSayge`,
+      type: 'POST'
+    }
   },
   planningStage: [
     'Tell us about yourself',

@@ -48,7 +48,9 @@ const theme = {
     desertStorm: '#f8f8f8',
     mistBlue: '#696F79',
     lightGrey: '#D9D9D9',
-    grey: '#939393'
+    grey: '#939393',
+    whiteSmoke: '#F5F5F5',
+    pastelGrey: '#CCCCCC'
   }
 }
 

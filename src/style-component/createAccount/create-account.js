@@ -98,7 +98,6 @@ export const StepperSubtitle = styled.p`
   font-size: 18px;
   line-height: 30px;
   font-weight: 400;
-  width: 70%;
 `
 
 export const StepperSubtitleBold = styled.span`
@@ -132,6 +131,6 @@ export const StyleCreateAccountBodyContainer = styled.div`
 `
 
 export const StyleMarginTop2 = styled.div`
-  margin-top: 2rem;
+  margin-top: ${(props) => (props.margin ? props.margin : '2rem')};
 `
 export default CreateAccountWrapper;

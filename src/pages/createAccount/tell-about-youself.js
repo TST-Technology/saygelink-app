@@ -57,7 +57,6 @@ const Yourself = () => {
                 rows={4}
               ></TextAreaStyled>
             </div>
-            <SaveButton>Save</SaveButton>
           </StyledTextareaContainer>
 
           <StyleDropdownContainer>

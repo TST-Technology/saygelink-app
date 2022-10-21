@@ -19,11 +19,7 @@ export const StyledTextareaContainer = styled.div`
   gap: 2rem;
 
   > div:first-child {
-    width: 70%;
-  }
-
-  > div:nth-child(2) {
-    width: 30%;
+    width: 100%;
   }
 `
 
