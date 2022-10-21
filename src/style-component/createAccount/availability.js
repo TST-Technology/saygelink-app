@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { devices } from '../../utils/constants'
 import theme from '../../utils/variables'
-import { Button } from '../general'
+import { Button, DropdownStyle } from '../general'
 
 export const StyleInputButton = styled.div`
   display: flex;
@@ -64,6 +64,35 @@ export const StyleDayTimeContainer = styled.div`
 
   .dayTimeContainer {
     margin-top: 2rem;
+
+    .viewDateTime {
+      border: 3px dashed ${theme.lightTheme.primary.color};
+      background: rgba(171, 233, 222, 0.2);
+      width: fit-content;
+      border-radius: 14px;
+      padding: 1rem 1.5rem;
+      margin-top: 2rem;
+
+      .viewRow {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 10px;
+
+        .textContainer {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          span {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 25px;
+          }
+        }
+      }
+    }
   }
 
   .dayTimeText {
@@ -76,7 +105,6 @@ export const StyleDayTimeContainer = styled.div`
 
   .timePickerContainer {
     display: flex;
-    justify-content: center;
     align-items: flex-end;
     flex-wrap: wrap;
     gap: 2rem;
@@ -110,4 +138,9 @@ export const StyleDayTimeContainer = styled.div`
 export const StyleAddIntervalButton = styled.button`
   ${Button}
   margin: 0;
+`
+
+export const StyleTimezoneDropdown = styled.select`
+  ${DropdownStyle}
+  width: fit-content;
 `

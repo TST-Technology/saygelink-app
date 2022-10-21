@@ -86,6 +86,10 @@ const CONSTANT = {
     uploadUserFile: {
       endpoint: `/users/uploadUserFile`,
       type: 'POST'
+    },
+    updateUser: {
+      endpoint: `/users/updateUser`,
+      type: 'PATCH'
     }
   },
   planningStage: [

@@ -6,7 +6,8 @@ import {
   StyleDayTimeContainer,
   StyleInput,
   StyleInputButton,
-  StyleInputButtonContainer
+  StyleInputButtonContainer,
+  StyleTimezoneDropdown
 } from '../../style-component/createAccount/availability'
 import {
   StepperSubtitle,
@@ -17,22 +18,17 @@ import {
   StyleMarginTop2
 } from '../../style-component/createAccount/create-account'
 import { DarkGrayLable } from '../../style-component/general'
+import { notify } from '../../utils/funcs'
 import { CreateAccountContext } from './create-account'
-import CloseIcon from '../../assets/images/CrossIcon.svg'
+import DeleteIcon from '../../assets/images/delete.svg'
+import useHttp from '../../hooks/use-http'
+import CONSTANT from '../../utils/constants'
 
 const Availability = () => {
-  const [requests, setRequests] = useState(1)
-  const { formData, setStep, setFormData, step } =
-    useContext(CreateAccountContext)
-  const [selectedWeek, setSelectedWeek] = useState(null)
-  const [startTime, setStartTime] = useState(null)
-  const [endTime, setEndTime] = useState(null)
-  const [dateEx7, setDateEx7] = useState('10:12')
-
   const INIT_TIME = {
     hour: '',
     minute: '',
-    time: ''
+    time: 'AM'
   }
 
   const INIT_INTERVAL = {
@@ -42,54 +38,120 @@ const Availability = () => {
     timezone: 'EDT'
   }
 
-  const [timeData, setTimeData] = useState([INIT_INTERVAL])
+  const [requests, setRequests] = useState(1)
+  const { formData, setStep, setFormData, step } =
+    useContext(CreateAccountContext)
+  const [interval, setInterval] = useState(INIT_INTERVAL)
+  const [allIntervals, setAllIntervals] = useState(null)
+
+  const availabilityApi = useHttp()
 
   const weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-  const onChangeTime = (key, value, index) => {
-    setTimeData((prevValue) => {
+  const onChangeTime = (value) => {
+    setInterval((prevValue) => {
+      return { ...prevValue, day: value }
+    })
+  }
+
+  const onChangeInterval = (key, subKey, value) => {
+    setInterval((prevValue) => {
       const temp = prevValue
 
       if (temp) {
-        temp[index][key] = value
+        temp[key][subKey] = value
 
-        return [...temp]
+        return { ...JSON.parse(JSON.stringify(temp)) }
       }
     })
   }
 
   const onAddTimeInterval = (e) => {
     e.preventDefault()
-    setTimeData((prevValue) => {
-      const temp = prevValue.slice()
-      temp.push(INIT_INTERVAL)
-      return [...temp]
-    })
-  }
+    if (
+      interval &&
+      interval.day &&
+      interval.timezone &&
+      interval.start_time &&
+      interval?.start_time?.hour &&
+      interval?.start_time?.minute &&
+      interval?.start_time?.time &&
+      interval.end_time &&
+      interval?.end_time?.hour &&
+      interval?.end_time?.minute &&
+      interval?.end_time?.time
+    ) {
+      setAllIntervals((prevValue) => {
+        if (prevValue) {
+          const temp = prevValue.slice()
 
-  const removeInterval = (index) => {
-    setTimeData((prevValue) => {
-      const temp = prevValue.slice()
-      temp.splice(index, 1)
-      return [...temp]
-    })
-  }
+          const newInterval = JSON.parse(JSON.stringify(interval))
 
-  const onChangeInterval = (key, subKey, value, index) => {
-    setTimeData((prevValue) => {
-      const temp = prevValue
+          newInterval.start_time = { ...newInterval.start_time }
+          newInterval.end_time = { ...newInterval.end_time }
 
-      if (temp) {
-        temp[index][key][subKey] = value
+          temp.push(newInterval)
 
-        return [...temp]
-      }
-    })
+          return temp
+        } else {
+          return [JSON.parse(JSON.stringify(interval))]
+        }
+      })
+      // setInterval((prevValue) => {
+      //   prevValue.start_time = JSON.parse(JSON.stringify(INIT_TIME))
+      //   prevValue.end_time = JSON.parse(JSON.stringify(INIT_TIME))
+
+      //   return { ...prevValue }
+      // })
+    } else {
+      notify.error('Please select all fields')
+    }
   }
 
   const handleNextButtonClick = (e) => {
     e.preventDefault()
-    setStep((prevValue) => prevValue + 1)
+
+    const intervalPayload = prepareIntervalForApiCall()
+
+    const payload = {
+      availability: intervalPayload,
+      max_chat_requests: requests
+    }
+
+    availabilityApi.sendRequest(
+      CONSTANT.API.updateUser,
+      handleUpdateResponse,
+      payload,
+      'Availability added successfully!'
+    )
+  }
+
+  const handleUpdateResponse = (resp) => {
+    if (resp) {
+      setStep((prevValue) => prevValue + 1)
+    }
+  }
+
+  const prepareIntervalForApiCall = () => {
+    if (allIntervals && Array.isArray(allIntervals)) {
+      const temp = allIntervals.map((interval) => {
+        const newInterval = JSON.parse(JSON.stringify(interval))
+        newInterval.start_time = `${newInterval.start_time.hour}:${newInterval.start_time.minute}${newInterval.start_time.time}`
+        newInterval.end_time = `${newInterval.end_time.hour}:${newInterval.end_time.minute}${newInterval.end_time.time}`
+        return newInterval
+      })
+
+      return temp
+    }
+  }
+
+  const onRemoveInterval = (index) => {
+    setAllIntervals((prevValue) => {
+      const temp = prevValue.slice()
+
+      temp.splice(index, 1)
+      return [...temp]
+    })
   }
 
   return (
@@ -125,84 +187,110 @@ const Availability = () => {
           </a>
         </StyleInputButton>
 
-        <div className='requestsPerMonthText'>requests per month</div>
+        <div className='requestsPerMonthText'>Requests per month</div>
       </StyleInputButtonContainer>
 
       <StyleDayTimeContainer>
         <p className='dayTimeText'>Select the day & time your available</p>
 
-        {timeData &&
-          timeData.map((row, index) => {
-            return (
-              <div key={index} className='dayTimeContainer'>
-                <WeekdaySelector
-                  items={weeks}
-                  selectedItemLabel={row.day}
-                  onClick={(val) => {
-                    onChangeTime('day', val, index)
-                  }}
-                />
+        <div className='dayTimeContainer'>
+          <WeekdaySelector
+            items={weeks}
+            selectedItemLabel={interval.day}
+            onClick={(val) => {
+              onChangeTime(val)
+            }}
+          />
 
-                <div className='timePickerContainer'>
-                  <div className='startTimeContainer'>
-                    <p className='timeLabel'>Start time</p>
+          <div className='timePickerContainer'>
+            <div className='startTimeContainer'>
+              <p className='timeLabel'>Start time</p>
+              <TimePicker
+                name='startTime'
+                minute={interval.start_time.minute}
+                hour={interval.start_time.hour}
+                time={interval.start_time.time}
+                onChangeHour={(val) =>
+                  onChangeInterval('start_time', 'hour', val)
+                }
+                onChangeMinute={(val) =>
+                  onChangeInterval('start_time', 'minute', val)
+                }
+                onChangeTime={(val) =>
+                  onChangeInterval('start_time', 'time', val)
+                }
+              />
+            </div>
 
-                    <TimePicker
-                      name={`startTime${index}`}
-                      hour={row.start_time.hour}
-                      minute={row.start_time.minute}
-                      time={row.start_time.time}
-                      onChangeHour={(val) =>
-                        onChangeInterval('start_time', 'hour', val, index)
-                      }
-                      onChangeMinute={(val) =>
-                        onChangeInterval('start_time', 'minute', val, index)
-                      }
-                      onChangeTime={(val) =>
-                        onChangeInterval('start_time', 'time', val, index)
-                      }
-                    />
-                  </div>
+            <div className='endTimeContainer'>
+              <p className='timeLabel'>End time</p>
+              <TimePicker
+                name='endTime'
+                minute={interval.end_time.minute}
+                hour={interval.end_time.hour}
+                time={interval.end_time.time}
+                onChangeHour={(val) =>
+                  onChangeInterval('end_time', 'hour', val)
+                }
+                onChangeMinute={(val) =>
+                  onChangeInterval('end_time', 'minute', val)
+                }
+                onChangeTime={(val) =>
+                  onChangeInterval('end_time', 'time', val)
+                }
+              />
+            </div>
 
-                  <div className='endTimeContainer'>
-                    <p className='timeLabel'>End time</p>
-                    <TimePicker
-                      name={`endTime${index}`}
-                      hour={row.end_time.hour}
-                      minute={row.end_time.minute}
-                      time={row.end_time.time}
-                      onChangeHour={(val) =>
-                        onChangeInterval('end_time', 'hour', val, index)
-                      }
-                      onChangeMinute={(val) =>
-                        onChangeInterval('end_time', 'minute', val, index)
-                      }
-                      onChangeTime={(val) =>
-                        onChangeInterval('end_time', 'time', val, index)
-                      }
-                    />
-                  </div>
+            <StyleTimezoneDropdown
+              onChange={(e) => onChangeTime('timezone', e.target.value)}
+            >
+              <option value='EDT'>EDT</option>
+            </StyleTimezoneDropdown>
 
-                  <StyleAddIntervalButton
-                    onClick={(e) => {
-                      onAddTimeInterval(e)
+            <StyleAddIntervalButton
+              onClick={(e) => {
+                onAddTimeInterval(e)
+              }}
+            >
+              Add interval
+            </StyleAddIntervalButton>
+          </div>
+
+          {allIntervals &&
+          Array.isArray(allIntervals) &&
+          allIntervals.length > 0 ? (
+            <div className='viewDateTime'>
+              {allIntervals.map((row, index) => {
+                return (
+                  <div
+                    onClick={() => {
+                      onRemoveInterval(index)
                     }}
+                    className='viewRow'
+                    key={index}
                   >
-                    Add interval
-                  </StyleAddIntervalButton>
+                    <div className='textContainer'>
+                      <span>{row?.start_time?.hour}</span>
+                      <span>:</span>
+                      <span>{row?.start_time?.minute}</span>
+                      <span>{row?.start_time?.time}</span>
 
-                  {timeData.length > 1 ? (
-                    <a
-                      className='removeIcon'
-                      onClick={(e) => removeInterval(index)}
-                    >
-                      <img src={CloseIcon} />
-                    </a>
-                  ) : null}
-                </div>
-              </div>
-            )
-          })}
+                      <span>-</span>
+                      <span>{row?.end_time?.hour}</span>
+                      <span>:</span>
+                      <span>{row?.end_time?.minute}</span>
+                      <span>{row?.end_time?.time}</span>
+                    </div>
+
+                    <div className='buttonContainer'>
+                      <img src={DeleteIcon} />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          ) : null}
+        </div>
       </StyleDayTimeContainer>
       <StyleNextButtonContainer>
         <StyleNextButton

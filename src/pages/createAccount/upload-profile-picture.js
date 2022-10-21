@@ -76,10 +76,12 @@ const UploadProfilePicture = () => {
         fileApi.sendRequest(
           CONSTANT.API.uploadUserFile,
           handleUserFileResponse,
-          formData
+          formData,
+          'Picture added successfully!'
         )
       } else {
         setStep((prevValue) => prevValue + 1)
+        notify.success('Picture added successfully!')
       }
     }
   }

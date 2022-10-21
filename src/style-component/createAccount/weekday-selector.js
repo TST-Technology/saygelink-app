@@ -3,7 +3,6 @@ import theme from '../../utils/variables'
 
 export const StyleWeekdayContainer = styled.div`
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
 `
