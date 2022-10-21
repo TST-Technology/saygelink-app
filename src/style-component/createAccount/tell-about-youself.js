@@ -65,5 +65,15 @@ export const StyleAddLink = styled.a`
 
 export const StyleInputContainer = styled.div`
   margin-top: 2rem;
-  width: 70%;
+
+  .rowContainer {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  .closeIcon {
+    cursor: pointer;
+  }
 `

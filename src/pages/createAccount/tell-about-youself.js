@@ -20,10 +20,16 @@ import {
 } from '../../style-component/createAccount/tell-about-youself'
 import SelectGender from '../../components/create-account/gender-card'
 import CONSTANT from '../../utils/constants'
+import CloseIcon from '../../assets/images/CrossIcon.svg'
 import { CreateAccountContext } from './create-account'
+import useHttp from '../../hooks/use-http'
+import { notify } from '../../utils/funcs'
 
 const Yourself = () => {
   const [selectedGender, setSelectedGender] = useState()
+  const [allLinks, setAllLinks] = useState([''])
+
+  const userApi = useHttp()
 
   const { formData, setStep, setFormData, step } =
     useContext(CreateAccountContext)
@@ -35,8 +41,100 @@ const Yourself = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    console.log(e.target.about.value)
-    setStep((prevValue) => prevValue + 1)
+    const payload = preparePayload(e)
+    if (selectedGender) {
+      if (payload) {
+        userApi.sendRequest(
+          CONSTANT.API.updateUser,
+          handleUserResponse,
+          payload,
+          'Details added successfully!'
+        )
+      }
+    } else {
+      notify.error('Please select gender')
+    }
+  }
+
+  const handleUserResponse = (resp) => {
+    console.log(resp)
+    if (resp) {
+      setStep((prevValue) => prevValue + 1)
+    }
+  }
+
+  const preparePayload = (e) => {
+    const newPayload = {}
+    if (e.target.about.value) {
+      newPayload.about = e.target.about.value
+    }
+    if (e.target.role.value) {
+      newPayload.role = e.target.role.value.toLowerCase()
+    }
+    if (selectedGender) {
+      newPayload.gender = selectedGender
+    }
+
+    const links = allLinks.map((row) => {
+      const newLink = prepareLink(row)
+      return newLink
+    })
+
+    if (links && Array.isArray(links) && links.length > 0) {
+      newPayload.social_media = links
+    }
+
+    return newPayload
+  }
+
+  const prepareLink = (url) => {
+    if (url.toLowerCase().includes('twitter')) {
+      return {
+        name: 'Twitter',
+        url: url
+      }
+    } else if (url.toLowerCase().includes('facebook')) {
+      return {
+        name: 'Facebook',
+        url: url
+      }
+    } else if (url.toLowerCase().includes('linkedin')) {
+      return {
+        name: 'LinkedIn',
+        url: url
+      }
+    } else if (url.toLowerCase().includes('instagram')) {
+      return {
+        name: 'Instagram',
+        url: url
+      }
+    } else {
+      return {
+        name: 'Other',
+        url: url
+      }
+    }
+  }
+
+  const handleLinkChange = (val, index) => {
+    setAllLinks((prevValue) => {
+      prevValue[index] = val
+      return [...prevValue]
+    })
+  }
+
+  const onAddLink = () => {
+    setAllLinks((prevValue) => {
+      return [...prevValue, '']
+    })
+  }
+
+  const removeLink = (index) => {
+    setAllLinks((prevValue) => {
+      const temp = prevValue.slice()
+      temp.splice(index, 1)
+      return [...temp]
+    })
   }
 
   return (
@@ -56,17 +154,13 @@ const Yourself = () => {
                 name='about'
                 placeholder='Type here'
                 rows={4}
-                // value={about}
-                // onChange={(e) => {
-                //   setAbout(e.target.value)
-                // }}
               ></TextAreaStyled>
             </div>
           </StyledTextareaContainer>
 
           <StyleDropdownContainer>
             <DarkGrayLable>Role</DarkGrayLable>
-            <RoledDropdown onChange={() => {}}>
+            <RoledDropdown name='role'>
               <option></option>
               {CONSTANT.role.map((item) => {
                 return (
@@ -81,9 +175,34 @@ const Yourself = () => {
           <StyleInputContainer>
             <StyleFlexJustifyBetweenContainer>
               <DarkGrayLable>Social & Other Links</DarkGrayLable>
-              <StyleAddLink>+ Add</StyleAddLink>
+              <StyleAddLink
+                onClick={() => {
+                  onAddLink()
+                }}
+              >
+                + Add
+              </StyleAddLink>
             </StyleFlexJustifyBetweenContainer>
-            <StyledInput />
+            {allLinks.map((link, index) => {
+              return (
+                <div className='rowContainer' key={index}>
+                  <StyledInput
+                    type={'url'}
+                    value={link}
+                    onChange={(e) => handleLinkChange(e.target.value, index)}
+                    name='link'
+                  />
+
+                  {allLinks.length > 1 ? (
+                    <img
+                      className='closeIcon'
+                      src={CloseIcon}
+                      onClick={() => removeLink(index)}
+                    />
+                  ) : null}
+                </div>
+              )
+            })}
           </StyleInputContainer>
 
           <StyleDropdownContainer>
@@ -97,7 +216,9 @@ const Yourself = () => {
           </StyleDropdownContainer>
         </StyleCreateAccountBodyContainer>
         <StyleNextButtonContainer>
-          <StyleNextButton>Next</StyleNextButton>
+          <StyleNextButton disabled={userApi.isLoading}>
+            {userApi.isLoading ? `Loading...` : `Next`}
+          </StyleNextButton>
         </StyleNextButtonContainer>
       </form>
     </>

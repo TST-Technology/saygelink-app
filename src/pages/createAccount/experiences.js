@@ -127,13 +127,7 @@ const Experiences = () => {
           </StyleCompleteProfileContainer>
 
           <StyleNextButtonContainer>
-            <StyleNextButton
-              onClick={(e) => {
-                handleCompleteProfileClick(e)
-              }}
-            >
-              Start connecting
-            </StyleNextButton>
+            <StyleNextButton>Start connecting</StyleNextButton>
           </StyleNextButtonContainer>
         </>
       ) : (
