@@ -14,9 +14,9 @@ const SelectGender = ({ items, selectedItemLabel, onCardClick }) => {
           return (
             <StyleCard
               key={item.label}
-              selected={item.label === selectedItemLabel}
+              selected={item.value === selectedItemLabel}
               onClick={() => {
-                onCardClick(item.label)
+                onCardClick(item.value)
               }}
             >
               <StyleText>{item.label}</StyleText>

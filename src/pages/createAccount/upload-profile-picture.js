@@ -17,10 +17,14 @@ import ImagePreview from '../../assets/images/image-preview.svg'
 import Attachment from '../../assets/images/attachment.svg'
 import CloseIcon from '../../assets/images/CrossIcon.svg'
 import { notify } from '../../utils/funcs'
+import useHttp from '../../hooks/use-http'
+import CONSTANT from '../../utils/constants'
 
 const UploadProfilePicture = () => {
   const { formData, setStep, setFormData, step } =
     useContext(CreateAccountContext)
+
+  const fileApi = useHttp()
 
   const [profileImage, setProfileImage] = useState(null)
   const [profilePreviewImage, setProfilePreviewImage] = useState(null)
@@ -50,12 +54,41 @@ const UploadProfilePicture = () => {
   const handleNextButtonClick = (e) => {
     e.preventDefault()
     if (profileImage) {
-      setStep((prevValue) => prevValue + 1)
+      const formData = new FormData()
+      formData.append('image', profileImage)
+
+      fileApi.sendRequest(
+        CONSTANT.API.uploadUserProfilePicture,
+        handleUploadProfileResponse,
+        formData
+      )
     } else {
       notify.error('Please upload your profile picture.')
     }
   }
 
+  const handleUploadProfileResponse = (resp) => {
+    console.log(resp)
+    if (resp) {
+      if (pdfFile) {
+        const formData = new FormData()
+        formData.append('file', profileImage)
+        fileApi.sendRequest(
+          CONSTANT.API.uploadUserFile,
+          handleUserFileResponse,
+          formData
+        )
+      } else {
+        setStep((prevValue) => prevValue + 1)
+      }
+    }
+  }
+
+  const handleUserFileResponse = (resp) => {
+    if (resp) {
+      setStep((prevValue) => prevValue + 1)
+    }
+  }
   const removePdfFile = (e) => {
     e.preventDefault()
     setPdfFile(null)
@@ -146,8 +179,9 @@ const UploadProfilePicture = () => {
           onClick={(e) => {
             handleNextButtonClick(e)
           }}
+          disabled={fileApi.isLoading}
         >
-          Next
+          {fileApi.isLoading ? 'Loading...' : `Next`}
         </StyleNextButton>
       </StyleNextButtonContainer>
     </>

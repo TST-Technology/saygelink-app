@@ -29,6 +29,7 @@ const Yourself = () => {
     useContext(CreateAccountContext)
 
   const onGenderChange = (val) => {
+    console.log(val)
     setSelectedGender(val)
   }
 
@@ -55,13 +56,17 @@ const Yourself = () => {
                 name='about'
                 placeholder='Type here'
                 rows={4}
+                // value={about}
+                // onChange={(e) => {
+                //   setAbout(e.target.value)
+                // }}
               ></TextAreaStyled>
             </div>
           </StyledTextareaContainer>
 
           <StyleDropdownContainer>
             <DarkGrayLable>Role</DarkGrayLable>
-            <RoledDropdown>
+            <RoledDropdown onChange={() => {}}>
               <option></option>
               {CONSTANT.role.map((item) => {
                 return (

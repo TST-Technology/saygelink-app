@@ -78,6 +78,14 @@ const CONSTANT = {
     addExperience: {
       endpoint: `/users/organization/addSayge`,
       type: 'POST'
+    },
+    uploadUserProfilePicture: {
+      endpoint: `/users/uploadUserProfilePicture`,
+      type: 'POST'
+    },
+    uploadUserFile: {
+      endpoint: `/users/uploadUserFile`,
+      type: 'POST'
     }
   },
   planningStage: [
@@ -87,9 +95,9 @@ const CONSTANT = {
     'Select your experiences'
   ],
   gender: [
-    { label: 'He', icon: male },
-    { label: 'She', icon: female },
-    { label: 'Non-binary', icon: other }
+    { label: 'He', icon: male, value: 'male' },
+    { label: 'She', icon: female, value: 'female' },
+    { label: 'Non-binary', icon: other, value: 'other' }
   ],
   role: [
     { label: 'Faculty', value: 'Faculty' },
