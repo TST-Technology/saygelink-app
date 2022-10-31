@@ -1,17 +1,18 @@
-import styled from 'styled-components'
-import { devices } from '../../utils/constants'
-import { UNIVERSITY_COLOR } from '../../utils/variables'
+import styled from "styled-components";
+import { devices } from "../../utils/constants";
+import { UNIVERSITY_COLOR } from "../../utils/variables";
 import {
   DropdownStyle,
   InputStyle,
   OutlinedButton,
-  TextAreaStyle
-} from '../general'
+  TextAreaStyle,
+} from "../general";
 
 export const TextAreaStyled = styled.textarea`
   ${TextAreaStyle}
   width: 100%;
-`
+  padding: 13px 18px;
+`;
 
 export const StyledTextareaContainer = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ export const StyledTextareaContainer = styled.div`
   > div:first-child {
     width: 100%;
   }
-`
+`;
 
 export const SaveButton = styled.button`
   ${OutlinedButton}
@@ -31,27 +32,27 @@ export const SaveButton = styled.button`
   border: 1px solid ${UNIVERSITY_COLOR.primary};
   box-shadow: none;
   margin-bottom: 8px;
-`
+`;
 
 export const StyleDropdownContainer = styled.div`
   margin-top: 2rem;
-`
+`;
 
 export const StyledInput = styled.input`
   ${InputStyle}
   width: 100%;
-`
+`;
 
 export const RoledDropdown = styled.select`
   ${DropdownStyle}
   width: 50%;
-`
+`;
 
 export const StyleFlexJustifyBetweenContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 export const StyleAddLink = styled.a`
   color: ${UNIVERSITY_COLOR.primary};
@@ -61,7 +62,7 @@ export const StyleAddLink = styled.a`
   font-weight: 500;
   line-height: 30px;
   font-size: 18px;
-`
+`;
 
 export const StyleInputContainer = styled.div`
   margin-top: 2rem;
@@ -76,4 +77,4 @@ export const StyleInputContainer = styled.div`
   .closeIcon {
     cursor: pointer;
   }
-`
+`;

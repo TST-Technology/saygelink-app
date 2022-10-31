@@ -11,7 +11,7 @@ import {
   Lable,
 } from "../../style-component/auth/login";
 import { DarkGrayLable, PinkLink } from "../../style-component/general";
-import CONSTANT, { userInviteEmail } from "../../utils/constants";
+import CONSTANT, { userInviteEmail, UserProfile } from "../../utils/constants";
 
 const LoginIDPassword = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -61,7 +61,8 @@ const LoginIDPassword = () => {
 
   const LoginHandeler = (res) => {
     if (res?.token) {
-      localStorage.setItem('authToken', res?.token)
+      localStorage.setItem("authToken", res?.token);
+      UserProfile.userDetails["token"] = res?.token;
     }
   };
 

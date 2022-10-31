@@ -29,6 +29,7 @@ const SignUpForm = () => {
     if (res?.success === true) {
       UserProfile.userDetails["user"] = res?.user;
       UserProfile.userDetails["token"] = res?.token;
+      localStorage.setItem("authToken", res?.token);
       navigate(`/welcome`);
     }
   };
