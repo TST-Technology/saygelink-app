@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext } from "react";
 import CreateAccountWrapper, {
   Dot,
   PlanItem,
@@ -7,46 +7,46 @@ import CreateAccountWrapper, {
   StepStatus,
   StepWrapper,
   WhiteLineText,
-  StepperBodyContainer
-} from '../../style-component/createAccount/create-account'
-import shortLogo from '../../assets/images/short_logo.png'
-import CONSTANT from '../../utils/constants'
-import Yourself from './tell-about-youself'
-import UploadProfilePicture from './upload-profile-picture'
-import Availability from './availability'
-import Experiences from './experiences'
+  StepperBodyContainer,
+} from "../../style-component/createAccount/create-account";
+import shortLogo from "../../assets/images/short_logo.png";
+import CONSTANT from "../../utils/constants";
+import Yourself from "./tell-about-youself";
+import UploadProfilePicture from "./upload-profile-picture";
+import Availability from "./availability";
+import Experiences from "./experiences";
 
 export const CreateAccountContext = createContext({
   step: 1,
   setStep: (val) => {},
   formData: null,
-  setFormData: (val) => {}
-})
+  setFormData: (val) => {},
+});
 
 const CreateAccount = () => {
-  const TOTAL_STEPS = 4
-  const [step, setStep] = useState(1)
-  const [formData, setFormData] = useState(null)
+  const TOTAL_STEPS = 4;
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState(null);
 
-  let StepView = <p></p>
+  let StepView = <p></p>;
   switch (step) {
     case 1:
-      StepView = <Yourself />
-      break
+      StepView = <Yourself />;
+      break;
     case 2:
-      StepView = <UploadProfilePicture />
-      break
+      StepView = <UploadProfilePicture />;
+      break;
     case 3:
-      StepView = <Availability />
-      break
+      StepView = <Availability />;
+      break;
     case 4:
-      StepView = <Experiences />
-      break
+      StepView = <Experiences />;
+      break;
     case 5:
-      StepView = <p>Congratulations</p>
-      break
+      StepView = <p>Congratulations</p>;
+      break;
     default:
-      ;<></>
+      <></>;
   }
   return (
     <>
@@ -55,7 +55,7 @@ const CreateAccount = () => {
           step: step,
           setStep: setStep,
           formData: formData,
-          setFormData: setFormData
+          setFormData: setFormData,
         }}
       >
         <CreateAccountWrapper>
@@ -75,7 +75,7 @@ const CreateAccount = () => {
                       <StepStatus>{`${step} out of ${TOTAL_STEPS}`}</StepStatus>
                     ) : null}
                   </PlanItem>
-                )
+                );
               })}
             </StepWrapper>
           </RegisterLeftSideBarWrapper>
@@ -89,7 +89,7 @@ const CreateAccount = () => {
         </CreateAccountWrapper>
       </CreateAccountContext.Provider>
     </>
-  )
-}
+  );
+};
 
-export default CreateAccount
+export default CreateAccount;
