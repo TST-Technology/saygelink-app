@@ -52,12 +52,12 @@ const Experiences = () => {
     }
   }
 
-  const handleCategoryClick = (categoryId) => {
-    console.log(categoryId)
-    setActiveCategory(categoryId)
+  const handleCategoryClick = (category) => {
+    console.log(category?._id)
+    setActiveCategory(category)
     const url = JSON.parse(JSON.stringify(CONSTANT.API.getSubcategories))
     console.log(url)
-    url.endpoint = url.endpoint.replace(':categoryId', categoryId)
+    url.endpoint = url.endpoint.replace(':categoryId', category?._id)
     console.log(url)
 
     subCategoryApi.sendRequest(url, handleSubcategoryResponse)
@@ -152,9 +152,9 @@ const Experiences = () => {
                 categories.map((category) => {
                   return (
                     <StyleCategoryCard
-                      selected={category?._id === activeCategory}
+                      selected={category?._id === activeCategory?._id}
                       key={category?._id}
-                      onClick={() => handleCategoryClick(category?._id)}
+                      onClick={() => handleCategoryClick(category)}
                     >
                       <div className='imageContainer'>
                         <img src={category?.image} />
@@ -168,6 +168,7 @@ const Experiences = () => {
             </div>
 
             <div className='subCategoryContainer'>
+              <p className='subCategoryHeading'>{activeCategory?.name}</p>
               {subCategoryList &&
                 subCategoryList.map((subCategory, index) => {
                   return (

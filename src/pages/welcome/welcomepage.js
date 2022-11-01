@@ -23,14 +23,14 @@ const Welcome = () => {
         <WelcomeLogoWrapper src={shortLogo} />
         <WelcomeTextWrapper>
           <WelcomeTextHello>
-            Hello,{" "}
+            Hello,{' '}
             <WelcomeTextspan>
               {UserProfile.userDetails?.user?.name}
             </WelcomeTextspan>
           </WelcomeTextHello>
           <WelcomeText>Welcome to Columbia HPM SAYge Link</WelcomeText>
           <ButtonWithCreateProfile onClick={() => navigate(`/create-account`)}>
-            Create your profile
+            Get Started!
           </ButtonWithCreateProfile>
         </WelcomeTextWrapper>
       </HalfScreen>
@@ -40,6 +40,6 @@ const Welcome = () => {
         </LogoContainer>
       </HalfScreen>
     </RegisterWraper>
-  );
+  )
 };
 export default Welcome;

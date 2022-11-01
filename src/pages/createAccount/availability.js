@@ -81,11 +81,14 @@ const Availability = () => {
       interval?.end_time?.minute &&
       interval?.end_time?.time
     ) {
+      const newInterval = JSON.parse(JSON.stringify(interval))
+      console.log(newInterval)
+
       setAllIntervals((prevValue) => {
         if (prevValue) {
           const temp = prevValue.slice()
 
-          const newInterval = JSON.parse(JSON.stringify(interval))
+          console.log(newInterval)
 
           newInterval.start_time = { ...newInterval.start_time }
           newInterval.end_time = { ...newInterval.end_time }
@@ -94,15 +97,15 @@ const Availability = () => {
 
           return temp
         } else {
-          return [JSON.parse(JSON.stringify(interval))]
+          return [JSON.parse(JSON.stringify(newInterval))]
         }
       })
-      // setInterval((prevValue) => {
-      //   prevValue.start_time = JSON.parse(JSON.stringify(INIT_TIME))
-      //   prevValue.end_time = JSON.parse(JSON.stringify(INIT_TIME))
+      setInterval((prevValue) => {
+        prevValue.start_time = JSON.parse(JSON.stringify(INIT_TIME))
+        prevValue.end_time = JSON.parse(JSON.stringify(INIT_TIME))
 
-      //   return { ...prevValue }
-      // })
+        return { ...prevValue }
+      })
     } else {
       notify.error('Please select all fields')
     }
@@ -258,34 +261,40 @@ const Availability = () => {
 
           {allIntervals &&
           Array.isArray(allIntervals) &&
-          allIntervals.length > 0 ? (
+          allIntervals.length > 0 &&
+          allIntervals.filter((row) => row?.day === interval?.day).length >
+            0 ? (
             <div className='viewDateTime'>
               {allIntervals.map((row, index) => {
                 return (
-                  <div
-                    onClick={() => {
-                      onRemoveInterval(index)
-                    }}
-                    className='viewRow'
-                    key={index}
-                  >
-                    <div className='textContainer'>
-                      <span>{row?.start_time?.hour}</span>
-                      <span>:</span>
-                      <span>{row?.start_time?.minute}</span>
-                      <span>{row?.start_time?.time}</span>
+                  <>
+                    {row?.day === interval?.day ? (
+                      <div
+                        onClick={() => {
+                          onRemoveInterval(index)
+                        }}
+                        className='viewRow'
+                        key={index}
+                      >
+                        <div className='textContainer'>
+                          <span>{row?.start_time?.hour}</span>
+                          <span>:</span>
+                          <span>{row?.start_time?.minute}</span>
+                          <span>{row?.start_time?.time}</span>
 
-                      <span>-</span>
-                      <span>{row?.end_time?.hour}</span>
-                      <span>:</span>
-                      <span>{row?.end_time?.minute}</span>
-                      <span>{row?.end_time?.time}</span>
-                    </div>
+                          <span>-</span>
+                          <span>{row?.end_time?.hour}</span>
+                          <span>:</span>
+                          <span>{row?.end_time?.minute}</span>
+                          <span>{row?.end_time?.time}</span>
+                        </div>
 
-                    <div className='buttonContainer'>
-                      <img src={DeleteIcon} />
-                    </div>
-                  </div>
+                        <div className='buttonContainer'>
+                          <img src={DeleteIcon} />
+                        </div>
+                      </div>
+                    ) : null}
+                  </>
                 )
               })}
             </div>
@@ -297,8 +306,9 @@ const Availability = () => {
           onClick={(e) => {
             handleNextButtonClick(e)
           }}
+          disabled={availabilityApi.isLoading}
         >
-          Next
+          {availabilityApi.isLoading ? `Loading...` : `Next`}
         </StyleNextButton>
       </StyleNextButtonContainer>
     </>

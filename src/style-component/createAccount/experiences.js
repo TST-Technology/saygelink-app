@@ -15,6 +15,11 @@ export const StyledExperienceContainer = styled.div`
   .subCategoryContainer,
   .topicContainer {
     width: 30%;
+
+    .subCategoryHeading {
+      color: #212940;
+      font-weight: 500;
+    }
   }
 `
 
