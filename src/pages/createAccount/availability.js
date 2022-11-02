@@ -203,6 +203,7 @@ const Availability = () => {
             onClick={(val) => {
               onChangeTime(val)
             }}
+            addedItems={allIntervals ? allIntervals.map((row) => row.day) : []}
           />
 
           <div className='timePickerContainer'>

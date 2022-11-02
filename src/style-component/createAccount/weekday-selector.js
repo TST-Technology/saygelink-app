@@ -8,8 +8,7 @@ export const StyleWeekdayContainer = styled.div`
 `
 
 export const StyleCard = styled.div`
-  background: ${(props) =>
-    props.selected ? 'rgba(250, 47, 102, 0.2)' : theme.lightTheme.lightGrey};
+  background: ${theme.lightTheme.lightGrey};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,6 +16,22 @@ export const StyleCard = styled.div`
   height: 80px;
   width: 80px;
   border-radius: 50%;
+
+  ${(props) => {
+    if (props.added) {
+      return {
+        background: theme.lightTheme.primary.color
+      }
+    }
+  }}
+
+  ${(props) => {
+    if (props.selected) {
+      return {
+        background: 'rgba(250, 47, 102, 0.2)'
+      }
+    }
+  }}
 
   .weekdayText {
     font-family: Poppins;

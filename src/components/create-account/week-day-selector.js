@@ -4,7 +4,8 @@ import {
   StyleWeekdayContainer
 } from '../../style-component/createAccount/weekday-selector'
 
-const WeekdaySelector = ({ items, selectedItemLabel, onClick }) => {
+const WeekdaySelector = ({ items, selectedItemLabel, onClick, addedItems }) => {
+  console.log({ addedItems })
   return (
     <StyleWeekdayContainer>
       {items &&
@@ -13,6 +14,7 @@ const WeekdaySelector = ({ items, selectedItemLabel, onClick }) => {
             <StyleCard
               key={item}
               selected={item === selectedItemLabel}
+              added={addedItems.includes(item)}
               onClick={() => {
                 onClick(item)
               }}
