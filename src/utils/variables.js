@@ -50,7 +50,9 @@ const theme = {
     lightGrey: '#D9D9D9',
     grey: '#939393',
     whiteSmoke: '#F5F5F5',
-    pastelGrey: '#CCCCCC'
+    pastelGrey: '#CCCCCC',
+    seashell: '#F0F0F0',
+    quillGrey: '#D4D4D4'
   }
 }
 

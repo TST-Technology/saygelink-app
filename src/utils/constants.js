@@ -142,4 +142,9 @@ export const userInviteEmail = {
   userData: {},
 };
 
+export const ROUTES = {
+  HOME: '/',
+  MESSAGE: '/message'
+}
+
 export default CONSTANT;
