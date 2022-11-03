@@ -39,6 +39,11 @@ export const HeaderContainerStyle = styled.div`
       display: flex;
       align-items: center;
       gap: 70px;
+      height: 100%;
+
+      .activeHeader {
+        border-bottom: 4px solid #f3f3f3;
+      }
 
       .headerTab {
         display: flex;
@@ -46,6 +51,8 @@ export const HeaderContainerStyle = styled.div`
         justify-content: center;
         align-items: center;
         gap: 4px;
+        height: 100%;
+        padding: 0 7px;
 
         .headerTabImage {
           height: 22px;

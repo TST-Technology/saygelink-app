@@ -38,9 +38,12 @@ const Header = () => {
         </div>
 
         <div className='rightSection'>
-          {HEADER_TABS.map((tab) => {
+          {HEADER_TABS.map((tab, index) => {
             return (
-              <div key={tab.label} className='headerTab'>
+              <div
+                key={tab.label}
+                className={`headerTab ${index === 1 ? 'activeHeader' : ''}`}
+              >
                 <img className='headerTabImage' src={tab.icon} />
 
                 {tab.label ? (
