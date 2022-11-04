@@ -147,4 +147,9 @@ export const ROUTES = {
   MESSAGE: '/message'
 }
 
+export const WEEKDAY_SELECTOR_TYPE = {
+  AVAILABILITY: 'AVAILABILITY',
+  SCHEDULE_CALL: 'SCHEDULE_CALL'
+}
+
 export default CONSTANT;

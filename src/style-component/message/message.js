@@ -117,6 +117,7 @@ export const MessageContainerStyle = styled.div`
           p {
             font-family: 'Poppins';
             font-style: normal;
+            cursor: pointer;
             font-weight: 600;
             font-size: 11.6667px;
             line-height: 17px;
