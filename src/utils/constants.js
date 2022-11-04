@@ -144,7 +144,8 @@ export const userInviteEmail = {
 
 export const ROUTES = {
   HOME: '/',
-  MESSAGE: '/message'
+  MESSAGE: '/message',
+  HEALTHCARE: '/healthcare'
 }
 
 export const WEEKDAY_SELECTOR_TYPE = {
