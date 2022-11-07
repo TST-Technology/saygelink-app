@@ -278,6 +278,7 @@ export const StyleConnectButton = styled.button`
 
 export const StyleFeedContainer = styled.div`
   margin-top: 80px;
+  margin-bottom: 40px;
   background: #f8f8f8;
   border-radius: 8.33333px;
   width: 100%;
@@ -293,6 +294,87 @@ export const StyleFeedContainer = styled.div`
     height: 45px;
     width: 45px;
   }
+
+  .photoInput {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 70px;
+    right: 40px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    color: #939393;
+
+    img {
+      margin-right: 5px;
+    }
+  }
+
+  .postContainer {
+    margin-top: 20px;
+
+    .individualPost {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+
+      .leftSidePostHeader {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        img {
+          height: 35px;
+          width: 35px;
+          object-fit: cover;
+        }
+
+        .postNameContainer {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          .postName {
+            margin-bottom: 0;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16.6667px;
+            line-height: 25px;
+            color: #262626;
+          }
+
+          .postTime {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 11.6667px;
+            line-height: 17px;
+            color: #696f79;
+          }
+        }
+      }
+
+      .rightSidePostHeader {
+        cursor: pointer;
+      }
+    }
+
+    .postDescription {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 30px;
+      color: #262626;
+      padding: 15px 0;
+      margin-bottom: 0;
+      border-bottom: 0.833333px solid rgba(38, 38, 38, 0.08);
+    }
+  }
 `
 
 export const ThoughtsTextArea = styled.textarea`
@@ -302,21 +384,24 @@ export const ThoughtsTextArea = styled.textarea`
   background: #fefefe;
   border: 0.739055px solid #e8e8e8;
   border-radius: 9.60772px;
-  padding: 10px 18px;
-  padding-left: 100px;
+  padding: 10px 100px;
 `
 
 export const StylePostButton = styled.button`
   ${Button}
   margin: 0;
-  background: #fa2f66;
-  border-radius: 5.07534px;
   color: #f3f3f3;
-  padding: 5px 10px;
+  padding: 5px 25px;
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;
   font-size: 10.1507px;
   line-height: 15px;
   position: absolute;
+  background: #1186ef;
+  border: 1.47811px solid #1186ef;
+  border-radius: 6.65149px;
+  box-shadow: none;
+  top: 110px;
+  right: 40px;
 `

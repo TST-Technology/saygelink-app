@@ -4,6 +4,7 @@ import Login from "../pages/auth";
 import CreateAccount from "../pages/createAccount/create-account";
 import Dashboard from '../pages/dashboard/dashboard'
 import Healthcare from '../pages/healthcare/healthcare'
+import Network from '../pages/network/network'
 import Signup from '../pages/register/signup'
 import Welcome from '../pages/welcome/welcomepage'
 import { ROUTES } from '../utils/constants'
@@ -19,6 +20,7 @@ const MainRoutes = () => {
         <Route path={ROUTES.HEALTHCARE} element={<Healthcare />} />
 
         <Route path={ROUTES.HOME} element={<Dashboard />} />
+        <Route path={ROUTES.NETWORK} element={<Network />} />
       </Routes>
     </Fragment>
   )

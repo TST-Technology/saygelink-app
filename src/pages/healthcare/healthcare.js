@@ -6,11 +6,14 @@ import {
   StyleFeedContainer,
   StyleMembersCard,
   StyleMembersCardContainer,
+  StylePostButton,
   ThoughtsTextArea
 } from '../../style-component/healthcare/healthcare'
 import PersonImage from '../../assets/images/person.png'
 import FacebookImage from '../../assets/images/facebook.svg'
 import LinkedinImage from '../../assets/images/linkedin.svg'
+import GalleryImage from '../../assets/images/gallery.svg'
+import ThreeDotImage from '../../assets/images/threeDotMenu.svg'
 
 const Healthcare = () => {
   return (
@@ -66,6 +69,41 @@ const Healthcare = () => {
               <ThoughtsTextArea placeholder='Share your thoughts...' />
 
               <img src={PersonImage} className='postPreviewImage' />
+
+              <span className='photoInput'>
+                <img src={GalleryImage} /> Photo
+              </span>
+
+              <StylePostButton>Post</StylePostButton>
+
+              <div className='postContainer'>
+                {[0, 1, 2, 3].map((row, index) => {
+                  return (
+                    <div className='post' key={index}>
+                      <div className='individualPost'>
+                        <div className='leftSidePostHeader'>
+                          <div className='postImageContainer'>
+                            <img src={PersonImage} />
+                          </div>
+                          <div className='postNameContainer'>
+                            <p className='postName'>Rebecca Shoenfield</p>
+                            <span className='postTime'>Just Now</span>
+                          </div>
+                        </div>
+
+                        <div className='rightSidePostHeader'>
+                          <img src={ThreeDotImage} />
+                        </div>
+                      </div>
+
+                      <p className='postDescription'>
+                        Don't miss out on the opportunitiy to network with
+                        alumni at our annual HPM event! Register here.
+                      </p>
+                    </div>
+                  )
+                })}
+              </div>
             </StyleFeedContainer>
           </div>
           <div className='rightContainer'>
