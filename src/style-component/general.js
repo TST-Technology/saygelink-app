@@ -145,4 +145,57 @@ export const DropdownStyle = css`
   }
 `
 
+export const FlexAlignCenter = css`
+  display: flex;
+  align-items: center;
+`
+
+export const FlexJustifyCenter = css`
+  display: flex;
+  justify-content: center;
+`
+
+export const FlexJustifySpaceBetween = css`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const FlexCenter = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const SmallWeekDayStyle = css`
+  .weekDayContainer {
+    display: flex;
+    gap: 20px;
+
+    .weekDay {
+      background: rgba(171, 233, 222, 0.17);
+      border: 2px solid #1186ef;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        color: #4a4a4a;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 16px;
+      }
+    }
+
+    .selectedWeekDay {
+      background: rgba(250, 47, 102, 0.2);
+      border: 2px solid #fa2f66;
+    }
+  }
+`
+
 export default BodyStyled;

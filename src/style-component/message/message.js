@@ -1,13 +1,13 @@
 import styled from 'styled-components'
+import { DashboardHeaderHeight } from '../../utils/constants'
 import theme from '../../utils/variables'
 import { Button, InputStyle } from '../general'
 
 const InputHeight = '127px'
-const MessageHeaderHeight = '70px'
 
 export const MessageContainerStyle = styled.div`
   background: ${theme.lightTheme.quillGrey};
-  height: calc(100vh - ${MessageHeaderHeight});
+  height: calc(100vh - ${DashboardHeaderHeight});
 
   .messageContainer {
     background: ${theme.lightTheme.desertStorm};
@@ -29,8 +29,8 @@ export const MessageContainerStyle = styled.div`
       .membersHeadingContainer {
         display: flex;
         align-items: center;
-        height: ${MessageHeaderHeight};
-        min-height: ${MessageHeaderHeight};
+        height: ${DashboardHeaderHeight};
+        min-height: ${DashboardHeaderHeight};
         border-bottom: 0.833333px solid rgba(38, 38, 38, 0.2);
 
         .membersHeading {
@@ -48,7 +48,7 @@ export const MessageContainerStyle = styled.div`
       .membersChatListing {
         position: relative;
         padding: 10px;
-        height: calc(100% - ${MessageHeaderHeight});
+        height: calc(100% - ${DashboardHeaderHeight});
         overflow-y: auto;
 
         .searchImage {
@@ -73,8 +73,8 @@ export const MessageContainerStyle = styled.div`
         position: relative;
         gap: 20px;
         padding: 0 30px;
-        height: ${MessageHeaderHeight};
-        min-height: ${MessageHeaderHeight};
+        height: ${DashboardHeaderHeight};
+        min-height: ${DashboardHeaderHeight};
         border-bottom: 0.833333px solid rgba(38, 38, 38, 0.2);
 
         .leftContainer,
@@ -131,7 +131,7 @@ export const MessageContainerStyle = styled.div`
       }
 
       .chatContainer {
-        height: calc(100% - ${MessageHeaderHeight});
+        height: calc(100% - ${DashboardHeaderHeight});
 
         .chatMessagesContainer {
           display: flex;

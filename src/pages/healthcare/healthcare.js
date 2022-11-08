@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from '../../components/general/header'
 import {
   HealthcareContainerStyle,
   StyleConnectButton,
@@ -19,7 +18,6 @@ const Healthcare = () => {
   return (
     <>
       <HealthcareContainerStyle>
-        <Header />
         <div className='healthCareContainer'>
           <div className='leftContainer'>
             <h3 className='heading'>Healthcare Innovation</h3>

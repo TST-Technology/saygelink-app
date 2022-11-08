@@ -7,9 +7,9 @@ import {
   SubmitButtonStyle,
   TimezoneDropdownStyle
 } from '../../style-component/message/schedule-meeting'
+import CONSTANT from '../../utils/constants'
 
 const ScheduleMeeting = () => {
-  const weeks = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
   return (
     <ScheduleMeetingStyle>
       <div className='profileContainer'>
@@ -28,7 +28,7 @@ const ScheduleMeeting = () => {
         <p className='heading'>General Availability</p>
 
         <div className='weekDayContainer'>
-          {weeks.map((day, index) => {
+          {CONSTANT.WEEK_TWO_DIGIT.map((day, index) => {
             return (
               <div
                 className={`weekDay ${index == 3 ? 'selectedWeekDay' : ''}`}

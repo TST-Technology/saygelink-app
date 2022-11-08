@@ -3,17 +3,16 @@ import theme from '../../utils/variables'
 import cardBackgroundImage1 from '../../assets/images/cardBackground1.png'
 import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import { Button, TextAreaStyle } from '../general'
+import { DashboardHeaderHeight } from '../../utils/constants'
 
 export const HealthcareContainerStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - ${DashboardHeaderHeight});
 
   .healthCareContainer {
     background: #f3f3f3;
     display: flex;
     gap: 20px;
-    height: calc(100vh - 70px);
+    height: c100%;
     padding: 50px;
     overflow-y: auto;
 

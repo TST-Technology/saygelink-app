@@ -1,6 +1,12 @@
 import styled from 'styled-components'
 
 export const DashboardContainerStyle = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${(props) => {
+    if (props.includeHeader) {
+      return {
+        display: 'flex',
+        flexDirection: 'column'
+      }
+    }
+  }}
 `

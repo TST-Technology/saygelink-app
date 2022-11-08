@@ -1,15 +1,14 @@
 import styled from 'styled-components'
+import { DashboardHeaderHeight } from '../../utils/constants'
 import { Button } from '../general'
 
 export const StyleNetworkContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - ${DashboardHeaderHeight});
   background: white;
 
   .networkContainer {
     display: flex;
-    height: calc(100vh - 70px);
+    height: 100%;
     padding: 30px;
     gap: 30px;
 

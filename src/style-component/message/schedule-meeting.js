@@ -1,6 +1,12 @@
 import styled from 'styled-components'
 import theme from '../../utils/variables'
-import { Button, DropdownStyle, InputStyle, TextAreaStyle } from '../general'
+import {
+  Button,
+  DropdownStyle,
+  InputStyle,
+  SmallWeekDayStyle,
+  TextAreaStyle
+} from '../general'
 
 export const ScheduleMeetingStyle = styled.div`
   padding: 20px;
@@ -69,35 +75,7 @@ export const ScheduleMeetingStyle = styled.div`
     }
   }
 
-  .weekDayContainer {
-    display: flex;
-    gap: 20px;
-
-    .weekDay {
-      background: rgba(171, 233, 222, 0.17);
-      border: 2px solid #1186ef;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      span {
-        color: #4a4a4a;
-        font-family: 'Poppins';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 11px;
-        line-height: 16px;
-      }
-    }
-
-    .selectedWeekDay {
-      background: rgba(250, 47, 102, 0.2);
-      border: 2px solid #fa2f66;
-    }
-  }
+  ${SmallWeekDayStyle}
 
   .timeContainer {
     display: flex;

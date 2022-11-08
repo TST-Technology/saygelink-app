@@ -26,7 +26,6 @@ const Network = () => {
   return (
     <>
       <StyleNetworkContainer>
-        <Header />
         <div className='networkContainer'>
           <div className='leftSideNetwork'>
             <div className='tabsContainer'>

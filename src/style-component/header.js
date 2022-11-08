@@ -50,6 +50,7 @@ export const HeaderContainerStyle = styled.div`
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
         gap: 4px;
         height: 100%;
         padding: 0 7px;
@@ -68,6 +69,10 @@ export const HeaderContainerStyle = styled.div`
           line-height: 22px;
           margin: 0;
         }
+      }
+
+      .headerImages {
+        cursor: pointer;
       }
     }
   }

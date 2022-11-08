@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { HeaderContainerStyle } from '../../style-component/header'
 import shortLogo from '../../assets/images/short_logo.png'
 import HomeLogo from '../../assets/images/home.svg'
@@ -8,26 +8,40 @@ import GlobLogo from '../../assets/images/globe.svg'
 import BellLogo from '../../assets/images/bell.svg'
 import ProfileLogo from '../../assets/images/profile.svg'
 import PersonImg from '../../assets/images/person.png'
+import { ROUTES } from '../../utils/constants'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Header = () => {
+  const [activeTab, setActiveTab] = useState(window.location.pathname)
+  const nav = useNavigate()
   const HEADER_TABS = [
     {
       label: 'Home',
-      icon: HomeLogo
+      icon: HomeLogo,
+      route: ROUTES.HOME
     },
     {
       label: 'Message',
-      icon: MessageLogo
+      icon: MessageLogo,
+      route: ROUTES.MESSAGE
     },
     {
       label: 'Calender',
-      icon: CalenderLogo
+      icon: CalenderLogo,
+      route: ROUTES.CALENDER
     },
     {
       label: 'Network',
-      icon: GlobLogo
+      icon: GlobLogo,
+      route: ROUTES.NETWORK
     }
   ]
+
+  const handleHeaderClick = (tab) => {
+    setActiveTab(tab.route)
+    nav(tab.route)
+  }
+
   return (
     <HeaderContainerStyle>
       <div className='headerContainer'>
@@ -42,7 +56,12 @@ const Header = () => {
             return (
               <div
                 key={tab.label}
-                className={`headerTab ${index === 1 ? 'activeHeader' : ''}`}
+                className={`headerTab ${
+                  activeTab === tab.route ? 'activeHeader' : ''
+                }`}
+                onClick={() => {
+                  handleHeaderClick(tab)
+                }}
               >
                 <img className='headerTabImage' src={tab.icon} />
 
@@ -53,11 +72,11 @@ const Header = () => {
             )
           })}
 
-          <img src={BellLogo} />
+          <img src={BellLogo} className='headerImages' />
 
-          <img src={ProfileLogo} />
+          <img src={ProfileLogo} className='headerImages' />
 
-          <img src={PersonImg} />
+          <img src={PersonImg} className='headerImages' />
         </div>
       </div>
     </HeaderContainerStyle>

@@ -107,26 +107,27 @@ const CONSTANT = {
     { label: 'Faculty', value: 'Faculty' },
     { label: 'Student', value: 'Student' },
     { label: 'Alumni', value: 'Alumni' }
-  ]
+  ],
+  WEEK_TWO_DIGIT: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 }
 
 export const UNIVERSITY_DATA = {
-  logo: UNIVERSITY_LOGO,
-};
+  logo: UNIVERSITY_LOGO
+}
 
 export const UserProfile = {
-  userDetails: {},
-};
+  userDetails: {}
+}
 
 export const screenSizes = {
-  mobileS: "320px",
-  mobileM: "375px",
-  mobileL: "425px",
-  tablet: "768px",
-  laptop: "1024px",
-  laptopL: "1440px",
-  desktop: "2560px",
-};
+  mobileS: '320px',
+  mobileM: '375px',
+  mobileL: '425px',
+  tablet: '768px',
+  laptop: '1024px',
+  laptopL: '1440px',
+  desktop: '2560px'
+}
 
 export const devices = {
   mobileS: `(max-width: ${screenSizes.mobileS})`,
@@ -135,23 +136,27 @@ export const devices = {
   tablet: `(max-width: ${screenSizes.tablet})`,
   laptop: `(max-width: ${screenSizes.laptop})`,
   laptopL: `(max-width: ${screenSizes.laptopL})`,
-  desktop: `(max-width: ${screenSizes.desktop})`,
-};
+  desktop: `(max-width: ${screenSizes.desktop})`
+}
 
 export const userInviteEmail = {
-  userData: {},
-};
+  userData: {}
+}
 
 export const ROUTES = {
   HOME: '/',
   MESSAGE: '/message',
   HEALTHCARE: '/healthcare',
-  NETWORK: '/network'
+  NETWORK: '/network',
+  PROFILE: '/profile',
+  CALENDER: '/calender'
 }
 
 export const WEEKDAY_SELECTOR_TYPE = {
   AVAILABILITY: 'AVAILABILITY',
   SCHEDULE_CALL: 'SCHEDULE_CALL'
 }
+
+export const DashboardHeaderHeight = '70px'
 
 export default CONSTANT;
