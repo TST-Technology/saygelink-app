@@ -55,7 +55,8 @@ const theme = {
     quillGrey: '#D4D4D4',
     aquaSqueeze: '#EAF5F3',
     boulder: '#7C7575',
-    silverSand: '#C2C2C2'
+    silverSand: '#C2C2C2',
+    softPeach: '#EDEDED'
   }
 }
 

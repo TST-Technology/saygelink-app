@@ -34,9 +34,25 @@ export const StyledHourMinuteInput = styled.input`
   /* Firefox */
 
   -moz-appearance: textfield;
+
+  ${({ backgroundColor }) => {
+    if (backgroundColor) {
+      return {
+        backgroundColor: backgroundColor
+      }
+    }
+  }}
 `
 
 export const StyleTimeDropdown = styled.select`
   ${DropdownStyle}
   width: fit-content;
+
+  ${({ backgroundColor }) => {
+    if (backgroundColor) {
+      return {
+        backgroundColor: backgroundColor
+      }
+    }
+  }}
 `

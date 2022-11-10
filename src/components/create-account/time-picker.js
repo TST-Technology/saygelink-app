@@ -13,7 +13,8 @@ const TimePicker = ({
   time,
   onChangeHour,
   onChangeMinute,
-  onChangeTime
+  onChangeTime,
+  backgroundColor
 }) => {
   const handleHourChange = (val) => {
     onChangeHour(val)
@@ -28,6 +29,7 @@ const TimePicker = ({
           type='tel'
           maxLength={2}
           onChange={(e) => handleHourChange(e.target.value)}
+          backgroundColor={backgroundColor}
         />
 
         <span className='divider'>:</span>
@@ -38,6 +40,7 @@ const TimePicker = ({
           name={`minute${name}`}
           maxLength={2}
           onChange={(e) => onChangeMinute(e.target.value)}
+          backgroundColor={backgroundColor}
         />
       </div>
 
@@ -45,6 +48,7 @@ const TimePicker = ({
         name={`time${name}`}
         value={time}
         onChange={(e) => onChangeTime(e.target.value)}
+        backgroundColor={backgroundColor}
       >
         <option value='AM'>AM</option>
         <option value='PM'>PM</option>
