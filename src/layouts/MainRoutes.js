@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from '../components/general/header'
 import Login from '../pages/auth'
+import Calender from '../pages/calender/calender'
 import CreateAccount from '../pages/createAccount/create-account'
 import Dashboard from '../pages/dashboard/dashboard'
 import Healthcare from '../pages/healthcare/healthcare'
@@ -19,7 +20,8 @@ const MainRoutes = () => {
     ROUTES.MESSAGE,
     ROUTES.HOME,
     ROUTES.PROFILE,
-    ROUTES.NETWORK
+    ROUTES.NETWORK,
+    ROUTES.CALENDER
   ]
 
   const includeHeader = HEADER_VISIBLE_ROUTES.includes(window.location.pathname)
@@ -39,6 +41,7 @@ const MainRoutes = () => {
           <Route path={ROUTES.PROFILE} element={<Profile />} />
           <Route path={ROUTES.HOME} element={<Dashboard />} />
           <Route path={ROUTES.MESSAGE} element={<Message />} />
+          <Route path={ROUTES.CALENDER} element={<Calender />} />
         </Routes>
       </Fragment>
     </DashboardContainerStyle>

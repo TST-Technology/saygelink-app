@@ -56,7 +56,10 @@ const theme = {
     aquaSqueeze: '#EAF5F3',
     boulder: '#7C7575',
     silverSand: '#C2C2C2',
-    softPeach: '#EDEDED'
+    softPeach: '#EDEDED',
+    darkSkyBlue: '#4D85EB',
+    boulder: '#757575',
+    iceCold: '#B8F5E9'
   }
 }
 
