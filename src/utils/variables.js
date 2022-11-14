@@ -59,7 +59,9 @@ const theme = {
     softPeach: '#EDEDED',
     darkSkyBlue: '#4D85EB',
     boulder: '#757575',
-    iceCold: '#B8F5E9'
+    iceCold: '#B8F5E9',
+    aquaHaze: '#F3F3F3',
+    greyGoose: '#D0D0D0'
   }
 }
 

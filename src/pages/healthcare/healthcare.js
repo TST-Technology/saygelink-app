@@ -13,6 +13,9 @@ import FacebookImage from '../../assets/images/facebook.svg'
 import LinkedinImage from '../../assets/images/linkedin.svg'
 import GalleryImage from '../../assets/images/gallery.svg'
 import ThreeDotImage from '../../assets/images/threeDotMenu.svg'
+import ImageCard from '../../components/general/image-card'
+import cardBackgroundImage1 from '../../assets/images/cardBackground1.png'
+import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 
 const Healthcare = () => {
   return (
@@ -108,35 +111,28 @@ const Healthcare = () => {
             <h3 className='heading'>My Groups</h3>
 
             <div className='rightSideCard'>
-              <div className='cardHeading'>
-                <p className=''>Event groups</p>
-                <span className=''>View all</span>
-              </div>
-              <div className='cardBody'>
-                <div className='cardImage'>
-                  <p className='cardImageText'>Job Opportunities</p>
-                  <a>Join</a>
-                </div>
-              </div>
+              <ImageCard
+                backgroundImage={cardBackgroundImage1}
+                buttonText='Join'
+                cardText='Job Opportunities'
+                headingTitle='Event groups'
+                headingButton='View all'
+              />
             </div>
 
             <div className='rightSideCard'>
-              <div className='cardHeading'>
-                <p className=''>Interest groups</p>
-                <span className=''>View all</span>
-              </div>
-              <div className='cardBody'>
-                <div className='cardImage2'>
-                  <p className='cardImageText'>Job Opportunities</p>
-                  <a>Join</a>
-                </div>
-              </div>
-              <div className='cardBody'>
-                <div className='cardImage2'>
-                  <p className='cardImageText'>Job Opportunities</p>
-                  <a>Join</a>
-                </div>
-              </div>
+              <ImageCard
+                backgroundImage={`${cardBackgroundImage2}`}
+                buttonText='Join'
+                cardText='Job Opportunities'
+                headingTitle='Interest groups'
+                headingButton='View all'
+              />
+              <ImageCard
+                backgroundImage={cardBackgroundImage2}
+                buttonText='Join'
+                cardText='Job Opportunities'
+              />
             </div>
           </div>
         </div>

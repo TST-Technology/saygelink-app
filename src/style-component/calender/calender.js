@@ -114,7 +114,7 @@ export const CalenderContainerStyle = styled.div`
                 background: rgba(38, 38, 38, 0.04);
                 border-radius: 13.3333px;
 
-                @media ${devices.desktop} {
+                @media ${devices.laptop} {
                   flex-wrap: wrap;
                   gap: 20px;
                   padding-bottom: 20px;
