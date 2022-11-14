@@ -6,7 +6,7 @@ import ArrowLeftDark from '../../assets/images/arrow-left-dark.svg'
 import CalenderImage from '../../assets/images/calendar-dark.svg'
 import RescheduleImage from '../../assets/images/reschedule.svg'
 import SendDarkImage from '../../assets/images/send-dark.svg'
-
+import CustomCalender from '../../components/custom-calender/custom-calender'
 import {
   CalenderContainerStyle,
   CalenderEventButtonStyle,
@@ -65,14 +65,7 @@ const Calender = () => {
     <CalenderContainerStyle>
       <div className='calenderPageContainer'>
         <div className='calenderLeft'>
-          <ReactCalenderStyle
-            onChange={setValue}
-            value={value}
-            nextLabel={
-              <img style={{ transform: 'rotate(180deg)' }} src={ArrowLeft} />
-            }
-            prevLabel={<img src={ArrowLeft} />}
-          />
+          <CustomCalender onChange={setValue} value={value} />
         </div>
 
         <div className='calenderRight'>
