@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import theme from '../../utils/variables'
+import { FlexAlignCenter, FlexJustifyCenter } from '../general'
 import BackgroundImage from '../../assets/images/homeBackground.png'
 
 export const DashboardContainerStyle = styled.div`
@@ -14,7 +15,7 @@ export const DashboardContainerStyle = styled.div`
   }}
 `
 
-const HEADER_LEFT_WIDTH = 'min(320px, 25%)'
+const HEADER_LEFT_WIDTH = 'min(320px, 20%)'
 const HEADER_RIGHT_WIDTH = 'min(350px, 30%)'
 
 export const HomeContainerStyle = styled.div`
@@ -70,6 +71,10 @@ export const HomeContainerStyle = styled.div`
     display: flex;
     gap: 20px;
 
+    @media ${devices.laptop} {
+      padding: 30px;
+    }
+
     > div {
       border-left: 1px solid ${theme.lightTheme.greyGoose};
 
@@ -97,13 +102,96 @@ export const HomeContainerStyle = styled.div`
     }
 
     .homeContentCenterContainer {
-      height: 100%;
       width: calc(100% - ${HEADER_LEFT_WIDTH} - ${HEADER_RIGHT_WIDTH});
+      height: 100%;
+      padding: 0 20px;
+
+      .categoryContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .postTitle {
+        color: ${theme.lightTheme.secondary.font};
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 36px;
+        padding: 30px 0;
+        border-bottom: 1px solid rgba(38, 38, 38, 0.1);
+      }
     }
 
     .homeContentRightContainer {
-      height: 100%;
       width: ${HEADER_RIGHT_WIDTH};
+      height: 100%;
+
+      @media ${devices.laptop} {
+        padding-left: 15px;
+      }
+
+      .calenderTitle {
+        color: ${theme.lightTheme.primary.textcolor};
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 36px;
+      }
+    }
+  }
+`
+
+export const BottomFixedStyle = styled.div`
+  position: fixed;
+  bottom: 0;
+  right: 30px;
+  height: 64px;
+  min-width: 420px;
+  padding: 0 20px;
+  ${FlexAlignCenter};
+  justify-content: space-between;
+  background: ${theme.lightTheme.black};
+  box-shadow: 0px -3px 14px rgba(52, 52, 52, 0.15);
+  border-radius: 10px 10px 0px 0px;
+
+  .nameContainer {
+    ${FlexAlignCenter}
+    gap: 20px;
+
+    p {
+      margin: 0;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 15.8482px;
+      line-height: 24px;
+      color: ${theme.lightTheme.primary.textcolor};
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    gap: 20px;
+    .arrow {
+      transform: rotate(-90deg);
+    }
+
+    .count {
+      ${FlexJustifyCenter};
+      align-items: center;
+      height: 24px;
+      width: 24px;
+      border-radius: 50%;
+      background: ${theme.lightTheme.radicalRed};
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 15.8482px;
+      line-height: 24px;
+      color: ${theme.lightTheme.black};
     }
   }
 `

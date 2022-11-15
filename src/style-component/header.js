@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { devices } from '../utils/constants'
 import theme, { UNIVERSITY_COLOR } from '../utils/variables'
 
 export const HeaderContainerStyle = styled.div`
@@ -40,6 +41,14 @@ export const HeaderContainerStyle = styled.div`
       align-items: center;
       gap: 70px;
       height: 100%;
+
+      @media ${devices.laptop} {
+        gap: 40px;
+      }
+
+      @media ${devices.tablet} {
+        gap: 25px;
+      }
 
       .activeHeader {
         border-bottom: 4px solid #f3f3f3;

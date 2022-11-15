@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import theme from '../../utils/variables'
 import Calendar from 'react-calendar'
+import { devices } from '../../utils/constants'
 
 export const ReactCalenderStyle = styled(Calendar)`
   padding: 15px;
@@ -45,6 +46,10 @@ export const ReactCalenderStyle = styled(Calendar)`
     font-size: 20px;
     line-height: 30px;
     color: ${theme.lightTheme.primary.textcolor};
+
+    @media ${devices.laptop} {
+      font-size: 18px;
+    }
   }
   //   End:: Calender Header Style
 
@@ -101,6 +106,10 @@ export const ReactCalenderStyle = styled(Calendar)`
           background: ${theme.lightTheme.quillGrey};
           padding: 8px;
           border-radius: 50%;
+
+          @media ${devices.laptop} {
+            padding: 5px;
+          }
         }
       }
 
@@ -111,6 +120,10 @@ export const ReactCalenderStyle = styled(Calendar)`
           background: ${theme.lightTheme.primary.color};
           padding: 8px;
           border-radius: 50%;
+
+          @media ${devices.laptop} {
+            padding: 5px;
+          }
         }
       }
 
@@ -122,6 +135,10 @@ export const ReactCalenderStyle = styled(Calendar)`
           background: ${theme.lightTheme.darkSkyBlue};
           padding: 8px;
           border-radius: 50%;
+
+          @media ${devices.laptop} {
+            padding: 5px;
+          }
         }
       }
 

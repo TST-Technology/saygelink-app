@@ -16,6 +16,7 @@ import ThreeDotImage from '../../assets/images/threeDotMenu.svg'
 import ImageCard from '../../components/general/image-card'
 import cardBackgroundImage1 from '../../assets/images/cardBackground1.png'
 import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
+import Post from '../../components/general/post'
 
 const Healthcare = () => {
   return (
@@ -80,28 +81,16 @@ const Healthcare = () => {
               <div className='postContainer'>
                 {[0, 1, 2, 3].map((row, index) => {
                   return (
-                    <div className='post' key={index}>
-                      <div className='individualPost'>
-                        <div className='leftSidePostHeader'>
-                          <div className='postImageContainer'>
-                            <img src={PersonImage} />
-                          </div>
-                          <div className='postNameContainer'>
-                            <p className='postName'>Rebecca Shoenfield</p>
-                            <span className='postTime'>Just Now</span>
-                          </div>
-                        </div>
-
-                        <div className='rightSidePostHeader'>
-                          <img src={ThreeDotImage} />
-                        </div>
-                      </div>
-
-                      <p className='postDescription'>
-                        Don't miss out on the opportunitiy to network with
-                        alumni at our annual HPM event! Register here.
-                      </p>
-                    </div>
+                    <>
+                      <Post
+                        name='Rebecca Shoenfield'
+                        time={'Just Now'}
+                        description={
+                          "Don't miss out on the opportunitiy to network with alumni at our annual HPM event! Register here."
+                        }
+                        image={PersonImage}
+                      />
+                    </>
                   )
                 })}
               </div>

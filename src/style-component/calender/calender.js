@@ -8,7 +8,7 @@ import {
   FlexJustifySpaceBetween
 } from '../general'
 
-const CALENDER_LEFT_WIDTH = '320px'
+const CALENDER_LEFT_WIDTH = 'min(320px, 30%)'
 const CALENDER_PREVIEW_HEADER = '95px'
 const CALENDER_EVENT_LEFT = 'min(200px, 20%)'
 
@@ -22,6 +22,14 @@ export const CalenderContainerStyle = styled.div`
     width: 85%;
     margin: 20px auto 40px auto;
     height: calc(100% - 60px);
+
+    @media ${devices.laptop} {
+      width: 90%;
+    }
+
+    @media ${devices.tablet} {
+      width: 95%;
+    }
 
     .calenderLeft {
       width: ${CALENDER_LEFT_WIDTH};

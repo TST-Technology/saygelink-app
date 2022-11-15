@@ -1,9 +1,11 @@
 import styled from 'styled-components'
-import { DashboardHeaderHeight } from '../../utils/constants'
+import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import theme from '../../utils/variables'
 import { Button, InputStyle } from '../general'
 
 const InputHeight = '127px'
+
+const LEFT_WIDTH = 'min(370px, 40%)'
 
 export const MessageContainerStyle = styled.div`
   background: ${theme.lightTheme.quillGrey};
@@ -17,9 +19,13 @@ export const MessageContainerStyle = styled.div`
     height: calc(100% - 60px);
     border-radius: 8.33333px;
 
+    @media ${devices.tablet} {
+      width: 90%;
+    }
+
     .leftSection {
       background: ${theme.lightTheme.seashell};
-      width: 370px;
+      width: ${LEFT_WIDTH};
       height: 100%;
       border-right: 3px solid rgba(204, 204, 204, 0.25);
       display: flex;
@@ -61,7 +67,7 @@ export const MessageContainerStyle = styled.div`
 
     .rightSection {
       background: ${theme.lightTheme.seashell};
-      width: calc(100% - 370px);
+      width: calc(100% - ${LEFT_WIDTH});
       height: 100%;
       display: flex;
       flex-direction: column;
