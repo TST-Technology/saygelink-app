@@ -90,7 +90,10 @@ const CONSTANT = {
     updateUser: {
       endpoint: `/users/updateUser`,
       type: 'PATCH'
-    }
+    },
+    getAllPost: { endpoint: `/feed/hpm`, type: 'GET' },
+    getAllGroup: { endpoint: `/groups/user`, type: 'GET' },
+    getAllConnections: { endpoint: `/connect/getConnections`, type: 'GET' }
   },
   planningStage: [
     'Tell us about yourself',
@@ -149,7 +152,8 @@ export const ROUTES = {
   HEALTHCARE: '/healthcare',
   NETWORK: '/network',
   PROFILE: '/profile',
-  CALENDER: '/calender'
+  CALENDER: '/calender',
+  AUTH: '/auth'
 }
 
 export const WEEKDAY_SELECTOR_TYPE = {
@@ -158,5 +162,13 @@ export const WEEKDAY_SELECTOR_TYPE = {
 }
 
 export const DashboardHeaderHeight = '70px'
+
+export const DATE_FORMAT = {
+  FORMAT_1: 'DD MMM YYYY hh:MM A',
+  FORMAT_2: 'MMM D, YYYY',
+  FORMAT_3: 'hh:MM A'
+}
+
+export const NO_DATA_AVAILABLE = 'No Data Available'
 
 export default CONSTANT;

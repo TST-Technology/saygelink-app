@@ -21,7 +21,10 @@ const Post = ({ name, time, description, image }) => {
         </div>
       </div>
 
-      <p className='postDescription'>{description}</p>
+      <div
+        className='postDescription'
+        dangerouslySetInnerHTML={{ __html: description }}
+      ></div>
     </PostStyle>
   )
 }

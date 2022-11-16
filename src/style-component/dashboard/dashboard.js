@@ -84,7 +84,6 @@ export const HomeContainerStyle = styled.div`
     }
 
     .homeContentLeftContainer {
-      height: 100%;
       width: ${HEADER_LEFT_WIDTH};
       display: flex;
       flex-direction: column;
@@ -103,7 +102,6 @@ export const HomeContainerStyle = styled.div`
 
     .homeContentCenterContainer {
       width: calc(100% - ${HEADER_LEFT_WIDTH} - ${HEADER_RIGHT_WIDTH});
-      height: 100%;
       padding: 0 20px;
 
       .categoryContainer {
@@ -126,7 +124,7 @@ export const HomeContainerStyle = styled.div`
 
     .homeContentRightContainer {
       width: ${HEADER_RIGHT_WIDTH};
-      height: 100%;
+      padding-left: 20px;
 
       @media ${devices.laptop} {
         padding-left: 15px;
@@ -139,6 +137,79 @@ export const HomeContainerStyle = styled.div`
         font-weight: 600;
         font-size: 24px;
         line-height: 36px;
+      }
+
+      .connectionContainer {
+        margin-top: 30px;
+
+        .connectionItem {
+          ${FlexAlignCenter};
+          gap: 20px;
+          margin-top: 25px;
+
+          .connectionImage {
+            object-fit: contain;
+            height: 44px;
+            width: 44px;
+            border-radius: 50%;
+          }
+
+          .connectionName {
+            color: ${theme.lightTheme.primary.font};
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            margin: 0;
+          }
+
+          .connectionTime {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 10px;
+            line-height: 15px;
+            color: #fa2f66;
+          }
+        }
+
+        .connectionLink {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 21px;
+          color: #afafaf;
+          text-decoration: none;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .cardHeading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: none;
+
+      p {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16.6667px;
+        color: #262626;
+        margin-bottom: 0;
+      }
+
+      span {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 13.3333px;
+        line-height: 16px;
+        color: #f62e5f;
       }
     }
   }

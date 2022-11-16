@@ -1,6 +1,8 @@
-import React, { Fragment } from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { Fragment, useState } from 'react'
+import { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import Header from '../components/general/header'
+import ProtectedRoute from '../components/protected-route/protected-route'
 import Login from '../pages/auth'
 import Calender from '../pages/calender/calender'
 import CreateAccount from '../pages/createAccount/create-account'
@@ -13,8 +15,15 @@ import Signup from '../pages/register/signup'
 import Welcome from '../pages/welcome/welcomepage'
 import { DashboardContainerStyle } from '../style-component/dashboard/dashboard'
 import { ROUTES } from '../utils/constants'
+import { getToken } from '../utils/funcs'
 
 const MainRoutes = () => {
+  const [includeHeader, setIncludeHeader] = useState(false)
+
+  useEffect(() => {
+    setIncludeHeader(HEADER_VISIBLE_ROUTES.includes(window.location.pathname))
+  }, [window.location.pathname])
+
   const HEADER_VISIBLE_ROUTES = [
     ROUTES.HEALTHCARE,
     ROUTES.MESSAGE,
@@ -24,28 +33,40 @@ const MainRoutes = () => {
     ROUTES.CALENDER
   ]
 
-  const includeHeader = HEADER_VISIBLE_ROUTES.includes(window.location.pathname)
+  const token = getToken()
 
   return (
     <DashboardContainerStyle includeHeader={includeHeader}>
       {includeHeader ? <Header /> : null}
       <Fragment>
         <Routes>
-          <Route path='auth/*' element={<Login />} />
-          <Route path='register' element={<Signup />} />
-          <Route path='welcome' element={<Welcome />} />
-          <Route path='create-account' element={<CreateAccount />} />
-          <Route path={ROUTES.HEALTHCARE} element={<Healthcare />} />
+          <Route
+            element={
+              <ProtectedRoute redirectTo={ROUTES.HOME} condition={token} />
+            }
+          >
+            <Route path='auth/*' element={<Login />} />
+            <Route path='register' element={<Signup />} />
+          </Route>
+          <Route
+            element={
+              <ProtectedRoute redirectTo={ROUTES.AUTH} condition={!token} />
+            }
+          >
+            <Route path='welcome' element={<Welcome />} />
+            <Route path='create-account' element={<CreateAccount />} />
+            <Route path={ROUTES.HEALTHCARE} element={<Healthcare />} />
 
-          <Route path={ROUTES.NETWORK} element={<Network />} />
-          <Route path={ROUTES.PROFILE} element={<Profile />} />
-          <Route path={ROUTES.HOME} element={<Dashboard />} />
-          <Route path={ROUTES.MESSAGE} element={<Message />} />
-          <Route path={ROUTES.CALENDER} element={<Calender />} />
+            <Route path={ROUTES.NETWORK} element={<Network />} />
+            <Route path={ROUTES.PROFILE} element={<Profile />} />
+            <Route path={ROUTES.HOME} element={<Dashboard />} />
+            <Route path={ROUTES.MESSAGE} element={<Message />} />
+            <Route path={ROUTES.CALENDER} element={<Calender />} />
+          </Route>
         </Routes>
       </Fragment>
     </DashboardContainerStyle>
   )
 }
 
-export default MainRoutes;
+export default MainRoutes

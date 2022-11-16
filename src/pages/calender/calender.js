@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import useHttp from '../../hooks/use-http'
 import 'react-calendar/dist/Calendar.css'
 import ArrowLeft from '../../assets/images/arrow-left.svg'
 import PersonImage from '../../assets/images/person.png'
@@ -12,9 +13,48 @@ import {
   CalenderEventButtonStyle,
   ReactCalenderStyle
 } from '../../style-component/calender/calender'
+import CONSTANT, { DATE_FORMAT, NO_DATA_AVAILABLE } from '../../utils/constants'
+import { dateFormat, isEmptyArray } from '../../utils/funcs'
 
 const Calender = () => {
+  const calenderApi = useHttp()
   const [value, setValue] = useState(new Date())
+  const [connections, setConnections] = useState(null)
+  const [activeConnections, setActiveConnection] = useState(null)
+
+  useEffect(() => {
+    console.log(connections)
+    if (!isEmptyArray(connections)) {
+      console.log('here')
+      findActiveConnection(connections)
+    }
+  }, [value, connections])
+
+  useEffect(() => {
+    getConnection()
+  }, [])
+
+  const responseHandler = (res) => {
+    console.log(res)
+    if (res?.connections) {
+      setConnections([...res?.connections])
+    }
+  }
+
+  const getConnection = () => {
+    calenderApi.sendRequest(CONSTANT.API.getAllConnections, responseHandler)
+  }
+
+  const findActiveConnection = (connections) => {
+    const newConn = connections.filter((conn) => {
+      if (conn.connect_on.day) {
+        const selectedDate = dateFormat(value, DATE_FORMAT.FORMAT_2)
+        console.log(selectedDate, conn.connect_on.day)
+        return selectedDate === conn.connect_on.day
+      }
+    })
+    setActiveConnection(newConn)
+  }
 
   const EVENTS = [
     {
@@ -74,7 +114,7 @@ const Calender = () => {
               <div className='calenderPreviewHeaderSection'>
                 <img src={CalenderImage} />
 
-                <p>Aug 15, 2022</p>
+                <p>{dateFormat(value, DATE_FORMAT.FORMAT_2)}</p>
               </div>
 
               <div className='calenderPreviewHeaderSection'>
@@ -88,40 +128,61 @@ const Calender = () => {
           </div>
           <div className='calenderPreviewBody'>
             <div className='calenderPreviewEventsContainer'>
-              {EVENTS.map((event, index) => {
-                return (
-                  <div className='calenderPreviewEventSection' key={index}>
-                    <div className='calenderPreviewEventsLeft'>
-                      <p>{event.time}</p>
-                    </div>
-                    <div className='calenderPreviewEventsRight'>
-                      <div className='calenderPreviewEventCard'>
-                        <div className='calenderPreviewEventCardLeft'>
-                          <div className='calenderPreviewEventImageContainer'>
-                            {event.image}
-                          </div>
-                          <div className='calenderPreviewEventTitleContainer'>
-                            <h3 className='heading'>{event.title}</h3>
+              {!isEmptyArray(activeConnections) ? (
+                activeConnections.map((conn, index) => {
+                  return (
+                    <div className='calenderPreviewEventSection' key={index}>
+                      <div className='calenderPreviewEventsLeft'>
+                        <p>
+                          {conn?.connect_on?.day
+                            ? dateFormat(
+                                conn?.connect_on?.day,
+                                DATE_FORMAT.FORMAT_3
+                              )
+                            : ''}
+                        </p>
+                      </div>
+                      <div className='calenderPreviewEventsRight'>
+                        <div className='calenderPreviewEventCard'>
+                          <div className='calenderPreviewEventCardLeft'>
+                            <div className='calenderPreviewEventImageContainer'>
+                              <img
+                                className='calenderImage'
+                                src={conn?.sharer?.profile_image}
+                              />
+                            </div>
+                            <div className='calenderPreviewEventTitleContainer'>
+                              <h3 className='heading'>{conn?.message}</h3>
 
-                            <p>{event.subTitle}</p>
-                            <a href={event.link}>{event.link}</a>
+                              <p>
+                                {conn?.connect_on?.day
+                                  ? dateFormat(
+                                      conn?.connect_on?.day,
+                                      DATE_FORMAT.FORMAT_1
+                                    )
+                                  : ''}
+                              </p>
+                              <a href={conn?.zoom_link}>{conn?.zoom_link}</a>
+                            </div>
                           </div>
-                        </div>
-                        <div className='calenderPreviewEventCardRight'>
-                          <CalenderEventButtonStyle>
-                            <img src={RescheduleImage} />
-                            Re-schedule
-                          </CalenderEventButtonStyle>
-                          <CalenderEventButtonStyle>
-                            <img src={SendDarkImage} />
-                            Join
-                          </CalenderEventButtonStyle>
+                          <div className='calenderPreviewEventCardRight'>
+                            <CalenderEventButtonStyle>
+                              <img src={RescheduleImage} />
+                              Re-schedule
+                            </CalenderEventButtonStyle>
+                            <CalenderEventButtonStyle>
+                              <img src={SendDarkImage} />
+                              Join
+                            </CalenderEventButtonStyle>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })
+              ) : (
+                <h2 style={{ textAlign: 'center' }}>{NO_DATA_AVAILABLE}</h2>
+              )}
             </div>
           </div>
         </div>

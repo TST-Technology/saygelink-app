@@ -133,6 +133,12 @@ export const CalenderContainerStyle = styled.div`
                   gap: 20px;
 
                   .calenderPreviewEventImageContainer {
+                    .calenderImage {
+                      height: 40px;
+                      width: 40px;
+                      object-fit: cover;
+                      border-radius: 50%;
+                    }
                   }
 
                   .calenderPreviewEventTitleContainer {

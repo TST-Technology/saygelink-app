@@ -15,6 +15,7 @@ export const PostStyle = styled.div`
         height: 35px;
         width: 35px;
         object-fit: cover;
+        border-radius: 50%;
       }
 
       .postNameContainer {
@@ -58,5 +59,6 @@ export const PostStyle = styled.div`
     padding: 15px 0;
     margin-bottom: 0;
     border-bottom: 0.833333px solid rgba(38, 38, 38, 0.08);
+    word-break: break-word;
   }
 `
