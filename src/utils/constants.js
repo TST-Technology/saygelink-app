@@ -93,7 +93,10 @@ const CONSTANT = {
     },
     getAllPost: { endpoint: `/feed/hpm`, type: 'GET' },
     getAllGroup: { endpoint: `/groups/user`, type: 'GET' },
-    getAllConnections: { endpoint: `/connect/getConnections`, type: 'GET' }
+    getAllConnections: { endpoint: `/connect/getConnections`, type: 'GET' },
+    getMyConnections: { endpoint: '/connect/myConnections', type: 'GET' },
+    getUserNotification: { endpoint: '/users/notifications', type: 'GET' },
+    getProfileDetail: { endpoint: '/users/:email', type: 'GET' }
   },
   planningStage: [
     'Tell us about yourself',

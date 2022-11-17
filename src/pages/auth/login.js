@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import useHttp from '../../hooks/use-http'
 import {
   ButtonWithShedo,
@@ -15,11 +15,13 @@ import CONSTANT, {
   userInviteEmail,
   UserProfile
 } from '../../utils/constants'
+import { UserContext } from '../../context/user'
 
 const LoginIDPassword = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const loginApi = useHttp()
   const navigate = useNavigate()
+  const { setUser, user } = useContext(UserContext)
 
   const CheckUserResponseHandeler = (res) => {
     if (res?.data?.verified == 'pending') {
@@ -66,7 +68,10 @@ const LoginIDPassword = () => {
     if (res?.token) {
       localStorage.setItem('authToken', res?.token)
       UserProfile.userDetails['token'] = res?.token
+      setUser(res)
+      console.log(res)
       setTimeout(() => {
+        console.log('called')
         navigate(ROUTES.HOME)
       }, 1000)
     }
@@ -119,4 +124,4 @@ const LoginIDPassword = () => {
   )
 }
 
-export default LoginIDPassword;
+export default LoginIDPassword

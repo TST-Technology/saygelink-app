@@ -167,7 +167,7 @@ const Message = () => {
               display: 'block',
               position: 'absolute',
               top: 0,
-              right: 24,
+              right: -10,
               width: 40,
               height: 40,
               bgcolor: 'background.paper',

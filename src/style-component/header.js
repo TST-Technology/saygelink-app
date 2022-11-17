@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { devices } from '../utils/constants'
 import theme, { UNIVERSITY_COLOR } from '../utils/variables'
+import { FlexAlignCenter } from './general'
 
 export const HeaderContainerStyle = styled.div`
   background: ${UNIVERSITY_COLOR.primary};
@@ -83,6 +84,51 @@ export const HeaderContainerStyle = styled.div`
       .headerImages {
         cursor: pointer;
       }
+    }
+  }
+`
+
+export const NotificationContainerStyle = styled.div`
+  padding: 20px 30px;
+  height: 400px;
+  width: 500px;
+  overflow-y: auto;
+
+  .notification {
+    border-bottom: 1px solid #d0d0d0;
+
+    .textContainer {
+      ${FlexAlignCenter}
+      gap: 30px;
+
+      .round {
+        height: 12px;
+        width: 12px;
+        background: #1186ef;
+        border-radius: 50%;
+      }
+
+      .text {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #5c5353;
+        margin: 5px 0;
+      }
+    }
+
+    .time {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 20px;
+      color: #bcbcbc;
+      margin: 0;
+      text-align: right;
+      margin-bottom: 3px;
     }
   }
 `

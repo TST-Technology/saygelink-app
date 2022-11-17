@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PersonImage from '../../assets/images/person.png'
 import PlusImage from '../../assets/images/plus.svg'
 import EditImage from '../../assets/images/edit.svg'
@@ -18,13 +18,45 @@ import {
   StyleInput,
   StyleInputButton
 } from '../../style-component/createAccount/availability'
-import CONSTANT from '../../utils/constants'
+import CONSTANT, { UserProfile } from '../../utils/constants'
 import TimePicker from '../../components/create-account/time-picker'
 import theme from '../../utils/variables'
 import EditProfile from '../../components/edit-profile/edit-profile'
+import useHttp from '../../hooks/use-http'
+import { useContext } from 'react'
+import { UserContext } from '../../context/user'
 
 const Profile = () => {
+  const profileApi = useHttp()
   const [editProfileDialog, setEditProfileDialog] = useState()
+  const { setUser, user } = useContext(UserContext)
+  const [profileDetail, setProfileDetail] = useState(null)
+
+  useEffect(() => {
+    if (user?.user?.email) {
+      getProfile()
+    }
+  }, [])
+
+  const responseHandler = (res) => {
+    console.log(res)
+    if (res?.userInfo) {
+      setProfileDetail({ ...res?.userInfo })
+    }
+  }
+
+  const getProfile = () => {
+    const url = {
+      ...CONSTANT.API.getProfileDetail,
+      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(
+        ':email',
+        user.user.email
+      )
+    }
+    console.log(url)
+    profileApi.sendRequest(url, responseHandler)
+  }
+
   return (
     <>
       <ProfileStyleContainer>

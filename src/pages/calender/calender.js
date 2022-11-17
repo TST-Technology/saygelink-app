@@ -13,8 +13,13 @@ import {
   CalenderEventButtonStyle,
   ReactCalenderStyle
 } from '../../style-component/calender/calender'
-import CONSTANT, { DATE_FORMAT, NO_DATA_AVAILABLE } from '../../utils/constants'
+import CONSTANT, {
+  DashboardHeaderHeight,
+  DATE_FORMAT,
+  NO_DATA_AVAILABLE
+} from '../../utils/constants'
 import { dateFormat, isEmptyArray } from '../../utils/funcs'
+import Loader from '../../components/general/loader'
 
 const Calender = () => {
   const calenderApi = useHttp()
@@ -23,9 +28,7 @@ const Calender = () => {
   const [activeConnections, setActiveConnection] = useState(null)
 
   useEffect(() => {
-    console.log(connections)
     if (!isEmptyArray(connections)) {
-      console.log('here')
       findActiveConnection(connections)
     }
   }, [value, connections])
@@ -35,7 +38,6 @@ const Calender = () => {
   }, [])
 
   const responseHandler = (res) => {
-    console.log(res)
     if (res?.connections) {
       setConnections([...res?.connections])
     }
@@ -49,145 +51,110 @@ const Calender = () => {
     const newConn = connections.filter((conn) => {
       if (conn.connect_on.day) {
         const selectedDate = dateFormat(value, DATE_FORMAT.FORMAT_2)
-        console.log(selectedDate, conn.connect_on.day)
         return selectedDate === conn.connect_on.day
       }
     })
     setActiveConnection(newConn)
   }
 
-  const EVENTS = [
-    {
-      image: <img src={PersonImage} />,
-      title: 'Zoe Jones',
-      subTitle: '14 Jan 2022 10:00 pm (Hawaii)',
-      link: 'www.googlemeet.com/eufbeufu/o40i',
-      time: '08:00 AM'
-    },
-    {
-      image: <img src={PersonImage} />,
-      title: 'Zoe Jones',
-      subTitle: '14 Jan 2022 10:00 pm (Hawaii)',
-      link: 'www.googlemeet.com/eufbeufu/o40i',
-      time: '08:00 AM'
-    },
-    {
-      image: <img src={PersonImage} />,
-      title: 'Zoe Jones',
-      subTitle: '14 Jan 2022 10:00 pm (Hawaii)',
-      link: 'www.googlemeet.com/eufbeufu/o40i',
-      time: '08:00 AM'
-    },
-    {
-      image: <img src={PersonImage} />,
-      title: 'Zoe Jones',
-      subTitle: '14 Jan 2022 10:00 pm (Hawaii)',
-      link: 'www.googlemeet.com/eufbeufu/o40i',
-      time: '08:00 AM'
-    },
-    {
-      image: <img src={PersonImage} />,
-      title: 'Zoe Jones',
-      subTitle: '14 Jan 2022 10:00 pm (Hawaii)',
-      link: 'www.googlemeet.com/eufbeufu/o40i',
-      time: '08:00 AM'
-    },
-    {
-      image: <img src={PersonImage} />,
-      title: 'Zoe Jones',
-      subTitle: '14 Jan 2022 10:00 pm (Hawaii)',
-      link: 'www.googlemeet.com/eufbeufu/o40i',
-      time: '08:00 AM'
-    }
-  ]
-
   return (
-    <CalenderContainerStyle>
-      <div className='calenderPageContainer'>
-        <div className='calenderLeft'>
-          <CustomCalender onChange={setValue} value={value} />
-        </div>
-
-        <div className='calenderRight'>
-          <div className='calenderPreviewHeader'>
-            <div className='calenderPreviewHeaderSectionContainer'>
-              <div className='calenderPreviewHeaderSection'>
-                <img src={CalenderImage} />
-
-                <p>{dateFormat(value, DATE_FORMAT.FORMAT_2)}</p>
-              </div>
-
-              <div className='calenderPreviewHeaderSection'>
-                <img src={ArrowLeftDark} />
-                <img
-                  style={{ transform: 'rotate(180deg)' }}
-                  src={ArrowLeftDark}
-                />
-              </div>
+    <>
+      {calenderApi.isLoading ? (
+        <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
+      ) : (
+        <CalenderContainerStyle>
+          <div className='calenderPageContainer'>
+            <div className='calenderLeft'>
+              <CustomCalender onChange={setValue} value={value} />
             </div>
-          </div>
-          <div className='calenderPreviewBody'>
-            <div className='calenderPreviewEventsContainer'>
-              {!isEmptyArray(activeConnections) ? (
-                activeConnections.map((conn, index) => {
-                  return (
-                    <div className='calenderPreviewEventSection' key={index}>
-                      <div className='calenderPreviewEventsLeft'>
-                        <p>
-                          {conn?.connect_on?.day
-                            ? dateFormat(
-                                conn?.connect_on?.day,
-                                DATE_FORMAT.FORMAT_3
-                              )
-                            : ''}
-                        </p>
-                      </div>
-                      <div className='calenderPreviewEventsRight'>
-                        <div className='calenderPreviewEventCard'>
-                          <div className='calenderPreviewEventCardLeft'>
-                            <div className='calenderPreviewEventImageContainer'>
-                              <img
-                                className='calenderImage'
-                                src={conn?.sharer?.profile_image}
-                              />
-                            </div>
-                            <div className='calenderPreviewEventTitleContainer'>
-                              <h3 className='heading'>{conn?.message}</h3>
 
-                              <p>
-                                {conn?.connect_on?.day
-                                  ? dateFormat(
-                                      conn?.connect_on?.day,
-                                      DATE_FORMAT.FORMAT_1
-                                    )
-                                  : ''}
-                              </p>
-                              <a href={conn?.zoom_link}>{conn?.zoom_link}</a>
-                            </div>
+            <div className='calenderRight'>
+              <div className='calenderPreviewHeader'>
+                <div className='calenderPreviewHeaderSectionContainer'>
+                  <div className='calenderPreviewHeaderSection'>
+                    <img src={CalenderImage} />
+
+                    <p>{dateFormat(value, DATE_FORMAT.FORMAT_2)}</p>
+                  </div>
+
+                  <div className='calenderPreviewHeaderSection'>
+                    <img src={ArrowLeftDark} />
+                    <img
+                      style={{ transform: 'rotate(180deg)' }}
+                      src={ArrowLeftDark}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className='calenderPreviewBody'>
+                <div className='calenderPreviewEventsContainer'>
+                  {!isEmptyArray(activeConnections) ? (
+                    activeConnections.map((conn, index) => {
+                      return (
+                        <div
+                          className='calenderPreviewEventSection'
+                          key={index}
+                        >
+                          <div className='calenderPreviewEventsLeft'>
+                            <p>
+                              {conn?.connect_on?.day
+                                ? dateFormat(
+                                    conn?.connect_on?.day,
+                                    DATE_FORMAT.FORMAT_3
+                                  )
+                                : ''}
+                            </p>
                           </div>
-                          <div className='calenderPreviewEventCardRight'>
-                            <CalenderEventButtonStyle>
-                              <img src={RescheduleImage} />
-                              Re-schedule
-                            </CalenderEventButtonStyle>
-                            <CalenderEventButtonStyle>
-                              <img src={SendDarkImage} />
-                              Join
-                            </CalenderEventButtonStyle>
+                          <div className='calenderPreviewEventsRight'>
+                            <div className='calenderPreviewEventCard'>
+                              <div className='calenderPreviewEventCardLeft'>
+                                <div className='calenderPreviewEventImageContainer'>
+                                  <img
+                                    className='calenderImage'
+                                    src={conn?.sharer?.profile_image}
+                                  />
+                                </div>
+                                <div className='calenderPreviewEventTitleContainer'>
+                                  <h3 className='heading'>{conn?.message}</h3>
+
+                                  <p>
+                                    {conn?.connect_on?.day
+                                      ? dateFormat(
+                                          conn?.connect_on?.day,
+                                          DATE_FORMAT.FORMAT_1
+                                        )
+                                      : ''}
+                                  </p>
+                                  <a href={conn?.zoom_link}>
+                                    {conn?.zoom_link}
+                                  </a>
+                                </div>
+                              </div>
+                              <div className='calenderPreviewEventCardRight'>
+                                <CalenderEventButtonStyle>
+                                  <img src={RescheduleImage} />
+                                  Re-schedule
+                                </CalenderEventButtonStyle>
+                                <CalenderEventButtonStyle>
+                                  <img src={SendDarkImage} />
+                                  Join
+                                </CalenderEventButtonStyle>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  )
-                })
-              ) : (
-                <h2 style={{ textAlign: 'center' }}>{NO_DATA_AVAILABLE}</h2>
-              )}
+                      )
+                    })
+                  ) : (
+                    <h2 style={{ textAlign: 'center' }}>{NO_DATA_AVAILABLE}</h2>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </CalenderContainerStyle>
+        </CalenderContainerStyle>
+      )}
+    </>
   )
 }
 
