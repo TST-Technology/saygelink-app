@@ -45,6 +45,7 @@ export const ProfileStyleContainer = styled.div`
             width: 75px;
             height: 75px;
             object-fit: cover;
+            border-radius: 50%;
           }
 
           .profileNameRightContainer {
@@ -65,6 +66,7 @@ export const ProfileStyleContainer = styled.div`
               font-size: 10px;
               line-height: 15px;
               color: rgba(38, 38, 38, 0.3);
+              text-transform: capitalize;
             }
           }
         }
@@ -245,6 +247,7 @@ export const ProfileCardStyle = styled.div`
     .textContainer {
       ${FlexAlignCenter}
       gap: 1rem;
+      width: 85%;
 
       .durationText {
         font-family: 'Poppins';
@@ -254,6 +257,10 @@ export const ProfileCardStyle = styled.div`
         line-height: 17px;
         color: ${theme.lightTheme.white};
         margin-bottom: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
       }
     }
   }
@@ -269,6 +276,10 @@ export const ProfileCardStyle = styled.div`
   }
 
   ${SmallWeekDayStyle}
+
+  .buttonContainer {
+    cursor: pointer;
+  }
 `
 
 export const StyleSingleItem = styled.div`
@@ -295,5 +306,27 @@ export const StyleSingleItem = styled.div`
 
 export const AddAvailabilityButtonStyle = styled.button`
   ${Button}
+`
+
+export const AddExperienceStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`
+
+export const AddFileStyle = styled.div`
+  background: #abe9dc;
+  border-radius: 5px;
+  color: ${theme.lightTheme.secondary.font};
+  box-shadow: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  ${FlexAlignCenter}
+  gap: 10px;
+  margin: 0;
+  cursor: pointer;
 `
 

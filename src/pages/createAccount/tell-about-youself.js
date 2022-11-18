@@ -23,45 +23,45 @@ import CONSTANT from "../../utils/constants";
 import CloseIcon from "../../assets/images/CrossIcon.svg";
 import { CreateAccountContext } from "./create-account";
 import useHttp from "../../hooks/use-http";
-import { notify } from "../../utils/funcs";
+import { notify, prepareLink } from '../../utils/funcs'
 
 const Yourself = () => {
-  const [selectedGender, setSelectedGender] = useState();
-  const [allLinks, setAllLinks] = useState([""]);
+  const [selectedGender, setSelectedGender] = useState()
+  const [allLinks, setAllLinks] = useState([''])
 
-  const userApi = useHttp();
+  const userApi = useHttp()
 
   const { formData, setStep, setFormData, step } =
-    useContext(CreateAccountContext);
+    useContext(CreateAccountContext)
 
   const onGenderChange = (val) => {
-    console.log(val);
-    setSelectedGender(val);
-  };
+    console.log(val)
+    setSelectedGender(val)
+  }
 
   const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const payload = preparePayload(e);
+    e.preventDefault()
+    const payload = preparePayload(e)
     if (selectedGender) {
       if (payload) {
         userApi.sendRequest(
           CONSTANT.API.updateUser,
           handleUserResponse,
           payload,
-          "Details added successfully!"
-        );
+          'Details added successfully!'
+        )
       }
     } else {
-      notify.error("Please select gender");
+      notify.error('Please select gender')
     }
-  };
+  }
 
   const handleUserResponse = (resp) => {
-    console.log(resp);
+    console.log(resp)
     if (resp) {
-      setStep((prevValue) => prevValue + 1);
+      setStep((prevValue) => prevValue + 1)
     }
-  };
+  }
 
   const preparePayload = (e) => {
     const newPayload = {}
@@ -91,37 +91,6 @@ const Yourself = () => {
     }
 
     return newPayload
-  }
-
-  const prepareLink = (url) => {
-    if (url) {
-      if (url.toLowerCase().includes('twitter')) {
-        return {
-          name: 'Twitter',
-          url: url
-        }
-      } else if (url.toLowerCase().includes('facebook')) {
-        return {
-          name: 'Facebook',
-          url: url
-        }
-      } else if (url.toLowerCase().includes('linkedin')) {
-        return {
-          name: 'LinkedIn',
-          url: url
-        }
-      } else if (url.toLowerCase().includes('instagram')) {
-        return {
-          name: 'Instagram',
-          url: url
-        }
-      } else {
-        return {
-          name: 'Other',
-          url: url
-        }
-      }
-    }
   }
 
   const handleLinkChange = (val, index) => {

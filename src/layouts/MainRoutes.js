@@ -16,7 +16,7 @@ import Signup from '../pages/register/signup'
 import Welcome from '../pages/welcome/welcomepage'
 import { DashboardContainerStyle } from '../style-component/dashboard/dashboard'
 import { ROUTES } from '../utils/constants'
-import { getToken } from '../utils/funcs'
+import { getEmail, getToken } from '../utils/funcs'
 
 const MainRoutes = () => {
   const [includeHeader, setIncludeHeader] = useState(false)
@@ -36,6 +36,7 @@ const MainRoutes = () => {
   ]
 
   const token = getToken()
+  const email = getEmail()
 
   return (
     <UserContext.Provider value={{ setUser: setUser, user: user }}>
@@ -45,7 +46,10 @@ const MainRoutes = () => {
           <Routes>
             <Route
               element={
-                <ProtectedRoute redirectTo={ROUTES.HOME} condition={token} />
+                <ProtectedRoute
+                  redirectTo={ROUTES.HOME}
+                  condition={token && email}
+                />
               }
             >
               <Route path='auth/*' element={<Login />} />
@@ -53,7 +57,10 @@ const MainRoutes = () => {
             </Route>
             <Route
               element={
-                <ProtectedRoute redirectTo={ROUTES.AUTH} condition={!token} />
+                <ProtectedRoute
+                  redirectTo={ROUTES.AUTH}
+                  condition={!token || !email}
+                />
               }
             >
               <Route path='welcome' element={<Welcome />} />

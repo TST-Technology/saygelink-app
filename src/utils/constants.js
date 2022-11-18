@@ -71,6 +71,7 @@ const CONSTANT = {
     },
     register: { endpoint: `/auth/register`, type: 'POST' },
     getCategories: { endpoint: `/categories`, type: 'GET' },
+    addCategories: { endpoint: `/categories`, type: 'POST' },
     getSubcategories: {
       endpoint: `/subcategories/search/:categoryId`,
       type: 'GET'
@@ -96,7 +97,10 @@ const CONSTANT = {
     getAllConnections: { endpoint: `/connect/getConnections`, type: 'GET' },
     getMyConnections: { endpoint: '/connect/myConnections', type: 'GET' },
     getUserNotification: { endpoint: '/users/notifications', type: 'GET' },
-    getProfileDetail: { endpoint: '/users/:email', type: 'GET' }
+    getProfileDetail: { endpoint: '/users/:email', type: 'GET' },
+    addLink: { endpoint: `/users/socialMedia`, type: 'PATCH' },
+    deleteLink: { endpoint: `/users/socialMedia/:id`, type: 'DELETE' },
+    deleteFile: { endpoint: `/users/removeUserFile`, type: 'DELETE' }
   },
   planningStage: [
     'Tell us about yourself',

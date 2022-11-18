@@ -72,7 +72,7 @@ const UploadProfilePicture = () => {
     if (resp) {
       if (pdfFile) {
         const formData = new FormData()
-        formData.append('file', profileImage)
+        formData.append('file', pdfFile)
         fileApi.sendRequest(
           CONSTANT.API.uploadUserFile,
           handleUserFileResponse,

@@ -42,6 +42,10 @@ export const getToken = () => {
   }
 }
 
+export const getEmail = () => {
+  return localStorage.getItem('email')
+}
+
 export const CheckIsLogin = () => {
   const navigate = useNavigate()
   if (!getToken()) {
@@ -59,4 +63,35 @@ export const isEmptyArray = (arr) => {
 
 export const dateFormat = (date, format) => {
   return moment(date).format(format)
+}
+
+export const prepareLink = (url) => {
+  if (url) {
+    if (url.toLowerCase().includes('twitter')) {
+      return {
+        name: 'Twitter',
+        url: url
+      }
+    } else if (url.toLowerCase().includes('facebook')) {
+      return {
+        name: 'Facebook',
+        url: url
+      }
+    } else if (url.toLowerCase().includes('linkedin')) {
+      return {
+        name: 'LinkedIn',
+        url: url
+      }
+    } else if (url.toLowerCase().includes('instagram')) {
+      return {
+        name: 'Instagram',
+        url: url
+      }
+    } else {
+      return {
+        name: 'Other',
+        url: url
+      }
+    }
+  }
 }
