@@ -28,13 +28,13 @@ const ScheduleMeeting = () => {
         <p className='heading'>General Availability</p>
 
         <div className='weekDayContainer'>
-          {CONSTANT.WEEK_TWO_DIGIT.map((day, index) => {
+          {CONSTANT.WEEK_DIGIT.map((day, index) => {
             return (
               <div
                 className={`weekDay ${index == 3 ? 'selectedWeekDay' : ''}`}
                 key={index}
               >
-                <span>{day}</span>
+                <span>{day.substring(0, 2)}</span>
               </div>
             )
           })}

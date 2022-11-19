@@ -19,6 +19,7 @@ import {
   StyleInputButton
 } from '../../style-component/createAccount/availability'
 import CONSTANT, {
+  ACCEPT_FILE_TYPE,
   DashboardHeaderHeight,
   UserProfile
 } from '../../utils/constants'
@@ -29,12 +30,18 @@ import useHttp from '../../hooks/use-http'
 import { useContext } from 'react'
 import { UserContext } from '../../context/user'
 import Loader from '../../components/general/loader'
-import { getEmail, isEmptyArray } from '../../utils/funcs'
+import { getEmail, isEmptyArray, notify } from '../../utils/funcs'
 import Dialog from '../../components/dialog/dialog'
 import AddExperience from '../../components/profile/add-experience'
 import AddLink from '../../components/profile/add-link'
 
 const Profile = () => {
+  const INIT_TIME = {
+    hour: '',
+    minute: '',
+    time: 'AM'
+  }
+
   const profileApi = useHttp()
   const userApi = useHttp()
   const chatRequestApi = useHttp()
@@ -46,11 +53,17 @@ const Profile = () => {
   const [maximinRequestsChanged, setMaximinRequestsChanged] = useState(false)
   const [experienceDialogVisible, setExperienceDialogVisible] = useState(false)
   const [linkDialogVisible, setLinkDialogVisible] = useState(false)
-  const ACCEPT_FILE_TYPE = 'application/pdf'
   const [pdfFile, setPdfFile] = useState(null)
+  const [selectedWeekday, setSelectedWeekDay] = useState('Sun')
+  const [interval, setInterval] = useState(() => {
+    return {
+      start_time: JSON.parse(JSON.stringify(INIT_TIME)),
+      end_time: JSON.parse(JSON.stringify(INIT_TIME)),
+      timezone: 'EDT'
+    }
+  })
 
   useEffect(() => {
-    console.log(user)
     if (email) {
       getProfile()
     }
@@ -158,6 +171,64 @@ const Profile = () => {
       'Attachment deleted successfully!'
     )
   }
+
+  const onChangeInterval = (key, subKey, value) => {
+    setInterval((prevValue) => {
+      const temp = prevValue
+
+      if (temp) {
+        temp[key][subKey] = value
+
+        return { ...JSON.parse(JSON.stringify(temp)) }
+      }
+    })
+  }
+
+  const handleAddAvailability = () => {
+    if (
+      interval &&
+      selectedWeekday &&
+      interval.timezone &&
+      interval.start_time &&
+      interval?.start_time?.hour &&
+      interval?.start_time?.minute &&
+      interval?.start_time?.time &&
+      interval.end_time &&
+      interval?.end_time?.hour &&
+      interval?.end_time?.minute &&
+      interval?.end_time?.time
+    ) {
+      const tempAvail = {}
+      tempAvail.start_time = `${interval.start_time.hour}:${interval.start_time.minute}${interval.start_time.time}`
+      tempAvail.end_time = `${interval.end_time.hour}:${interval.end_time.minute}${interval.end_time.time}`
+      tempAvail.day = selectedWeekday
+      tempAvail.timezone = interval.timezone
+      const payload = {
+        availability: tempAvail
+      }
+
+      profileApi.sendRequest(
+        CONSTANT.API.addAvailability,
+        getProfile,
+        payload,
+        'Availability added successfully!'
+      )
+    } else {
+      notify.error('Please enter availability!')
+    }
+  }
+
+  const handleEditProfileClose = (apiCall) => {
+    setEditProfileDialog(false)
+    console.log(apiCall)
+    if (apiCall) {
+      getProfile()
+    }
+  }
+
+  const currentWeekDay = !isEmptyArray(profileDetail?.availability)
+    ? profileDetail?.availability.filter((row) => row?.day === selectedWeekday)
+    : []
 
   return (
     <>
@@ -272,34 +343,45 @@ const Profile = () => {
               <div>
                 <h3 className='profileCardHeading'>General Availability</h3>
                 <div className='weekDayContainer'>
-                  {CONSTANT.WEEK_TWO_DIGIT.map((day, index) => {
+                  {CONSTANT.WEEK_DIGIT.map((day, index) => {
                     return (
                       <div
                         className={`weekDay ${
-                          index == 3 ? 'selectedWeekDay' : ''
-                        }`}
+                          profileDetail?.availability
+                            .map((avail) => avail.day)
+                            .includes(day)
+                            ? 'addedWeekDay'
+                            : ''
+                        } ${selectedWeekday === day ? 'selectedWeekDay' : ''}`}
                         key={index}
+                        onClick={() => {
+                          setSelectedWeekDay(day)
+                        }}
                       >
-                        <span>{day}</span>
+                        <span>{day.substring(0, 2)}</span>
                       </div>
                     )
                   })}
                 </div>
 
                 <div className='viewColumn'>
-                  {[0, 1].map((row, index) => {
-                    return (
-                      <div className='viewRow' key={index}>
-                        <div className='textContainer'>
-                          <p className='durationText'>09:00 AM to 10:00 AM</p>
-                        </div>
+                  {!isEmptyArray(currentWeekDay)
+                    ? currentWeekDay.map((row, index) => {
+                        return (
+                          <div className='viewRow' key={index}>
+                            <div className='textContainer'>
+                              <p className='durationText'>
+                                {row?.start_time} to {row?.end_time}
+                              </p>
+                            </div>
 
-                        <div className='buttonContainer'>
-                          <img src={TrashIcon} />
-                        </div>
-                      </div>
-                    )
-                  })}
+                            <div className='buttonContainer'>
+                              <img src={TrashIcon} />
+                            </div>
+                          </div>
+                        )
+                      })
+                    : null}
                 </div>
               </div>
 
@@ -423,29 +505,43 @@ const Profile = () => {
                 <p className='timeLabel'>Start Time</p>
                 <TimePicker
                   name='startTime'
-                  minute={''}
-                  hour={''}
-                  time={''}
-                  onChangeHour={(val) => {}}
-                  onChangeMinute={(val) => {}}
-                  onChangeTime={(val) => {}}
-                  backgroundColor={theme.lightTheme.softPeach}
+                  minute={interval.start_time.minute}
+                  hour={interval.start_time.hour}
+                  time={interval.start_time.time}
+                  onChangeHour={(val) =>
+                    onChangeInterval('start_time', 'hour', val)
+                  }
+                  onChangeMinute={(val) =>
+                    onChangeInterval('start_time', 'minute', val)
+                  }
+                  onChangeTime={(val) =>
+                    onChangeInterval('start_time', 'time', val)
+                  }
                 />
 
                 <p className='timeLabel'>End Time</p>
                 <TimePicker
                   name='endTime'
-                  minute={''}
-                  hour={''}
-                  time={''}
-                  onChangeHour={(val) => {}}
-                  onChangeMinute={(val) => {}}
-                  onChangeTime={(val) => {}}
-                  backgroundColor={theme.lightTheme.softPeach}
+                  minute={interval.end_time.minute}
+                  hour={interval.end_time.hour}
+                  time={interval.end_time.time}
+                  onChangeHour={(val) =>
+                    onChangeInterval('end_time', 'hour', val)
+                  }
+                  onChangeMinute={(val) =>
+                    onChangeInterval('end_time', 'minute', val)
+                  }
+                  onChangeTime={(val) =>
+                    onChangeInterval('end_time', 'time', val)
+                  }
                 />
 
                 <div className='availabilityButtonContainer'>
-                  <AddAvailabilityButtonStyle>
+                  <AddAvailabilityButtonStyle
+                    onClick={() => {
+                      handleAddAvailability()
+                    }}
+                  >
                     Add Availability Slots
                   </AddAvailabilityButtonStyle>
                 </div>
@@ -454,11 +550,14 @@ const Profile = () => {
           </div>
         </ProfileStyleContainer>
       )}
+      {/* {editProfileDialog ? ( */}
       <EditProfile
+        profileDetail={profileDetail}
         open={editProfileDialog}
-        onClose={() => setEditProfileDialog(false)}
+        onClose={(flag) => handleEditProfileClose(flag)}
+        handleUploadFile={handleUploadFile}
       />
-
+      // ) : null}
       <Dialog
         content={
           <AddExperience onClose={() => handleCloseExperienceDialog(true)} />
@@ -470,7 +569,6 @@ const Profile = () => {
         open={experienceDialogVisible}
         width='500px'
       />
-
       <Dialog
         content={<AddLink onClose={() => handleCloseLinkDialog(true)} />}
         title='Add Link'

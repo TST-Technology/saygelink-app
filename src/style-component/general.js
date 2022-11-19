@@ -180,6 +180,7 @@ export const SmallWeekDayStyle = css`
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
 
       span {
         color: #4a4a4a;
@@ -189,6 +190,11 @@ export const SmallWeekDayStyle = css`
         font-size: 11px;
         line-height: 16px;
       }
+    }
+
+    .addedWeekDay {
+      background: ${theme.lightTheme.primary.color};
+      border: ${theme.lightTheme.primary.color};
     }
 
     .selectedWeekDay {

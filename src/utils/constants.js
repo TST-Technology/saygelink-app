@@ -100,7 +100,8 @@ const CONSTANT = {
     getProfileDetail: { endpoint: '/users/:email', type: 'GET' },
     addLink: { endpoint: `/users/socialMedia`, type: 'PATCH' },
     deleteLink: { endpoint: `/users/socialMedia/:id`, type: 'DELETE' },
-    deleteFile: { endpoint: `/users/removeUserFile`, type: 'DELETE' }
+    deleteFile: { endpoint: `/users/removeUserFile`, type: 'DELETE' },
+    addAvailability: { endpoint: '/users/availability/add', type: 'PUT' }
   },
   planningStage: [
     'Tell us about yourself',
@@ -118,7 +119,7 @@ const CONSTANT = {
     { label: 'Student', value: 'Student' },
     { label: 'Alumni', value: 'Alumni' }
   ],
-  WEEK_TWO_DIGIT: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+  WEEK_DIGIT: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 }
 
 export const UNIVERSITY_DATA = {
@@ -177,5 +178,10 @@ export const DATE_FORMAT = {
 }
 
 export const NO_DATA_AVAILABLE = 'No Data Available'
+
+export const ACCEPT_FILE_TYPE = 'application/pdf'
+
+export const ACCEPT_IMAGE_TYPE = 'image/png, image/jpeg, image/jpg'
+
 
 export default CONSTANT;

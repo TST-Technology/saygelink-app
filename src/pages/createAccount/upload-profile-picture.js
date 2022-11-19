@@ -18,7 +18,10 @@ import Attachment from '../../assets/images/attachment.svg'
 import CloseIcon from '../../assets/images/CrossIcon.svg'
 import { notify } from '../../utils/funcs'
 import useHttp from '../../hooks/use-http'
-import CONSTANT from '../../utils/constants'
+import CONSTANT, {
+  ACCEPT_FILE_TYPE,
+  ACCEPT_IMAGE_TYPE
+} from '../../utils/constants'
 
 const UploadProfilePicture = () => {
   const { formData, setStep, setFormData, step } =
@@ -28,8 +31,6 @@ const UploadProfilePicture = () => {
 
   const [profileImage, setProfileImage] = useState(null)
   const [profilePreviewImage, setProfilePreviewImage] = useState(null)
-  const ACCEPT_IMAGE_TYPE = 'image/png, image/jpeg, image/jpg'
-  const ACCEPT_FILE_TYPE = 'application/pdf'
   const [pdfFile, setPdfFile] = useState(null)
 
   const handleImageChange = (event) => {

@@ -67,6 +67,11 @@ export const EditProfileDialogStyle = styled(Dialog)`
           width: 50%;
         }
       }
+
+      .attachment {
+        width: 100%;
+        cursor: pointer;
+      }
     }
   }
 `
@@ -178,13 +183,18 @@ export const UploadContainerStyle = styled.div`
     transform: rotate(-90deg);
   }
 
-  span {
+  a {
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
     line-height: 27px;
     color: ${theme.lightTheme.quillGrey};
+    text-decoration: none;
+
+    &.selected {
+      color: ${theme.lightTheme.primary.font};
+    }
   }
 `
 
