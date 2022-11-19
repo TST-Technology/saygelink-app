@@ -103,7 +103,7 @@ const Network = () => {
                                   <div className='connectionCard' key={index}>
                                     <div className='connectionHeader'>
                                       <div className='connectionLeft'>
-                                        <img src={PersonImage} />
+                                        <img src={conn?.profileImage} />
 
                                         <div className='nameContainer'>
                                           <h3>{conn?.name}</h3>

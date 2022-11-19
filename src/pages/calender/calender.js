@@ -16,16 +16,22 @@ import {
 import CONSTANT, {
   DashboardHeaderHeight,
   DATE_FORMAT,
-  NO_DATA_AVAILABLE
+  NO_DATA_AVAILABLE,
+  scheduleMeetingStyle
 } from '../../utils/constants'
 import { dateFormat, isEmptyArray } from '../../utils/funcs'
 import Loader from '../../components/general/loader'
+import { Menu } from '@mui/material'
+import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
 
 const Calender = () => {
   const calenderApi = useHttp()
   const [value, setValue] = useState(new Date())
   const [connections, setConnections] = useState(null)
   const [activeConnections, setActiveConnection] = useState(null)
+  const [selectedConnection, setSelectedConnection] = useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
 
   useEffect(() => {
     if (!isEmptyArray(connections)) {
@@ -55,6 +61,18 @@ const Calender = () => {
       }
     })
     setActiveConnection(newConn)
+  }
+
+  const handleClick = (event, connection) => {
+    setAnchorEl(event.currentTarget)
+    console.log(connection)
+    setSelectedConnection({ ...connection })
+  }
+  const handleClose = (apiCall) => {
+    setAnchorEl(null)
+    if (apiCall === true) {
+      getConnection()
+    }
   }
 
   return (
@@ -131,7 +149,17 @@ const Calender = () => {
                                 </div>
                               </div>
                               <div className='calenderPreviewEventCardRight'>
-                                <CalenderEventButtonStyle>
+                                <CalenderEventButtonStyle
+                                  className='meetingButton'
+                                  onClick={(e) => handleClick(e, conn)}
+                                  size='small'
+                                  sx={{ ml: 2 }}
+                                  aria-controls={
+                                    open ? 'account-menu' : undefined
+                                  }
+                                  aria-haspopup='true'
+                                  aria-expanded={open ? 'true' : undefined}
+                                >
                                   <img src={RescheduleImage} />
                                   Re-schedule
                                 </CalenderEventButtonStyle>
@@ -152,6 +180,28 @@ const Calender = () => {
               </div>
             </div>
           </div>
+
+          {open ? (
+            <Menu
+              anchorEl={anchorEl}
+              id='account-menu'
+              open={open}
+              onClose={() => handleClose(false)}
+              PaperProps={{
+                elevation: 0,
+                sx: { ...scheduleMeetingStyle, '&:before': {} }
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+              <ScheduleMeeting
+                connectionId={selectedConnection?._id}
+                email={selectedConnection?.sharer?.email}
+                optionId={selectedConnection?.connect_on?._id}
+                onClose={handleClose}
+              />
+            </Menu>
+          ) : null}
         </CalenderContainerStyle>
       )}
     </>

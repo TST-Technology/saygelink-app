@@ -21,6 +21,7 @@ import {
 import CONSTANT, {
   ACCEPT_FILE_TYPE,
   DashboardHeaderHeight,
+  ROUTES,
   UserProfile
 } from '../../utils/constants'
 import TimePicker from '../../components/create-account/time-picker'
@@ -34,6 +35,7 @@ import { getEmail, isEmptyArray, notify } from '../../utils/funcs'
 import Dialog from '../../components/dialog/dialog'
 import AddExperience from '../../components/profile/add-experience'
 import AddLink from '../../components/profile/add-link'
+import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
   const INIT_TIME = {
@@ -45,6 +47,7 @@ const Profile = () => {
   const profileApi = useHttp()
   const userApi = useHttp()
   const chatRequestApi = useHttp()
+  const navigate = useNavigate()
   const [editProfileDialog, setEditProfileDialog] = useState()
   const { setUser, user } = useContext(UserContext)
   const [profileDetail, setProfileDetail] = useState(null)
@@ -224,6 +227,12 @@ const Profile = () => {
     if (apiCall) {
       getProfile()
     }
+  }
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem('authToken')
+    localStorage.removeItem('email')
+    navigate(ROUTES.AUTH)
   }
 
   const currentWeekDay = !isEmptyArray(profileDetail?.availability)
@@ -494,7 +503,7 @@ const Profile = () => {
                 <span>Deactivate account</span>
               </StyleSingleItem>
 
-              <StyleSingleItem>
+              <StyleSingleItem onClick={() => handleLogoutClick()}>
                 <img src={LogoutIcon}></img>
                 <span>Logout</span>
               </StyleSingleItem>
@@ -550,14 +559,12 @@ const Profile = () => {
           </div>
         </ProfileStyleContainer>
       )}
-      {/* {editProfileDialog ? ( */}
       <EditProfile
         profileDetail={profileDetail}
         open={editProfileDialog}
         onClose={(flag) => handleEditProfileClose(flag)}
         handleUploadFile={handleUploadFile}
       />
-      // ) : null}
       <Dialog
         content={
           <AddExperience onClose={() => handleCloseExperienceDialog(true)} />

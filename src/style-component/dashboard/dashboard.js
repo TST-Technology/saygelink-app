@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import theme from '../../utils/variables'
-import { FlexAlignCenter, FlexJustifyCenter } from '../general'
+import { Button, FlexAlignCenter, FlexJustifyCenter } from '../general'
 import BackgroundImage from '../../assets/images/homeBackground.png'
 
 export const DashboardContainerStyle = styled.div`
@@ -30,12 +30,12 @@ export const HomeContainerStyle = styled.div`
     background-position: right;
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 100px 0 0 100px;
 
     .homeBannerTextContainer {
       display: flex;
       gap: 20px;
       align-items: flex-end;
-      padding: 100px 0 0 100px;
 
       @media ${devices.laptop} {
         flex-direction: column;
@@ -58,6 +58,29 @@ export const HomeContainerStyle = styled.div`
         width: 255px;
         object-fit: contain;
         margin-bottom: 5px;
+      }
+    }
+
+    .homeBannerButtonContainer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 20px 20px 20px 40px;
+      gap: 20px;
+      background: #f8f8f8;
+      box-shadow: 0px 2px 10px rgba(95, 95, 95, 0.1);
+      border-radius: 20px;
+      width: fit-content;
+      margin-top: 50px;
+
+      p {
+        margin: 0;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 30px;
+        color: #262626;
       }
     }
   }
@@ -184,6 +207,33 @@ export const HomeContainerStyle = styled.div`
           text-decoration: none;
           cursor: pointer;
         }
+
+        .meetingButtonContainer {
+          ${FlexAlignCenter};
+          justify-content: center;
+          gap: 20px;
+          margin-top: 10px;
+
+          .meetingButton {
+            margin: 0;
+            box-shadow: none;
+            heigh: fit-content;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 17px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #000000;
+            padding: 10px;
+            text-decoration: none;
+            background: ${theme.lightTheme.primary.color};
+            border-radius: 6px;
+            cursor: pointer;
+          }
+        }
       }
     }
 
@@ -210,6 +260,7 @@ export const HomeContainerStyle = styled.div`
         font-size: 13.3333px;
         line-height: 16px;
         color: #f62e5f;
+        cursor: pointer;
       }
     }
   }
@@ -265,4 +316,16 @@ export const BottomFixedStyle = styled.div`
       color: ${theme.lightTheme.black};
     }
   }
+`
+
+export const FindSaygeButtonStyle = styled.button`
+  ${Button}
+  color: ${theme.lightTheme.black};
+  background: #fa2f66;
+  border-radius: 6px;
+  box-shadow: none;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  padding: 10px 30px;
 `

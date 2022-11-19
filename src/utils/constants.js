@@ -101,7 +101,11 @@ const CONSTANT = {
     addLink: { endpoint: `/users/socialMedia`, type: 'PATCH' },
     deleteLink: { endpoint: `/users/socialMedia/:id`, type: 'DELETE' },
     deleteFile: { endpoint: `/users/removeUserFile`, type: 'DELETE' },
-    addAvailability: { endpoint: '/users/availability/add', type: 'PUT' }
+    addAvailability: { endpoint: '/users/availability/add', type: 'PUT' },
+    rescheduleAvailability: {
+      endpoint: '/connect/rescheduleAvailability',
+      type: 'PUT'
+    }
   },
   planningStage: [
     'Tell us about yourself',
@@ -119,7 +123,13 @@ const CONSTANT = {
     { label: 'Student', value: 'Student' },
     { label: 'Alumni', value: 'Alumni' }
   ],
-  WEEK_DIGIT: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  WEEK_DIGIT: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  TIMEZONE: [
+    {
+      label: 'EDT',
+      value: 'Eastern Time (US and Canada)'
+    }
+  ]
 }
 
 export const UNIVERSITY_DATA = {
@@ -174,7 +184,8 @@ export const DashboardHeaderHeight = '70px'
 export const DATE_FORMAT = {
   FORMAT_1: 'DD MMM YYYY hh:MM A',
   FORMAT_2: 'MMM D, YYYY',
-  FORMAT_3: 'hh:MM A'
+  FORMAT_3: 'hh:MM A',
+  FORMAT_4: 'DD-MM-YYYY'
 }
 
 export const NO_DATA_AVAILABLE = 'No Data Available'
@@ -182,6 +193,32 @@ export const NO_DATA_AVAILABLE = 'No Data Available'
 export const ACCEPT_FILE_TYPE = 'application/pdf'
 
 export const ACCEPT_IMAGE_TYPE = 'image/png, image/jpeg, image/jpg'
+
+export const scheduleMeetingStyle = {
+  borderRadius: '10px',
+  boxShadow: 'none',
+  overflow: 'visible',
+  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+  mt: 2.5,
+  '& .MuiAvatar-root': {
+    width: 32,
+    height: 32,
+    ml: -0.5,
+    mr: 1
+  },
+  '&:before': {
+    content: '""',
+    display: 'block',
+    position: 'absolute',
+    top: 0,
+    right: 30,
+    width: 40,
+    height: 40,
+    bgcolor: 'background.paper',
+    transform: 'translateY(-50%) rotate(45deg)',
+    zIndex: 0
+  }
+} 
 
 
 export default CONSTANT;

@@ -3,6 +3,7 @@ import axios from 'axios'
 import BackgroundLogoImage from '../../assets/images/saygeLinkBgLogo.png'
 import {
   BottomFixedStyle,
+  FindSaygeButtonStyle,
   HomeContainerStyle
 } from '../../style-component/dashboard/dashboard'
 import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
@@ -17,12 +18,20 @@ import CustomCalender from '../../components/custom-calender/custom-calender'
 import CONSTANT, {
   DashboardHeaderHeight,
   DATE_FORMAT,
-  NO_DATA_AVAILABLE
+  NO_DATA_AVAILABLE,
+  ROUTES,
+  scheduleMeetingStyle
 } from '../../utils/constants'
 import { Services } from '../../api/service'
 import ColumbiaImage from '../../assets/images/columbia_logo.png'
+import SearchImage from '../../assets/images/search-white.svg'
 import { dateFormat, isEmptyArray } from '../../utils/funcs'
 import Loader from '../../components/general/loader'
+import { CalenderEventButtonStyle } from '../../style-component/calender/calender'
+import RescheduleImage from '../../assets/images/reschedule.svg'
+import SendDarkImage from '../../assets/images/send-dark.svg'
+import { Menu } from '@mui/material'
+import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
 
 const Dashboard = () => {
   const [categories, setCategories] = useState(null)
@@ -33,6 +42,9 @@ const Dashboard = () => {
   const [connections, setConnections] = useState(null)
   const [activeConnections, setActiveConnection] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
+  const [selectedConnection, setSelectedConnection] = useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
 
   useEffect(() => {
     getAllData()
@@ -83,6 +95,18 @@ const Dashboard = () => {
     setActiveConnection(newConn)
   }
 
+  const handleClick = (event, connection) => {
+    setAnchorEl(event.currentTarget)
+    console.log(connection)
+    setSelectedConnection({ ...connection })
+  }
+  const handleClose = (apiCall) => {
+    setAnchorEl(null)
+    if (apiCall === true) {
+      getAllData()
+    }
+  }
+
   return (
     <>
       {isLoading ? (
@@ -96,8 +120,16 @@ const Dashboard = () => {
               </h2>
               <img className='bgLogo' src={BackgroundLogoImage} />
             </div>
-          </div>
 
+            <div className='homeBannerButtonContainer'>
+              <p>Someone has the insight you need today.</p>
+
+              <FindSaygeButtonStyle>
+                <img src={SearchImage} />
+                Find A SAYge
+              </FindSaygeButtonStyle>
+            </div>
+          </div>
           <div className='homeContentContainer'>
             <div className='homeContentLeftContainer'>
               <img src={cardBackgroundImage4} />
@@ -108,7 +140,7 @@ const Dashboard = () => {
                     <span className=''>View all</span>
                   </div>
                   {events &&
-                    events.map((event) => {
+                    events.slice(0, 2).map((event) => {
                       return (
                         <ImageCard
                           key={event._id}
@@ -132,7 +164,7 @@ const Dashboard = () => {
                     <p className=''>Interest</p>
                     <span className=''>View all</span>
                   </div>
-                  {interests.map((interest) => {
+                  {interests.slice(0, 2).map((interest) => {
                     return (
                       <ImageCard
                         key={interest._id}
@@ -234,9 +266,28 @@ const Dashboard = () => {
                               </span>
                             </div>
                           </div>
-                          <a href={conn?.zoom_link} className='connectionLink'>
-                            {conn?.zoom_link}
-                          </a>
+                          <div className='meetingButtonContainer'>
+                            <a
+                              className='meetingButton'
+                              onClick={(e) => handleClick(e, conn)}
+                              size='small'
+                              sx={{ ml: 2 }}
+                              aria-controls={open ? 'account-menu' : undefined}
+                              aria-haspopup='true'
+                              aria-expanded={open ? 'true' : undefined}
+                            >
+                              <img src={RescheduleImage} />
+                              Re-schedule
+                            </a>
+                            <a
+                              target='_blank'
+                              href={conn?.zoom_link}
+                              className='meetingButton'
+                            >
+                              <img src={SendDarkImage} />
+                              Join
+                            </a>
+                          </div>
                         </div>
                       )
                     })}
@@ -244,7 +295,6 @@ const Dashboard = () => {
               ) : null}
             </div>
           </div>
-
           <BottomFixedStyle>
             <div className='nameContainer'>
               <img src={PersonImage} />
@@ -256,6 +306,27 @@ const Dashboard = () => {
               <img src={RightArrow} className='arrow' />
             </div>
           </BottomFixedStyle>
+          {open ? (
+            <Menu
+              anchorEl={anchorEl}
+              id='account-menu'
+              open={open}
+              onClose={() => handleClose(false)}
+              PaperProps={{
+                elevation: 0,
+                sx: { ...scheduleMeetingStyle, '&:before': {} }
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+              <ScheduleMeeting
+                connectionId={selectedConnection?._id}
+                email={selectedConnection?.sharer?.email}
+                optionId={selectedConnection?.connect_on?._id}
+                onClose={handleClose}
+              />
+            </Menu>
+          ) : null}
         </HomeContainerStyle>
       )}
     </>

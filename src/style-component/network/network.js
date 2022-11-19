@@ -67,6 +67,7 @@ export const StyleNetworkContainer = styled.div`
                   height: 55px;
                   width: 55px;
                   object-fit: cover;
+                  border-radius: 50%;
                 }
 
                 .nameContainer {

@@ -12,6 +12,7 @@ export const ScheduleMeetingStyle = styled.div`
   padding: 20px;
   height: calc(100vh - 250px);
   overflow-y: auto;
+  width: 580px;
 
   .profileContainer {
     display: flex;
@@ -20,6 +21,8 @@ export const ScheduleMeetingStyle = styled.div`
     .profileImage {
       height: 90px;
       width: 90px;
+      border-radius: 50%;
+      object-fit: cover;
     }
 
     .rightTextContainer {

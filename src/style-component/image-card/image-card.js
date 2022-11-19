@@ -6,8 +6,8 @@ export const ImageCardStyle = styled.div`
 
     .cardImage {
       padding: 20px 0;
-      background-size: auto;
-      background-repeat: round;
+      background-size: cover;
+      background-repeat: no-repeat;
       display: flex;
       flex-direction: column;
       justify-content: center;

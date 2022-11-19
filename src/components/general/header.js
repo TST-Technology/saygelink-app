@@ -102,6 +102,7 @@ const Header = () => {
 
           <img
             onClick={() => {
+              setActiveTab(null)
               nav(ROUTES.PROFILE)
             }}
             src={PersonImg}
