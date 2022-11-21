@@ -11,16 +11,27 @@ import GlobLogo from '../../assets/images/globe.svg'
 import BellLogo from '../../assets/images/bell.svg'
 import ProfileLogo from '../../assets/images/profile.svg'
 import PersonImg from '../../assets/images/person.png'
-import { ROUTES } from '../../utils/constants'
+import CONSTANT, { ROUTES } from '../../utils/constants'
 import { Link, useNavigate } from 'react-router-dom'
 import { Menu } from '@mui/material'
 import Notification from './notification'
+import { useEffect } from 'react'
+import useHttp from '../../hooks/use-http'
+import ConnectionRequest from './connection-request'
 
 const Header = () => {
   const [activeTab, setActiveTab] = useState(window.location.pathname)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const nav = useNavigate()
+  const connectApi = useHttp()
+  const [pendingRequestCount, setPendingRequestCount] = useState(null)
+  const [floatMenuType, setFloatMenuType] = useState(null)
+  const [requestDetail, setRequestDetail] = useState(null)
+
+  useEffect(() => {
+    getRequests()
+  }, [])
 
   const HEADER_TABS = [
     {
@@ -46,8 +57,15 @@ const Header = () => {
   ]
 
   const handleClick = (event) => {
+    setFloatMenuType('notification')
     setAnchorEl(event.currentTarget)
   }
+
+  const handleRequestClick = (event) => {
+    setFloatMenuType('request')
+    setAnchorEl(event.currentTarget)
+  }
+
   const handleClose = (e) => {
     setAnchorEl(null)
   }
@@ -55,6 +73,18 @@ const Header = () => {
   const handleHeaderClick = (tab) => {
     setActiveTab(tab.route)
     nav(tab.route)
+  }
+
+  const responseHandler = (resp) => {
+    console.log(resp)
+    if (resp && resp?.count && resp?.connections) {
+      setPendingRequestCount(resp?.count)
+      setRequestDetail(resp?.connections)
+    }
+  }
+
+  const getRequests = () => {
+    connectApi.sendRequest(CONSTANT.API.getConnectionRequest, responseHandler)
   }
 
   return (
@@ -98,7 +128,16 @@ const Header = () => {
             aria-expanded={open ? 'true' : undefined}
           />
 
-          <img src={ProfileLogo} className='headerImages' />
+          <div className='profileHeaderImageContainer'>
+            <img
+              onClick={handleRequestClick}
+              src={ProfileLogo}
+              className='headerImages profileHeaderImage'
+            />
+            {pendingRequestCount ? (
+              <div className='requestCount'>{pendingRequestCount}</div>
+            ) : null}
+          </div>
 
           <img
             onClick={() => {
@@ -147,7 +186,10 @@ const Header = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <Notification />
+        {floatMenuType === 'notification' ? <Notification /> : null}
+        {floatMenuType === 'request' ? (
+          <ConnectionRequest detail={requestDetail} />
+        ) : null}
       </Menu>
     </HeaderContainerStyle>
   )

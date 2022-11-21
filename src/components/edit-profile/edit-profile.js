@@ -10,7 +10,10 @@ import {
 } from '../../style-component/profile/edit-profile'
 import CrossIcon from '../../assets/images/close.svg'
 import PersonImage from '../../assets/images/person.png'
-import CONSTANT, { ACCEPT_FILE_TYPE } from '../../utils/constants'
+import CONSTANT, {
+  ACCEPT_FILE_TYPE,
+  ACCEPT_IMAGE_TYPE
+} from '../../utils/constants'
 import LogoutIcon from '../../assets/images/log-out.svg'
 import { notify } from '../../utils/funcs'
 import useHttp from '../../hooks/use-http'
@@ -20,9 +23,11 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
   const [selectedGender, setSelectedGender] = useState(() => {
     return profileDetail?.gender
   })
-  const [pdfFile, setPdfFile] = useState(null)
+  const [selectedRole, setSelectedRole] = useState('Student')
 
-  const handlePdfChange = (event) => {
+  const [profileImage, setPdfFile] = useState(null)
+
+  const handleImageChange = (event) => {
     const file = event.target.files[0]
     if (file) {
       setPdfFile(file)
@@ -62,11 +67,11 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
   }
 
   const handleUserResponse = () => {
-    if (pdfFile) {
+    if (profileImage) {
       const formData = new FormData()
-      formData.append('file', pdfFile)
+      formData.append('image', profileImage)
       profileApi.sendRequest(
-        CONSTANT.API.uploadUserFile,
+        CONSTANT.API.uploadUserProfilePicture,
         () => {
           onClose(true)
         },
@@ -77,6 +82,10 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
       notify.success('Profile updated successfully!')
       onClose(true)
     }
+  }
+
+  const handleRoleChange = (e) => {
+    setSelectedRole(e.target.value)
   }
 
   return (
@@ -103,7 +112,24 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
 
         <form onSubmit={handleFormSubmit}>
           <div className='dialogBody'>
-            <img src={profileDetail?.profile_image} className='profileImage' />
+            <label htmlFor='uploadAttachment' className='profileImage'>
+              <input
+                name='uploadAttachment'
+                type='file'
+                id='uploadAttachment'
+                hidden
+                onChange={handleImageChange}
+                accept={ACCEPT_IMAGE_TYPE}
+              />
+              <img
+                src={
+                  profileImage
+                    ? URL.createObjectURL(profileImage)
+                    : profileDetail?.profile_image
+                }
+                className='profileImage'
+              />
+            </label>
 
             <div className='row2'>
               <div>
@@ -116,7 +142,7 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
               </div>
 
               <div>
-                <DialogDropdownStyle name='role'>
+                <DialogDropdownStyle name='role' onChange={handleRoleChange}>
                   {CONSTANT.role.map((role) => {
                     return (
                       <option
@@ -133,11 +159,13 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
             </div>
 
             <div className='row2'>
-              <div>
-                <DialogDropdownStyle>
-                  <option>Alumni</option>
-                </DialogDropdownStyle>
-              </div>
+              {selectedRole !== 'Faculty' ? (
+                <div>
+                  <DialogDropdownStyle>
+                    <option>Alumni</option>
+                  </DialogDropdownStyle>
+                </div>
+              ) : null}
 
               <GenderContainerStyle>
                 {CONSTANT.gender.map((gender, index) => {
@@ -157,27 +185,6 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
                 })}
               </GenderContainerStyle>
             </div>
-
-            <label htmlFor='uploadAttachment' className='attachment'>
-              <input
-                name='uploadAttachment'
-                type='file'
-                id='uploadAttachment'
-                hidden
-                onChange={handlePdfChange}
-                accept={ACCEPT_FILE_TYPE}
-              />
-              <UploadContainerStyle>
-                <img className='uploadFile' src={LogoutIcon} alt='Upload' />
-
-                <a
-                  className={`${pdfFile?.name ? 'selected' : ''}`}
-                  href={profileDetail?.file}
-                >
-                  {pdfFile ? pdfFile?.name : 'Upload attachment'}
-                </a>
-              </UploadContainerStyle>
-            </label>
 
             <DialogInputStyle
               name='about'

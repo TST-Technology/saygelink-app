@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { devices } from '../utils/constants'
 import theme, { UNIVERSITY_COLOR } from '../utils/variables'
-import { FlexAlignCenter } from './general'
+import { FlexAlignCenter, FlexCenter } from './general'
 
 export const HeaderContainerStyle = styled.div`
   background: ${UNIVERSITY_COLOR.primary};
@@ -83,6 +83,26 @@ export const HeaderContainerStyle = styled.div`
 
       .headerImages {
         cursor: pointer;
+      }
+
+      .profileHeaderImageContainer {
+        position: relative;
+
+        .profileHeaderImage {
+        }
+
+        .requestCount {
+          position: absolute;
+          background: ${theme.lightTheme.black};
+          padding: 15px;
+          height: 20px;
+          width: 20px;
+          ${FlexCenter};
+          color: #1186ef;
+          border-radius: 50%;
+          top: -18px;
+          right: -15px;
+        }
       }
     }
   }

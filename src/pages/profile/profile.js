@@ -36,6 +36,7 @@ import Dialog from '../../components/dialog/dialog'
 import AddExperience from '../../components/profile/add-experience'
 import AddLink from '../../components/profile/add-link'
 import { useNavigate } from 'react-router-dom'
+import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
 
 const Profile = () => {
   const INIT_TIME = {
@@ -65,6 +66,11 @@ const Profile = () => {
       timezone: 'EDT'
     }
   })
+  const [isDeleteLinkConfirmation, setIsDeleteLinkConfirmation] =
+    useState(false)
+  const [isDeleteFileConfirmation, setIsDeleteFileConfirmation] =
+    useState(false)
+  const [deleteLink, setDeleteLink] = useState(null)
 
   useEffect(() => {
     if (email) {
@@ -136,13 +142,9 @@ const Profile = () => {
   }
 
   const handleDeleteLinkClick = (link) => {
-    if (link?._id) {
-      const url = {
-        ...CONSTANT.API.deleteLink,
-        endpoint: CONSTANT.API.deleteLink.endpoint.replace(':id', link?._id)
-      }
-      profileApi.sendRequest(url, getProfile, {}, 'Link deleted successfully!')
-    }
+    console.log('in')
+    setIsDeleteLinkConfirmation(true)
+    setDeleteLink({ ...link })
   }
 
   const handlePdfChange = (event) => {
@@ -173,6 +175,7 @@ const Profile = () => {
       {},
       'Attachment deleted successfully!'
     )
+    setIsDeleteFileConfirmation(false)
   }
 
   const onChangeInterval = (key, subKey, value) => {
@@ -232,7 +235,27 @@ const Profile = () => {
   const handleLogoutClick = () => {
     localStorage.removeItem('authToken')
     localStorage.removeItem('email')
-    navigate(ROUTES.AUTH)
+    setTimeout(() => {
+      navigate(ROUTES.AUTH)
+    }, 3000)
+  }
+
+  const handleDeleteUserFile = () => {
+    setIsDeleteFileConfirmation(true)
+  }
+
+  const handleConfirmLinkClick = () => {
+    if (deleteLink?._id) {
+      const url = {
+        ...CONSTANT.API.deleteLink,
+        endpoint: CONSTANT.API.deleteLink.endpoint.replace(
+          ':id',
+          deleteLink?._id
+        )
+      }
+      setIsDeleteLinkConfirmation(false)
+      profileApi.sendRequest(url, getProfile, {}, 'Link deleted successfully!')
+    }
   }
 
   const currentWeekDay = !isEmptyArray(profileDetail?.availability)
@@ -412,7 +435,7 @@ const Profile = () => {
                         <div className='viewRow' key={index}>
                           <div className='textContainer'>
                             <a href={row?.url} className='durationText'>
-                              {row?.name}
+                              {row?.url}
                             </a>
                           </div>
 
@@ -455,7 +478,7 @@ const Profile = () => {
                       <div
                         className='buttonContainer'
                         onClick={() => {
-                          deleteUserFile()
+                          handleDeleteUserFile()
                         }}
                       >
                         <img src={TrashIcon} />
@@ -559,12 +582,14 @@ const Profile = () => {
           </div>
         </ProfileStyleContainer>
       )}
-      <EditProfile
-        profileDetail={profileDetail}
-        open={editProfileDialog}
-        onClose={(flag) => handleEditProfileClose(flag)}
-        handleUploadFile={handleUploadFile}
-      />
+      {editProfileDialog ? (
+        <EditProfile
+          profileDetail={profileDetail}
+          open={editProfileDialog}
+          onClose={(flag) => handleEditProfileClose(flag)}
+          handleUploadFile={handleUploadFile}
+        />
+      ) : null}
       <Dialog
         content={
           <AddExperience onClose={() => handleCloseExperienceDialog(true)} />
@@ -585,6 +610,28 @@ const Profile = () => {
         open={linkDialogVisible}
         width='500px'
       />
+
+      {isDeleteLinkConfirmation ? (
+        <DeleteConfirmation
+          onCancelButtonClick={() => {
+            setIsDeleteLinkConfirmation(false)
+          }}
+          onConfirmButtonClick={() => {
+            handleConfirmLinkClick()
+          }}
+        />
+      ) : null}
+
+      {isDeleteFileConfirmation ? (
+        <DeleteConfirmation
+          onCancelButtonClick={() => {
+            setIsDeleteFileConfirmation(false)
+          }}
+          onConfirmButtonClick={() => {
+            deleteUserFile()
+          }}
+        />
+      ) : null}
     </>
   )
 }

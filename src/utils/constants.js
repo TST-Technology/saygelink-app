@@ -105,6 +105,10 @@ const CONSTANT = {
     rescheduleAvailability: {
       endpoint: '/connect/rescheduleAvailability',
       type: 'PUT'
+    },
+    getConnectionRequest: {
+      endpoint: '/connect',
+      type: 'GET'
     }
   },
   planningStage: [

@@ -172,8 +172,7 @@ export const SmallWeekDayStyle = css`
     gap: 20px;
 
     .weekDay {
-      background: rgba(171, 233, 222, 0.17);
-      border: 2px solid #1186ef;
+      background: #d9d9d9;
       width: 32px;
       height: 32px;
       border-radius: 50%;
