@@ -13,11 +13,39 @@ import {
 } from '../../style-component/message/message'
 import { Menu } from '@mui/material'
 import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
-import { scheduleMeetingStyle } from '../../utils/constants'
+import CONSTANT, {
+  DATE_FORMAT,
+  scheduleMeetingStyle
+} from '../../utils/constants'
+import useHttp from '../../hooks/use-http'
+import { useEffect } from 'react'
+import { dateFormat, isEmptyArray } from '../../utils/funcs'
 
 const Message = () => {
+  const messageApi = useHttp()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
+  const [messages, setMessages] = useState(null)
+
+  useEffect(() => {
+    getMessage()
+  }, [])
+
+  const responseHandler = (resp) => {
+    console.log(resp)
+    if (resp && !isEmptyArray(resp?.messages)) {
+      setMessages(resp?.messages)
+    }
+  }
+
+  const getMessage = (userId = '62cf74363959f43b15e3d838') => {
+    const url = {
+      ...CONSTANT.API.getAllMessages,
+      endpoint: CONSTANT.API.getAllMessages.endpoint.replace(':userId', userId)
+    }
+    messageApi.sendRequest(url, responseHandler)
+  }
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -88,49 +116,22 @@ const Message = () => {
             <div className='chatContainer'>
               <div className='chatMessagesContainer'>
                 <p className='chatDateText'>Today</p>
-
-                <MessageStyle sent={true}>
-                  <p className='messageHelperText'>12:30 AM</p>
-                  <p className='messageText'>Hello !</p>
-                  <p className='messageHelperText'>VIEWED AT</p>
-                </MessageStyle>
-
-                <MessageStyle sent={false}>
-                  <p className='messageHelperText'>12:30 AM</p>
-                  <p className='messageText'>Hello !</p>
-                  <p className='messageText'>How are you ?</p>
-                </MessageStyle>
-
-                <MessageStyle sent={true}>
-                  <p className='messageHelperText'>12:30 AM</p>
-                  <p className='messageText'>Hello !</p>
-                  <p className='messageText'>How are you ?</p>
-                  <p className='messageHelperText'>VIEWED AT</p>
-                </MessageStyle>
-
-                <MessageStyle sent={false}>
-                  <p className='messageHelperText'>12:30 AM</p>
-                  <p className='messageText'>i am also fine.</p>
-                  <p className='messageText'>Thank you</p>
-                </MessageStyle>
-
-                <MessageStyle sent={true}>
-                  <p className='messageHelperText'>12:30 AM</p>
-                  <p className='messageText'>Welcome</p>
-                  <p className='messageHelperText'>VIEWED AT</p>
-                </MessageStyle>
-
-                <MessageStyle sent={false}>
-                  <p className='messageHelperText'>12:30 AM</p>
-                  <p className='messageText'>i am also fine.</p>
-                  <p className='messageText'>Thank you</p>
-                </MessageStyle>
-
-                <MessageStyle sent={true}>
-                  <p className='messageHelperText'>12:30 AM</p>
-                  <p className='messageText'>Welcome</p>
-                  <p className='messageHelperText'>VIEWED AT</p>
-                </MessageStyle>
+                {!isEmptyArray(messages)
+                  ? messages.map((message) => {
+                      return (
+                        <MessageStyle sent={message?.fromSelf} key={message.id}>
+                          <p className='messageHelperText'>
+                            {dateFormat(
+                              message?.timestamp,
+                              DATE_FORMAT.FORMAT_3
+                            )}
+                          </p>
+                          <p className='messageText'>{message?.message}</p>
+                          {/* <p className='messageHelperText'>VIEWED AT</p> */}
+                        </MessageStyle>
+                      )
+                    })
+                  : null}
               </div>
               <div className='chatInputContainer'>
                 <MessageInputStyle placeholder='Text Messages....' />

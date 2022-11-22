@@ -18,6 +18,7 @@ import Notification from './notification'
 import { useEffect } from 'react'
 import useHttp from '../../hooks/use-http'
 import ConnectionRequest from './connection-request'
+import { isEmptyArray } from '../../utils/funcs'
 
 const Header = () => {
   const [activeTab, setActiveTab] = useState(window.location.pathname)
@@ -62,8 +63,10 @@ const Header = () => {
   }
 
   const handleRequestClick = (event) => {
-    setFloatMenuType('request')
-    setAnchorEl(event.currentTarget)
+    if (!isEmptyArray(requestDetail?.connections)) {
+      setFloatMenuType('request')
+      setAnchorEl(event.currentTarget)
+    }
   }
 
   const handleClose = (e) => {
@@ -134,7 +137,7 @@ const Header = () => {
               src={ProfileLogo}
               className='headerImages profileHeaderImage'
             />
-            {pendingRequestCount ? (
+            {!isEmptyArray(pendingRequestCount) ? (
               <div className='requestCount'>{pendingRequestCount}</div>
             ) : null}
           </div>
@@ -188,7 +191,7 @@ const Header = () => {
       >
         {floatMenuType === 'notification' ? <Notification /> : null}
         {floatMenuType === 'request' ? (
-          <ConnectionRequest detail={requestDetail} />
+          <ConnectionRequest detail={requestDetail} getDetail={getRequests} />
         ) : null}
       </Menu>
     </HeaderContainerStyle>

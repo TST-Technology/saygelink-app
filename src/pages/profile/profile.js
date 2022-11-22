@@ -50,7 +50,7 @@ const Profile = () => {
   const chatRequestApi = useHttp()
   const navigate = useNavigate()
   const [editProfileDialog, setEditProfileDialog] = useState()
-  const { setUser, user } = useContext(UserContext)
+  const { setUser, user, setToken } = useContext(UserContext)
   const [profileDetail, setProfileDetail] = useState(null)
   const [maximumRequests, setMaximumRequests] = useState(null)
   const email = getEmail()

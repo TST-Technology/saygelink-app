@@ -35,6 +35,7 @@ export const notify = {
 }
 
 export const getToken = () => {
+  console.log(UserProfile.userDetails)
   if (UserProfile.userDetails?.token) {
     return UserProfile.userDetails?.token
   } else {

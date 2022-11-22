@@ -109,6 +109,18 @@ const CONSTANT = {
     getConnectionRequest: {
       endpoint: '/connect',
       type: 'GET'
+    },
+    confirmAvailability: {
+      endpoint: '/connect/confirmAvailability',
+      type: 'PUT'
+    },
+    cancelAvailability: {
+      endpoint: '/connect/cancelAvailability',
+      type: 'PUT'
+    },
+    getAllMessages: {
+      endpoint: '/chat/messages/:userId',
+      type: 'GET'
     }
   },
   planningStage: [
