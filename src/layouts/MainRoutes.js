@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import Header from '../components/general/header'
 import ProtectedRoute from '../components/protected-route/protected-route'
 import { UserContext } from '../context/user'
+import useHttp from '../hooks/use-http'
 import Login from '../pages/auth'
 import Calender from '../pages/calender/calender'
 import CreateAccount from '../pages/createAccount/create-account'
@@ -15,16 +16,43 @@ import Profile from '../pages/profile/profile'
 import Signup from '../pages/register/signup'
 import Welcome from '../pages/welcome/welcomepage'
 import { DashboardContainerStyle } from '../style-component/dashboard/dashboard'
-import { ROUTES } from '../utils/constants'
+import CONSTANT, { ROUTES } from '../utils/constants'
 import { getEmail, getToken } from '../utils/funcs'
 
 const MainRoutes = () => {
+  const profileApi = useHttp()
   const [includeHeader, setIncludeHeader] = useState(false)
   const [user, setUser] = useState(null)
+  const [profileDetail, setProfileDetail] = useState(null)
+
+  const token = getToken()
+  const email = getEmail()
+
+  useEffect(() => {
+    if (email && !profileDetail) {
+      getProfileDetail()
+    }
+  }, [email])
 
   useEffect(() => {
     setIncludeHeader(HEADER_VISIBLE_ROUTES.includes(window.location.pathname))
   }, [window.location.pathname])
+
+  const getProfileDetail = () => {
+    const url = {
+      ...CONSTANT.API.getProfileDetail,
+      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(':email', email)
+    }
+    console.log(url)
+    profileApi.sendRequest(url, responseHandler)
+  }
+
+  const responseHandler = (res) => {
+    console.log(res)
+    if (res?.userInfo) {
+      setProfileDetail({ ...res?.userInfo })
+    }
+  }
 
   const HEADER_VISIBLE_ROUTES = [
     ROUTES.HEALTHCARE,
@@ -35,11 +63,15 @@ const MainRoutes = () => {
     ROUTES.CALENDER
   ]
 
-  const token = getToken()
-  const email = getEmail()
-
   return (
-    <UserContext.Provider value={{ setUser: setUser, user: user }}>
+    <UserContext.Provider
+      value={{
+        setUser: setUser,
+        user: user,
+        profileDetail: profileDetail,
+        setProfileDetail: setProfileDetail
+      }}
+    >
       <DashboardContainerStyle includeHeader={includeHeader}>
         {includeHeader ? <Header /> : null}
         <Fragment>

@@ -17,13 +17,15 @@ export const HeaderContainerStyle = styled.div`
     height: 100%;
 
     .leftSection {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 3px;
+      cursor: pointer;
 
       img {
-        width: 58px;
-        height: 56px;
+        width: 64px;
+        height: 45px;
+        object-fit: cover;
       }
 
       p {
@@ -85,6 +87,17 @@ export const HeaderContainerStyle = styled.div`
         cursor: pointer;
       }
 
+      .width-30 {
+        width: 40px;
+      }
+
+      .profileImage {
+        width: 33px;
+        height: 33px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
       .profileHeaderImageContainer {
         position: relative;
 
@@ -126,6 +139,7 @@ export const NotificationContainerStyle = styled.div`
         width: 12px;
         background: #1186ef;
         border-radius: 50%;
+        width: 3%;
       }
 
       .text {
@@ -136,6 +150,7 @@ export const NotificationContainerStyle = styled.div`
         line-height: 24px;
         color: #5c5353;
         margin: 5px 0;
+        width: 90%;
       }
     }
 

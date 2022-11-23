@@ -175,6 +175,10 @@ export const CalenderContainerStyle = styled.div`
                 .calenderPreviewEventCardRight {
                   ${FlexAlignCenter}
                   gap: 20px;
+
+                  .meetingButton {
+                    width: 130px;
+                  }
                 }
               }
             }

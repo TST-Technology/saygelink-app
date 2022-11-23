@@ -174,7 +174,7 @@ const Calender = () => {
                       )
                     })
                   ) : (
-                    <h2 style={{ textAlign: 'center' }}>No meeting schedule</h2>
+                    <p style={{ textAlign: 'center' }}>No meeting schedule</p>
                   )}
                 </div>
               </div>

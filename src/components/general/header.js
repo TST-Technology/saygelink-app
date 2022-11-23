@@ -3,7 +3,7 @@ import {
   HeaderContainerStyle,
   NotificationContainerStyle
 } from '../../style-component/header'
-import shortLogo from '../../assets/images/short_logo.png'
+import columbiaLogo from '../../assets/images/columbiaHeaderLogo.png'
 import HomeLogo from '../../assets/images/home.svg'
 import MessageLogo from '../../assets/images/message.svg'
 import CalenderLogo from '../../assets/images/calendar.svg'
@@ -19,6 +19,8 @@ import { useEffect } from 'react'
 import useHttp from '../../hooks/use-http'
 import ConnectionRequest from './connection-request'
 import { isEmptyArray } from '../../utils/funcs'
+import { useContext } from 'react'
+import { UserContext } from '../../context/user'
 
 const Header = () => {
   const [activeTab, setActiveTab] = useState(window.location.pathname)
@@ -29,6 +31,12 @@ const Header = () => {
   const [pendingRequestCount, setPendingRequestCount] = useState(null)
   const [floatMenuType, setFloatMenuType] = useState(null)
   const [requestDetail, setRequestDetail] = useState(null)
+  const { profileDetail } = useContext(UserContext)
+  console.log(profileDetail)
+
+  useEffect(() => {
+    setActiveTab(window.location.pathname)
+  }, [window.location.pathname])
 
   useEffect(() => {
     getRequests()
@@ -63,7 +71,8 @@ const Header = () => {
   }
 
   const handleRequestClick = (event) => {
-    if (!isEmptyArray(requestDetail?.connections)) {
+    console.log(requestDetail)
+    if (!isEmptyArray(requestDetail)) {
       setFloatMenuType('request')
       setAnchorEl(event.currentTarget)
     }
@@ -81,6 +90,7 @@ const Header = () => {
   const responseHandler = (resp) => {
     console.log(resp)
     if (resp && resp?.count && resp?.connections) {
+      console.log('in')
       setPendingRequestCount(resp?.count)
       setRequestDetail(resp?.connections)
     }
@@ -90,13 +100,20 @@ const Header = () => {
     connectApi.sendRequest(CONSTANT.API.getConnectionRequest, responseHandler)
   }
 
+  const handleLogoClick = () => {
+    nav(ROUTES.HOME)
+  }
+
   return (
     <HeaderContainerStyle>
       <div className='headerContainer'>
-        <div className='leftSection'>
-          <img src={shortLogo} />
-
-          <p>Sayge Link</p>
+        <div
+          className='leftSection'
+          onClick={() => {
+            handleLogoClick()
+          }}
+        >
+          <img src={columbiaLogo} />
         </div>
 
         <div className='rightSection'>
@@ -119,21 +136,15 @@ const Header = () => {
               </div>
             )
           })}
+          <div className='width-30' onClick={handleClick}>
+            <img src={BellLogo} className='headerImages' />
+          </div>
 
-          <img
-            src={BellLogo}
-            className='headerImages'
-            onClick={handleClick}
-            size='small'
-            sx={{ ml: 2 }}
-            aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup='true'
-            aria-expanded={open ? 'true' : undefined}
-          />
-
-          <div className='profileHeaderImageContainer'>
+          <div
+            className='profileHeaderImageContainer width-30'
+            onClick={handleRequestClick}
+          >
             <img
-              onClick={handleRequestClick}
               src={ProfileLogo}
               className='headerImages profileHeaderImage'
             />
@@ -147,8 +158,12 @@ const Header = () => {
               setActiveTab(null)
               nav(ROUTES.PROFILE)
             }}
-            src={PersonImg}
-            className='headerImages'
+            src={
+              profileDetail?.profile_image
+                ? profileDetail?.profile_image
+                : PersonImg
+            }
+            className='headerImages profileImage'
           />
         </div>
       </div>
@@ -166,18 +181,12 @@ const Header = () => {
             overflow: 'visible',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
             mt: 2.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1
-            },
             '&:before': {
               content: '""',
               display: 'block',
               position: 'absolute',
               top: 15,
-              right: 20,
+              right: 10,
               width: 40,
               height: 40,
               bgcolor: 'background.paper',
