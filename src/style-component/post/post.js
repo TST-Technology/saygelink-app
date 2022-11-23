@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Menu } from '@mui/material'
 
 export const PostStyle = styled.div`
   .individualPost {
@@ -60,5 +61,16 @@ export const PostStyle = styled.div`
     margin-bottom: 0;
     border-bottom: 0.833333px solid rgba(38, 38, 38, 0.08);
     word-break: break-word;
+  }
+`
+
+export const StylePostMenu = styled(Menu)`
+  .MuiMenuItem-root {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #262626;
   }
 `

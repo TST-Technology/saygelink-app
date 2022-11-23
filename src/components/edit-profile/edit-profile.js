@@ -15,7 +15,11 @@ import CONSTANT, {
   ACCEPT_IMAGE_TYPE
 } from '../../utils/constants'
 import LogoutIcon from '../../assets/images/log-out.svg'
-import { notify } from '../../utils/funcs'
+import {
+  capitalizeFirstLetter,
+  getQualificationYear,
+  notify
+} from '../../utils/funcs'
 import useHttp from '../../hooks/use-http'
 
 const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
@@ -23,9 +27,18 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
   const [selectedGender, setSelectedGender] = useState(() => {
     return profileDetail?.gender
   })
-  const [selectedRole, setSelectedRole] = useState('Student')
-
+  const [selectedRole, setSelectedRole] = useState(() => {
+    return profileDetail?.qualification
+      ? capitalizeFirstLetter(profileDetail?.qualification)
+      : null
+  })
   const [profileImage, setPdfFile] = useState(null)
+  const yearList = getQualificationYear()
+  const [qualificationYear, setQualificationYear] = useState(() => {
+    return profileDetail?.qualification_year
+      ? profileDetail?.qualification_year
+      : null
+  })
 
   const handleImageChange = (event) => {
     const file = event.target.files[0]
@@ -72,10 +85,28 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
       formData.append('image', profileImage)
       profileApi.sendRequest(
         CONSTANT.API.uploadUserProfilePicture,
+        handleImageChangeResponse,
+        formData,
+        'Profile updated successfully!'
+      )
+    } else {
+      handleImageChangeResponse()
+      onClose(true)
+    }
+  }
+
+  const handleImageChangeResponse = () => {
+    if (qualificationYear && selectedRole && selectedRole !== 'Faculty') {
+      const param = {
+        qualification: selectedRole.toLowerCase(),
+        qualification_year: qualificationYear
+      }
+      profileApi.sendRequest(
+        CONSTANT.API.updateUserQualification,
         () => {
           onClose(true)
         },
-        formData,
+        param,
         'Profile updated successfully!'
       )
     } else {
@@ -86,6 +117,10 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
 
   const handleRoleChange = (e) => {
     setSelectedRole(e.target.value)
+  }
+
+  const handleYearChange = (e) => {
+    setQualificationYear(e.target.value)
   }
 
   return (
@@ -161,8 +196,21 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
             <div className='row2'>
               {selectedRole !== 'Faculty' ? (
                 <div>
-                  <DialogDropdownStyle>
-                    <option>Alumni</option>
+                  <DialogDropdownStyle
+                    name='qualificationYear'
+                    onChange={handleYearChange}
+                  >
+                    {yearList.map((year) => {
+                      return (
+                        <option
+                          selected={year.value === qualificationYear}
+                          key={year.value}
+                          value={year.value}
+                        >
+                          {year.label}
+                        </option>
+                      )
+                    })}
                   </DialogDropdownStyle>
                 </div>
               ) : null}

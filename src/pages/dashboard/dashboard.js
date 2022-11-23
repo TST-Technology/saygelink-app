@@ -32,6 +32,7 @@ import RescheduleImage from '../../assets/images/reschedule.svg'
 import SendDarkImage from '../../assets/images/send-dark.svg'
 import { Menu } from '@mui/material'
 import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
+import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
   const [categories, setCategories] = useState(null)
@@ -45,6 +46,7 @@ const Dashboard = () => {
   const [selectedConnection, setSelectedConnection] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
+  const navigate = useNavigate()
 
   useEffect(() => {
     getAllData()
@@ -107,6 +109,14 @@ const Dashboard = () => {
     }
   }
 
+  const redirectToInterest = (second) => {
+    navigate(`${ROUTES.NETWORK}#interest`)
+  }
+
+  const redirectToEvent = (second) => {
+    navigate(`${ROUTES.NETWORK}#event`)
+  }
+
   return (
     <>
       {isLoading ? (
@@ -137,7 +147,9 @@ const Dashboard = () => {
                 <>
                   <div className='cardHeading'>
                     <p className=''>Events</p>
-                    <span className=''>View all</span>
+                    <span className='' onClick={() => redirectToEvent()}>
+                      View all
+                    </span>
                   </div>
                   {events &&
                     events.slice(0, 2).map((event) => {
@@ -162,7 +174,9 @@ const Dashboard = () => {
                 <>
                   <div className='cardHeading'>
                     <p className=''>Interest</p>
-                    <span className=''>View all</span>
+                    <span className='' onClick={() => redirectToInterest()}>
+                      View all
+                    </span>
                   </div>
                   {interests.slice(0, 2).map((interest) => {
                     return (
@@ -292,7 +306,9 @@ const Dashboard = () => {
                       )
                     })}
                 </div>
-              ) : null}
+              ) : (
+                <p className='mt-3 text-center'>No schedule found</p>
+              )}
             </div>
           </div>
           <BottomFixedStyle>

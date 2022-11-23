@@ -269,6 +269,7 @@ export const ProfileCardStyle = styled.div`
     ${FlexAlignCenter}
     gap: 20px;
     margin: 10px 0;
+    flex-wrap: wrap;
   }
 
   .width50 {

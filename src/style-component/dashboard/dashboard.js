@@ -114,7 +114,6 @@ export const HomeContainerStyle = styled.div`
 
       > div,
       img {
-        border-bottom: 1px solid ${theme.lightTheme.greyGoose};
         padding-bottom: 20px;
 
         &:last-child {

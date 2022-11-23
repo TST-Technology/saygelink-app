@@ -32,7 +32,6 @@ const Header = () => {
   const [floatMenuType, setFloatMenuType] = useState(null)
   const [requestDetail, setRequestDetail] = useState(null)
   const { profileDetail } = useContext(UserContext)
-  console.log(profileDetail)
 
   useEffect(() => {
     setActiveTab(window.location.pathname)
@@ -71,7 +70,6 @@ const Header = () => {
   }
 
   const handleRequestClick = (event) => {
-    console.log(requestDetail)
     if (!isEmptyArray(requestDetail)) {
       setFloatMenuType('request')
       setAnchorEl(event.currentTarget)
@@ -88,9 +86,7 @@ const Header = () => {
   }
 
   const responseHandler = (resp) => {
-    console.log(resp)
     if (resp && resp?.count && resp?.connections) {
-      console.log('in')
       setPendingRequestCount(resp?.count)
       setRequestDetail(resp?.connections)
     }

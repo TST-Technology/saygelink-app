@@ -23,6 +23,7 @@ import { dateFormat, isEmptyArray } from '../../utils/funcs'
 import Loader from '../../components/general/loader'
 import { Menu } from '@mui/material'
 import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
+import moment from 'moment'
 
 const Calender = () => {
   const calenderApi = useHttp()
@@ -75,36 +76,55 @@ const Calender = () => {
     }
   }
 
+  const handlePreviousDate = () => {
+    const val = moment(value).subtract(1, 'days').toDate()
+    setValue(val)
+  }
+
+  const handleNextDate = () => {
+    const val = moment(value).add(1, 'days').toDate()
+    setValue(val)
+  }
+
   return (
     <>
-      {calenderApi.isLoading ? (
+      {/* {calenderApi.isLoading ? (
         <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
-      ) : (
-        <CalenderContainerStyle>
-          <div className='calenderPageContainer'>
-            <div className='calenderLeft'>
-              <CustomCalender onChange={setValue} value={value} />
-            </div>
+      ) : ( */}
+      <CalenderContainerStyle>
+        <div className='calenderPageContainer'>
+          <div className='calenderLeft'>
+            <CustomCalender onChange={setValue} value={value} />
+          </div>
 
-            <div className='calenderRight'>
-              <div className='calenderPreviewHeader'>
-                <div className='calenderPreviewHeaderSectionContainer'>
-                  <div className='calenderPreviewHeaderSection'>
-                    <img src={CalenderImage} />
+          <div className='calenderRight'>
+            <div className='calenderPreviewHeader'>
+              <div className='calenderPreviewHeaderSectionContainer'>
+                <div className='calenderPreviewHeaderSection'>
+                  <img src={CalenderImage} />
 
-                    <p>{dateFormat(value, DATE_FORMAT.FORMAT_2)}</p>
-                  </div>
+                  <p>{dateFormat(value, DATE_FORMAT.FORMAT_2)}</p>
+                </div>
 
-                  <div className='calenderPreviewHeaderSection'>
-                    <img src={ArrowLeftDark} />
-                    <img
-                      style={{ transform: 'rotate(180deg)' }}
-                      src={ArrowLeftDark}
-                    />
-                  </div>
+                <div className='calenderPreviewHeaderSection'>
+                  <img
+                    src={ArrowLeftDark}
+                    onClick={() => handlePreviousDate()}
+                  />
+                  <img
+                    style={{ transform: 'rotate(180deg)' }}
+                    src={ArrowLeftDark}
+                    onClick={() => {
+                      handleNextDate()
+                    }}
+                  />
                 </div>
               </div>
-              <div className='calenderPreviewBody'>
+            </div>
+            <div className='calenderPreviewBody'>
+              {calenderApi.isLoading ? (
+                <Loader height={`calc(100% - 95px)`} />
+              ) : (
                 <div className='calenderPreviewEventsContainer'>
                   {!isEmptyArray(activeConnections) ? (
                     activeConnections.map((conn, index) => {
@@ -149,8 +169,8 @@ const Calender = () => {
                                 </div>
                               </div>
                               <div className='calenderPreviewEventCardRight'>
-                                <CalenderEventButtonStyle
-                                  className='meetingButton'
+                                <a
+                                  className='meetingButton width-fixed'
                                   onClick={(e) => handleClick(e, conn)}
                                   size='small'
                                   sx={{ ml: 2 }}
@@ -162,11 +182,15 @@ const Calender = () => {
                                 >
                                   <img src={RescheduleImage} />
                                   Re-schedule
-                                </CalenderEventButtonStyle>
-                                <CalenderEventButtonStyle>
+                                </a>
+                                <a
+                                  target='_blank'
+                                  href={conn?.zoom_link}
+                                  className='meetingButton'
+                                >
                                   <img src={SendDarkImage} />
                                   Join
-                                </CalenderEventButtonStyle>
+                                </a>
                               </div>
                             </div>
                           </div>
@@ -177,33 +201,34 @@ const Calender = () => {
                     <p style={{ textAlign: 'center' }}>No meeting schedule</p>
                   )}
                 </div>
-              </div>
+              )}
             </div>
           </div>
+        </div>
 
-          {open ? (
-            <Menu
-              anchorEl={anchorEl}
-              id='account-menu'
-              open={open}
-              onClose={() => handleClose(false)}
-              PaperProps={{
-                elevation: 0,
-                sx: { ...scheduleMeetingStyle, '&:before': {} }
-              }}
-              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            >
-              <ScheduleMeeting
-                connectionId={selectedConnection?._id}
-                email={selectedConnection?.sharer?.email}
-                optionId={selectedConnection?.connect_on?._id}
-                onClose={handleClose}
-              />
-            </Menu>
-          ) : null}
-        </CalenderContainerStyle>
-      )}
+        {open ? (
+          <Menu
+            anchorEl={anchorEl}
+            id='account-menu'
+            open={open}
+            onClose={() => handleClose(false)}
+            PaperProps={{
+              elevation: 0,
+              sx: { ...scheduleMeetingStyle, '&:before': {} }
+            }}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          >
+            <ScheduleMeeting
+              connectionId={selectedConnection?._id}
+              email={selectedConnection?.sharer?.email}
+              optionId={selectedConnection?.connect_on?._id}
+              onClose={handleClose}
+            />
+          </Menu>
+        ) : null}
+      </CalenderContainerStyle>
+      {/* )} */}
     </>
   )
 }

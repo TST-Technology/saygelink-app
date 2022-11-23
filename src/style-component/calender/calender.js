@@ -60,6 +60,10 @@ export const CalenderContainerStyle = styled.div`
             padding: 0 12px;
             border-radius: 11.6667px;
 
+            img {
+              cursor: pointer;
+            }
+
             p {
               font-family: 'Poppins';
               font-style: normal;
@@ -176,8 +180,28 @@ export const CalenderContainerStyle = styled.div`
                   ${FlexAlignCenter}
                   gap: 20px;
 
-                  .meetingButton {
+                  .width-fixed {
                     width: 130px;
+                  }
+
+                  .meetingButton {
+                    margin: 0;
+                    box-shadow: none;
+                    heigh: fit-content;
+                    font-family: 'Poppins';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 12px;
+                    line-height: 17px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    color: #000000;
+                    padding: 10px;
+                    text-decoration: none;
+                    background: ${theme.lightTheme.primary.color};
+                    border-radius: 6px;
+                    cursor: pointer;
                   }
                 }
               }

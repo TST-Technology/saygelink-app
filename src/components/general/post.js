@@ -1,8 +1,18 @@
-import React from 'react'
-import { PostStyle } from '../../style-component/post/post'
+import React, { useState } from 'react'
+import { PostStyle, StylePostMenu } from '../../style-component/post/post'
 import ThreeDotImage from '../../assets/images/threeDotMenu.svg'
+import { MenuItem } from '@mui/material'
 
 const Post = ({ name, time, description, image }) => {
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
   return (
     <PostStyle>
       <div className='individualPost'>
@@ -17,8 +27,22 @@ const Post = ({ name, time, description, image }) => {
         </div>
 
         <div className='rightSidePostHeader'>
-          <img src={ThreeDotImage} />
+          <div onClick={handleClick}>
+            <img src={ThreeDotImage} />
+          </div>
         </div>
+
+        <StylePostMenu
+          id='basic-menu'
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button'
+          }}
+        >
+          <MenuItem onClick={handleClose}>Report post</MenuItem>
+        </StylePostMenu>
       </div>
 
       <div

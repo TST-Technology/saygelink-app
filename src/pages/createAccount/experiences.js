@@ -8,7 +8,7 @@ import {
   StyleNextButtonContainer
 } from '../../style-component/createAccount/create-account'
 import { DarkGrayLable } from '../../style-component/general'
-import CONSTANT from '../../utils/constants'
+import CONSTANT, { ROUTES } from '../../utils/constants'
 import {
   StyleCategoryCard,
   StyleCompleteProfileContainer,
@@ -20,11 +20,13 @@ import RightArrow from '../../assets/images/RightArrow.svg'
 import { CreateAccountContext } from './create-account'
 import { notify } from '../../utils/funcs'
 import PeopleImage from '../../assets/images/people.png'
+import { useNavigate } from 'react-router-dom'
 
 const Experiences = () => {
   const categoryApi = useHttp()
   const subCategoryApi = useHttp()
   const experienceApi = useHttp()
+  const navigate = useNavigate()
 
   const { formData, setStep, setFormData, step } =
     useContext(CreateAccountContext)
@@ -127,7 +129,13 @@ const Experiences = () => {
           </StyleCompleteProfileContainer>
 
           <StyleNextButtonContainer>
-            <StyleNextButton>Start connecting</StyleNextButton>
+            <StyleNextButton
+              onClick={() => {
+                navigate(ROUTES.HOME)
+              }}
+            >
+              Start connecting
+            </StyleNextButton>
           </StyleNextButtonContainer>
         </>
       ) : (

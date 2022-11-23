@@ -75,6 +75,11 @@ const Profile = () => {
   const [isDeleteFileConfirmation, setIsDeleteFileConfirmation] =
     useState(false)
   const [deleteLink, setDeleteLink] = useState(null)
+  const [
+    isDeleteAvailabilityConfirmation,
+    setIsDeleteAvailabilityConfirmation
+  ] = useState(false)
+  const [availabilityId, setAvailabilityId] = useState(null)
 
   useEffect(() => {
     if (email) {
@@ -209,6 +214,33 @@ const Profile = () => {
       interval?.end_time?.minute &&
       interval?.end_time?.time
     ) {
+      if (
+        interval?.start_time?.time === 'PM' &&
+        interval?.end_time?.time === 'AM'
+      ) {
+        notify.error('Please enter valid time')
+        return
+      }
+
+      if (
+        (interval?.start_time?.time === 'AM' &&
+          interval?.end_time?.time === 'AM') ||
+        (interval?.start_time?.time === 'PM' &&
+          interval?.end_time?.time === 'PM')
+      ) {
+        if (interval?.start_time?.hour === interval?.end_time?.hour) {
+          if (interval?.start_time?.minute >= interval?.end_time?.minute) {
+            notify.error('Please enter valid time')
+            return
+          }
+        }
+
+        if (interval?.start_time?.hour > interval?.end_time?.hour) {
+          notify.error('Please enter valid time')
+          return
+        }
+      }
+
       const tempAvail = {}
       tempAvail.start_time = `${interval.start_time.hour}:${interval.start_time.minute}${interval.start_time.time}`
       tempAvail.end_time = `${interval.end_time.hour}:${interval.end_time.minute}${interval.end_time.time}`
@@ -260,6 +292,33 @@ const Profile = () => {
       }
       setIsDeleteLinkConfirmation(false)
       profileApi.sendRequest(url, getProfile, {}, 'Link deleted successfully!')
+    }
+  }
+
+  const handleAvailabilityDelete = (avail) => {
+    console.log(avail)
+    if (avail) {
+      setIsDeleteAvailabilityConfirmation(true)
+      setAvailabilityId(avail?._id)
+    }
+  }
+
+  const deleteAvailability = () => {
+    if (availabilityId) {
+      const url = {
+        ...CONSTANT.API.deleteAvailability,
+        endpoint: CONSTANT.API.deleteAvailability.endpoint.replace(
+          ':availId',
+          availabilityId
+        )
+      }
+      profileApi.sendRequest(
+        CONSTANT.API.deleteFile,
+        getProfile,
+        {},
+        'Availability deleted successfully!'
+      )
+      setIsDeleteAvailabilityConfirmation(false)
     }
   }
 
@@ -412,7 +471,12 @@ const Profile = () => {
                               </p>
                             </div>
 
-                            <div className='buttonContainer'>
+                            <div
+                              className='buttonContainer'
+                              onClick={() => {
+                                handleAvailabilityDelete(row)
+                              }}
+                            >
                               <img src={TrashIcon} />
                             </div>
                           </div>
@@ -634,6 +698,17 @@ const Profile = () => {
           }}
           onConfirmButtonClick={() => {
             deleteUserFile()
+          }}
+        />
+      ) : null}
+
+      {isDeleteAvailabilityConfirmation ? (
+        <DeleteConfirmation
+          onCancelButtonClick={() => {
+            setIsDeleteAvailabilityConfirmation(false)
+          }}
+          onConfirmButtonClick={() => {
+            deleteAvailability()
           }}
         />
       ) : null}

@@ -28,6 +28,7 @@ export const ImageCardStyle = styled.div`
         border-radius: 7.5px;
         padding: 2px 18px;
         color: #4d85eb;
+        cursor: pointer;
       }
     }
 

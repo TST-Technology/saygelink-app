@@ -121,6 +121,14 @@ const CONSTANT = {
     getAllMessages: {
       endpoint: '/chat/messages/:userId',
       type: 'GET'
+    },
+    deleteAvailability: {
+      endpoint: `/users/availability/remove/:availId`,
+      type: 'DELETE'
+    },
+    updateUserQualification: {
+      endpoint: `/users/updateUserQualification`,
+      type: 'PATCH'
     }
   },
   planningStage: [

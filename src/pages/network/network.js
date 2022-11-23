@@ -23,10 +23,22 @@ const Network = () => {
   const [connections, setConnections] = useState(null)
   const [events, setEvents] = useState(null)
   const [interests, setInterests] = useState(null)
+  const TAB = {
+    MY_CONNECTIONS: 'My Connections',
+    EVENT_GROUPS: 'Event Groups',
+    INTEREST_GROUPS: 'Interest Groups'
+  }
+  const [activeTab, setActiveTab] = useState(TAB.MY_CONNECTIONS)
 
   useEffect(() => {
     getConnection()
     getAllGroups()
+    const hash = window.location.hash
+    if (hash === '#interest') {
+      setActiveTab(TAB.INTEREST_GROUPS)
+    } else if (hash === '#event') {
+      setActiveTab(TAB.EVENT_GROUPS)
+    }
   }, [])
 
   const responseHandler = (res) => {
@@ -57,12 +69,6 @@ const Network = () => {
     networkApi.sendRequest(CONSTANT.API.getAllGroup, responseGroupHandler)
   }
 
-  const TAB = {
-    MY_CONNECTIONS: 'My Connections',
-    EVENT_GROUPS: 'Event Groups',
-    INTEREST_GROUPS: 'Interest Groups'
-  }
-  const [activeTab, setActiveTab] = useState(TAB.MY_CONNECTIONS)
   const TABS = [
     { label: TAB.MY_CONNECTIONS, imageUrl: UsersImage },
     { label: TAB.EVENT_GROUPS, imageUrl: EventImage },
@@ -91,112 +97,106 @@ const Network = () => {
                 <Loader height={`calc(80vh)`} />
               ) : (
                 <>
-                  {
-                    activeTab === TAB.MY_CONNECTIONS ? (
-                      <div>
-                        <h2 className='connectionHeading'>My Connections</h2>
+                  {activeTab === TAB.MY_CONNECTIONS ? (
+                    <div>
+                      <h2 className='connectionHeading'>My Connections</h2>
 
-                        <div className='connectionCardContainer'>
-                          {!isEmptyArray(connections)
-                            ? connections.map((conn, index) => {
-                                return (
-                                  <div className='connectionCard' key={index}>
-                                    <div className='connectionHeader'>
-                                      <div className='connectionLeft'>
-                                        <img src={conn?.profileImage} />
+                      <div className='connectionCardContainer'>
+                        {!isEmptyArray(connections)
+                          ? connections.map((conn, index) => {
+                              return (
+                                <div className='connectionCard' key={index}>
+                                  <div className='connectionHeader'>
+                                    <div className='connectionLeft'>
+                                      <img src={conn?.profileImage} />
 
-                                        <div className='nameContainer'>
-                                          <h3>{conn?.name}</h3>
-                                          <span>{conn?.qualification}</span>
-                                        </div>
-                                      </div>
-
-                                      <div>
-                                        <StyleConnectButton>
-                                          Connect
-                                        </StyleConnectButton>
+                                      <div className='nameContainer'>
+                                        <h3>{conn?.name}</h3>
+                                        <span>{conn?.qualification}</span>
                                       </div>
                                     </div>
 
-                                    {/* <p className='connectionDescription'>
+                                    <div>
+                                      <StyleConnectButton>
+                                        Connect
+                                      </StyleConnectButton>
+                                    </div>
+                                  </div>
+
+                                  {/* <p className='connectionDescription'>
                               Santa Monica State Beach is one of the world's
                               most famous and instantly recognizable
                               destinations. With the Pacific Park amusement park
                               on the historic
                             </p> */}
-                                  </div>
-                                )
-                              })
-                            : null}
-                        </div>
+                                </div>
+                              )
+                            })
+                          : null}
                       </div>
-                    ) : null
-                  }
+                    </div>
+                  ) : null}
 
-                  {
-                    activeTab === TAB.EVENT_GROUPS ? (
-                      <>
-                        <h2 className='connectionHeading'>Event Groups</h2>
+                  {activeTab === TAB.EVENT_GROUPS ? (
+                    <>
+                      <h2 className='connectionHeading'>Event Groups</h2>
 
-                        <div className='eventCardContainer'>
-                          {!isEmptyArray(events) ? (
-                            events.map((event, index) => {
-                              return (
-                                <div className='eventCard' key={event._id}>
-                                  <img
-                                    className='eventImage'
-                                    src={
-                                      event?.image
-                                        ? event?.image
-                                        : cardBackgroundImage3
-                                    }
-                                  />
+                      <div className='eventCardContainer'>
+                        {!isEmptyArray(events) ? (
+                          events.map((event, index) => {
+                            return (
+                              <div className='eventCard' key={event._id}>
+                                <img
+                                  className='eventImage'
+                                  src={
+                                    event?.image
+                                      ? event?.image
+                                      : cardBackgroundImage3
+                                  }
+                                />
 
-                                  <p className='eventHeading'>{event?.title}</p>
+                                <p className='eventHeading'>{event?.title}</p>
 
-                                  <StyleJoinButton>Join</StyleJoinButton>
-                                </div>
-                              )
-                            })
-                          ) : (
-                            <h2>{NO_DATA_AVAILABLE}</h2>
-                          )}
-                        </div>
-                      </>
-                    ) : null
-                  }
-                  {
-                    activeTab === TAB.INTEREST_GROUPS ? (
-                      <>
-                        <h2 className='connectionHeading'>Interest Groups</h2>
+                                <StyleJoinButton>Join</StyleJoinButton>
+                              </div>
+                            )
+                          })
+                        ) : (
+                          <h2>{NO_DATA_AVAILABLE}</h2>
+                        )}
+                      </div>
+                    </>
+                  ) : null}
+                  {activeTab === TAB.INTEREST_GROUPS ? (
+                    <>
+                      <h2 className='connectionHeading'>Interest Groups</h2>
 
-                        <div className='eventCardContainer'>
-                          {!isEmptyArray(interests) ? (
-                            interests.map((event, index) => {
-                              return (
-                                <div className='eventCard' key={event._id}>
-                                  <img
-                                    className='eventImage'
-                                    src={
-                                      event?.image
-                                        ? event?.image
-                                        : cardBackgroundImage3
-                                    }
-                                  />
+                      <div className='eventCardContainer'>
+                        {!isEmptyArray(interests) ? (
+                          interests.map((event, index) => {
+                            return (
+                              <div className='eventCard' key={event._id}>
+                                <img
+                                  className='eventImage'
+                                  src={
+                                    event?.image
+                                      ? event?.image
+                                      : cardBackgroundImage3
+                                  }
+                                />
 
-                                  <p className='eventHeading'>{event?.title}</p>
+                                <p className='eventHeading'>{event?.title}</p>
 
-                                  <StyleJoinButton>Join</StyleJoinButton>
-                                </div>
-                              )
-                            })
-                          ) : (
-                            <h2>{NO_DATA_AVAILABLE}</h2>
-                          )}
-                        </div>
-                      </>
-                    ) : null
-                  }
+                                <StyleJoinButton>Join</StyleJoinButton>
+                              </div>
+                            )
+                          })
+                        ) : (
+                          <h2>{NO_DATA_AVAILABLE}</h2>
+                        )}
+                      </div>
+                    </>
+                  ) : null}
                 </>
               )}
             </div>

@@ -102,3 +102,24 @@ export function formatTime(timeString) {
   const hour = +hourString % 24
   return (hour % 12 || 12) + ':' + minute + (hour < 12 ? 'AM' : 'PM')
 }
+
+export const prepareURL = (url) => {
+  if (url.indexOf('http://') != 0) url = 'http://' + url
+  return url
+}
+
+export const getQualificationYear = () => {
+  const d = new Date()
+  const year = d.getFullYear()
+  const yearList = []
+
+  for (let i = year - 30; i <= year + 5; i++) {
+    yearList.push({ label: i, value: i })
+  }
+
+  return yearList
+}
+
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
