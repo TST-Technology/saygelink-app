@@ -3,7 +3,7 @@ import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import theme from '../../utils/variables'
 import { Button, InputStyle } from '../general'
 
-const InputHeight = '127px'
+export const ChatInputHeight = '127px'
 
 const LEFT_WIDTH = 'min(370px, 40%)'
 
@@ -67,7 +67,7 @@ export const MessageContainerStyle = styled.div`
 
     .rightSection {
       background: ${theme.lightTheme.seashell};
-      width: calc(100% - ${LEFT_WIDTH});
+
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -134,6 +134,13 @@ export const MessageContainerStyle = styled.div`
             color: ${theme.lightTheme.secondary.color};
           }
         }
+
+        .profileImage {
+          height: 33.3px;
+          width: 33.3px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
       }
 
       .chatContainer {
@@ -143,7 +150,7 @@ export const MessageContainerStyle = styled.div`
           display: flex;
           flex-direction: column;
           padding: 30px;
-          height: calc(100% - ${InputHeight});
+          height: calc(100% - ${ChatInputHeight});
           overflow-y: auto;
 
           .chatDateText {
@@ -161,9 +168,14 @@ export const MessageContainerStyle = styled.div`
         .chatInputContainer {
           position: relative;
           padding: 20px 30px 60px;
-          height: ${InputHeight};
+          height: ${ChatInputHeight};
         }
       }
+    }
+
+    .rightSectionContainer {
+      background: #f0f0f0;
+      width: calc(100% - ${LEFT_WIDTH});
     }
   }
 `
@@ -180,6 +192,7 @@ export const SearchInputStyle = styled.input`
   line-height: 20px;
   width: 100%;
   border-radius: 14.1667px;
+  margin-bottom: 20px;
 
   &::placeholder {
     color: rgba(38, 38, 38, 0.4);
@@ -226,6 +239,8 @@ export const UserChatStyle = styled.div`
   .profileImage {
     height: 33.3px;
     width: 33.3px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .nameContainer {

@@ -129,6 +129,10 @@ const CONSTANT = {
     updateUserQualification: {
       endpoint: `/users/updateUserQualification`,
       type: 'PATCH'
+    },
+    getConversationList: {
+      endpoint: '/chat/conversation/getConversations',
+      type: 'GET'
     }
   },
   planningStage: [
@@ -243,6 +247,13 @@ export const scheduleMeetingStyle = {
     zIndex: 0
   }
 } 
+
+export const SOCKET_EVENTS = {
+  CONNECT: 'connect',
+  DISCONNECT: 'disconnect',
+  RECEIVE_NOTIFICATION: 'receive-notification',
+  ONLINE_USERS: 'online-users'
+}
 
 
 export default CONSTANT;
