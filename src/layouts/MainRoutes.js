@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from '../components/general/header'
 import ProtectedRoute from '../components/protected-route/protected-route'
 import { UserContext } from '../context/user'
@@ -24,6 +24,7 @@ const MainRoutes = () => {
   const [includeHeader, setIncludeHeader] = useState(false)
   const [user, setUser] = useState(null)
   const [profileDetail, setProfileDetail] = useState(null)
+  const location = useLocation()
 
   const token = getToken()
   const email = getEmail()
@@ -35,20 +36,18 @@ const MainRoutes = () => {
   }, [email])
 
   useEffect(() => {
-    setIncludeHeader(HEADER_VISIBLE_ROUTES.includes(window.location.pathname))
-  }, [window.location.pathname])
+    setIncludeHeader(HEADER_VISIBLE_ROUTES.includes(location.pathname))
+  }, [location])
 
   const getProfileDetail = () => {
     const url = {
       ...CONSTANT.API.getProfileDetail,
       endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(':email', email)
     }
-    console.log(url)
     profileApi.sendRequest(url, responseHandler)
   }
 
   const responseHandler = (res) => {
-    console.log(res)
     if (res?.userInfo) {
       setProfileDetail({ ...res?.userInfo })
     }
@@ -80,7 +79,7 @@ const MainRoutes = () => {
               element={
                 <ProtectedRoute
                   redirectTo={ROUTES.HOME}
-                  condition={token && email}
+                  condition={getToken() && getEmail()}
                 />
               }
             >
@@ -91,7 +90,7 @@ const MainRoutes = () => {
               element={
                 <ProtectedRoute
                   redirectTo={ROUTES.AUTH}
-                  condition={!token || !email}
+                  condition={!getToken() || !getEmail()}
                 />
               }
             >

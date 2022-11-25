@@ -62,7 +62,7 @@ export const isEmptyArray = (arr) => {
 }
 
 export const dateFormat = (date, format) => {
-  return moment(date).format(format)
+  return moment(new Date(date)).format(format)
 }
 
 export const prepareLink = (url) => {

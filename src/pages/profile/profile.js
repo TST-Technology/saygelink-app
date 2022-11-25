@@ -88,7 +88,6 @@ const Profile = () => {
   }, [])
 
   const responseHandler = (res) => {
-    console.log(res)
     if (res?.userInfo) {
       setProfile({ ...res?.userInfo })
       setProfileDetail({ ...res?.userInfo })
@@ -101,7 +100,6 @@ const Profile = () => {
       ...CONSTANT.API.getProfileDetail,
       endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(':email', email)
     }
-    console.log(url)
     profileApi.sendRequest(url, responseHandler)
   }
 
@@ -152,7 +150,6 @@ const Profile = () => {
   }
 
   const handleDeleteLinkClick = (link) => {
-    console.log('in')
     setIsDeleteLinkConfirmation(true)
     setDeleteLink({ ...link })
   }
@@ -263,7 +260,6 @@ const Profile = () => {
 
   const handleEditProfileClose = (apiCall) => {
     setEditProfileDialog(false)
-    console.log(apiCall)
     if (apiCall) {
       getProfile()
     }
@@ -272,9 +268,7 @@ const Profile = () => {
   const handleLogoutClick = () => {
     localStorage.removeItem('authToken')
     localStorage.removeItem('email')
-    setTimeout(() => {
-      navigate(ROUTES.AUTH)
-    }, 3000)
+    navigate(ROUTES.AUTH)
   }
 
   const handleDeleteUserFile = () => {
@@ -296,7 +290,6 @@ const Profile = () => {
   }
 
   const handleAvailabilityDelete = (avail) => {
-    console.log(avail)
     if (avail) {
       setIsDeleteAvailabilityConfirmation(true)
       setAvailabilityId(avail?._id)

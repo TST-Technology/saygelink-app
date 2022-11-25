@@ -29,15 +29,22 @@ import {
 } from '../../utils/funcs'
 import Loader from '../../components/general/loader'
 import { socket } from '../../utils/socket'
+import { useContext } from 'react'
+import { UserContext } from '../../context/user'
+import { useRef } from 'react'
 
 const Message = () => {
   const messageApi = useHttp()
   const conversationListApi = useHttp()
+  const sendMessageApi = useHttp()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const [messages, setMessages] = useState(null)
   const [activeUser, setActiveUser] = useState(null)
   const [conversationList, setConversationList] = useState(null)
+  const [message, setMessage] = useState('')
+  const { profileDetail } = useContext(UserContext)
+  const messageRef = useRef()
 
   useEffect(() => {
     // getMessage()
@@ -59,11 +66,16 @@ const Message = () => {
       console.log(id)
     })
 
+    socket.onAny((eventName, ...args) => {
+      console.log('any =>', eventName)
+    })
+
     return () => {
       socket.off(SOCKET_EVENTS.CONNECT)
       socket.off(SOCKET_EVENTS.DISCONNECT)
       socket.off(SOCKET_EVENTS.RECEIVE_NOTIFICATION)
       socket.off(SOCKET_EVENTS.ONLINE_USERS)
+      socket.offAny(() => {})
     }
   }, [])
 
@@ -76,6 +88,7 @@ const Message = () => {
   const responseHandler = (resp) => {
     if (resp && !isEmptyArray(resp?.messages)) {
       setMessages(resp?.messages)
+      scrollToLastMessage()
     }
   }
 
@@ -105,6 +118,47 @@ const Message = () => {
   }
   const handleClose = (e) => {
     setAnchorEl(null)
+  }
+
+  const sendMessageResponseHandler = (res) => {
+    if (res) {
+    }
+  }
+
+  const sendMessage = () => {
+    if (profileDetail?.id && activeUser?._id && message) {
+      const payload = {
+        message: message,
+        sender: profileDetail?.id
+      }
+      const url = {
+        ...CONSTANT.API.addMessage,
+        endpoint: CONSTANT.API.addMessage.endpoint.replace(
+          ':conversationId',
+          activeUser?._id
+        )
+      }
+      const temp = {
+        fromSelf: true,
+        id: Date.now(),
+        message: message,
+        timestamp: new Date()
+      }
+      setMessage('')
+      setMessages((prevValue) => {
+        return [...prevValue, temp]
+      })
+      scrollToLastMessage()
+      sendMessageApi.sendRequest(url, sendMessageResponseHandler, payload)
+    }
+  }
+
+  const scrollToLastMessage = () => {
+    setTimeout(() => {
+      messageRef.current?.scrollIntoView({
+        behavior: 'smooth'
+      })
+    }, 100)
   }
 
   return (
@@ -210,11 +264,16 @@ const Message = () => {
                           <div className='chatMessagesContainer'>
                             <p className='chatDateText'>Today</p>
                             {!isEmptyArray(messages)
-                              ? messages.map((message) => {
+                              ? messages.map((message, index) => {
                                   return (
                                     <MessageStyle
                                       sent={message?.fromSelf}
                                       key={message.id}
+                                      ref={
+                                        index === messages.length - 1
+                                          ? messageRef
+                                          : null
+                                      }
                                     >
                                       <p className='messageHelperText'>
                                         {dateFormat(
@@ -233,9 +292,19 @@ const Message = () => {
                           </div>
                         )}
                         <div className='chatInputContainer'>
-                          <MessageInputStyle placeholder='Text Messages....' />
+                          <MessageInputStyle
+                            placeholder='Text Messages....'
+                            value={message}
+                            onChange={(e) => {
+                              setMessage(e.target.value)
+                            }}
+                          />
 
-                          <SendButtonStyle>
+                          <SendButtonStyle
+                            onClick={() => {
+                              sendMessage()
+                            }}
+                          >
                             <img src={SendImage} /> Send
                           </SendButtonStyle>
                         </div>
