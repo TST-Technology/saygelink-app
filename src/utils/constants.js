@@ -256,7 +256,20 @@ export const SOCKET_EVENTS = {
   CONNECT: 'connect',
   DISCONNECT: 'disconnect',
   RECEIVE_NOTIFICATION: 'receive-notification',
-  ONLINE_USERS: 'online-users'
+  ONLINE_USERS: 'online-users',
+  MESSAGE_RECEIVE: 'msg-receive',
+  SEND_MESSAGE: 'send-msg',
+  ADD_USER: 'add-user'
+}
+
+export const ROLES = {
+  STUDENT: 'student',
+  FACULTY: 'faculty',
+  ALUMNI: 'alumni'
+}
+
+export const KEYBOARD = {
+  ENTER: 'Enter'
 }
 
 

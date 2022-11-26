@@ -5,12 +5,14 @@ export const ImageCardStyle = styled.div`
     margin-top: 15px;
 
     .cardImage {
-      padding: 20px 0;
+      padding: 20px;
       background-size: cover;
       background-repeat: no-repeat;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      height: 135px;
+      border-radius: 6.64px;
 
       ${({ bgImage }) => {
         if (bgImage) {
@@ -40,6 +42,10 @@ export const ImageCardStyle = styled.div`
       line-height: 25px;
       text-align: center;
       color: #ffffff;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
     }
   }
 

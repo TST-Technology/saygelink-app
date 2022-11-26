@@ -17,6 +17,7 @@ import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
 import CONSTANT, {
   DashboardHeaderHeight,
   DATE_FORMAT,
+  KEYBOARD,
   scheduleMeetingStyle,
   SOCKET_EVENTS
 } from '../../utils/constants'
@@ -32,6 +33,7 @@ import { socket } from '../../utils/socket'
 import { useContext } from 'react'
 import { UserContext } from '../../context/user'
 import { useRef } from 'react'
+import ImageRole from '../../components/general/image-role'
 
 const Message = () => {
   const messageApi = useHttp()
@@ -45,6 +47,7 @@ const Message = () => {
   const [message, setMessage] = useState('')
   const { profileDetail } = useContext(UserContext)
   const messageRef = useRef()
+  const [unseenMessageUsers, setUnseenMessageUsers] = useState({})
 
   useEffect(() => {
     // getMessage()
@@ -62,12 +65,12 @@ const Message = () => {
       console.log(SOCKET_EVENTS.RECEIVE_NOTIFICATION, notification)
     })
 
-    socket.on(SOCKET_EVENTS.ONLINE_USERS, (id) => {
-      console.log(id)
+    socket.on(SOCKET_EVENTS.ONLINE_USERS, (no) => {
+      handleOnlineUser(no)
     })
 
-    socket.onAny((eventName, ...args) => {
-      console.log('any =>', eventName)
+    socket.on(SOCKET_EVENTS.MESSAGE_RECEIVE, (msg) => {
+      handleNewMessage(msg, false)
     })
 
     return () => {
@@ -75,13 +78,18 @@ const Message = () => {
       socket.off(SOCKET_EVENTS.DISCONNECT)
       socket.off(SOCKET_EVENTS.RECEIVE_NOTIFICATION)
       socket.off(SOCKET_EVENTS.ONLINE_USERS)
-      socket.offAny(() => {})
+      socket.off(SOCKET_EVENTS.MESSAGE_RECEIVE)
     }
   }, [])
 
   useEffect(() => {
     if (activeUser?._id) {
       getMessage(activeUser?._id)
+      const addUser = {
+        to: [activeUser?._id],
+        user_id: profileDetail?.id
+      }
+      socket.emit(SOCKET_EVENTS.ADD_USER, addUser)
     }
   }, [activeUser])
 
@@ -92,7 +100,7 @@ const Message = () => {
     }
   }
 
-  const getMessage = (userId = '62cf74363959f43b15e3d838') => {
+  const getMessage = (userId) => {
     const url = {
       ...CONSTANT.API.getAllMessages,
       endpoint: CONSTANT.API.getAllMessages.endpoint.replace(':userId', userId)
@@ -102,7 +110,23 @@ const Message = () => {
 
   const conversationListResponseHandler = (resp) => {
     if (resp && !isEmptyArray(resp?.conversations)) {
-      setConversationList(resp?.conversations)
+      const tempUnreadUser = {}
+      const temp = resp?.conversations.map((row) => {
+        const tempParticipant = row.participants.filter(
+          (part) => part.iam_user === false
+        )
+        const unreadUser = row.participants.filter(
+          (part) => part.unseen_messages === 'true'
+        )
+        if (!isEmptyArray(unreadUser))
+          tempUnreadUser[tempParticipant[0]?._id] = true
+
+        row.participants = { ...tempParticipant[0] }
+        return row
+      })
+      console.log(tempUnreadUser)
+      setUnseenMessageUsers({ ...tempUnreadUser })
+      setConversationList(temp)
     }
   }
 
@@ -126,39 +150,75 @@ const Message = () => {
   }
 
   const sendMessage = () => {
-    if (profileDetail?.id && activeUser?._id && message) {
-      const payload = {
+    const toId = activeUser?.participants?._id
+    const fromId = profileDetail?.id
+    if (fromId && toId && message) {
+      const socketMessage = {
+        to: [toId],
         message: message,
-        sender: profileDetail?.id
+        user_id: fromId
       }
-      const url = {
-        ...CONSTANT.API.addMessage,
-        endpoint: CONSTANT.API.addMessage.endpoint.replace(
-          ':conversationId',
-          activeUser?._id
-        )
-      }
-      const temp = {
-        fromSelf: true,
-        id: Date.now(),
-        message: message,
-        timestamp: new Date()
-      }
-      setMessage('')
-      setMessages((prevValue) => {
-        return [...prevValue, temp]
-      })
-      scrollToLastMessage()
-      sendMessageApi.sendRequest(url, sendMessageResponseHandler, payload)
+      handleNewMessage(message, true)
+      addMessageApi()
+      socket.emit(SOCKET_EVENTS.SEND_MESSAGE, socketMessage)
     }
+  }
+
+  const addMessageApi = () => {
+    const url = {
+      ...CONSTANT.API.addMessage,
+      endpoint: CONSTANT.API.addMessage.endpoint.replace(
+        ':conversationId',
+        activeUser?._id
+      )
+    }
+    const payload = {
+      message: message,
+      sender: profileDetail?.id
+    }
+    sendMessageApi.sendRequest(url, sendMessageResponseHandler, payload)
   }
 
   const scrollToLastMessage = () => {
     setTimeout(() => {
       messageRef.current?.scrollIntoView({
-        behavior: 'smooth'
+        // behavior: 'smooth'
       })
     }, 100)
+  }
+
+  const handleUserChange = (user) => {
+    setActiveUser(user)
+    setUnseenMessageUsers((prevValue) => {
+      delete prevValue[user?.participants?._id]
+      return prevValue
+    })
+  }
+
+  const handleKeyEvent = (e) => {
+    if (e.key === KEYBOARD.ENTER) {
+      sendMessage()
+    }
+  }
+
+  //  Socket Handlers
+
+  const handleOnlineUser = (no) => {
+    console.log('online-users', no)
+  }
+
+  const handleNewMessage = (message, isSend = true) => {
+    const temp = {
+      fromSelf: isSend,
+      id: Date.now(),
+      message: message,
+      timestamp: new Date()
+    }
+    if (isSend) setMessage('')
+    setMessages((prevValue) => {
+      return [...prevValue, temp]
+    })
+    scrollToLastMessage()
   }
 
   return (
@@ -179,19 +239,20 @@ const Message = () => {
 
                   {!isEmptyArray(conversationList)
                     ? conversationList.map((user, index) => {
-                        const currentUser = user?.participants[1]
+                        const currentUser = user?.participants
                         return (
                           <UserChatStyle
                             key={index}
                             onClick={() => {
-                              setActiveUser(user)
+                              handleUserChange(user)
                             }}
                             selected={user?._id === activeUser?._id}
                           >
                             <div className='leftContainer'>
-                              <img
+                              <ImageRole
                                 src={currentUser?.profile_image}
                                 className='profileImage'
+                                role={currentUser?.qualification}
                               />
                               <div className='activeUser'></div>
                               <div className='nameContainer'>
@@ -207,7 +268,7 @@ const Message = () => {
                             </div>
 
                             <div className='rightContainer'>
-                              {index === 0 ? (
+                              {unseenMessageUsers[currentUser?._id] ? (
                                 <div className='unreadMessage'></div>
                               ) : null}
                             </div>
@@ -225,17 +286,17 @@ const Message = () => {
                       <div className='activeChatNameContainer'>
                         <div className='leftContainer'>
                           <img
-                            src={activeUser?.participants[1]?.profile_image}
+                            src={activeUser?.participants?.profile_image}
                             className='profileImage'
                           />
                           <div className='nameContainer'>
                             <p className='nameText'>
-                              {activeUser?.participants[1]?.name}
+                              {activeUser?.participants?.name}
                             </p>
                             <span className='roleText'>
-                              {activeUser?.participants[1]?.qualification
+                              {activeUser?.participants?.qualification
                                 ? capitalizeFirstLetter(
-                                    activeUser?.participants[1]?.qualification
+                                    activeUser?.participants?.qualification
                                   )
                                 : null}
                             </span>
@@ -269,11 +330,6 @@ const Message = () => {
                                     <MessageStyle
                                       sent={message?.fromSelf}
                                       key={message.id}
-                                      ref={
-                                        index === messages.length - 1
-                                          ? messageRef
-                                          : null
-                                      }
                                     >
                                       <p className='messageHelperText'>
                                         {dateFormat(
@@ -289,6 +345,7 @@ const Message = () => {
                                   )
                                 })
                               : null}
+                            <div ref={messageRef}></div>
                           </div>
                         )}
                         <div className='chatInputContainer'>
@@ -298,6 +355,7 @@ const Message = () => {
                             onChange={(e) => {
                               setMessage(e.target.value)
                             }}
+                            onKeyDown={handleKeyEvent}
                           />
 
                           <SendButtonStyle

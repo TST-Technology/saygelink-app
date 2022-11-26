@@ -9,20 +9,16 @@ import {
   UploadContainerStyle
 } from '../../style-component/profile/edit-profile'
 import CrossIcon from '../../assets/images/close.svg'
-import PersonImage from '../../assets/images/person.png'
-import CONSTANT, {
-  ACCEPT_FILE_TYPE,
-  ACCEPT_IMAGE_TYPE
-} from '../../utils/constants'
-import LogoutIcon from '../../assets/images/log-out.svg'
+import CONSTANT, { ACCEPT_IMAGE_TYPE } from '../../utils/constants'
 import {
   capitalizeFirstLetter,
   getQualificationYear,
   notify
 } from '../../utils/funcs'
 import useHttp from '../../hooks/use-http'
+import ImageRole from '../general/image-role'
 
-const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
+const EditProfile = ({ open, onClose, profileDetail }) => {
   const profileApi = useHttp()
   const [selectedGender, setSelectedGender] = useState(() => {
     return profileDetail?.gender
@@ -156,13 +152,14 @@ const EditProfile = ({ open, onClose, profileDetail, handleUploadFile }) => {
                 onChange={handleImageChange}
                 accept={ACCEPT_IMAGE_TYPE}
               />
-              <img
+              <ImageRole
                 src={
                   profileImage
                     ? URL.createObjectURL(profileImage)
                     : profileDetail?.profile_image
                 }
                 className='profileImage'
+                role={profileDetail?.qualification}
               />
             </label>
 

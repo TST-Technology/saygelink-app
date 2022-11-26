@@ -7,6 +7,7 @@ import {
 import { isEmptyArray } from '../../utils/funcs'
 import useHttp from '../../hooks/use-http'
 import CONSTANT from '../../utils/constants'
+import ImageRole from './image-role'
 
 const ConnectionRequest = ({ detail, getDetail }) => {
   console.log(detail)
@@ -35,68 +36,71 @@ const ConnectionRequest = ({ detail, getDetail }) => {
 
   return (
     <ConnectionRequestStyle>
-      {!isEmptyArray(detail)
-        ? detail.map((conn, index) => {
-            return (
-              <>
-                <div className='connectionRequest' key={conn?._id}>
-                  <div className='connectionNameContainer'>
-                    <img
-                      className='connectionImage'
-                      src={conn?.user?.profile_image}
-                    />
+      {!isEmptyArray(detail) ? (
+        detail.map((conn, index) => {
+          return (
+            <>
+              <div className='connectionRequest' key={conn?._id}>
+                <div className='connectionNameContainer'>
+                  <ImageRole
+                    className='connectionImage'
+                    src={conn?.user?.profile_image}
+                    role={conn?.user?.qualification}
+                  />
 
-                    <p className='connectionName'>{conn?.user?.name}</p>
-                  </div>
-                  {!isEmptyArray(conn?.options) ? (
-                    <div className='availabilityContainer'>
-                      {conn?.options.map((avail) => {
-                        return (
-                          <div key={avail?._id} className='availability'>
-                            <div>
-                              <p className='availabilityDay'>{avail?.day}</p>{' '}
-                              <span className='availabilityTime'>
-                                {avail?.time}
-                              </span>
-                              <p className='availabilityTimezone'>
-                                ({conn?.timezone})
-                              </p>
-                            </div>
-
-                            <div className='connectionAction'>
-                              <DeclineButtonStyle
-                                onClick={() =>
-                                  handleAcceptDecline(
-                                    avail?._id,
-                                    conn?._id,
-                                    'cancelled'
-                                  )
-                                }
-                              >
-                                Decline
-                              </DeclineButtonStyle>
-                              <AcceptButtonStyle
-                                onClick={() =>
-                                  handleAcceptDecline(
-                                    avail?._id,
-                                    conn?._id,
-                                    'accepted'
-                                  )
-                                }
-                              >
-                                Accept
-                              </AcceptButtonStyle>
-                            </div>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  ) : null}
+                  <p className='connectionName'>{conn?.user?.name}</p>
                 </div>
-              </>
-            )
-          })
-        : null}
+                {!isEmptyArray(conn?.options) ? (
+                  <div className='availabilityContainer'>
+                    {conn?.options.map((avail) => {
+                      return (
+                        <div key={avail?._id} className='availability'>
+                          <div>
+                            <p className='availabilityDay'>{avail?.day}</p>{' '}
+                            <span className='availabilityTime'>
+                              {avail?.time}
+                            </span>
+                            <p className='availabilityTimezone'>
+                              ({conn?.timezone})
+                            </p>
+                          </div>
+
+                          <div className='connectionAction'>
+                            <DeclineButtonStyle
+                              onClick={() =>
+                                handleAcceptDecline(
+                                  avail?._id,
+                                  conn?._id,
+                                  'cancelled'
+                                )
+                              }
+                            >
+                              Decline
+                            </DeclineButtonStyle>
+                            <AcceptButtonStyle
+                              onClick={() =>
+                                handleAcceptDecline(
+                                  avail?._id,
+                                  conn?._id,
+                                  'accepted'
+                                )
+                              }
+                            >
+                              Accept
+                            </AcceptButtonStyle>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                ) : null}
+              </div>
+            </>
+          )
+        })
+      ) : (
+        <p className='mt-2 text-center'>No Connection Requests.</p>
+      )}
     </ConnectionRequestStyle>
   )
 }

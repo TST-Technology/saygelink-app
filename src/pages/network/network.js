@@ -100,40 +100,36 @@ const Network = () => {
                   {activeTab === TAB.MY_CONNECTIONS ? (
                     <div>
                       <h2 className='connectionHeading'>My Connections</h2>
+                      {!isEmptyArray(connections) ? (
+                        <div className='connectionCardContainer'>
+                          {!isEmptyArray(connections)
+                            ? connections.map((conn, index) => {
+                                return (
+                                  <div className='connectionCard' key={index}>
+                                    <div className='connectionHeader'>
+                                      <div className='connectionLeft'>
+                                        <img src={conn?.profileImage} />
 
-                      <div className='connectionCardContainer'>
-                        {!isEmptyArray(connections)
-                          ? connections.map((conn, index) => {
-                              return (
-                                <div className='connectionCard' key={index}>
-                                  <div className='connectionHeader'>
-                                    <div className='connectionLeft'>
-                                      <img src={conn?.profileImage} />
+                                        <div className='nameContainer'>
+                                          <h3>{conn?.name}</h3>
+                                          <span>{conn?.qualification}</span>
+                                        </div>
+                                      </div>
 
-                                      <div className='nameContainer'>
-                                        <h3>{conn?.name}</h3>
-                                        <span>{conn?.qualification}</span>
+                                      <div>
+                                        <StyleConnectButton>
+                                          Connect
+                                        </StyleConnectButton>
                                       </div>
                                     </div>
-
-                                    <div>
-                                      <StyleConnectButton>
-                                        Connect
-                                      </StyleConnectButton>
-                                    </div>
                                   </div>
-
-                                  {/* <p className='connectionDescription'>
-                              Santa Monica State Beach is one of the world's
-                              most famous and instantly recognizable
-                              destinations. With the Pacific Park amusement park
-                              on the historic
-                            </p> */}
-                                </div>
-                              )
-                            })
-                          : null}
-                      </div>
+                                )
+                              })
+                            : null}
+                        </div>
+                      ) : (
+                        <p className='text-center mt-2'>No Connections</p>
+                      )}
                     </div>
                   ) : null}
 

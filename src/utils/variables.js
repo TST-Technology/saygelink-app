@@ -61,7 +61,8 @@ const theme = {
     boulder: '#757575',
     iceCold: '#B8F5E9',
     aquaHaze: '#F3F3F3',
-    greyGoose: '#D0D0D0'
+    greyGoose: '#D0D0D0',
+    grey: '#919191'
   }
 }
 

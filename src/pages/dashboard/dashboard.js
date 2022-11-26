@@ -144,7 +144,7 @@ const Dashboard = () => {
             <div className='homeContentLeftContainer'>
               <img src={cardBackgroundImage4} />
               {!isEmptyArray(events) ? (
-                <>
+                <div className='eventsContainer'>
                   <div className='cardHeading'>
                     <p className=''>Events</p>
                     <span className='' onClick={() => redirectToEvent()}>
@@ -165,7 +165,7 @@ const Dashboard = () => {
                         />
                       )
                     })}
-                </>
+                </div>
               ) : (
                 <h4>{NO_DATA_AVAILABLE}</h4>
               )}

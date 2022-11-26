@@ -3,7 +3,7 @@ import {
   HeaderContainerStyle,
   NotificationContainerStyle
 } from '../../style-component/header'
-import columbiaLogo from '../../assets/images/columbiaHeaderLogo.png'
+import shortLogo from '../../assets/images/short_logo.png'
 import HomeLogo from '../../assets/images/home.svg'
 import MessageLogo from '../../assets/images/message.svg'
 import CalenderLogo from '../../assets/images/calendar.svg'
@@ -21,6 +21,7 @@ import ConnectionRequest from './connection-request'
 import { isEmptyArray } from '../../utils/funcs'
 import { useContext } from 'react'
 import { UserContext } from '../../context/user'
+import ImageRole from './image-role'
 
 const Header = () => {
   const [activeTab, setActiveTab] = useState(window.location.pathname)
@@ -70,10 +71,10 @@ const Header = () => {
   }
 
   const handleRequestClick = (event) => {
-    if (!isEmptyArray(requestDetail)) {
-      setFloatMenuType('request')
-      setAnchorEl(event.currentTarget)
-    }
+    // if (!isEmptyArray(requestDetail)) {
+    setFloatMenuType('request')
+    setAnchorEl(event.currentTarget)
+    // }
   }
 
   const handleClose = (e) => {
@@ -109,7 +110,9 @@ const Header = () => {
             handleLogoClick()
           }}
         >
-          <img src={columbiaLogo} />
+          <img src={shortLogo} />
+
+          <p>Sayge Link</p>
         </div>
 
         <div className='rightSection'>
@@ -149,17 +152,16 @@ const Header = () => {
             ) : null}
           </div>
 
-          <img
+          <ImageRole
             onClick={() => {
               setActiveTab(null)
               nav(ROUTES.PROFILE)
             }}
-            src={
-              profileDetail?.profile_image
-                ? profileDetail?.profile_image
-                : PersonImg
-            }
-            className='headerImages profileImage'
+            src={profileDetail?.profile_image}
+            height='33px'
+            width='33px'
+            radius={'50%'}
+            className='headerImages'
           />
         </div>
       </div>

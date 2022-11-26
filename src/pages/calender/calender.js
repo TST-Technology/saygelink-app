@@ -198,7 +198,7 @@ const Calender = () => {
                       )
                     })
                   ) : (
-                    <p style={{ textAlign: 'center' }}>No meeting schedule</p>
+                    <p className='text-center mt-3'>No meeting schedule</p>
                   )}
                 </div>
               )}

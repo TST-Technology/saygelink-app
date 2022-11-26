@@ -17,14 +17,14 @@ export const HeaderContainerStyle = styled.div`
     height: 100%;
 
     .leftSection {
-      background: #ffffff;
-      border-radius: 8px;
-      padding: 3px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
       cursor: pointer;
 
       img {
-        width: 64px;
-        height: 45px;
+        width: 58px;
+        height: 58px;
         object-fit: cover;
       }
 

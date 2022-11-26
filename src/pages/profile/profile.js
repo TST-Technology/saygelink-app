@@ -37,6 +37,7 @@ import AddExperience from '../../components/profile/add-experience'
 import AddLink from '../../components/profile/add-link'
 import { useNavigate } from 'react-router-dom'
 import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
+import ImageRole from '../../components/general/image-role'
 
 const Profile = () => {
   const INIT_TIME = {
@@ -306,7 +307,7 @@ const Profile = () => {
         )
       }
       profileApi.sendRequest(
-        CONSTANT.API.deleteFile,
+        url,
         getProfile,
         {},
         'Availability deleted successfully!'
@@ -329,8 +330,11 @@ const Profile = () => {
             <div className='profileNameCard'>
               <div className='profileNameTop'>
                 <div className='profileNameContainer'>
-                  <img src={profileDetail?.profile_image} />
-
+                  {/* <img src={profileDetail?.profile_image} /> */}
+                  <ImageRole
+                    src={profileDetail?.profile_image}
+                    role={profileDetail?.qualification}
+                  />
                   <div className='profileNameRightContainer'>
                     <h3>{profileDetail?.name}</h3>
                     <span>{profileDetail?.qualification}</span>

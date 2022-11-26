@@ -120,6 +120,11 @@ export const HomeContainerStyle = styled.div`
           border-bottom: none;
         }
       }
+
+      .eventsContainer,
+      > img {
+        border-bottom: 1px solid #d0d0d0;
+      }
     }
 
     .homeContentCenterContainer {
