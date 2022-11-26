@@ -49,6 +49,8 @@ const Message = () => {
   const messageRef = useRef()
   const [unseenMessageUsers, setUnseenMessageUsers] = useState({})
 
+  const todayLabelDate = dateFormat(new Date(), DATE_FORMAT.FORMAT_5)
+
   useEffect(() => {
     // getMessage()
     getConversationList()
@@ -94,8 +96,25 @@ const Message = () => {
   }, [activeUser])
 
   const responseHandler = (resp) => {
+    const uniqueTimeStamp = {}
+    const uniqueDate = {}
     if (resp && !isEmptyArray(resp?.messages)) {
-      setMessages(resp?.messages)
+      const tempMessages = resp?.messages.map((mes) => {
+        const format = dateFormat(mes.timestamp, DATE_FORMAT.FORMAT_1)
+        if (!uniqueTimeStamp[format]) {
+          mes.uniqueTimeStamp = mes.timestamp
+          uniqueTimeStamp[format] = true
+        }
+        const format2 = dateFormat(mes.timestamp, DATE_FORMAT.FORMAT_5)
+
+        if (!uniqueDate[format2]) {
+          mes.uniqueDate = mes.timestamp
+          uniqueDate[format2] = true
+        }
+        return mes
+      })
+      console.log(tempMessages)
+      setMessages(tempMessages)
       scrollToLastMessage()
     }
   }
@@ -124,7 +143,6 @@ const Message = () => {
         row.participants = { ...tempParticipant[0] }
         return row
       })
-      console.log(tempUnreadUser)
       setUnseenMessageUsers({ ...tempUnreadUser })
       setConversationList(temp)
     }
@@ -198,6 +216,16 @@ const Message = () => {
   const handleKeyEvent = (e) => {
     if (e.key === KEYBOARD.ENTER) {
       sendMessage()
+    }
+  }
+
+  const getDayLabel = (date) => {
+    const formattedDate = dateFormat(date, DATE_FORMAT.FORMAT_5)
+
+    if (todayLabelDate === formattedDate) {
+      return 'Today'
+    } else {
+      return formattedDate
     }
   }
 
@@ -323,25 +351,33 @@ const Message = () => {
                           <Loader height={`calc(100% - ${ChatInputHeight})`} />
                         ) : (
                           <div className='chatMessagesContainer'>
-                            <p className='chatDateText'>Today</p>
                             {!isEmptyArray(messages)
                               ? messages.map((message, index) => {
                                   return (
-                                    <MessageStyle
-                                      sent={message?.fromSelf}
-                                      key={message.id}
-                                    >
-                                      <p className='messageHelperText'>
-                                        {dateFormat(
-                                          message?.timestamp,
-                                          DATE_FORMAT.FORMAT_3
-                                        )}
-                                      </p>
-                                      <p className='messageText'>
-                                        {message?.message}
-                                      </p>
-                                      {/* <p className='messageHelperText'>VIEWED AT</p> */}
-                                    </MessageStyle>
+                                    <>
+                                      {message?.uniqueDate ? (
+                                        <p className='chatDateText'>
+                                          {getDayLabel(message?.uniqueDate)}
+                                        </p>
+                                      ) : null}
+                                      <MessageStyle
+                                        sent={message?.fromSelf}
+                                        key={message.id}
+                                      >
+                                        {message?.uniqueTimeStamp ? (
+                                          <p className='messageHelperText'>
+                                            {dateFormat(
+                                              message?.uniqueTimeStamp,
+                                              DATE_FORMAT.FORMAT_3
+                                            )}
+                                          </p>
+                                        ) : null}
+                                        <p className='messageText'>
+                                          {message?.message}
+                                        </p>
+                                        {/* <p className='messageHelperText'>VIEWED AT</p> */}
+                                      </MessageStyle>
+                                    </>
                                   )
                                 })
                               : null}

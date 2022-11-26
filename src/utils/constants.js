@@ -217,7 +217,8 @@ export const DATE_FORMAT = {
   FORMAT_1: 'DD MMM YYYY hh:mm A',
   FORMAT_2: 'MMM D, YYYY',
   FORMAT_3: 'hh:mm A',
-  FORMAT_4: 'DD-MM-YYYY'
+  FORMAT_4: 'DD-MM-YYYY',
+  FORMAT_5: 'DD MMM YYYY'
 }
 
 export const NO_DATA_AVAILABLE = 'No Data Available'
