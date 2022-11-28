@@ -21,7 +21,7 @@ export const ImageRoleStyle = styled.img`
   ${({ role }) => {
     if (role === ROLES.FACULTY) {
       return {
-        border: `2px solid ${theme.lightTheme.radicalRed}`
+        border: `3px solid ${theme.lightTheme.radicalRed}`
       }
     }
     if (role === ROLES.ALUMNI) {

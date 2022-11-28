@@ -170,7 +170,7 @@ const Message = () => {
   const sendMessage = () => {
     const toId = activeUser?.participants?._id
     const fromId = profileDetail?.id
-    if (fromId && toId && message) {
+    if (fromId && toId && message.trim()) {
       const socketMessage = {
         to: [toId],
         message: message,
@@ -199,9 +199,7 @@ const Message = () => {
 
   const scrollToLastMessage = () => {
     setTimeout(() => {
-      messageRef.current?.scrollIntoView({
-        // behavior: 'smooth'
-      })
+      messageRef.current?.scrollIntoView({})
     }, 100)
   }
 
@@ -236,11 +234,13 @@ const Message = () => {
   }
 
   const handleNewMessage = (message, isSend = true) => {
+    const currentDateTime = new Date()
     const temp = {
       fromSelf: isSend,
       id: Date.now(),
       message: message,
-      timestamp: new Date()
+      timestamp: currentDateTime,
+      uniqueTimeStamp: currentDateTime
     }
     if (isSend) setMessage('')
     setMessages((prevValue) => {
@@ -282,7 +282,7 @@ const Message = () => {
                                 className='profileImage'
                                 role={currentUser?.qualification}
                               />
-                              <div className='activeUser'></div>
+                              {/* <div className='activeUser'></div> */}
                               <div className='nameContainer'>
                                 <p className='nameText'>{currentUser?.name}</p>
                                 <span className='roleText'>
@@ -313,9 +313,10 @@ const Message = () => {
                     <div className='rightSection'>
                       <div className='activeChatNameContainer'>
                         <div className='leftContainer'>
-                          <img
+                          <ImageRole
                             src={activeUser?.participants?.profile_image}
                             className='profileImage'
+                            role={activeUser?.participants?.qualification}
                           />
                           <div className='nameContainer'>
                             <p className='nameText'>

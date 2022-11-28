@@ -137,6 +137,14 @@ const CONSTANT = {
     addMessage: {
       endpoint: `/chat/messages/:conversationId`,
       type: 'POST'
+    },
+    joinGroup: {
+      endpoint: `/groups/user/join/:groupId`,
+      type: 'PUT'
+    },
+    deleteUser: {
+      endpoint: '/users/deleteUser/:email',
+      type: 'DELETE'
     }
   },
   planningStage: [

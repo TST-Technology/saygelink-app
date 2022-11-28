@@ -29,7 +29,7 @@ export const PostStyle = styled.div`
           font-family: 'Poppins';
           font-style: normal;
           font-weight: 500;
-          font-size: 16.6667px;
+          font-size: 18px;
           line-height: 25px;
           color: #262626;
         }
@@ -54,7 +54,7 @@ export const PostStyle = styled.div`
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 30px;
     color: #262626;
     padding: 15px 0;

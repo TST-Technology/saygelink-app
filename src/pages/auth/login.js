@@ -65,16 +65,14 @@ const LoginIDPassword = () => {
   }
 
   const LoginHandeler = (res) => {
+    console.log(res)
     if (res?.token) {
       localStorage.setItem('authToken', res?.token)
       localStorage.setItem('email', res?.user?.email)
       UserProfile.userDetails['token'] = res?.token
       setUser(res)
       console.log(res)
-      setTimeout(() => {
-        console.log('called')
-        navigate(ROUTES.HOME)
-      }, 2000)
+      window.location.assign(ROUTES.HOME)
     }
   }
 

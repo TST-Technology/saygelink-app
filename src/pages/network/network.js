@@ -17,6 +17,7 @@ import CONSTANT, {
 } from '../../utils/constants'
 import { isEmptyArray } from '../../utils/funcs'
 import Loader from '../../components/general/loader'
+import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
 
 const Network = () => {
   const networkApi = useHttp()
@@ -29,6 +30,9 @@ const Network = () => {
     INTEREST_GROUPS: 'Interest Groups'
   }
   const [activeTab, setActiveTab] = useState(TAB.MY_CONNECTIONS)
+  const joinApi = useHttp()
+  const [joinEventConfirmation, setJoinEventConfirmation] = useState(false)
+  const [activeEvent, setActiveEvent] = useState(null)
 
   useEffect(() => {
     getConnection()
@@ -74,6 +78,29 @@ const Network = () => {
     { label: TAB.EVENT_GROUPS, imageUrl: EventImage },
     { label: TAB.INTEREST_GROUPS, imageUrl: HeartImage }
   ]
+
+  const joinResponseHandler = (resp) => {
+    console.log(resp)
+    getAllGroups()
+    setJoinEventConfirmation(false)
+  }
+
+  const handleJoinClick = (event) => {
+    console.log(event)
+    setActiveEvent(event)
+    setJoinEventConfirmation(true)
+  }
+
+  const handleConfirmJoin = () => {
+    const groupId = activeEvent?._id
+    if (groupId) {
+      const url = {
+        ...CONSTANT.API.joinGroup,
+        endpoint: CONSTANT.API.joinGroup.endpoint.replace(':groupId', groupId)
+      }
+      joinApi.sendRequest(url, joinResponseHandler)
+    }
+  }
 
   return (
     <>
@@ -153,12 +180,26 @@ const Network = () => {
 
                                 <p className='eventHeading'>{event?.title}</p>
 
-                                <StyleJoinButton>Join</StyleJoinButton>
+                                {event.openGroup &&
+                                event.iamPartecipant === false ? (
+                                  <StyleJoinButton
+                                    onClick={() => {
+                                      handleJoinClick(event)
+                                    }}
+                                    disabled={joinApi.isLoading}
+                                  >
+                                    {joinApi.isLoading ? 'Joining' : 'Join'}
+                                  </StyleJoinButton>
+                                ) : (
+                                  <StyleJoinButton>Visit</StyleJoinButton>
+                                )}
                               </div>
                             )
                           })
                         ) : (
-                          <h2>{NO_DATA_AVAILABLE}</h2>
+                          <p className='text-center mt-3'>
+                            No events available.
+                          </p>
                         )}
                       </div>
                     </>
@@ -183,18 +224,45 @@ const Network = () => {
 
                                 <p className='eventHeading'>{event?.title}</p>
 
-                                <StyleJoinButton>Join</StyleJoinButton>
+                                {event.openGroup &&
+                                event.iamPartecipant === false ? (
+                                  <StyleJoinButton
+                                    onClick={() => {
+                                      handleJoinClick(event)
+                                    }}
+                                    disabled={joinApi.isLoading}
+                                  >
+                                    {joinApi.isLoading ? 'Joining' : 'Join'}
+                                  </StyleJoinButton>
+                                ) : (
+                                  <StyleJoinButton>Visit</StyleJoinButton>
+                                )}
                               </div>
                             )
                           })
                         ) : (
-                          <h2>{NO_DATA_AVAILABLE}</h2>
+                          <p className='text-center mt-3'>
+                            No interest available.
+                          </p>
                         )}
                       </div>
                     </>
                   ) : null}
                 </>
               )}
+
+              {joinEventConfirmation ? (
+                <DeleteConfirmation
+                  onCancelButtonClick={() => {
+                    setJoinEventConfirmation(false)
+                  }}
+                  onClose={() => {
+                    setJoinEventConfirmation(false)
+                  }}
+                  onConfirmButtonClick={handleConfirmJoin}
+                  message='Aye you sure you want to join?'
+                />
+              ) : null}
             </div>
           </div>
         </div>

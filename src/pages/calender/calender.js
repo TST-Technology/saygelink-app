@@ -24,6 +24,7 @@ import Loader from '../../components/general/loader'
 import { Menu } from '@mui/material'
 import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
 import moment from 'moment'
+import ImageRole from '../../components/general/image-role'
 
 const Calender = () => {
   const calenderApi = useHttp()
@@ -147,9 +148,10 @@ const Calender = () => {
                             <div className='calenderPreviewEventCard'>
                               <div className='calenderPreviewEventCardLeft'>
                                 <div className='calenderPreviewEventImageContainer'>
-                                  <img
+                                  <ImageRole
                                     className='calenderImage'
                                     src={conn?.sharer?.profile_image}
+                                    role={conn?.sharer?.qualification}
                                   />
                                 </div>
                                 <div className='calenderPreviewEventTitleContainer'>

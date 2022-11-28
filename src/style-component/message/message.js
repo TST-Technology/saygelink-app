@@ -152,6 +152,7 @@ export const MessageContainerStyle = styled.div`
           padding: 30px;
           height: calc(100% - ${ChatInputHeight});
           overflow-y: auto;
+          user-select: none;
 
           .chatDateText {
             text-align: center;

@@ -6,6 +6,12 @@ import TrashIcon from '../../assets/images/trash.svg'
 import LockIcon from '../../assets/images/lock.svg'
 import NotAllowedIcon from '../../assets/images/not-allowed.svg'
 import LogoutIcon from '../../assets/images/log-out.svg'
+import FBIcon from '../../assets/images/profileFacebook.svg'
+import IGIcon from '../../assets/images/profileInstagram.svg'
+import LIIcon from '../../assets/images/profileLinkedIn.svg'
+import TWIcon from '../../assets/images/profileTwitter.svg'
+import LinkIcon from '../../assets/images/profileLink.svg'
+
 import {
   AddAvailabilityButtonStyle,
   AddExperienceButtonStyle,
@@ -54,7 +60,8 @@ const Profile = () => {
   const {
     setUser,
     user,
-    setProfileDetail: setProfile
+    setProfileDetail: setProfile,
+    profileDetail: detail
   } = useContext(UserContext)
   const [profileDetail, setProfileDetail] = useState(null)
   const [maximumRequests, setMaximumRequests] = useState(null)
@@ -81,6 +88,7 @@ const Profile = () => {
     setIsDeleteAvailabilityConfirmation
   ] = useState(false)
   const [availabilityId, setAvailabilityId] = useState(null)
+  const deactivateApi = useHttp()
 
   useEffect(() => {
     if (email) {
@@ -316,6 +324,36 @@ const Profile = () => {
     }
   }
 
+  const deactivateResponseHandler = () => {}
+
+  const handleDeactivateAccount = () => {
+    const url = {
+      ...CONSTANT.API.deleteUser,
+      endpoint: CONSTANT.API.deleteUser.endpoint.replace(':email', email)
+    }
+    deactivateApi.sendRequest(
+      url,
+      deactivateResponseHandler,
+      {},
+      'Account deactivated successfully!'
+    )
+  }
+
+  const getSocialMediaIcon = (name) => {
+    switch (name) {
+      case 'Facebook':
+        return <img src={FBIcon} />
+      case 'Instagram':
+        return <img src={IGIcon} />
+      case 'Twitter':
+        return <img src={TWIcon} />
+      case 'LinkedIn':
+        return <img src={LIIcon} />
+      default:
+        return <img src={LinkIcon} />
+    }
+  }
+
   const currentWeekDay = !isEmptyArray(profileDetail?.availability)
     ? profileDetail?.availability.filter((row) => row?.day === selectedWeekday)
     : []
@@ -458,28 +496,30 @@ const Profile = () => {
                 </div>
 
                 <div className='viewColumn'>
-                  {!isEmptyArray(currentWeekDay)
-                    ? currentWeekDay.map((row, index) => {
-                        return (
-                          <div className='viewRow' key={index}>
-                            <div className='textContainer'>
-                              <p className='durationText'>
-                                {row?.start_time} to {row?.end_time}
-                              </p>
-                            </div>
-
-                            <div
-                              className='buttonContainer'
-                              onClick={() => {
-                                handleAvailabilityDelete(row)
-                              }}
-                            >
-                              <img src={TrashIcon} />
-                            </div>
+                  {!isEmptyArray(currentWeekDay) ? (
+                    currentWeekDay.map((row, index) => {
+                      return (
+                        <div className='viewRow' key={index}>
+                          <div className='textContainer'>
+                            <p className='durationText'>
+                              {row?.start_time} to {row?.end_time}
+                            </p>
                           </div>
-                        )
-                      })
-                    : null}
+
+                          <div
+                            className='buttonContainer'
+                            onClick={() => {
+                              handleAvailabilityDelete(row)
+                            }}
+                          >
+                            <img src={TrashIcon} />
+                          </div>
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <p className='mt-3'>No Availability</p>
+                  )}
                 </div>
               </div>
 
@@ -500,6 +540,7 @@ const Profile = () => {
                       return (
                         <div className='viewRow' key={index}>
                           <div className='textContainer'>
+                            {getSocialMediaIcon(row?.name)}
                             <a href={row?.url} className='durationText'>
                               {row?.url}
                             </a>
@@ -551,7 +592,7 @@ const Profile = () => {
                       </div>
                     </div>
                   ) : (
-                    <b>No Attachments</b>
+                    <p className='mt-3'>No Attachments</p>
                   )}
                 </div>
 
@@ -587,7 +628,10 @@ const Profile = () => {
                 <span>Update Password</span>
               </StyleSingleItem>
 
-              <StyleSingleItem redColor={true}>
+              <StyleSingleItem
+                redColor={true}
+                onClick={() => handleDeactivateAccount()}
+              >
                 <img src={NotAllowedIcon}></img>
                 <span>Deactivate account</span>
               </StyleSingleItem>

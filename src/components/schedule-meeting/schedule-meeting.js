@@ -10,6 +10,7 @@ import {
 } from '../../style-component/message/schedule-meeting'
 import CONSTANT, { DATE_FORMAT } from '../../utils/constants'
 import { dateFormat, formatTime, isEmptyArray } from '../../utils/funcs'
+import ImageRole from '../general/image-role'
 import Loader from '../general/loader'
 
 const ScheduleMeeting = ({ connectionId, email, optionId, onClose }) => {
@@ -119,9 +120,10 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose }) => {
         ) : (
           <form onSubmit={handleSubmitForm}>
             <div className='profileContainer'>
-              <img
+              <ImageRole
                 className='profileImage'
                 src={profileDetail?.profile_image}
+                role={profileDetail?.qualification}
               />
 
               <div className='rightTextContainer'>

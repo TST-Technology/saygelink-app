@@ -25,6 +25,7 @@ export const Button = css`
   color: ${theme.lightTheme.secondary.color};
   cursor: pointer;
   transition: 0.1s;
+  user-select: none;
 
   &:hover {
     box-shadow: 0px 2px 13px rgba(64, 189, 163, 0.3);
