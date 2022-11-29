@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import theme from '../../utils/variables'
-import { Button, InputStyle } from '../general'
+import { Button, FlexCenter, InputStyle } from '../general'
 
 export const ChatInputHeight = '127px'
 
@@ -164,6 +164,17 @@ export const MessageContainerStyle = styled.div`
             line-height: 17px;
             color: ${theme.lightTheme.secondary.font};
           }
+
+          .newChatDateText {
+            text-align: center;
+            margin: 30px;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 17px;
+            color: ${theme.lightTheme.secondary.color};
+          }
         }
 
         .chatInputContainer {
@@ -177,6 +188,40 @@ export const MessageContainerStyle = styled.div`
     .rightSectionContainer {
       background: #f0f0f0;
       width: calc(100% - ${LEFT_WIDTH});
+    }
+
+    .messageBackgroundContainer {
+      ${FlexCenter};
+      margin: 0 auto;
+      max-width: 70%;
+      height: 100%;
+
+      .messageBackground {
+        ${FlexCenter};
+        flex-direction: column;
+        gap: 20px;
+        height: 100%;
+
+        h2 {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 22px;
+          line-height: 33px;
+          color: #262626;
+          margin: 0;
+        }
+
+        p {
+          margin: 0;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          color: #000000;
+        }
+      }
     }
   }
 `

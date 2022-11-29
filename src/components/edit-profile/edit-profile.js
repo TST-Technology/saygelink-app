@@ -92,23 +92,20 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
   }
 
   const handleImageChangeResponse = () => {
-    if (qualificationYear && selectedRole && selectedRole !== 'Faculty') {
-      const param = {
-        qualification: selectedRole.toLowerCase(),
-        qualification_year: qualificationYear
-      }
-      profileApi.sendRequest(
-        CONSTANT.API.updateUserQualification,
-        () => {
-          onClose(true)
-        },
-        param,
-        'Profile updated successfully!'
-      )
-    } else {
-      notify.success('Profile updated successfully!')
-      onClose(true)
+    const param = {
+      qualification: selectedRole.toLowerCase(),
+      qualification_year: qualificationYear
     }
+
+    console.log(param)
+    profileApi.sendRequest(
+      CONSTANT.API.updateUserQualification,
+      () => {
+        onClose(true)
+      },
+      param,
+      'Profile updated successfully!'
+    )
   }
 
   const handleRoleChange = (e) => {
@@ -178,7 +175,7 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
                   {CONSTANT.role.map((role) => {
                     return (
                       <option
-                        selected={role.value === 'Student'}
+                        selected={role.value === selectedRole}
                         key={role.value}
                         value={role.value}
                       >

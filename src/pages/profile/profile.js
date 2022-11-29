@@ -31,7 +31,6 @@ import CONSTANT, {
   UserProfile
 } from '../../utils/constants'
 import TimePicker from '../../components/create-account/time-picker'
-import theme from '../../utils/variables'
 import EditProfile from '../../components/edit-profile/edit-profile'
 import useHttp from '../../hooks/use-http'
 import { useContext } from 'react'
@@ -44,6 +43,7 @@ import AddLink from '../../components/profile/add-link'
 import { useNavigate } from 'react-router-dom'
 import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
 import ImageRole from '../../components/general/image-role'
+import UpdatePassword from '../../components/update-password/update-password'
 
 const Profile = () => {
   const INIT_TIME = {
@@ -89,6 +89,7 @@ const Profile = () => {
   ] = useState(false)
   const [availabilityId, setAvailabilityId] = useState(null)
   const deactivateApi = useHttp()
+  const [updatePasswordDialog, setUpdatePasswordDialog] = useState(false)
 
   useEffect(() => {
     if (email) {
@@ -156,6 +157,10 @@ const Profile = () => {
       getProfile()
     }
     setLinkDialogVisible(false)
+  }
+
+  const handleCloseUpdatePasswordDialog = () => {
+    setUpdatePasswordDialog(false)
   }
 
   const handleDeleteLinkClick = (link) => {
@@ -263,7 +268,16 @@ const Profile = () => {
         'Availability added successfully!'
       )
     } else {
-      notify.error('Please enter availability!')
+      // if (
+      //   !interval.start_time ||
+      //   !interval?.start_time?.hour ||
+      //   !interval?.start_time?.minute ||
+      //   !interval?.start_time?.time
+      // ) {
+      //   notify.error('Please enter start time!')
+      // } else {
+      notify.error('Please enter start time, end time!')
+      // }
     }
   }
 
@@ -368,7 +382,6 @@ const Profile = () => {
             <div className='profileNameCard'>
               <div className='profileNameTop'>
                 <div className='profileNameContainer'>
-                  {/* <img src={profileDetail?.profile_image} /> */}
                   <ImageRole
                     src={profileDetail?.profile_image}
                     role={profileDetail?.qualification}
@@ -623,18 +636,21 @@ const Profile = () => {
                 <span>Edit Profile</span>
               </StyleSingleItem>
 
-              <StyleSingleItem redColor={true}>
+              <StyleSingleItem
+                onClick={() => setUpdatePasswordDialog(true)}
+                redColor={true}
+              >
                 <img src={LockIcon}></img>
                 <span>Update Password</span>
               </StyleSingleItem>
 
-              <StyleSingleItem
+              {/* <StyleSingleItem
                 redColor={true}
                 onClick={() => handleDeactivateAccount()}
               >
                 <img src={NotAllowedIcon}></img>
                 <span>Deactivate account</span>
-              </StyleSingleItem>
+              </StyleSingleItem> */}
 
               <StyleSingleItem onClick={() => handleLogoutClick()}>
                 <img src={LogoutIcon}></img>
@@ -753,6 +769,18 @@ const Profile = () => {
           }}
         />
       ) : null}
+
+      <Dialog
+        content={
+          <UpdatePassword onClose={() => handleCloseUpdatePasswordDialog()} />
+        }
+        title='Update Password'
+        onClose={() => {
+          handleCloseUpdatePasswordDialog(false)
+        }}
+        open={updatePasswordDialog}
+        width='500px'
+      />
     </>
   )
 }

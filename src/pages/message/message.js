@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import SearchImage from '../../assets/images/search.svg'
-import PersonImage from '../../assets/images/person.png'
+import MessageBackgroundImage from '../../assets/images/messageBackground.svg'
 import CalenderRedImage from '../../assets/images/calendar-red.svg'
 import SendImage from '../../assets/images/send.svg'
 import {
@@ -34,6 +34,7 @@ import { useContext } from 'react'
 import { UserContext } from '../../context/user'
 import { useRef } from 'react'
 import ImageRole from '../../components/general/image-role'
+import { useLayoutEffect } from 'react'
 
 const Message = () => {
   const messageApi = useHttp()
@@ -48,11 +49,11 @@ const Message = () => {
   const { profileDetail } = useContext(UserContext)
   const messageRef = useRef()
   const [unseenMessageUsers, setUnseenMessageUsers] = useState({})
+  const lastMessageTimestamp = localStorage.getItem('messageTimestamp')
 
   const todayLabelDate = dateFormat(new Date(), DATE_FORMAT.FORMAT_5)
 
   useEffect(() => {
-    // getMessage()
     getConversationList()
 
     socket.on(SOCKET_EVENTS.CONNECT, (socket) => {
@@ -81,6 +82,13 @@ const Message = () => {
       socket.off(SOCKET_EVENTS.RECEIVE_NOTIFICATION)
       socket.off(SOCKET_EVENTS.ONLINE_USERS)
       socket.off(SOCKET_EVENTS.MESSAGE_RECEIVE)
+      localStorage.setItem('messageTimestamp', Date.now())
+    }
+  }, [])
+
+  useLayoutEffect(() => {
+    return () => {
+      console.log('layout called')
     }
   }, [])
 
@@ -98,6 +106,7 @@ const Message = () => {
   const responseHandler = (resp) => {
     const uniqueTimeStamp = {}
     const uniqueDate = {}
+    const newMessage = false
     if (resp && !isEmptyArray(resp?.messages)) {
       const tempMessages = resp?.messages.map((mes) => {
         const format = dateFormat(mes.timestamp, DATE_FORMAT.FORMAT_1)
@@ -110,6 +119,12 @@ const Message = () => {
         if (!uniqueDate[format2]) {
           mes.uniqueDate = mes.timestamp
           uniqueDate[format2] = true
+        }
+        if (
+          Date.parse(mes?.timestamp) > lastMessageTimestamp &&
+          newMessage === false
+        ) {
+          mes.newMessage = true
         }
         return mes
       })
@@ -361,6 +376,12 @@ const Message = () => {
                                           {getDayLabel(message?.uniqueDate)}
                                         </p>
                                       ) : null}
+
+                                      {message?.newMessage ? (
+                                        <p className='newChatDateText'>
+                                          New Messages
+                                        </p>
+                                      ) : null}
                                       <MessageStyle
                                         sent={message?.fromSelf}
                                         key={message.id}
@@ -406,7 +427,19 @@ const Message = () => {
                       </div>
                     </div>
                   </>
-                ) : null}
+                ) : (
+                  <div className='messageBackgroundContainer'>
+                    <div className='messageBackground'>
+                      <img src={MessageBackgroundImage} />
+
+                      <h2>Lorem Ipsum </h2>
+                      <p>
+                        is simply dummy text of the printing and typesetting
+                        industry.
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </MessageContainerStyle>
@@ -423,7 +456,13 @@ const Message = () => {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <ScheduleMeeting />
+            <ScheduleMeeting
+              email={activeUser?.participants?.email}
+              type='connect'
+              onClose={() => {
+                handleClose()
+              }}
+            />
           </Menu>
         </>
       )}

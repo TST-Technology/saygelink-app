@@ -4,6 +4,7 @@ import {
   NotificationContainerStyle
 } from '../../style-component/header'
 import shortLogo from '../../assets/images/short_logo.png'
+import defaultWhiteImage from '../../assets/images/PersonCircleWhite.svg'
 import HomeLogo from '../../assets/images/home.svg'
 import MessageLogo from '../../assets/images/message.svg'
 import CalenderLogo from '../../assets/images/calendar.svg'
@@ -11,7 +12,7 @@ import GlobLogo from '../../assets/images/globe.svg'
 import BellLogo from '../../assets/images/bell.svg'
 import ProfileLogo from '../../assets/images/profile.svg'
 import PersonImg from '../../assets/images/person.png'
-import CONSTANT, { ROUTES } from '../../utils/constants'
+import CONSTANT, { ROUTES, SOCKET_EVENTS } from '../../utils/constants'
 import { Link, useNavigate } from 'react-router-dom'
 import { Menu } from '@mui/material'
 import Notification from './notification'
@@ -22,6 +23,7 @@ import { isEmptyArray } from '../../utils/funcs'
 import { useContext } from 'react'
 import { UserContext } from '../../context/user'
 import ImageRole from './image-role'
+import { socket } from '../../utils/socket'
 
 const Header = () => {
   const [activeTab, setActiveTab] = useState(window.location.pathname)
@@ -33,6 +35,7 @@ const Header = () => {
   const [floatMenuType, setFloatMenuType] = useState(null)
   const [requestDetail, setRequestDetail] = useState(null)
   const { profileDetail } = useContext(UserContext)
+  const [isNotification, setIsNotification] = useState(false)
 
   useEffect(() => {
     setActiveTab(window.location.pathname)
@@ -40,6 +43,17 @@ const Header = () => {
 
   useEffect(() => {
     getRequests()
+
+    socket.on(SOCKET_EVENTS.RECEIVE_NOTIFICATION, (notification) => {
+      console.log(SOCKET_EVENTS.RECEIVE_NOTIFICATION, notification)
+      if (notification) {
+        setIsNotification(true)
+      }
+    })
+
+    return () => {
+      socket.off(SOCKET_EVENTS.RECEIVE_NOTIFICATION)
+    }
   }, [])
 
   const HEADER_TABS = [
@@ -68,6 +82,7 @@ const Header = () => {
   const handleClick = (event) => {
     setFloatMenuType('notification')
     setAnchorEl(event.currentTarget)
+    setIsNotification(false)
   }
 
   const handleRequestClick = (event) => {
@@ -135,8 +150,10 @@ const Header = () => {
               </div>
             )
           })}
-          <div className='width-30' onClick={handleClick}>
+          <div className='width-30 notificationIcon' onClick={handleClick}>
             <img src={BellLogo} className='headerImages' />
+
+            {isNotification ? <div className='notificationDot'></div> : null}
           </div>
 
           <div
@@ -162,6 +179,7 @@ const Header = () => {
             width='33px'
             radius={'50%'}
             className='headerImages'
+            defaultImage={defaultWhiteImage}
           />
         </div>
       </div>

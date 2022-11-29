@@ -48,18 +48,6 @@ export const LinearProgressStyle = styled(LinearProgress)`
     border-radius: ${({ radius }) => {
       return radius
     }};
-    ${({ role }) => {
-      if (role === ROLES.FACULTY) {
-        return {
-          border: `2px solid ${theme.lightTheme.radicalRed}`
-        }
-      }
-      if (role === ROLES.ALUMNI) {
-        return {
-          border: `2px solid ${UNIVERSITY_COLOR.primary}`
-        }
-      }
-    }}
     ${({ hide }) => {
       if (hide) return { display: 'none' }
     }}

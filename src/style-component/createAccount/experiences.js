@@ -78,7 +78,8 @@ export const StyleTopicItem = styled.div`
 `
 
 export const StyleCategoryCard = styled.div`
-  box-shadow: 0px 5.50327px 5.50327px rgba(0, 0, 0, 0.25);
+  box-shadow: rgb(188 187 187 / 37%) 1px 5.50327px 14px;
+  // box-shadow: 0px 5.50327px 5.50327px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   cursor: pointer;

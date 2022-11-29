@@ -145,6 +145,14 @@ const CONSTANT = {
     deleteUser: {
       endpoint: '/users/deleteUser/:email',
       type: 'DELETE'
+    },
+    updateUserPassword: {
+      endpoint: `/users/updateUserPassword`,
+      type: 'PATCH'
+    },
+    connect: {
+      endpoint: '/connect',
+      type: 'POST'
     }
   },
   planningStage: [

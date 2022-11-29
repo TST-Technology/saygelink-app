@@ -13,7 +13,7 @@ import { dateFormat, formatTime, isEmptyArray } from '../../utils/funcs'
 import ImageRole from '../general/image-role'
 import Loader from '../general/loader'
 
-const ScheduleMeeting = ({ connectionId, email, optionId, onClose }) => {
+const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
   console.log(email)
   const profileApi = useHttp()
   const rescheduleApi = useHttp()
@@ -58,11 +58,17 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose }) => {
       !isEmptyArray(payload?.times) &&
       !isEmptyArray(payload?.days)
     ) {
+      const url =
+        type === 'reschedule'
+          ? CONSTANT.API.rescheduleAvailability
+          : CONSTANT.API.connect
       rescheduleApi.sendRequest(
-        CONSTANT.API.rescheduleAvailability,
+        url,
         handleResponse,
         payload,
-        'Meeting rescheduled successfully!'
+        type === 'reschedule'
+          ? 'Meeting rescheduled successfully!'
+          : 'Meeting scheduled successfully!'
       )
     }
   }
@@ -77,7 +83,11 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose }) => {
     const tempArr = [1, 2, 3]
     const newPayload = {}
     if (e.target.message.value) {
-      newPayload.reschedule_message = e.target.message.value
+      if (type === 'connect') {
+        newPayload.message = e.target.message.value
+      } else {
+        newPayload.reschedule_message = e.target.message.value
+      }
     }
     if (e.target.timezone.value) {
       newPayload.timezone = e.target.timezone.value
@@ -87,6 +97,9 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose }) => {
     }
     if (optionId) {
       newPayload.option_id = optionId
+    }
+    if (type === 'connect') {
+      newPayload.sayge_id = email
     }
 
     tempArr.map((no) => {
@@ -249,6 +262,10 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose }) => {
       </>
     </ScheduleMeetingStyle>
   )
+}
+
+ScheduleMeeting.defaultProps = {
+  type: 'reschedule'
 }
 
 export default ScheduleMeeting

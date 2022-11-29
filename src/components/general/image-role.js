@@ -5,7 +5,7 @@ import {
   LinearProgressStyle
 } from '../../style-component/image.role'
 import { ROLES } from '../../utils/constants'
-import defaultImage from '../../assets/images/defaultImage.png'
+import defaultPersonImage from '../../assets/images/defaultImage.png'
 
 //possible roles => student, alumni, faculty
 const ImageRole = ({
@@ -15,14 +15,13 @@ const ImageRole = ({
   radius,
   src,
   className,
-  onClick
+  onClick,
+  defaultImage
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false)
   const ref = useRef()
-  const imagePath = src ? src : defaultImage
 
   const handleLoad = () => {
-    console.log('loaded')
     setImageLoaded(true)
   }
 
@@ -53,6 +52,7 @@ const ImageRole = ({
         height={height}
         width={width}
         radius={radius}
+        className={className}
         role={role}
         hide={imageLoaded}
       />
@@ -62,7 +62,8 @@ const ImageRole = ({
 
 ImageRole.defaultProps = {
   radius: 0,
-  role: ROLES.STUDENT
+  role: ROLES.STUDENT,
+  defaultImage: defaultPersonImage
 }
 
 export default ImageRole

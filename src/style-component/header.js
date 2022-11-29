@@ -91,6 +91,20 @@ export const HeaderContainerStyle = styled.div`
         width: 40px;
       }
 
+      .notificationIcon {
+        position: relative;
+
+        .notificationDot {
+          position: absolute;
+          top: 1px;
+          right: 20px;
+          height: 8px;
+          width: 8px;
+          background: ${theme.lightTheme.secondary.color};
+          border-radius: 50%;
+        }
+      }
+
       .profileImage {
         width: 33px;
         height: 33px;
