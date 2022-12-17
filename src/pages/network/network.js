@@ -18,6 +18,7 @@ import CONSTANT, {
 import { isEmptyArray } from '../../utils/funcs'
 import Loader from '../../components/general/loader'
 import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
+import ImageRole from '../../components/general/image-role'
 
 const Network = () => {
   const networkApi = useHttp()
@@ -135,7 +136,11 @@ const Network = () => {
                                   <div className='connectionCard' key={index}>
                                     <div className='connectionHeader'>
                                       <div className='connectionLeft'>
-                                        <img src={conn?.profileImage} />
+                                        <ImageRole
+                                          src={conn?.profileImage}
+                                          role={conn?.qualification}
+                                          className='connectionImage'
+                                        />
 
                                         <div className='nameContainer'>
                                           <h3>{conn?.name}</h3>

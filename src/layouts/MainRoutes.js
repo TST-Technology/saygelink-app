@@ -7,6 +7,7 @@ import { UserContext } from '../context/user'
 import useHttp from '../hooks/use-http'
 import Login from '../pages/auth'
 import Calender from '../pages/calender/calender'
+import Category from '../pages/category/category'
 import CreateAccount from '../pages/createAccount/create-account'
 import Dashboard from '../pages/dashboard/dashboard'
 import Healthcare from '../pages/healthcare/healthcare'
@@ -59,7 +60,8 @@ const MainRoutes = () => {
     ROUTES.HOME,
     ROUTES.PROFILE,
     ROUTES.NETWORK,
-    ROUTES.CALENDER
+    ROUTES.CALENDER,
+    ROUTES.CATEGORY
   ]
 
   return (
@@ -103,6 +105,7 @@ const MainRoutes = () => {
               <Route path={ROUTES.HOME} element={<Dashboard />} />
               <Route path={ROUTES.MESSAGE} element={<Message />} />
               <Route path={ROUTES.CALENDER} element={<Calender />} />
+              <Route path={ROUTES.CATEGORY} element={<Category />} />
             </Route>
           </Routes>
         </Fragment>

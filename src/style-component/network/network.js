@@ -63,7 +63,7 @@ export const StyleNetworkContainer = styled.div`
                 align-items: center;
                 gap: 20px;
 
-                img {
+                .connectionImage {
                   height: 55px;
                   width: 55px;
                   object-fit: cover;

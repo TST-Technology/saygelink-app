@@ -219,7 +219,8 @@ export const ROUTES = {
   NETWORK: '/network',
   PROFILE: '/profile',
   CALENDER: '/calender',
-  AUTH: '/auth'
+  AUTH: '/auth',
+  CATEGORY: '/category'
 }
 
 export const WEEKDAY_SELECTOR_TYPE = {
