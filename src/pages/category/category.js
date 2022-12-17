@@ -8,6 +8,26 @@ const Category = () => {
         <div className='categorySection'>
           <h3 className='heading'>Explore Catagories</h3>
           <p className='subHeading'>Browse topics</p>
+
+          <div className='categoryContainer'>
+            {categories &&
+              categories.map((category) => {
+                return (
+                  <StyleCategoryCard
+                    selected={category?._id === activeCategory?._id}
+                    key={category?._id}
+                    onClick={() => handleCategoryClick(category)}
+                  >
+                    <div className='imageContainer'>
+                      <img src={category?.image} />
+                    </div>
+                    <div className='labelContainer'>
+                      <span className='label'>{category?.name}</span>
+                    </div>
+                  </StyleCategoryCard>
+                )
+              })}
+          </div>
         </div>
 
         <div className='topicSection'>
