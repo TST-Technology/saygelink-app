@@ -153,6 +153,18 @@ const CONSTANT = {
     connect: {
       endpoint: '/connect',
       type: 'POST'
+    },
+    beASayge: {
+      endpoint: '/users/organization/addSayge',
+      type: 'POST'
+    },
+    removeSayge: {
+      endpoint: '/users/organization/removeSayge/:saygeId',
+      type: 'DELETE'
+    },
+    findSayge: {
+      endpoint: '/users/organization/findSayge/:topicId',
+      type: 'GET'
     }
   },
   planningStage: [
@@ -215,12 +227,13 @@ export const userInviteEmail = {
 export const ROUTES = {
   HOME: '/',
   MESSAGE: '/message',
-  HEALTHCARE: '/healthcare',
+  HEALTHCARE: '/members/:topicId',
   NETWORK: '/network',
   PROFILE: '/profile',
   CALENDER: '/calender',
   AUTH: '/auth',
-  CATEGORY: '/category'
+  CATEGORY: '/category',
+  CATEGORY_FIND: '/category/find'
 }
 
 export const WEEKDAY_SELECTOR_TYPE = {

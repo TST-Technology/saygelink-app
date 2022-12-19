@@ -65,8 +65,6 @@ export const StyleMembersCard = styled.div`
   border-radius: 8.4589px;
 
   ${({ scale }) => {
-    console.log(scale)
-
     if (scale === 1) {
       return {
         scale: '1.2'
@@ -92,7 +90,7 @@ export const StyleMembersCard = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    img {
+    .memberImage {
       height: 50px;
       width: 50px;
       object-fit: cover;

@@ -37,7 +37,10 @@ const MainRoutes = () => {
   }, [email])
 
   useEffect(() => {
-    setIncludeHeader(HEADER_VISIBLE_ROUTES.includes(location.pathname))
+    setIncludeHeader(
+      HEADER_VISIBLE_ROUTES.includes(location.pathname) ||
+        location.pathname.includes('/members')
+    )
   }, [location])
 
   const getProfileDetail = () => {
@@ -61,7 +64,8 @@ const MainRoutes = () => {
     ROUTES.PROFILE,
     ROUTES.NETWORK,
     ROUTES.CALENDER,
-    ROUTES.CATEGORY
+    ROUTES.CATEGORY,
+    ROUTES.CATEGORY_FIND
   ]
 
   return (
@@ -105,7 +109,14 @@ const MainRoutes = () => {
               <Route path={ROUTES.HOME} element={<Dashboard />} />
               <Route path={ROUTES.MESSAGE} element={<Message />} />
               <Route path={ROUTES.CALENDER} element={<Calender />} />
-              <Route path={ROUTES.CATEGORY} element={<Category />} />
+              <Route
+                path={ROUTES.CATEGORY}
+                element={<Category isFindSayge={false} />}
+              />
+              <Route
+                path={ROUTES.CATEGORY_FIND}
+                element={<Category isFindSayge={true} />}
+              />
             </Route>
           </Routes>
         </Fragment>

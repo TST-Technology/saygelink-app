@@ -109,12 +109,16 @@ const Dashboard = () => {
     }
   }
 
-  const redirectToInterest = (second) => {
+  const redirectToInterest = () => {
     navigate(`${ROUTES.NETWORK}#interest`)
   }
 
-  const redirectToEvent = (second) => {
+  const redirectToEvent = () => {
     navigate(`${ROUTES.NETWORK}#event`)
+  }
+
+  const handleFindSayge = () => {
+    navigate(ROUTES.CATEGORY_FIND)
   }
 
   return (
@@ -134,7 +138,7 @@ const Dashboard = () => {
             <div className='homeBannerButtonContainer'>
               <p>Someone has the insight you need today.</p>
 
-              <FindSaygeButtonStyle>
+              <FindSaygeButtonStyle onClick={handleFindSayge}>
                 <img src={SearchImage} />
                 Find A SAYge
               </FindSaygeButtonStyle>

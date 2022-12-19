@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import {
   HealthcareContainerStyle,
   StyleConnectButton,
@@ -8,6 +9,7 @@ import {
   StylePostButton,
   ThoughtsTextArea
 } from '../../style-component/healthcare/healthcare'
+import ImageRole from '../../components/general/image-role'
 import PersonImage from '../../assets/images/person.png'
 import FacebookImage from '../../assets/images/facebook.svg'
 import LinkedinImage from '../../assets/images/linkedin.svg'
@@ -17,8 +19,52 @@ import ImageCard from '../../components/general/image-card'
 import cardBackgroundImage1 from '../../assets/images/cardBackground1.png'
 import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import Post from '../../components/general/post'
+import { useEffect } from 'react'
+import useHttp from '../../hooks/use-http'
+import CONSTANT from '../../utils/constants'
 
 const Healthcare = () => {
+  const api = useHttp()
+  const { topicId } = useParams()
+  const [allMembers, setAllMembers] = useState([])
+
+  useEffect(() => {
+    if (topicId) {
+      getAllMembers()
+    }
+  }, [topicId])
+
+  const getAllMembers = () => {
+    const url = {
+      ...CONSTANT.API.findSayge,
+      endpoint: CONSTANT.API.findSayge.endpoint.replace(':topicId', topicId)
+    }
+    api.sendRequest(url, handleMembersResponse)
+  }
+
+  const handleMembersResponse = (resp) => {
+    console.log(resp)
+    if (resp && resp?.matchesProfiles) {
+      setAllMembers(resp.matchesProfiles)
+    }
+  }
+
+  const getAvailability = (avail) => {
+    return (
+      <div className='dayText'>
+        {avail.map((row) => {
+          return (
+            <div>
+              <span>
+                {row.day} {row.start_time} {row.end_time} {row.timezone}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
   return (
     <>
       <HealthcareContainerStyle>
@@ -28,41 +74,48 @@ const Healthcare = () => {
             <span className='subHeading'>Members </span>
 
             <StyleMembersCardContainer>
-              {[0, 1, 2, 3].map((row, index) => {
-                return (
-                  <StyleMembersCard key={0} scale={index}>
-                    <div className='headingContainer'>
-                      <div>
-                        <img src={PersonImage} />
-                      </div>
+              {Array.isArray(allMembers) && allMembers.length > 0
+                ? allMembers.map((member, index) => {
+                    return (
+                      <StyleMembersCard key={member.id} scale={index}>
+                        <div className='headingContainer'>
+                          <div>
+                            <ImageRole
+                              className='memberImage'
+                              src={member?.profile_image}
+                              role={member?.qualification}
+                            />
+                          </div>
 
-                      <StyleConnectButton>Connect</StyleConnectButton>
-                    </div>
-                    <h2 className='memberName'>Zoe Jones</h2>
+                          <StyleConnectButton>Connect</StyleConnectButton>
+                        </div>
+                        <h2 className='memberName'>{member.name}</h2>
 
-                    <p className='skills'>Parenting | Pregnancy | Career </p>
+                        <p className='skills'>
+                          Parenting | Pregnancy | Career{' '}
+                        </p>
 
-                    <p className='insights'>Zoe Jone's insights</p>
+                        <p className='insights'>Zoe Jone's insights</p>
 
-                    <ul>
-                      <li>RELATIONSHIP</li>
-                      <li>PARENTING</li>
-                    </ul>
+                        <ul>
+                          <li>RELATIONSHIP</li>
+                          <li>PARENTING</li>
+                        </ul>
 
-                    <p className='insights'>Available</p>
-                    <span className='dayText'>
-                      Thursday - friday (12:00 pm - 03:00 pm)
-                    </span>
+                        <p className='insights'>Available</p>
 
-                    <p className='insights'>Social profiles</p>
+                        {getAvailability(member?.availability)}
 
-                    <div className='socialProfileContainer'>
-                      <img src={LinkedinImage} className='socialImage' />
-                      <img src={FacebookImage} className='socialImage' />
-                    </div>
-                  </StyleMembersCard>
-                )
-              })}
+                        <p className='insights'>Social profiles</p>
+
+                        <div className='socialProfileContainer'>
+                          <img src={LinkedinImage} className='socialImage' />
+                          <img src={FacebookImage} className='socialImage' />
+                        </div>
+                      </StyleMembersCard>
+                    )
+                  })
+                : null}
             </StyleMembersCardContainer>
 
             <StyleFeedContainer>
