@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import useHttp from '../../hooks/use-http'
-import CONSTANT, { ROUTES } from '../../utils/constants'
+import CONSTANT, { DashboardHeaderHeight, ROUTES } from '../../utils/constants'
 import RightArrow from '../../assets/images/RightArrow.svg'
 import SearchImage from '../../assets/images/search-white.svg'
 import { FindSaygeButtonStyle } from '../../style-component/dashboard/dashboard'
@@ -10,6 +10,7 @@ import {
   StyleSubcategoryTopicItem
 } from '../../style-component/category/category'
 import { useNavigate } from 'react-router-dom'
+import Loader from '../../components/general/loader'
 
 const Category = ({ isFindSayge }) => {
   const categoryApi = useHttp()
@@ -126,87 +127,91 @@ const Category = ({ isFindSayge }) => {
 
   return (
     <StyleCategoryContainer>
-      <div className='categoryPageContainer'>
-        <div className='categorySection'>
-          <h3 className='heading'>Explore Catagories</h3>
-          <p className='subHeading'>Browse topics</p>
+      {categoryApi.isLoading ? (
+        <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
+      ) : (
+        <div className='categoryPageContainer'>
+          <div className='categorySection'>
+            <h3 className='heading'>Explore Catagories</h3>
+            <p className='subHeading'>Browse topics</p>
 
-          <div className='categoryContainer'>
-            {categories &&
-              categories.map((category) => {
-                return (
-                  <StyleCategoryCard
-                    selected={category?._id === activeCategory?._id}
-                    key={category?._id}
-                    onClick={() => handleCategoryClick(category)}
-                  >
-                    <div className='imageContainer'>
-                      <img src={category?.image} className='categoryImage' />
-                    </div>
-                    <div className='labelContainer'>
-                      <span className='label'>{category?.name}</span>
-                    </div>
-                  </StyleCategoryCard>
-                )
-              })}
-          </div>
-        </div>
-
-        <div className='topicSection'>
-          <div>
-            <h3 className='heading'>Choose topics</h3>
-            <p className='subHeading'>
-              Tip: Choosing the topics in which you can share invalue-able
-              information and experience will bring a sense of expertise.
-            </p>
-          </div>
-          <div className='topicSectionContainer'>
-            <div className='subCategorySection'>
-              {subCategoryList &&
-                subCategoryList.map((subCategory, index) => {
+            <div className='categoryContainer'>
+              {categories &&
+                categories.map((category) => {
                   return (
-                    <StyleSubcategoryTopicItem
-                      key={subCategory?._id}
-                      selected={subCategory?._id === activeSubCategory?._id}
-                      onClick={() => {
-                        handleSubCategoryClick(subCategory)
-                      }}
-                      border={index !== subCategoryList.length - 1}
+                    <StyleCategoryCard
+                      selected={category?._id === activeCategory?._id}
+                      key={category?._id}
+                      onClick={() => handleCategoryClick(category)}
                     >
-                      <p className='label'>{subCategory?.name}</p>
-
-                      <img src={RightArrow} />
-                    </StyleSubcategoryTopicItem>
-                  )
-                })}
-            </div>
-            <div className='topicSection'>
-              {activeSubCategory &&
-                activeSubCategory?.topics &&
-                activeSubCategory?.topics.map((topic, index) => {
-                  return (
-                    <StyleSubcategoryTopicItem
-                      key={topic?._id}
-                      isFindSayge={!isFindSayge}
-                      selected={
-                        Array.isArray(activeTopic) &&
-                        activeTopic.includes(topic?._id)
-                      }
-                      border={index !== subCategoryList.length - 1}
-                      onClick={() => {
-                        handleTopicSelection(topic?._id)
-                      }}
-                    >
-                      <p className='label'>{topic?.name}</p>
-
-                      {isFindSayge ? <img src={RightArrow} /> : null}
-                    </StyleSubcategoryTopicItem>
+                      <div className='imageContainer'>
+                        <img src={category?.image} className='categoryImage' />
+                      </div>
+                      <div className='labelContainer'>
+                        <span className='label'>{category?.name}</span>
+                      </div>
+                    </StyleCategoryCard>
                   )
                 })}
             </div>
           </div>
+
+          <div className='topicSection'>
+            <div>
+              <h3 className='heading'>Choose topics</h3>
+              <p className='subHeading'>
+                Tip: Choosing the topics in which you can share invalue-able
+                information and experience will bring a sense of expertise.
+              </p>
+            </div>
+            <div className='topicSectionContainer'>
+              <div className='subCategorySection'>
+                {subCategoryList &&
+                  subCategoryList.map((subCategory, index) => {
+                    return (
+                      <StyleSubcategoryTopicItem
+                        key={subCategory?._id}
+                        selected={subCategory?._id === activeSubCategory?._id}
+                        onClick={() => {
+                          handleSubCategoryClick(subCategory)
+                        }}
+                        border={index !== subCategoryList.length - 1}
+                      >
+                        <p className='label'>{subCategory?.name}</p>
+
+                        <img src={RightArrow} />
+                      </StyleSubcategoryTopicItem>
+                    )
+                  })}
+              </div>
+              <div className='topicSection'>
+                {activeSubCategory &&
+                  activeSubCategory?.topics &&
+                  activeSubCategory?.topics.map((topic, index) => {
+                    return (
+                      <StyleSubcategoryTopicItem
+                        key={topic?._id}
+                        isFindSayge={!isFindSayge}
+                        selected={
+                          Array.isArray(activeTopic) &&
+                          activeTopic.includes(topic?._id)
+                        }
+                        border={index !== subCategoryList.length - 1}
+                        onClick={() => {
+                          handleTopicSelection(topic?._id)
+                        }}
+                      >
+                        <p className='label'>{topic?.name}</p>
+
+                        {isFindSayge ? <img src={RightArrow} /> : null}
+                      </StyleSubcategoryTopicItem>
+                    )
+                  })}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
       {isFindSayge && Array.isArray(activeTopic) && activeTopic.length > 0 ? (
         <div className='findASaygeButtonContainer'>

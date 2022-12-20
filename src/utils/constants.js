@@ -233,7 +233,8 @@ export const ROUTES = {
   CALENDER: '/calender',
   AUTH: '/auth',
   CATEGORY: '/category',
-  CATEGORY_FIND: '/category/find'
+  CATEGORY_FIND: '/category/find',
+  MEMBER: '/member/:memberId'
 }
 
 export const WEEKDAY_SELECTOR_TYPE = {

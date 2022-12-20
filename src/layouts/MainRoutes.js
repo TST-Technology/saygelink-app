@@ -11,6 +11,7 @@ import Category from '../pages/category/category'
 import CreateAccount from '../pages/createAccount/create-account'
 import Dashboard from '../pages/dashboard/dashboard'
 import Healthcare from '../pages/healthcare/healthcare'
+import Member from '../pages/member/member'
 import Message from '../pages/message/message'
 import Network from '../pages/network/network'
 import Profile from '../pages/profile/profile'
@@ -39,7 +40,8 @@ const MainRoutes = () => {
   useEffect(() => {
     setIncludeHeader(
       HEADER_VISIBLE_ROUTES.includes(location.pathname) ||
-        location.pathname.includes('/members')
+        location.pathname.includes('/members') ||
+        location.pathname.includes('/member')
     )
   }, [location])
 
@@ -65,7 +67,8 @@ const MainRoutes = () => {
     ROUTES.NETWORK,
     ROUTES.CALENDER,
     ROUTES.CATEGORY,
-    ROUTES.CATEGORY_FIND
+    ROUTES.CATEGORY_FIND,
+    ROUTES.MEMBER
   ]
 
   return (
@@ -117,6 +120,7 @@ const MainRoutes = () => {
                 path={ROUTES.CATEGORY_FIND}
                 element={<Category isFindSayge={true} />}
               />
+              <Route path={ROUTES.MEMBER} element={<Member />} />
             </Route>
           </Routes>
         </Fragment>

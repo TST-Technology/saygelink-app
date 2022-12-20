@@ -168,9 +168,13 @@ export const StyleMembersCard = styled.div`
   }
 
   .socialProfileContainer {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+
     .socialImage {
-      height: 35px;
-      width: 35px;
+      height: 20px;
+      width: 20px;
     }
   }
 `
