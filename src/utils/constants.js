@@ -165,6 +165,14 @@ const CONSTANT = {
     findSayge: {
       endpoint: '/users/organization/findSayge/:topicId',
       type: 'GET'
+    },
+    userDetailById: {
+      endpoint: '/users/userId',
+      type: 'GET'
+    },
+    getOrCreateConversation: {
+      endpoint: '/chat/conversation/getOrCreateConversation',
+      type: 'POST'
     }
   },
   planningStage: [

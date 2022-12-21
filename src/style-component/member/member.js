@@ -57,6 +57,7 @@ export const MemberContainerStyle = styled.div`
           span {
             font-family: 'Poppins';
             font-style: normal;
+            text-transform: capitalize;
             font-weight: 600;
             font-size: 12px;
             line-height: 18px;
@@ -72,6 +73,7 @@ export const MemberContainerStyle = styled.div`
         .otherField {
           ${FlexCenter};
           flex-direction: column;
+
           .title {
             font-family: 'Poppins';
             font-style: normal;
@@ -88,6 +90,10 @@ export const MemberContainerStyle = styled.div`
             font-size: 20px;
             line-height: 30px;
             color: #7c7575;
+          }
+
+          img {
+            margin-bottom: 15px;
           }
         }
       }
@@ -146,6 +152,17 @@ export const MemberContainerStyle = styled.div`
     font-size: 24px;
     line-height: 36px;
     color: #5c5353;
+  }
+
+  .socialProfileContainer {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+
+    .socialImage {
+      height: 28.95px;
+      width: 28.95px;
+    }
   }
 `
 

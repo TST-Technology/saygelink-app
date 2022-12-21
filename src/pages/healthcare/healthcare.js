@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   HealthcareContainerStyle,
   StyleConnectButton,
@@ -24,9 +24,10 @@ import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import Post from '../../components/general/post'
 import { useEffect } from 'react'
 import useHttp from '../../hooks/use-http'
-import CONSTANT, { DashboardHeaderHeight } from '../../utils/constants'
+import CONSTANT, { DashboardHeaderHeight, ROUTES } from '../../utils/constants'
 
 const Healthcare = () => {
+  const nav = useNavigate()
   const api = useHttp()
   const { topicId } = useParams()
   const [allMembers, setAllMembers] = useState([])
@@ -125,7 +126,15 @@ const Healthcare = () => {
                               />
                             </div>
 
-                            <StyleConnectButton>Connect</StyleConnectButton>
+                            <StyleConnectButton
+                              onClick={() =>
+                                nav(
+                                  ROUTES.MEMBER.replace(':memberId', member?.id)
+                                )
+                              }
+                            >
+                              Connect
+                            </StyleConnectButton>
                           </div>
                           <h2 className='memberName'>{member.name}</h2>
 
