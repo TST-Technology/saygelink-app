@@ -19,7 +19,8 @@ import CONSTANT, {
   DATE_FORMAT,
   KEYBOARD,
   scheduleMeetingStyle,
-  SOCKET_EVENTS
+  SOCKET_EVENTS,
+  visitedMember
 } from '../../utils/constants'
 import useHttp from '../../hooks/use-http'
 import { useEffect } from 'react'
@@ -35,11 +36,13 @@ import { UserContext } from '../../context/user'
 import { useRef } from 'react'
 import ImageRole from '../../components/general/image-role'
 import { useLayoutEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 const Message = () => {
   const messageApi = useHttp()
   const conversationListApi = useHttp()
   const sendMessageApi = useHttp()
+  const { conversationId } = useParams()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const [messages, setMessages] = useState(null)
@@ -145,6 +148,7 @@ const Message = () => {
   const conversationListResponseHandler = (resp) => {
     if (resp && !isEmptyArray(resp?.conversations)) {
       const tempUnreadUser = {}
+      const isVisitedMemberInList = false
       const temp = resp?.conversations.map((row) => {
         const tempParticipant = row.participants.filter(
           (part) => part.iam_user === false
@@ -156,8 +160,27 @@ const Message = () => {
           tempUnreadUser[tempParticipant[0]?._id] = true
 
         row.participants = { ...tempParticipant[0] }
+        if (
+          visitedMember.detail &&
+          Object.keys(visitedMember.detail).length > 0 &&
+          row?._id === visitedMember.detail._id
+        ) {
+          isVisitedMemberInList = true
+        }
+
+        if (conversationId === row?._id) {
+          handleUserChange(row)
+        }
         return row
       })
+      if (
+        visitedMember.detail &&
+        Object.keys(visitedMember.detail).length > 0 &&
+        !isVisitedMemberInList
+      ) {
+        temp.push(visitedMember.detail)
+        handleUserChange(visitedMember.detail)
+      }
       setUnseenMessageUsers({ ...tempUnreadUser })
       setConversationList(temp)
     }
@@ -259,7 +282,11 @@ const Message = () => {
     }
     if (isSend) setMessage('')
     setMessages((prevValue) => {
-      return [...prevValue, temp]
+      if (prevValue) {
+        return [...prevValue, temp]
+      } else {
+        return [temp]
+      }
     })
     scrollToLastMessage()
   }

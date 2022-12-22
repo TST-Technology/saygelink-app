@@ -235,6 +235,7 @@ export const userInviteEmail = {
 export const ROUTES = {
   HOME: '/',
   MESSAGE: '/message',
+  MESSAGE_TO: '/message/:conversationId',
   HEALTHCARE: '/members/:topicId',
   NETWORK: '/network',
   PROFILE: '/profile',
@@ -290,7 +291,7 @@ export const scheduleMeetingStyle = {
     transform: 'translateY(-50%) rotate(45deg)',
     zIndex: 0
   }
-} 
+}
 
 export const SOCKET_EVENTS = {
   CONNECT: 'connect',
@@ -312,5 +313,8 @@ export const KEYBOARD = {
   ENTER: 'Enter'
 }
 
+export const visitedMember = {
+  detail: {}
+}
 
 export default CONSTANT;

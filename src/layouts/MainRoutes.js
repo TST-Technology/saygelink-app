@@ -41,7 +41,8 @@ const MainRoutes = () => {
     setIncludeHeader(
       HEADER_VISIBLE_ROUTES.includes(location.pathname) ||
         location.pathname.includes('/members') ||
-        location.pathname.includes('/member')
+        location.pathname.includes('/member') ||
+        location.pathname.includes('/message')
     )
   }, [location])
 
@@ -111,6 +112,7 @@ const MainRoutes = () => {
               <Route path={ROUTES.PROFILE} element={<Profile />} />
               <Route path={ROUTES.HOME} element={<Dashboard />} />
               <Route path={ROUTES.MESSAGE} element={<Message />} />
+              <Route path={ROUTES.MESSAGE_TO} element={<Message />} />
               <Route path={ROUTES.CALENDER} element={<Calender />} />
               <Route
                 path={ROUTES.CATEGORY}
