@@ -1,12 +1,13 @@
 import styled from 'styled-components'
-import { DashboardHeaderHeight } from '../../utils/constants'
+import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import theme from '../../utils/variables'
 import {
   Button,
   FlexAlignCenter,
   FlexCenter,
   FlexJustifyCenter,
-  FlexJustifySpaceBetween
+  FlexJustifySpaceBetween,
+  SmallWeekDayStyle
 } from '../general'
 
 const ProfileWidth = '400px'
@@ -18,6 +19,14 @@ export const MemberContainerStyle = styled.div`
   overflow: auto;
   display: flex;
   flex-direction: column;
+
+  @media ${devices.laptopL} {
+    padding: 20px 60px 0 60px;
+  }
+
+  @media ${devices.laptop} {
+    padding: 20px 20px 0 20px;
+  }
 
   .profileTopSection {
     ${FlexJustifySpaceBetween};
@@ -165,6 +174,112 @@ export const MemberContainerStyle = styled.div`
           }
         }
       }
+
+      .weekDay {
+        width: 44px;
+        height: 44px;
+
+        @media ${devices.laptopL} {
+          width: 32px;
+          height: 32px;
+        }
+
+        @media ${devices.laptop} {
+          width: 25px;
+          height: 25px;
+        }
+
+        span {
+          font-size: 14px;
+
+          @media ${devices.laptopL} {
+            font-size: 12px;
+          }
+
+          @media ${devices.laptop} {
+            font-size: 10px;
+          }
+        }
+      }
+
+      .fileContainer {
+        ${FlexAlignCenter}
+        gap: 15px;
+        word-break: break-all;
+        text-decoration: none;
+
+        span {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 21px;
+          color: #5c5353;
+        }
+      }
+
+      .socialProfileContainer {
+        margin-top: 15px;
+
+        .socialMediaLink {
+          margin-bottom: 15px;
+        }
+
+        .socialImage {
+          height: 28.95px;
+          width: 28.95px;
+        }
+      }
+
+      // .tooltipSubHeading {
+      //   font-family: 'Poppins';
+      //   font-style: normal;
+      //   font-weight: 600;
+      //   font-size: 14px;
+      //   line-height: 21px;
+      //   color: #696f79;
+      // }
+
+      .chatRequestsSection {
+        ${FlexAlignCenter};
+        gap: 20px;
+
+        .chatRequestsContainer {
+          display: flex;
+          border: 1px solid #e8e8e8;
+          border-radius: 6px;
+          width: fit-content;
+
+          .chatRequestActionContainer {
+            display: flex;
+            flex-direction: column;
+
+            .button {
+              color: ${theme.lightTheme.secondary.font};
+              ${FlexCenter};
+              background: #ffffff;
+              padding: 0 10px;
+              align-items: center;
+              cursor: pointer;
+              text-decoration: none;
+              font-size: 18px;
+              border-left: 1px solid #e8e8e8;
+              height: 20px;
+
+              &:nth-child(1) {
+                border-bottom: 1px solid #e8e8e8;
+              }
+
+              .upArrow {
+              }
+
+              .downArrow {
+                transform: rotate(179deg);
+              }
+            }
+          }
+        }
+      }
     }
   }
 
@@ -199,16 +314,7 @@ export const MemberContainerStyle = styled.div`
     height: 100%;
   }
 
-  .socialProfileContainer {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-
-    .socialImage {
-      height: 28.95px;
-      width: 28.95px;
-    }
-  }
+  ${SmallWeekDayStyle}
 `
 
 export const StyleCategoryCard = styled.div`
@@ -267,4 +373,28 @@ export const SendMessageButtonStyle = styled.button`
   gap: 10px;
   padding: 10px 42px;
   border: 1px solid #1186ef;
+`
+
+export const StyleChatRequestInput = styled.input`
+  background: ${theme.lightTheme.black};
+  outline: none;
+  border: none;
+  width: 60px;
+  padding: 8px 20px 8px 20px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+
+  -moz-appearance: textfield;
 `

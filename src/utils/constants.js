@@ -243,7 +243,8 @@ export const ROUTES = {
   AUTH: '/auth',
   CATEGORY: '/category',
   CATEGORY_FIND: '/category/find',
-  MEMBER: '/member/:memberId'
+  MEMBER: '/member/:memberId',
+  TEMP_PROFILE: '/temp/profile'
 }
 
 export const WEEKDAY_SELECTOR_TYPE = {

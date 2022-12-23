@@ -9,11 +9,14 @@ import LinkedinImage from '../../assets/images/profileLinkedIn.svg'
 import InstagramImage from '../../assets/images/profileInstagram.svg'
 import TwitterImage from '../../assets/images/profileTwitter.svg'
 import LinkImage from '../../assets/images/profileLink.svg'
+import FileImage from '../../assets/images/file.svg'
+import UpImage from '../../assets/images/upArrow.svg'
 import {
   MemberContainerStyle,
   ScheduleCallButtonStyle,
   SendMessageButtonStyle,
-  StyleCategoryCard
+  StyleCategoryCard,
+  StyleChatRequestInput
 } from '../../style-component/member/member'
 import CONSTANT, {
   DashboardHeaderHeight,
@@ -24,24 +27,46 @@ import CONSTANT, {
 import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
 import { Menu } from '@mui/material'
 import { UserContext } from '../../context/user'
+import { getEmail, isEmptyArray } from '../../utils/funcs'
 
-const Member = () => {
+const Member = ({ isEdit }) => {
+  console.log(isEdit)
   const nav = useNavigate()
   const api = useHttp()
   const messageApi = useHttp()
   const { memberId } = useParams()
-  const [memberDetail, setMemberDetail] = useState(null)
+  const [profileDetail, setProfileDetail] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
-  const { profileDetail } = useContext(UserContext)
+  const {
+    setUser,
+    user,
+    setProfileDetail: setProfile,
+    profileDetail: detail
+  } = useContext(UserContext)
+  const [selectedWeekday, setSelectedWeekDay] = useState('Sun')
+
+  // Edit
+  const profileApi = useHttp()
+  const email = getEmail()
+  const [maximumRequests, setMaximumRequests] = useState(null)
+  const [maximinRequestsChanged, setMaximinRequestsChanged] = useState(false)
 
   useEffect(() => {
-    getMemberDetail()
+    if (email) {
+      getProfile()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isEdit && memberId) {
+      getMemberDetail()
+    }
   }, [memberId])
 
   const handleMemberResponse = (resp) => {
     if (resp && resp?.userInfo) {
-      setMemberDetail(resp?.userInfo)
+      setProfileDetail(resp?.userInfo)
     }
   }
 
@@ -80,9 +105,11 @@ const Member = () => {
           {socialMedia.map((media) => {
             const image = getSocialIcon(media.name)
             return (
-              <a target='_blank' href={media.url}>
-                <img src={image} className='socialImage' />
-              </a>
+              <div className='socialMediaLink'>
+                <a target='_blank' href={media.url}>
+                  <img src={image} className='socialImage' />
+                </a>
+              </div>
             )
           })}
         </div>
@@ -101,13 +128,13 @@ const Member = () => {
     const newMember = {
       createdAt: new Date(),
       participants: {
-        name: memberDetail?.name,
-        email: memberDetail?.email,
-        profile_image: memberDetail?.profile_image,
-        qualification: memberDetail?.qualification,
-        qualification_year: memberDetail?.qualification_year,
+        name: profileDetail?.name,
+        email: profileDetail?.email,
+        profile_image: profileDetail?.profile_image,
+        qualification: profileDetail?.qualification,
+        qualification_year: profileDetail?.qualification_year,
         unseen_messages: 'N/A',
-        _id: memberDetail?.id
+        _id: profileDetail?.id
       },
       _id: conversationId
     }
@@ -133,13 +160,45 @@ const Member = () => {
 
   const onSendMessage = (memberId) => {
     const payload = {
-      participants: [memberId, profileDetail?.id]
+      participants: [memberId, detail?.id]
     }
     messageApi.sendRequest(
       CONSTANT.API.getOrCreateConversation,
       handleSendMessageResponse,
       payload
     )
+  }
+
+  const currentWeekDay = !isEmptyArray(profileDetail?.availability)
+    ? profileDetail?.availability.filter((row) => row?.day === selectedWeekday)
+    : []
+
+  // Edit Api Calls
+  const responseHandler = (res) => {
+    if (res?.userInfo) {
+      setProfile({ ...res?.userInfo })
+      setProfileDetail({ ...res?.userInfo })
+      setMaximumRequests(res?.userInfo?.max_chat_requests)
+    }
+  }
+
+  const getProfile = () => {
+    const url = {
+      ...CONSTANT.API.getProfileDetail,
+      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(':email', email)
+    }
+    profileApi.sendRequest(url, responseHandler)
+  }
+
+  const onChatRequestChange = (flag) => {
+    setMaximinRequestsChanged(true)
+    if (flag === '+') {
+      setMaximumRequests((prevValue) => prevValue + 1)
+    } else if (flag === '-') {
+      setMaximumRequests((prevValue) => prevValue - 1)
+    } else {
+      setMaximumRequests(flag.target.value)
+    }
   }
 
   return (
@@ -153,25 +212,25 @@ const Member = () => {
               <div className='profileImageContainer'>
                 <ImageRole
                   className='profileMemberImage'
-                  src={memberDetail?.profile_image}
+                  src={profileDetail?.profile_image}
                   alt=''
                 />
               </div>
 
               <div className='profileLeftDetailContainer'>
                 <div className='nameRoleContainer'>
-                  <h3>{memberDetail?.name}</h3>
-                  <span>{memberDetail?.qualification}</span>
+                  <h3>{profileDetail?.name}</h3>
+                  <span>{profileDetail?.qualification}</span>
                 </div>
                 <div className='otherFieldsContainer'>
                   <div className='otherField'>
                     <p className='value'>Post</p>
-                    <b className='title'>{memberDetail?.num_posts}</b>
+                    <b className='title'>{profileDetail?.num_posts}</b>
                   </div>
 
                   <div className='otherField'>
                     <p className='value'>Meets</p>
-                    <b className='title'>{memberDetail?.num_meets}</b>
+                    <b className='title'>{profileDetail?.num_meets}</b>
                   </div>
                   <div className='otherField'>
                     <p className='value'>Verified</p>
@@ -186,7 +245,7 @@ const Member = () => {
                   Schedule a Call
                 </ScheduleCallButtonStyle>
                 <SendMessageButtonStyle
-                  onClick={() => onSendMessage(memberDetail?.id)}
+                  onClick={() => onSendMessage(profileDetail?.id)}
                   disabled={messageApi.isLoading}
                 >
                   {messageApi.isLoading ? 'Loading' : 'Send Message'}
@@ -199,15 +258,15 @@ const Member = () => {
               <div className='section'>
                 <h2 className='memberSectionHeading'>About Me</h2>
 
-                <p className='bioDetail'>{memberDetail?.about}</p>
+                <p className='bioDetail'>{profileDetail?.about}</p>
               </div>
 
               <div className='section'>
                 <h2 className='memberSectionHeading'>Insigths</h2>
 
                 <div className='insightContainer'>
-                  {memberDetail?.experience
-                    ? memberDetail?.experience.map((exp) => {
+                  {profileDetail?.experience
+                    ? profileDetail?.experience.map((exp) => {
                         return (
                           <StyleCategoryCard key={exp?.category_id}>
                             <div className='imageContainer'>
@@ -226,23 +285,104 @@ const Member = () => {
             <div>
               <div className='section'>
                 <h2 className='memberSectionHeading'>General Availability</h2>
-                <div className='timingContainer'>
-                  {memberDetail?.availability
-                    ? memberDetail?.availability.map((avail, index) => {
-                        return (
-                          <div key={avail?._id} className='timing'>
-                            <span>{`${avail?.day} : ${avail?.start_time} - ${avail?.end_time}`}</span>
-                          </div>
-                        )
-                      })
-                    : null}
+                <div className='weekDayContainer'>
+                  {CONSTANT.WEEK_DIGIT.map((day, index) => {
+                    return (
+                      <div
+                        className={`weekDay ${
+                          profileDetail?.availability
+                            .map((avail) => avail.day)
+                            .includes(day)
+                            ? 'addedWeekDay'
+                            : ''
+                        } ${selectedWeekday === day ? 'selectedWeekDay' : ''}`}
+                        key={index}
+                        onClick={() => {
+                          setSelectedWeekDay(day)
+                        }}
+                      >
+                        <span>{day.substring(0, 2)}</span>
+                      </div>
+                    )
+                  })}
                 </div>
+
+                {!isEmptyArray(currentWeekDay) ? (
+                  <div className='timingContainer'>
+                    {currentWeekDay
+                      ? currentWeekDay.map((avail, index) => {
+                          return (
+                            <div key={avail?._id} className='timing'>
+                              <span>{`${avail?.start_time} - ${avail?.end_time}`}</span>
+                            </div>
+                          )
+                        })
+                      : null}
+                  </div>
+                ) : null}
               </div>
+
+              {isEdit ? (
+                <div className='section'>
+                  <h2 className='memberSectionHeading'>
+                    Maximum chat requests
+                  </h2>
+
+                  <p className='tooltipSubHeading'>
+                    <b>Tip:</b> Feel free to select a limit for the number of
+                    chat requests you’d like per month.
+                  </p>
+                  <div className='chatRequestsSection'>
+                    <div className='chatRequestsContainer'>
+                      <StyleChatRequestInput
+                        type={'number'}
+                        value={maximumRequests}
+                        onChange={(e) => {
+                          onChatRequestChange(e)
+                        }}
+                      ></StyleChatRequestInput>
+                      <div className='chatRequestActionContainer'>
+                        <a
+                          className='increment button'
+                          onClick={() => {
+                            onChatRequestChange('+')
+                          }}
+                        >
+                          <img className='upArrow' src={UpImage} />
+                        </a>
+
+                        <a
+                          className='decrement button'
+                          onClick={() => {
+                            onChatRequestChange('-')
+                          }}
+                        >
+                          <img className='downArrow' src={UpImage} />
+                        </a>
+                      </div>
+                    </div>
+                    <span>chat requests per month.</span>
+                  </div>
+                </div>
+              ) : null}
             </div>
             <div>
+              {profileDetail?.file ? (
+                <div className='section'>
+                  <h2 className='memberSectionHeading'>Attachments</h2>
+
+                  <a className='fileContainer' href={profileDetail?.file}>
+                    <div>
+                      <img src={FileImage} />
+                    </div>
+                    <span>Attachments.pdf</span>
+                  </a>
+                </div>
+              ) : null}
+
               <h2 className='memberSectionHeading'>Social Media</h2>
 
-              {getSocialMediaIcons(memberDetail?.social_media)}
+              {getSocialMediaIcons(profileDetail?.social_media)}
             </div>
           </div>
           {/* <div className='leftSideMemberSection'>
@@ -250,26 +390,26 @@ const Member = () => {
               <div className='nameContainer'>
                 <div>
                   <ImageRole
-                    src={memberDetail?.profile_image}
+                    src={profileDetail?.profile_image}
                     alt=''
                     className='profileMemberImage'
                   />
                 </div>
 
                 <div className='nameRoleContainer'>
-                  <h3>{memberDetail?.name}</h3>
-                  <span>{memberDetail?.qualification}</span>
+                  <h3>{profileDetail?.name}</h3>
+                  <span>{profileDetail?.qualification}</span>
                 </div>
               </div>
 
               <div className='otherFieldsContainer'>
                 <div className='otherField'>
-                  <b className='title'>{memberDetail?.num_posts}</b>
+                  <b className='title'>{profileDetail?.num_posts}</b>
                   <p className='value'>Post</p>
                 </div>
 
                 <div className='otherField'>
-                  <b className='title'>{memberDetail?.num_meets}</b>
+                  <b className='title'>{profileDetail?.num_meets}</b>
                   <p className='value'>Meets</p>
                 </div>
                 <div className='otherField'>
@@ -279,8 +419,8 @@ const Member = () => {
               </div>
 
               <div className='timingContainer'>
-                {memberDetail?.availability
-                  ? memberDetail?.availability.map((avail, index) => {
+                {profileDetail?.availability
+                  ? profileDetail?.availability.map((avail, index) => {
                       return (
                         <div key={avail?._id} className='timing'>
                           <span>{`${avail?.day} : ${avail?.start_time} - ${avail?.end_time}`}</span>
@@ -294,8 +434,8 @@ const Member = () => {
           <div className='rightSideMemberSection'>
             <h2 className='memberSectionHeading'>Insigths</h2>
             <div className='insightContainer'>
-              {memberDetail?.experience
-                ? memberDetail?.experience.map((exp) => {
+              {profileDetail?.experience
+                ? profileDetail?.experience.map((exp) => {
                     return (
                       <StyleCategoryCard key={exp?.category_id}>
                         <div className='imageContainer'>
@@ -312,14 +452,14 @@ const Member = () => {
 
             <h2 className='memberSectionHeading'>Bio</h2>
 
-            <p className='bioDetail'>{memberDetail?.about}</p>
+            <p className='bioDetail'>{profileDetail?.about}</p>
 
             <div className='memberButtonContainer'>
               <ScheduleCallButtonStyle onClick={handleScheduleCall}>
                 Schedule a Call
               </ScheduleCallButtonStyle>
               <SendMessageButtonStyle
-                onClick={() => onSendMessage(memberDetail?.id)}
+                onClick={() => onSendMessage(profileDetail?.id)}
                 disabled={messageApi.isLoading}
               >
                 {messageApi.isLoading ? 'Loading' : 'Send Message'}
@@ -328,7 +468,7 @@ const Member = () => {
 
             <h2 className='memberSectionHeading mt-4'>Social Media</h2>
 
-            {getSocialMediaIcons(memberDetail?.social_media)}
+            {getSocialMediaIcons(profileDetail?.social_media)}
           </div> */}
           <Menu
             anchorEl={anchorEl}
@@ -343,7 +483,7 @@ const Member = () => {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
             <ScheduleMeeting
-              email={memberDetail?.email}
+              email={profileDetail?.email}
               type='connect'
               onClose={() => {
                 handleClose()
@@ -354,6 +494,10 @@ const Member = () => {
       )}
     </>
   )
+}
+
+Member.defaultProps = {
+  isEdit: false
 }
 
 export default Member

@@ -69,7 +69,8 @@ const MainRoutes = () => {
     ROUTES.CALENDER,
     ROUTES.CATEGORY,
     ROUTES.CATEGORY_FIND,
-    ROUTES.MEMBER
+    ROUTES.MEMBER,
+    ROUTES.TEMP_PROFILE
   ]
 
   return (
@@ -123,6 +124,11 @@ const MainRoutes = () => {
                 element={<Category isFindSayge={true} />}
               />
               <Route path={ROUTES.MEMBER} element={<Member />} />
+
+              <Route
+                path={ROUTES.TEMP_PROFILE}
+                element={<Member isEdit={true} />}
+              />
             </Route>
           </Routes>
         </Fragment>
