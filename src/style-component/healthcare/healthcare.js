@@ -5,6 +5,8 @@ import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import { Button, TextAreaStyle } from '../general'
 import { DashboardHeaderHeight } from '../../utils/constants'
 
+const LeftWidth = '350px'
+
 export const HealthcareContainerStyle = styled.div`
   height: calc(100vh - ${DashboardHeaderHeight});
 
@@ -17,7 +19,7 @@ export const HealthcareContainerStyle = styled.div`
     overflow-y: auto;
 
     .leftContainer {
-      width: calc(100vw - 290px);
+      width: calc(100vw - ${LeftWidth});
 
       .subHeading {
         font-family: 'Poppins';
@@ -30,7 +32,7 @@ export const HealthcareContainerStyle = styled.div`
     }
 
     .rightContainer {
-      width: 290px;
+      width: ${LeftWidth};
 
       .rightSideCard {
         background: #ffffff;
@@ -54,36 +56,24 @@ export const HealthcareContainerStyle = styled.div`
 
 export const StyleMembersCardContainer = styled.div`
   margin-top: 30px;
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  gap: auto;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 20px 0;
 `
 
 export const StyleMembersCard = styled.div`
+  min-width: 250px;
   padding: 10px 20px;
   background: #ffffff;
   border-radius: 8.4589px;
+  scale: 0.9;
+  transition: scale 0.2s;
 
-  ${({ scale }) => {
-    if (scale === 1) {
-      return {
-        scale: '1.2'
-      }
-    }
-
-    if (scale === 2) {
-      return {
-        position: 'relative',
-        left: '10px'
-      }
-    }
-
-    if (scale === 3) {
-      return {
-        scale: '0.9'
-      }
-    }
-  }}
+  &:hover {
+    scale: 1.05;
+  }
 
   .headingContainer {
     display: flex;

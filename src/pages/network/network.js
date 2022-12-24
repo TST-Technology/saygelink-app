@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import VerticalTab from '../../components/network/vertical-tabs'
 import {
   StyleConnectButton,
@@ -9,18 +10,15 @@ import cardBackgroundImage3 from '../../assets/images/cardBackground3.png'
 import EventImage from '../../assets/images/event.svg'
 import HeartImage from '../../assets/images/heart.png'
 import UsersImage from '../../assets/images/users.svg'
-import PersonImage from '../../assets/images/person.png'
 import useHttp from '../../hooks/use-http'
-import CONSTANT, {
-  DashboardHeaderHeight,
-  NO_DATA_AVAILABLE
-} from '../../utils/constants'
+import CONSTANT, { ROUTES } from '../../utils/constants'
 import { isEmptyArray } from '../../utils/funcs'
 import Loader from '../../components/general/loader'
 import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
 import ImageRole from '../../components/general/image-role'
 
 const Network = () => {
+  const nav = useNavigate()
   const networkApi = useHttp()
   const [connections, setConnections] = useState(null)
   const [events, setEvents] = useState(null)
@@ -103,6 +101,12 @@ const Network = () => {
     }
   }
 
+  const redirectToMember = (memberId) => {
+    if (memberId) {
+      nav(ROUTES.MEMBER.replace(':memberId', memberId))
+    }
+  }
+
   return (
     <>
       <StyleNetworkContainer>
@@ -149,7 +153,11 @@ const Network = () => {
                                       </div>
 
                                       <div>
-                                        <StyleConnectButton>
+                                        <StyleConnectButton
+                                          onClick={() => {
+                                            redirectToMember(conn?.id)
+                                          }}
+                                        >
                                           Connect
                                         </StyleConnectButton>
                                       </div>

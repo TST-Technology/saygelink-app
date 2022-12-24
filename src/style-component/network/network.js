@@ -128,6 +128,9 @@ export const StyleNetworkContainer = styled.div`
               line-height: 27px;
               color: #5c5353;
               margin-top: 8px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
 
             .eventImage {

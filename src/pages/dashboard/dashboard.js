@@ -9,6 +9,7 @@ import {
 import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import cardBackgroundImage3 from '../../assets/images/cardBackground3.png'
 import cardBackgroundImage4 from '../../assets/images/cardBackground4.png'
+import beASaygeBackground from '../../assets/images/beASaygeBackground.svg'
 import PersonImage from '../../assets/images/person.png'
 import RightArrow from '../../assets/images/RightArrow.svg'
 import ImageCard from '../../components/general/image-card'
@@ -33,6 +34,8 @@ import SendDarkImage from '../../assets/images/send-dark.svg'
 import { Menu } from '@mui/material'
 import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
 import { useNavigate } from 'react-router-dom'
+import useHttp from '../../hooks/use-http'
+import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
 
 const Dashboard = () => {
   const [categories, setCategories] = useState(null)
@@ -47,6 +50,9 @@ const Dashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const navigate = useNavigate()
+  const joinApi = useHttp()
+  const [joinEventConfirmation, setJoinEventConfirmation] = useState(false)
+  const [activeEvent, setActiveEvent] = useState(null)
 
   useEffect(() => {
     getAllData()
@@ -121,6 +127,33 @@ const Dashboard = () => {
     navigate(ROUTES.CATEGORY_FIND)
   }
 
+  const redirectToCategory = (categoryId) => {
+    navigate(ROUTES.CATEGORY_ACTIVE.replace(':categoryId', categoryId))
+  }
+
+  const handleJoinClick = (event) => {
+    console.log(event)
+    setActiveEvent(event)
+    setJoinEventConfirmation(true)
+  }
+
+  const joinResponseHandler = (resp) => {
+    console.log(resp)
+    getAllData()
+    setJoinEventConfirmation(false)
+  }
+
+  const handleConfirmJoin = () => {
+    const groupId = activeEvent?._id
+    if (groupId) {
+      const url = {
+        ...CONSTANT.API.joinGroup,
+        endpoint: CONSTANT.API.joinGroup.endpoint.replace(':groupId', groupId)
+      }
+      joinApi.sendRequest(url, joinResponseHandler)
+    }
+  }
+
   return (
     <>
       {isLoading ? (
@@ -146,7 +179,15 @@ const Dashboard = () => {
           </div>
           <div className='homeContentContainer'>
             <div className='homeContentLeftContainer'>
-              <img src={cardBackgroundImage4} />
+              <ImageCard
+                backgroundImage={beASaygeBackground}
+                buttonText={'Be a SAYge'}
+                cardText={"Everyone has a story. What's your story?"}
+                showBorder={false}
+                onButtonClick={() => {
+                  navigate(ROUTES.CATEGORY)
+                }}
+              />
               {!isEmptyArray(events) ? (
                 <div className='eventsContainer'>
                   <div className='cardHeading'>
@@ -163,9 +204,16 @@ const Dashboard = () => {
                           backgroundImage={
                             event?.image ? event?.image : cardBackgroundImage2
                           }
-                          buttonText='Join'
+                          buttonText={
+                            event.openGroup && event.iamPartecipant === false
+                              ? 'Join'
+                              : null
+                          }
                           cardText={event?.title}
                           showBorder={false}
+                          onButtonClick={() => {
+                            handleJoinClick(event)
+                          }}
                         />
                       )
                     })}
@@ -191,9 +239,17 @@ const Dashboard = () => {
                             ? interest?.image
                             : cardBackgroundImage3
                         }
-                        buttonText='Join'
+                        buttonText={
+                          interest.openGroup &&
+                          interest.iamPartecipant === false
+                            ? 'Join'
+                            : null
+                        }
                         cardText={interest?.title}
                         showBorder={false}
+                        onButtonClick={() => {
+                          handleJoinClick(interest)
+                        }}
                       />
                     )
                   })}
@@ -207,7 +263,12 @@ const Dashboard = () => {
                 {!isEmptyArray(categories) ? (
                   categories.map((category, index) => {
                     return (
-                      <StyleCategoryCard key={index}>
+                      <StyleCategoryCard
+                        key={index}
+                        onClick={() => {
+                          redirectToCategory(category?._id)
+                        }}
+                      >
                         <div className='imageContainer'>
                           <img src={category?.image} />
                         </div>
@@ -346,6 +407,19 @@ const Dashboard = () => {
                 onClose={handleClose}
               />
             </Menu>
+          ) : null}
+
+          {joinEventConfirmation ? (
+            <DeleteConfirmation
+              onCancelButtonClick={() => {
+                setJoinEventConfirmation(false)
+              }}
+              onClose={() => {
+                setJoinEventConfirmation(false)
+              }}
+              onConfirmButtonClick={handleConfirmJoin}
+              message='Aye you sure you want to join?'
+            />
           ) : null}
         </HomeContainerStyle>
       )}

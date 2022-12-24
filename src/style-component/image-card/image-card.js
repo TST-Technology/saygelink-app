@@ -31,6 +31,16 @@ export const ImageCardStyle = styled.div`
         padding: 2px 18px;
         color: #4d85eb;
         cursor: pointer;
+
+        &.notABlueButton {
+          border: none;
+          color: #f62e5f;
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 18px;
+          padding: 7px 25px;
+          border-radius: 6px;
+        }
       }
     }
 
@@ -77,6 +87,7 @@ export const ImageCardStyle = styled.div`
       font-size: 13.3333px;
       line-height: 16px;
       color: #f62e5f;
+      cursor: pointer;
     }
   }
 `

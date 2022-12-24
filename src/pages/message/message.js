@@ -148,7 +148,7 @@ const Message = () => {
   const conversationListResponseHandler = (resp) => {
     if (resp && !isEmptyArray(resp?.conversations)) {
       const tempUnreadUser = {}
-      const isVisitedMemberInList = false
+      let isVisitedMemberInList = false
       const temp = resp?.conversations.map((row) => {
         const tempParticipant = row.participants.filter(
           (part) => part.iam_user === false

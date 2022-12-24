@@ -212,6 +212,7 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
                   type='date'
                   placeholder='Select date'
                   name='option1date'
+                  min={dateFormat(new Date(), DATE_FORMAT.FORMAT_6)}
                 />
 
                 <DateInputStyle

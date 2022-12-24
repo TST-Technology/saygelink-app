@@ -42,7 +42,8 @@ const MainRoutes = () => {
       HEADER_VISIBLE_ROUTES.includes(location.pathname) ||
         location.pathname.includes('/members') ||
         location.pathname.includes('/member') ||
-        location.pathname.includes('/message')
+        location.pathname.includes('/message') ||
+        location.pathname.includes('/category')
     )
   }, [location])
 
@@ -121,6 +122,10 @@ const MainRoutes = () => {
               />
               <Route
                 path={ROUTES.CATEGORY_FIND}
+                element={<Category isFindSayge={true} />}
+              />
+              <Route
+                path={ROUTES.CATEGORY_ACTIVE}
                 element={<Category isFindSayge={true} />}
               />
               <Route path={ROUTES.MEMBER} element={<Member />} />

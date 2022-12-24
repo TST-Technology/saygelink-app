@@ -3,19 +3,21 @@ import useHttp from '../../hooks/use-http'
 import CONSTANT, { DashboardHeaderHeight, ROUTES } from '../../utils/constants'
 import RightArrow from '../../assets/images/RightArrow.svg'
 import SearchImage from '../../assets/images/search-white.svg'
+import DefaultCategoryImage from '../../assets/images/defaultCategoryImage.svg'
 import { FindSaygeButtonStyle } from '../../style-component/dashboard/dashboard'
 import {
   StyleCategoryCard,
   StyleCategoryContainer,
   StyleSubcategoryTopicItem
 } from '../../style-component/category/category'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../components/general/loader'
 
 const Category = ({ isFindSayge }) => {
   const categoryApi = useHttp()
   const subCategoryApi = useHttp()
   const experienceApi = useHttp()
+  const { categoryId } = useParams()
 
   const [categories, setCategories] = useState(null)
   const [activeCategory, setActiveCategory] = useState(null)
@@ -23,6 +25,12 @@ const Category = ({ isFindSayge }) => {
   const [activeSubCategory, setActiveSubCategory] = useState(null)
   const [activeTopic, setActiveTopic] = useState(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (categoryId) {
+      handleCategoryClick(categoryId)
+    }
+  }, [categoryId])
 
   useEffect(() => {
     getCategories()
@@ -39,12 +47,11 @@ const Category = ({ isFindSayge }) => {
     }
   }
 
-  const handleCategoryClick = (category) => {
-    console.log(category?._id)
-    setActiveCategory(category)
+  const handleCategoryClick = (categoryId) => {
+    setActiveCategory(categoryId)
     const url = JSON.parse(JSON.stringify(CONSTANT.API.getSubcategories))
     console.log(url)
-    url.endpoint = url.endpoint.replace(':categoryId', category?._id)
+    url.endpoint = url.endpoint.replace(':categoryId', categoryId)
     console.log(url)
 
     subCategoryApi.sendRequest(url, handleSubcategoryResponse)
@@ -140,12 +147,19 @@ const Category = ({ isFindSayge }) => {
                 categories.map((category) => {
                   return (
                     <StyleCategoryCard
-                      selected={category?._id === activeCategory?._id}
+                      selected={category?._id === activeCategory}
                       key={category?._id}
-                      onClick={() => handleCategoryClick(category)}
+                      onClick={() => handleCategoryClick(category?._id)}
                     >
                       <div className='imageContainer'>
-                        <img src={category?.image} className='categoryImage' />
+                        <img
+                          src={
+                            category?.image
+                              ? category?.image
+                              : DefaultCategoryImage
+                          }
+                          className='categoryImage'
+                        />
                       </div>
                       <div className='labelContainer'>
                         <span className='label'>{category?.name}</span>

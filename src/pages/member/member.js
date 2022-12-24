@@ -14,6 +14,8 @@ import UpImage from '../../assets/images/upArrow.svg'
 import SettingImage from '../../assets/images/setting.svg'
 import TrashIcon from '../../assets/images/trash.svg'
 import AddGreenImage from '../../assets/images/AddGreen.svg'
+import DefaultCategoryImage from '../../assets/images/defaultCategoryImage.svg'
+import LogoutIcon from '../../assets/images/log-out.svg'
 import {
   EditButtonStyle,
   MemberContainerStyle,
@@ -38,6 +40,7 @@ import Dialog from '../../components/dialog/dialog'
 import AddLink from '../../components/profile/add-link'
 import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
 import AddAvailability from '../../components/profile/add-availability'
+import { StyleSingleItem } from '../../style-component/profile/profile'
 
 const Member = ({ isEdit }) => {
   console.log(isEdit)
@@ -136,13 +139,14 @@ const Member = ({ isEdit }) => {
                     {media.url}
                   </a>
                 </div>
-
-                <div
-                  className='deleteButtonContainer'
-                  onClick={() => handleDeleteLinkClick(media)}
-                >
-                  <img src={TrashIcon} />
-                </div>
+                {isEdit ? (
+                  <div
+                    className='deleteButtonContainer'
+                    onClick={() => handleDeleteLinkClick(media)}
+                  >
+                    <img src={TrashIcon} />
+                  </div>
+                ) : null}
               </div>
             )
           })}
@@ -363,6 +367,12 @@ const Member = ({ isEdit }) => {
     setAvailabilityDialogVisible(false)
   }
 
+  const handleLogoutClick = () => {
+    localStorage.removeItem('authToken')
+    localStorage.removeItem('email')
+    nav(ROUTES.AUTH)
+  }
+
   return (
     <>
       {api.isLoading || profileApi.isLoading ? (
@@ -404,12 +414,18 @@ const Member = ({ isEdit }) => {
             <div className='profileTopRightSection'>
               <div className='profileButtonContainer'>
                 {isEdit ? (
-                  <EditButtonStyle onClick={() => setEditProfileDialog(true)}>
-                    <div>
-                      <img src={SettingImage} />
-                    </div>
-                    <span>Edit</span>
-                  </EditButtonStyle>
+                  <>
+                    <EditButtonStyle onClick={() => setEditProfileDialog(true)}>
+                      <div>
+                        <img src={SettingImage} />
+                      </div>
+                      <span>Edit</span>
+                    </EditButtonStyle>
+                    <EditButtonStyle onClick={() => handleLogoutClick()}>
+                      <img src={LogoutIcon}></img>
+                      <span>Logout</span>
+                    </EditButtonStyle>
+                  </>
                 ) : (
                   <>
                     <ScheduleCallButtonStyle onClick={handleScheduleCall}>
@@ -448,24 +464,40 @@ const Member = ({ isEdit }) => {
               <div className='section'>
                 <div className='sectionHeadingContainer'>
                   <h2 className='memberSectionHeading'>Insigths</h2>
-                  {isEdit ? <a className='editAction'>Edit</a> : null}
+                  {isEdit ? (
+                    <a
+                      className='editAction'
+                      onClick={() => {
+                        nav(ROUTES.CATEGORY)
+                      }}
+                    >
+                      Edit
+                    </a>
+                  ) : null}
                 </div>
 
                 <div className='insightContainer'>
-                  {profileDetail?.experience
-                    ? profileDetail?.experience.map((exp) => {
-                        return (
-                          <StyleCategoryCard key={exp?.category_id}>
-                            <div className='imageContainer'>
-                              <img src={''} className='categoryImage' />
-                            </div>
-                            <div className='labelContainer'>
-                              <span className='label'>{exp?.name}</span>
-                            </div>
-                          </StyleCategoryCard>
-                        )
-                      })
-                    : null}
+                  {profileDetail?.experience ? (
+                    profileDetail?.experience.map((exp) => {
+                      return (
+                        <StyleCategoryCard key={exp?.category_id}>
+                          <div className='imageContainer'>
+                            <img
+                              src={
+                                exp?.image ? exp?.image : DefaultCategoryImage
+                              }
+                              className='categoryImage'
+                            />
+                          </div>
+                          <div className='labelContainer'>
+                            <span className='label'>{exp?.name}</span>
+                          </div>
+                        </StyleCategoryCard>
+                      )
+                    })
+                  ) : (
+                    <p className='mt-3'>No Insights</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -509,26 +541,28 @@ const Member = ({ isEdit }) => {
                       </div>{' '}
                     </div>
                   ) : null}
-                  {currentWeekDay
-                    ? currentWeekDay.map((avail, index) => {
-                        return (
-                          <div key={avail?._id} className='timing'>
-                            <span>{`${avail?.start_time} - ${avail?.end_time}`}</span>
+                  {!isEmptyArray(currentWeekDay) ? (
+                    currentWeekDay.map((avail, index) => {
+                      return (
+                        <div key={avail?._id} className='timing'>
+                          <span>{`${avail?.start_time} - ${avail?.end_time}`}</span>
 
-                            {isEdit ? (
-                              <div
-                                className='deleteButtonContainer'
-                                onClick={() => {
-                                  handleAvailabilityDelete(avail)
-                                }}
-                              >
-                                <img src={TrashIcon} />
-                              </div>
-                            ) : null}
-                          </div>
-                        )
-                      })
-                    : null}
+                          {isEdit ? (
+                            <div
+                              className='deleteButtonContainer'
+                              onClick={() => {
+                                handleAvailabilityDelete(avail)
+                              }}
+                            >
+                              <img src={TrashIcon} />
+                            </div>
+                          ) : null}
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <p className='mt-3'>No Availability</p>
+                  )}
                 </div>
               </div>
 
@@ -612,16 +646,20 @@ const Member = ({ isEdit }) => {
                       <span>Attachments.pdf</span>
                     </a>
 
-                    <div
-                      className='deleteButtonContainer'
-                      onClick={() => {
-                        handleDeleteUserFile()
-                      }}
-                    >
-                      <img src={TrashIcon} />
-                    </div>
+                    {isEdit ? (
+                      <div
+                        className='deleteButtonContainer'
+                        onClick={() => {
+                          handleDeleteUserFile()
+                        }}
+                      >
+                        <img src={TrashIcon} />
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
+                ) : (
+                  <p className='mt-3'>No Attachments</p>
+                )}
               </div>
 
               <div className='section'>
@@ -710,91 +748,7 @@ const Member = ({ isEdit }) => {
               }}
             />
           ) : null}
-          {/* <div className='leftSideMemberSection'>
-            <div className='profileDetail'>
-              <div className='nameContainer'>
-                <div>
-                  <ImageRole
-                    src={profileDetail?.profile_image}
-                    alt=''
-                    className='profileMemberImage'
-                  />
-                </div>
 
-                <div className='nameRoleContainer'>
-                  <h3>{profileDetail?.name}</h3>
-                  <span>{profileDetail?.qualification}</span>
-                </div>
-              </div>
-
-              <div className='otherFieldsContainer'>
-                <div className='otherField'>
-                  <b className='title'>{profileDetail?.num_posts}</b>
-                  <p className='value'>Post</p>
-                </div>
-
-                <div className='otherField'>
-                  <b className='title'>{profileDetail?.num_meets}</b>
-                  <p className='value'>Meets</p>
-                </div>
-                <div className='otherField'>
-                  <img src={VerifiedImage} />
-                  <p className='value'>Verified</p>
-                </div>
-              </div>
-
-              <div className='timingContainer'>
-                {profileDetail?.availability
-                  ? profileDetail?.availability.map((avail, index) => {
-                      return (
-                        <div key={avail?._id} className='timing'>
-                          <span>{`${avail?.day} : ${avail?.start_time} - ${avail?.end_time}`}</span>
-                        </div>
-                      )
-                    })
-                  : null}
-              </div>
-            </div>
-          </div>
-          <div className='rightSideMemberSection'>
-            <h2 className='memberSectionHeading'>Insigths</h2>
-            <div className='insightContainer'>
-              {profileDetail?.experience
-                ? profileDetail?.experience.map((exp) => {
-                    return (
-                      <StyleCategoryCard key={exp?.category_id}>
-                        <div className='imageContainer'>
-                          <img src={''} className='categoryImage' />
-                        </div>
-                        <div className='labelContainer'>
-                          <span className='label'>{exp?.name}</span>
-                        </div>
-                      </StyleCategoryCard>
-                    )
-                  })
-                : null}
-            </div>
-
-            <h2 className='memberSectionHeading'>Bio</h2>
-
-            <p className='bioDetail'>{profileDetail?.about}</p>
-
-            <div className='memberButtonContainer'>
-              <ScheduleCallButtonStyle onClick={handleScheduleCall}>
-                Schedule a Call
-              </ScheduleCallButtonStyle>
-              <SendMessageButtonStyle
-                onClick={() => onSendMessage(profileDetail?.id)}
-                disabled={messageApi.isLoading}
-              >
-                {messageApi.isLoading ? 'Loading' : 'Send Message'}
-              </SendMessageButtonStyle>
-            </div>
-
-            <h2 className='memberSectionHeading mt-4'>Social Media</h2>
-
-            {getSocialMediaIcons(profileDetail?.social_media)}
-          </div> */}
           <Menu
             anchorEl={anchorEl}
             id='account-menu'

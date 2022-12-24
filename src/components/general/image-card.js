@@ -7,21 +7,32 @@ const ImageCard = ({
   cardText,
   buttonText,
   backgroundImage,
-  showBorder
+  showBorder,
+  onButtonClick = () => {},
+  blueButton = true,
+  onHeadingButtonClick = () => {}
 }) => {
-  console.log(backgroundImage)
   return (
     <ImageCardStyle bgImage={backgroundImage} showBorder={showBorder}>
       {headingTitle && headingButton ? (
         <div className='cardHeading'>
           <p className=''>{headingTitle}</p>
-          <span className=''>{headingButton}</span>
+          <span className='' onClick={onHeadingButtonClick}>
+            {headingButton}
+          </span>
         </div>
       ) : null}
       <div className='cardBody'>
         <div className='cardImage'>
           <p className='cardImageText'>{cardText}</p>
-          <a>{buttonText}</a>
+          {buttonText && blueButton ? (
+            <a onClick={onButtonClick}>{buttonText}</a>
+          ) : null}
+          {!blueButton ? (
+            <a className='notABlueButton' onClick={onButtonClick}>
+              {buttonText}
+            </a>
+          ) : null}
         </div>
       </div>
     </ImageCardStyle>

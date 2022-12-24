@@ -29,12 +29,18 @@ import CONSTANT, { DashboardHeaderHeight, ROUTES } from '../../utils/constants'
 const Healthcare = () => {
   const nav = useNavigate()
   const api = useHttp()
+  const joinApi = useHttp()
   const { topicId } = useParams()
   const [allMembers, setAllMembers] = useState([])
+  const [events, setEvents] = useState(null)
+  const [interests, setInterests] = useState(null)
+  const [joinEventConfirmation, setJoinEventConfirmation] = useState(false)
+  const [activeEvent, setActiveEvent] = useState(null)
 
   useEffect(() => {
     if (topicId) {
       getAllMembers()
+      getAllGroups()
     }
   }, [topicId])
 
@@ -99,6 +105,54 @@ const Healthcare = () => {
         </div>
       )
     }
+  }
+
+  const responseGroupHandler = (res) => {
+    console.log(res)
+    if (res?.groups) {
+      const event = res.groups.filter((group) => group.groupType === 'event')
+      const interest = res.groups.filter(
+        (group) => group.groupType === 'interest'
+      )
+      console.log(event, interest)
+      setEvents(event)
+      setInterests(interest)
+    }
+  }
+
+  const getAllGroups = () => {
+    joinApi.sendRequest(CONSTANT.API.getAllGroup, responseGroupHandler)
+  }
+
+  const handleJoinClick = (event) => {
+    console.log(event)
+    setActiveEvent(event)
+    setJoinEventConfirmation(true)
+  }
+
+  const joinResponseHandler = (resp) => {
+    console.log(resp)
+    getAllGroups()
+    setJoinEventConfirmation(false)
+  }
+
+  const handleConfirmJoin = () => {
+    const groupId = activeEvent?._id
+    if (groupId) {
+      const url = {
+        ...CONSTANT.API.joinGroup,
+        endpoint: CONSTANT.API.joinGroup.endpoint.replace(':groupId', groupId)
+      }
+      api.sendRequest(url, joinResponseHandler)
+    }
+  }
+
+  const redirectToInterest = () => {
+    nav(`${ROUTES.NETWORK}#interest`)
+  }
+
+  const redirectToEvent = () => {
+    nav(`${ROUTES.NETWORK}#event`)
   }
 
   return (
@@ -196,28 +250,59 @@ const Healthcare = () => {
               <h3 className='heading'>My Groups</h3>
 
               <div className='rightSideCard'>
-                <ImageCard
-                  backgroundImage={cardBackgroundImage1}
-                  buttonText='Join'
-                  cardText='Job Opportunities'
-                  headingTitle='Event groups'
-                  headingButton='View all'
-                />
+                {events &&
+                  events.slice(0, 2).map((event, index) => {
+                    return (
+                      <ImageCard
+                        key={event._id}
+                        backgroundImage={
+                          event?.image ? event?.image : cardBackgroundImage2
+                        }
+                        buttonText={
+                          event.openGroup && event.iamPartecipant === false
+                            ? 'Join'
+                            : ''
+                        }
+                        cardText={event?.title}
+                        onButtonClick={() => {
+                          handleJoinClick(event)
+                        }}
+                        headingTitle={index === 0 ? 'Event groups' : ''}
+                        headingButton={index === 0 ? 'View all' : null}
+                        onHeadingButtonClick={() => {
+                          redirectToEvent()
+                        }}
+                      />
+                    )
+                  })}
               </div>
 
               <div className='rightSideCard'>
-                <ImageCard
-                  backgroundImage={`${cardBackgroundImage2}`}
-                  buttonText='Join'
-                  cardText='Job Opportunities'
-                  headingTitle='Interest groups'
-                  headingButton='View all'
-                />
-                <ImageCard
-                  backgroundImage={cardBackgroundImage2}
-                  buttonText='Join'
-                  cardText='Job Opportunities'
-                />
+                {interests &&
+                  interests.slice(0, 2).map((event, index) => {
+                    return (
+                      <ImageCard
+                        key={event._id}
+                        backgroundImage={
+                          event?.image ? event?.image : cardBackgroundImage2
+                        }
+                        buttonText={
+                          event.openGroup && event.iamPartecipant === false
+                            ? 'Join'
+                            : ''
+                        }
+                        cardText={event?.title}
+                        onButtonClick={() => {
+                          handleJoinClick(event)
+                        }}
+                        headingTitle={index === 0 ? 'Interest groups' : ''}
+                        headingButton={index === 0 ? 'View all' : null}
+                        onHeadingButtonClick={() => {
+                          redirectToInterest()
+                        }}
+                      />
+                    )
+                  })}
               </div>
             </div>
           </div>

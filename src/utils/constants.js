@@ -193,8 +193,22 @@ const CONSTANT = {
   ],
   WEEK_DIGIT: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   TIMEZONE: [
+    { label: 'Hawaii', value: 'Hawaii' },
+    { label: 'Alaska', value: 'Alaska' },
     {
-      label: 'EDT',
+      label: 'Pacific Time (US and Canada)',
+      value: 'Pacific Time (US and Canada)'
+    },
+    {
+      label: 'Mountain Time (US and Canada)',
+      value: 'Mountain Time (US and Canada)'
+    },
+    {
+      label: 'Central Time (US and Canada)',
+      value: 'Central Time (US and Canada)'
+    },
+    {
+      label: 'Eastern Time (US and Canada)',
       value: 'Eastern Time (US and Canada)'
     }
   ]
@@ -243,6 +257,7 @@ export const ROUTES = {
   AUTH: '/auth',
   CATEGORY: '/category',
   CATEGORY_FIND: '/category/find',
+  CATEGORY_ACTIVE: '/category/:categoryId',
   MEMBER: '/member/:memberId',
   TEMP_PROFILE: '/temp/profile'
 }
@@ -259,7 +274,8 @@ export const DATE_FORMAT = {
   FORMAT_2: 'MMM D, YYYY',
   FORMAT_3: 'hh:mm A',
   FORMAT_4: 'DD-MM-YYYY',
-  FORMAT_5: 'DD MMM YYYY'
+  FORMAT_5: 'DD MMM YYYY',
+  FORMAT_6: 'YYYY-MM-DD'
 }
 
 export const NO_DATA_AVAILABLE = 'No Data Available'
