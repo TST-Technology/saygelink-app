@@ -129,6 +129,23 @@ export const MemberContainerStyle = styled.div`
 
       .section {
         margin-bottom: 40px;
+
+        .sectionHeadingContainer {
+          ${FlexJustifySpaceBetween};
+          align-items: center;
+          gap: 20px;
+          margin-bottom: 20px;
+        }
+
+        .editAction {
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 24px;
+          color: #67a397;
+          cursor: pointer;
+          text-decoration: none;
+        }
       }
 
       .memberSectionHeading {
@@ -138,7 +155,7 @@ export const MemberContainerStyle = styled.div`
         font-size: 24px;
         line-height: 36px;
         color: #5c5353;
-        margin-bottom: 20px;
+        margin-bottom: 0px;
       }
 
       .bioDetail {
@@ -172,6 +189,18 @@ export const MemberContainerStyle = styled.div`
           &:last-child {
             border-bottom: none;
           }
+
+          .addTimeContainer {
+            ${FlexAlignCenter};
+            gap: 5px;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            color: #67a397;
+            cursor: pointer;
+          }
         }
       }
 
@@ -203,10 +232,18 @@ export const MemberContainerStyle = styled.div`
       }
 
       .fileContainer {
-        ${FlexAlignCenter}
+        ${FlexAlignCenter};
+        justify-content: space-between;
         gap: 15px;
         word-break: break-all;
         text-decoration: none;
+
+        .attachmentContainer {
+          ${FlexAlignCenter};
+          gap: 15px;
+          text-decoration: none;
+          cursor: pointer;
+        }
 
         span {
           font-family: 'Poppins';
@@ -219,10 +256,20 @@ export const MemberContainerStyle = styled.div`
       }
 
       .socialProfileContainer {
+        display: flex;
+        flex-direction: column;
         margin-top: 15px;
 
         .socialMediaLink {
+          ${FlexJustifySpaceBetween};
           margin-bottom: 15px;
+
+          .mediaLink {
+            ${FlexAlignCenter};
+            gap: 15px;
+            text-decoration: none;
+            color: #5c5353;
+          }
         }
 
         .socialImage {
@@ -279,6 +326,10 @@ export const MemberContainerStyle = styled.div`
             }
           }
         }
+      }
+
+      .deleteButtonContainer {
+        cursor: pointer;
       }
     }
   }
@@ -398,3 +449,22 @@ export const StyleChatRequestInput = styled.input`
 
   -moz-appearance: textfield;
 `
+
+export const EditButtonStyle = styled.button`
+  ${Button}
+  color: #575454;
+  background: white;
+  border: 1px solid #939393;
+  border-radius: 8px;
+  box-shadow: none;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  padding: 10px 22px;
+`
+
+export const AddAvailabilityStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+

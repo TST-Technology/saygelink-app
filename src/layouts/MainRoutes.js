@@ -110,7 +110,7 @@ const MainRoutes = () => {
               <Route path={ROUTES.HEALTHCARE} element={<Healthcare />} />
 
               <Route path={ROUTES.NETWORK} element={<Network />} />
-              <Route path={ROUTES.PROFILE} element={<Profile />} />
+              <Route path={ROUTES.PROFILE} element={<Member isEdit={true} />} />
               <Route path={ROUTES.HOME} element={<Dashboard />} />
               <Route path={ROUTES.MESSAGE} element={<Message />} />
               <Route path={ROUTES.MESSAGE_TO} element={<Message />} />
@@ -125,10 +125,10 @@ const MainRoutes = () => {
               />
               <Route path={ROUTES.MEMBER} element={<Member />} />
 
-              <Route
+              {/* <Route
                 path={ROUTES.TEMP_PROFILE}
                 element={<Member isEdit={true} />}
-              />
+              /> */}
             </Route>
           </Routes>
         </Fragment>

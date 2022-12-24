@@ -11,7 +11,11 @@ import TwitterImage from '../../assets/images/profileTwitter.svg'
 import LinkImage from '../../assets/images/profileLink.svg'
 import FileImage from '../../assets/images/file.svg'
 import UpImage from '../../assets/images/upArrow.svg'
+import SettingImage from '../../assets/images/setting.svg'
+import TrashIcon from '../../assets/images/trash.svg'
+import AddGreenImage from '../../assets/images/AddGreen.svg'
 import {
+  EditButtonStyle,
   MemberContainerStyle,
   ScheduleCallButtonStyle,
   SendMessageButtonStyle,
@@ -19,6 +23,7 @@ import {
   StyleChatRequestInput
 } from '../../style-component/member/member'
 import CONSTANT, {
+  ACCEPT_FILE_TYPE,
   DashboardHeaderHeight,
   ROUTES,
   scheduleMeetingStyle,
@@ -28,6 +33,11 @@ import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
 import { Menu } from '@mui/material'
 import { UserContext } from '../../context/user'
 import { getEmail, isEmptyArray } from '../../utils/funcs'
+import EditProfile from '../../components/edit-profile/edit-profile'
+import Dialog from '../../components/dialog/dialog'
+import AddLink from '../../components/profile/add-link'
+import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
+import AddAvailability from '../../components/profile/add-availability'
 
 const Member = ({ isEdit }) => {
   console.log(isEdit)
@@ -45,12 +55,26 @@ const Member = ({ isEdit }) => {
     profileDetail: detail
   } = useContext(UserContext)
   const [selectedWeekday, setSelectedWeekDay] = useState('Sun')
+  const [editProfileDialog, setEditProfileDialog] = useState()
 
   // Edit
   const profileApi = useHttp()
+  const chatRequestApi = useHttp()
   const email = getEmail()
   const [maximumRequests, setMaximumRequests] = useState(null)
-  const [maximinRequestsChanged, setMaximinRequestsChanged] = useState(false)
+  const [linkDialogVisible, setLinkDialogVisible] = useState(false)
+  const [isDeleteLinkConfirmation, setIsDeleteLinkConfirmation] =
+    useState(false)
+  const [isDeleteFileConfirmation, setIsDeleteFileConfirmation] =
+    useState(false)
+  const [deleteLink, setDeleteLink] = useState(null)
+  const [
+    isDeleteAvailabilityConfirmation,
+    setIsDeleteAvailabilityConfirmation
+  ] = useState(false)
+  const [availabilityId, setAvailabilityId] = useState(null)
+  const [availabilityDialogVisible, setAvailabilityDialogVisible] =
+    useState(false)
 
   useEffect(() => {
     if (email) {
@@ -106,9 +130,19 @@ const Member = ({ isEdit }) => {
             const image = getSocialIcon(media.name)
             return (
               <div className='socialMediaLink'>
-                <a target='_blank' href={media.url}>
-                  <img src={image} className='socialImage' />
-                </a>
+                <div className=''>
+                  <a target='_blank' className='mediaLink' href={media.url}>
+                    <img src={image} className='socialImage' />
+                    {media.url}
+                  </a>
+                </div>
+
+                <div
+                  className='deleteButtonContainer'
+                  onClick={() => handleDeleteLinkClick(media)}
+                >
+                  <img src={TrashIcon} />
+                </div>
               </div>
             )
           })}
@@ -190,20 +224,148 @@ const Member = ({ isEdit }) => {
     profileApi.sendRequest(url, responseHandler)
   }
 
-  const onChatRequestChange = (flag) => {
-    setMaximinRequestsChanged(true)
-    if (flag === '+') {
-      setMaximumRequests((prevValue) => prevValue + 1)
-    } else if (flag === '-') {
-      setMaximumRequests((prevValue) => prevValue - 1)
-    } else {
-      setMaximumRequests(flag.target.value)
+  const updateChatRequests = (currentValue) => {
+    const payload = {
+      max_chat_requests: currentValue
     }
+    chatRequestApi.sendRequest(
+      CONSTANT.API.updateUser,
+      () => {},
+      payload,
+      'Maximum chat requests updated successfully!'
+    )
+  }
+
+  const onChatRequestChange = (flag) => {
+    let currentValue = 0
+    console.log({ flag })
+    if (flag === '+') {
+      setMaximumRequests((prevValue) => {
+        currentValue = prevValue + 1
+        updateChatRequests(currentValue)
+
+        return currentValue
+      })
+    } else if (flag === '-') {
+      setMaximumRequests((prevValue) => {
+        currentValue = prevValue - 1
+        updateChatRequests(currentValue)
+
+        return currentValue
+      })
+    } else {
+      updateChatRequests(currentValue)
+
+      setMaximumRequests(flag.target.value)
+      currentValue = flag.target.value
+    }
+    console.log(currentValue)
+  }
+
+  const handleEditProfileClose = (apiCall) => {
+    setEditProfileDialog(false)
+    if (apiCall) {
+      getProfile()
+    }
+  }
+
+  const handleUploadFile = (pdfFile) => {
+    if (pdfFile) {
+      const formData = new FormData()
+      formData.append('file', pdfFile)
+      profileApi.sendRequest(
+        CONSTANT.API.uploadUserFile,
+        getProfile,
+        formData,
+        'Attachment added successfully!'
+      )
+    }
+  }
+
+  const handleCloseLinkDialog = (apiCall) => {
+    if (apiCall) {
+      getProfile()
+    }
+    setLinkDialogVisible(false)
+  }
+
+  const handleDeleteLinkClick = (link) => {
+    setIsDeleteLinkConfirmation(true)
+    setDeleteLink({ ...link })
+  }
+
+  const handleConfirmLinkClick = () => {
+    if (deleteLink?._id) {
+      const url = {
+        ...CONSTANT.API.deleteLink,
+        endpoint: CONSTANT.API.deleteLink.endpoint.replace(
+          ':id',
+          deleteLink?._id
+        )
+      }
+      setIsDeleteLinkConfirmation(false)
+      profileApi.sendRequest(url, getProfile, {}, 'Link deleted successfully!')
+    }
+  }
+
+  const handleDeleteUserFile = () => {
+    setIsDeleteFileConfirmation(true)
+  }
+
+  const deleteUserFile = () => {
+    profileApi.sendRequest(
+      CONSTANT.API.deleteFile,
+      getProfile,
+      {},
+      'Attachment deleted successfully!'
+    )
+    setIsDeleteFileConfirmation(false)
+  }
+
+  const handlePdfChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      // setPdfFile(file)
+      handleUploadFile(file)
+    }
+  }
+
+  const handleAvailabilityDelete = (avail) => {
+    if (avail) {
+      setIsDeleteAvailabilityConfirmation(true)
+      setAvailabilityId(avail?._id)
+    }
+  }
+
+  const deleteAvailability = () => {
+    if (availabilityId) {
+      const url = {
+        ...CONSTANT.API.deleteAvailability,
+        endpoint: CONSTANT.API.deleteAvailability.endpoint.replace(
+          ':availId',
+          availabilityId
+        )
+      }
+      profileApi.sendRequest(
+        url,
+        getProfile,
+        {},
+        'Availability deleted successfully!'
+      )
+      setIsDeleteAvailabilityConfirmation(false)
+    }
+  }
+
+  const handleCloseAvailabilityDialog = (apiCall) => {
+    if (apiCall) {
+      getProfile()
+    }
+    setAvailabilityDialogVisible(false)
   }
 
   return (
     <>
-      {api.isLoading ? (
+      {api.isLoading || profileApi.isLoading ? (
         <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
       ) : (
         <MemberContainerStyle>
@@ -241,28 +403,53 @@ const Member = ({ isEdit }) => {
             </div>
             <div className='profileTopRightSection'>
               <div className='profileButtonContainer'>
-                <ScheduleCallButtonStyle onClick={handleScheduleCall}>
-                  Schedule a Call
-                </ScheduleCallButtonStyle>
-                <SendMessageButtonStyle
-                  onClick={() => onSendMessage(profileDetail?.id)}
-                  disabled={messageApi.isLoading}
-                >
-                  {messageApi.isLoading ? 'Loading' : 'Send Message'}
-                </SendMessageButtonStyle>
+                {isEdit ? (
+                  <EditButtonStyle onClick={() => setEditProfileDialog(true)}>
+                    <div>
+                      <img src={SettingImage} />
+                    </div>
+                    <span>Edit</span>
+                  </EditButtonStyle>
+                ) : (
+                  <>
+                    <ScheduleCallButtonStyle onClick={handleScheduleCall}>
+                      Schedule a Call
+                    </ScheduleCallButtonStyle>
+                    <SendMessageButtonStyle
+                      onClick={() => onSendMessage(profileDetail?.id)}
+                      disabled={messageApi.isLoading}
+                    >
+                      {messageApi.isLoading ? 'Loading' : 'Send Message'}
+                    </SendMessageButtonStyle>
+                  </>
+                )}
               </div>
             </div>
           </div>
           <div className='profileBottomSection'>
             <div>
               <div className='section'>
-                <h2 className='memberSectionHeading'>About Me</h2>
+                <div className='sectionHeadingContainer'>
+                  <h2 className='memberSectionHeading'>About Me</h2>
+
+                  {isEdit ? (
+                    <a
+                      className='editAction'
+                      onClick={() => setEditProfileDialog(true)}
+                    >
+                      Edit
+                    </a>
+                  ) : null}
+                </div>
 
                 <p className='bioDetail'>{profileDetail?.about}</p>
               </div>
 
               <div className='section'>
-                <h2 className='memberSectionHeading'>Insigths</h2>
+                <div className='sectionHeadingContainer'>
+                  <h2 className='memberSectionHeading'>Insigths</h2>
+                  {isEdit ? <a className='editAction'>Edit</a> : null}
+                </div>
 
                 <div className='insightContainer'>
                   {profileDetail?.experience
@@ -284,7 +471,11 @@ const Member = ({ isEdit }) => {
             </div>
             <div>
               <div className='section'>
-                <h2 className='memberSectionHeading'>General Availability</h2>
+                <div className='sectionHeadingContainer'>
+                  <h2 className='memberSectionHeading'>General Availability</h2>
+
+                  {isEdit ? <a className='editAction'>Edit</a> : null}
+                </div>
                 <div className='weekDayContainer'>
                   {CONSTANT.WEEK_DIGIT.map((day, index) => {
                     return (
@@ -307,26 +498,47 @@ const Member = ({ isEdit }) => {
                   })}
                 </div>
 
-                {!isEmptyArray(currentWeekDay) ? (
-                  <div className='timingContainer'>
-                    {currentWeekDay
-                      ? currentWeekDay.map((avail, index) => {
-                          return (
-                            <div key={avail?._id} className='timing'>
-                              <span>{`${avail?.start_time} - ${avail?.end_time}`}</span>
-                            </div>
-                          )
-                        })
-                      : null}
-                  </div>
-                ) : null}
+                <div className='timingContainer'>
+                  {isEdit ? (
+                    <div className='timing'>
+                      <div
+                        className='addTimeContainer'
+                        onClick={() => setAvailabilityDialogVisible(true)}
+                      >
+                        <img src={AddGreenImage} /> Add
+                      </div>{' '}
+                    </div>
+                  ) : null}
+                  {currentWeekDay
+                    ? currentWeekDay.map((avail, index) => {
+                        return (
+                          <div key={avail?._id} className='timing'>
+                            <span>{`${avail?.start_time} - ${avail?.end_time}`}</span>
+
+                            {isEdit ? (
+                              <div
+                                className='deleteButtonContainer'
+                                onClick={() => {
+                                  handleAvailabilityDelete(avail)
+                                }}
+                              >
+                                <img src={TrashIcon} />
+                              </div>
+                            ) : null}
+                          </div>
+                        )
+                      })
+                    : null}
+                </div>
               </div>
 
               {isEdit ? (
                 <div className='section'>
-                  <h2 className='memberSectionHeading'>
-                    Maximum chat requests
-                  </h2>
+                  <div className='sectionHeadingContainer'>
+                    <h2 className='memberSectionHeading'>
+                      Maximum chat requests
+                    </h2>
+                  </div>
 
                   <p className='tooltipSubHeading'>
                     <b>Tip:</b> Feel free to select a limit for the number of
@@ -367,24 +579,137 @@ const Member = ({ isEdit }) => {
               ) : null}
             </div>
             <div>
-              {profileDetail?.file ? (
-                <div className='section'>
+              <div className='section'>
+                <div className='sectionHeadingContainer'>
                   <h2 className='memberSectionHeading'>Attachments</h2>
 
-                  <a className='fileContainer' href={profileDetail?.file}>
-                    <div>
-                      <img src={FileImage} />
+                  {isEdit ? (
+                    <div className='addAttachmentContainer'>
+                      <label htmlFor='attachment' className='attachment'>
+                        <input
+                          name='attachment'
+                          type='file'
+                          id='attachment'
+                          hidden
+                          onChange={handlePdfChange}
+                          accept={ACCEPT_FILE_TYPE}
+                        />{' '}
+                        <a className='editAction'>
+                          {profileDetail?.file ? 'Edit' : 'Add'}
+                        </a>
+                      </label>{' '}
                     </div>
-                    <span>Attachments.pdf</span>
-                  </a>
+                  ) : null}
                 </div>
-              ) : null}
 
-              <h2 className='memberSectionHeading'>Social Media</h2>
+                {profileDetail?.file ? (
+                  <div className='fileContainer'>
+                    <a
+                      className='attachmentContainer'
+                      href={profileDetail?.file}
+                    >
+                      <img src={FileImage} />
+                      <span>Attachments.pdf</span>
+                    </a>
+
+                    <div
+                      className='deleteButtonContainer'
+                      onClick={() => {
+                        handleDeleteUserFile()
+                      }}
+                    >
+                      <img src={TrashIcon} />
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
+              <div className='section'>
+                <div className='sectionHeadingContainer'>
+                  <h2 className='memberSectionHeading'>Social Media</h2>
+
+                  {isEdit ? (
+                    <a
+                      className='editAction'
+                      onClick={() => {
+                        setLinkDialogVisible(true)
+                      }}
+                    >
+                      Add
+                    </a>
+                  ) : null}
+                </div>
+              </div>
 
               {getSocialMediaIcons(profileDetail?.social_media)}
             </div>
           </div>
+
+          {editProfileDialog ? (
+            <EditProfile
+              profileDetail={profileDetail}
+              open={editProfileDialog}
+              onClose={(flag) => handleEditProfileClose(flag)}
+              handleUploadFile={handleUploadFile}
+            />
+          ) : null}
+          <Dialog
+            content={<AddLink onClose={() => handleCloseLinkDialog(true)} />}
+            title='Add Link'
+            onClose={() => {
+              handleCloseLinkDialog(false)
+            }}
+            open={linkDialogVisible}
+            width='500px'
+          />
+
+          <Dialog
+            content={
+              <AddAvailability
+                selectedWeekday={selectedWeekday}
+                onClose={() => handleCloseAvailabilityDialog(true)}
+              />
+            }
+            title='Add Availability'
+            onClose={() => {
+              handleCloseAvailabilityDialog(false)
+            }}
+            open={availabilityDialogVisible}
+            width='500px'
+          />
+
+          {isDeleteLinkConfirmation ? (
+            <DeleteConfirmation
+              onCancelButtonClick={() => {
+                setIsDeleteLinkConfirmation(false)
+              }}
+              onConfirmButtonClick={() => {
+                handleConfirmLinkClick()
+              }}
+            />
+          ) : null}
+
+          {isDeleteFileConfirmation ? (
+            <DeleteConfirmation
+              onCancelButtonClick={() => {
+                setIsDeleteFileConfirmation(false)
+              }}
+              onConfirmButtonClick={() => {
+                deleteUserFile()
+              }}
+            />
+          ) : null}
+
+          {isDeleteAvailabilityConfirmation ? (
+            <DeleteConfirmation
+              onCancelButtonClick={() => {
+                setIsDeleteAvailabilityConfirmation(false)
+              }}
+              onConfirmButtonClick={() => {
+                deleteAvailability()
+              }}
+            />
+          ) : null}
           {/* <div className='leftSideMemberSection'>
             <div className='profileDetail'>
               <div className='nameContainer'>
