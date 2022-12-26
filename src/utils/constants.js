@@ -173,6 +173,35 @@ const CONSTANT = {
     getOrCreateConversation: {
       endpoint: '/chat/conversation/getOrCreateConversation',
       type: 'POST'
+    },
+    getAllPostsBySubject: {
+      endpoint: '/feed/userTopic/:subjectId',
+      type: 'GET'
+    },
+    uploadPost: {
+      endpoint: '/feed/userTopic',
+      type: 'POST'
+    },
+    uploadPostImage: {
+      endpoint: '/feed/userTopic/uploadImage/:postId',
+      type: 'POST'
+    },
+    getTopicDetails: {
+      endpoint: '/topics/:topicId',
+      type: 'GET'
+    },
+    getGroupDetails: { endpoint: `/groups/:groupId`, type: 'GET' },
+    getAllPostsByGroupId: {
+      endpoint: '/feed/groups/:groupId',
+      type: 'GET'
+    },
+    uploadPostToGroup: {
+      endpoint: '/feed/groups',
+      type: 'POST'
+    },
+    uploadPostImageToGroup: {
+      endpoint: '/feed/groups/uploadImage/:postId',
+      type: 'POST'
     }
   },
   planningStage: [
@@ -259,7 +288,11 @@ export const ROUTES = {
   CATEGORY_FIND: '/category/find',
   CATEGORY_ACTIVE: '/category/:categoryId',
   MEMBER: '/member/:memberId',
-  TEMP_PROFILE: '/temp/profile'
+  TEMP_PROFILE: '/temp/profile',
+  NETWORK_EVENT: '/network/event',
+  NETWORK_EVENT_DETAIL: '/network/event/:groupId',
+  NETWORK_INTEREST: '/network/interest',
+  NETWORK_INTEREST_DETAIL: '/network/interest/:groupId'
 }
 
 export const WEEKDAY_SELECTOR_TYPE = {

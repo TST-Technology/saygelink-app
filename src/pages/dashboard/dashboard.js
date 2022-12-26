@@ -116,11 +116,11 @@ const Dashboard = () => {
   }
 
   const redirectToInterest = () => {
-    navigate(`${ROUTES.NETWORK}#interest`)
+    navigate(`${ROUTES.NETWORK_INTEREST}`)
   }
 
   const redirectToEvent = () => {
-    navigate(`${ROUTES.NETWORK}#event`)
+    navigate(`${ROUTES.NETWORK_EVENT}`)
   }
 
   const handleFindSayge = () => {
@@ -288,25 +288,21 @@ const Dashboard = () => {
                 {!isEmptyArray(posts) ? (
                   posts.map((post, index) => {
                     return (
-                      <>
-                        <Post
-                          name={post?.name}
-                          time={
-                            post?.createdAt
-                              ? dateFormat(
-                                  post?.createdAt,
-                                  DATE_FORMAT.FORMAT_1
-                                )
-                              : ''
-                          }
-                          description={post?.content}
-                          image={ColumbiaImage}
-                        />
-                      </>
+                      <Post
+                        key={post._id}
+                        name={post?.name}
+                        time={
+                          post?.createdAt
+                            ? dateFormat(post?.createdAt, DATE_FORMAT.FORMAT_1)
+                            : ''
+                        }
+                        description={post?.content}
+                        image={ColumbiaImage}
+                      />
                     )
                   })
                 ) : (
-                  <h4>{NO_DATA_AVAILABLE}</h4>
+                  <p>No posts available.</p>
                 )}
               </div>
             </div>

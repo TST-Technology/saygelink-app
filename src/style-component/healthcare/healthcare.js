@@ -192,6 +192,12 @@ export const StyleFeedContainer = styled.div`
   padding: 20px;
   position: relative;
 
+  ${({ isEventDetailPage }) => {
+    if (isEventDetailPage) {
+      return { marginTop: 0 }
+    }
+  }}
+
   .postPreviewImage {
     position: absolute;
     object-fit: cover;
@@ -200,6 +206,12 @@ export const StyleFeedContainer = styled.div`
     left: 40px;
     height: 45px;
     width: 45px;
+
+    ${({ isEventDetailPage }) => {
+      if (isEventDetailPage) {
+        return { top: 30 }
+      }
+    }}
   }
 
   .photoInput {
@@ -215,13 +227,28 @@ export const StyleFeedContainer = styled.div`
     line-height: 18px;
     color: #939393;
 
+    ${({ isEventDetailPage }) => {
+      if (isEventDetailPage) {
+        return { top: 30 }
+      }
+    }}
+
     img {
+      height: 14px;
+      width: 17px;
       margin-right: 5px;
+      object-fit: cover;
     }
   }
 
   .postContainer {
     margin-top: 20px;
+
+    ${({ isEventDetailPage }) => {
+      if (isEventDetailPage) {
+        return { background: '#ffffff', padding: '20px', borderRadius: '10px' }
+      }
+    }}
   }
 `
 
@@ -252,4 +279,16 @@ export const StylePostButton = styled.button`
   box-shadow: none;
   top: 110px;
   right: 40px;
+
+  ${({ isEventDetailPage }) => {
+    if (isEventDetailPage) {
+      return { top: 70 }
+    }
+  }}
+
+  &:disabled {
+    background: #1186ef;
+    color: #f3f3f3;
+    opacity: 0.4;
+  }
 `

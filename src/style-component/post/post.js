@@ -61,6 +61,7 @@ export const PostStyle = styled.div`
     margin-bottom: 0;
     border-bottom: 0.833333px solid rgba(38, 38, 38, 0.08);
     word-break: break-word;
+    overflow: hidden;
   }
 `
 

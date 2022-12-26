@@ -13,7 +13,7 @@ import Dashboard from '../pages/dashboard/dashboard'
 import Healthcare from '../pages/healthcare/healthcare'
 import Member from '../pages/member/member'
 import Message from '../pages/message/message'
-import Network from '../pages/network/network'
+import Network, { NETWORK_TABS, TAB } from '../pages/network/network'
 import Profile from '../pages/profile/profile'
 import Signup from '../pages/register/signup'
 import Welcome from '../pages/welcome/welcomepage'
@@ -43,7 +43,8 @@ const MainRoutes = () => {
         location.pathname.includes('/members') ||
         location.pathname.includes('/member') ||
         location.pathname.includes('/message') ||
-        location.pathname.includes('/category')
+        location.pathname.includes('/category') ||
+        location.pathname.includes('/network')
     )
   }, [location])
 
@@ -129,6 +130,35 @@ const MainRoutes = () => {
                 element={<Category isFindSayge={true} />}
               />
               <Route path={ROUTES.MEMBER} element={<Member />} />
+
+              <Route
+                path={ROUTES.NETWORK_EVENT}
+                element={<Network activateTabValue={TAB.EVENT_GROUPS} />}
+              />
+
+              <Route
+                path={ROUTES.NETWORK_EVENT_DETAIL}
+                element={
+                  <Network
+                    activateTabValue={TAB.EVENT_GROUPS}
+                    isDetailPage={true}
+                  />
+                }
+              />
+              <Route
+                path={ROUTES.NETWORK_INTEREST}
+                element={<Network activateTabValue={TAB.INTEREST_GROUPS} />}
+              />
+
+              <Route
+                path={ROUTES.NETWORK_INTEREST_DETAIL}
+                element={
+                  <Network
+                    activateTabValue={TAB.INTEREST_GROUPS}
+                    isDetailPage={true}
+                  />
+                }
+              />
 
               {/* <Route
                 path={ROUTES.TEMP_PROFILE}

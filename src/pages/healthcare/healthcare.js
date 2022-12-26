@@ -9,6 +9,7 @@ import {
   StylePostButton,
   ThoughtsTextArea
 } from '../../style-component/healthcare/healthcare'
+import ColumbiaImage from '../../assets/images/columbia_logo.png'
 import Loader from '../../components/general/loader'
 import ImageRole from '../../components/general/image-role'
 import PersonImage from '../../assets/images/person.png'
@@ -24,23 +25,38 @@ import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import Post from '../../components/general/post'
 import { useEffect } from 'react'
 import useHttp from '../../hooks/use-http'
-import CONSTANT, { DashboardHeaderHeight, ROUTES } from '../../utils/constants'
+import CONSTANT, {
+  ACCEPT_IMAGE_TYPE,
+  DashboardHeaderHeight,
+  DATE_FORMAT,
+  ROUTES
+} from '../../utils/constants'
+import { dateFormat, isEmptyArray } from '../../utils/funcs'
+import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
 
 const Healthcare = () => {
   const nav = useNavigate()
   const api = useHttp()
   const joinApi = useHttp()
+  const postApi = useHttp()
   const { topicId } = useParams()
   const [allMembers, setAllMembers] = useState([])
   const [events, setEvents] = useState(null)
   const [interests, setInterests] = useState(null)
   const [joinEventConfirmation, setJoinEventConfirmation] = useState(false)
   const [activeEvent, setActiveEvent] = useState(null)
+  const [posts, setPosts] = useState(null)
+  const [postValue, setPostValue] = useState('')
+  const [postImage, setPostImage] = useState(null)
+  const [postPreviewImage, setPostPreviewImage] = useState(null)
+  const [topicDetail, setTopicDetail] = useState(null)
 
   useEffect(() => {
     if (topicId) {
       getAllMembers()
       getAllGroups()
+      getAllPosts()
+      getTopicDetail()
     }
   }, [topicId])
 
@@ -148,11 +164,106 @@ const Healthcare = () => {
   }
 
   const redirectToInterest = () => {
-    nav(`${ROUTES.NETWORK}#interest`)
+    nav(`${ROUTES.NETWORK_INTEREST}`)
   }
 
   const redirectToEvent = () => {
-    nav(`${ROUTES.NETWORK}#event`)
+    nav(`${ROUTES.NETWORK_EVENT}`)
+  }
+
+  const handlePostsResponse = (resp) => {
+    console.log(resp)
+    if (resp && resp?.posts) {
+      setPosts(resp?.posts)
+    }
+  }
+
+  const getAllPosts = () => {
+    const url = {
+      ...CONSTANT.API.getAllPostsBySubject,
+      endpoint: CONSTANT.API.getAllPostsBySubject.endpoint.replace(
+        ':subjectId',
+        topicId
+      )
+    }
+    api.sendRequest(url, handlePostsResponse)
+  }
+
+  const handleAddPostImageResponse = (resp) => {
+    if (resp) {
+      getAllPosts()
+      setPostValue('')
+      setPostPreviewImage(null)
+      setPostImage(null)
+    }
+  }
+
+  const updatePostImageApi = (postId) => {
+    if (postImage && postId) {
+      const url = {
+        ...CONSTANT.API.uploadPostImage,
+        endpoint: CONSTANT.API.uploadPostImage.endpoint.replace(
+          ':postId',
+          postId
+        )
+      }
+      const formData = new FormData()
+      formData.append('image', postImage)
+      postApi.sendRequest(url, handleAddPostImageResponse, formData)
+    }
+  }
+
+  const handleAddPostResponse = (resp) => {
+    console.log(resp?.post?._id, resp)
+    if (resp && resp?.post && resp?.post?._id) {
+      if (postImage) {
+        updatePostImageApi(resp?.post?._id)
+      } else {
+        getAllPosts()
+        setPostValue('')
+      }
+    }
+  }
+
+  const onPostClick = () => {
+    if (postValue && topicId) {
+      const url = {
+        ...CONSTANT.API.uploadPost,
+        endpoint: CONSTANT.API.uploadPost.endpoint
+      }
+      const payload = {
+        title: topicDetail?.name,
+        content: postValue,
+        subject: topicId
+      }
+      api.sendRequest(url, handleAddPostResponse, payload)
+    }
+  }
+
+  const handleImageChange = (event) => {
+    console.log(event)
+    const file = event.target.files[0]
+    console.log(file)
+    if (file) {
+      setPostImage(file)
+      setPostPreviewImage(URL.createObjectURL(file))
+    }
+  }
+
+  const handleTopicResponse = (resp) => {
+    if (resp && resp?.topic);
+    setTopicDetail(resp.topic)
+  }
+
+  const getTopicDetail = () => {
+    const url = {
+      ...CONSTANT.API.getTopicDetails,
+      endpoint: CONSTANT.API.getTopicDetails.endpoint.replace(
+        ':topicId',
+        topicId
+      )
+    }
+    api.sendRequest(url, handleTopicResponse)
   }
 
   return (
@@ -163,7 +274,7 @@ const Healthcare = () => {
         ) : (
           <div className='healthCareContainer'>
             <div className='leftContainer'>
-              <h3 className='heading'>Healthcare Innovation</h3>
+              <h3 className='heading'>{topicDetail?.name}</h3>
               <span className='subHeading'>Members </span>
 
               <StyleMembersCardContainer>
@@ -218,31 +329,61 @@ const Healthcare = () => {
               <StyleFeedContainer>
                 <h3 className='heading'>Work life board</h3>
 
-                <ThoughtsTextArea placeholder='Share your thoughts...' />
+                <ThoughtsTextArea
+                  value={postValue}
+                  onChange={(e) => setPostValue(e.target.value)}
+                  placeholder='Share your thoughts...'
+                />
 
                 <img src={PersonImage} className='postPreviewImage' />
 
-                <span className='photoInput'>
-                  <img src={GalleryImage} /> Photo
-                </span>
+                <label htmlFor='postImage' className='profileImage'>
+                  <input
+                    name='postImage'
+                    type='file'
+                    id='postImage'
+                    hidden
+                    onChange={handleImageChange}
+                    accept={ACCEPT_IMAGE_TYPE}
+                  />
+                  <span className='photoInput'>
+                    <img
+                      src={postPreviewImage ? postPreviewImage : GalleryImage}
+                    />{' '}
+                    Photo
+                  </span>
+                </label>
 
-                <StylePostButton>Post</StylePostButton>
+                <StylePostButton
+                  onClick={onPostClick}
+                  disabled={!postValue || postApi.isLoading}
+                >
+                  {postApi.isLoading ? 'Posting' : 'Post'}
+                </StylePostButton>
 
                 <div className='postContainer'>
-                  {[0, 1, 2, 3].map((row, index) => {
-                    return (
-                      <>
+                  {!isEmptyArray(posts) ? (
+                    posts.map((post, index) => {
+                      return (
                         <Post
-                          name='Rebecca Shoenfield'
-                          time={'Just Now'}
-                          description={
-                            "Don't miss out on the opportunitiy to network with alumni at our annual HPM event! Register here."
+                          key={post._id}
+                          name={post?.name}
+                          time={
+                            post?.createdAt
+                              ? dateFormat(
+                                  post?.createdAt,
+                                  DATE_FORMAT.FORMAT_1
+                                )
+                              : ''
                           }
-                          image={PersonImage}
+                          description={post?.content}
+                          image={ColumbiaImage}
                         />
-                      </>
-                    )
-                  })}
+                      )
+                    })
+                  ) : (
+                    <p>No posts available.</p>
+                  )}
                 </div>
               </StyleFeedContainer>
             </div>
@@ -305,6 +446,18 @@ const Healthcare = () => {
                   })}
               </div>
             </div>
+            {joinEventConfirmation ? (
+              <DeleteConfirmation
+                onCancelButtonClick={() => {
+                  setJoinEventConfirmation(false)
+                }}
+                onClose={() => {
+                  setJoinEventConfirmation(false)
+                }}
+                onConfirmButtonClick={handleConfirmJoin}
+                message='Aye you sure you want to join?'
+              />
+            ) : null}
           </div>
         )}
       </HealthcareContainerStyle>

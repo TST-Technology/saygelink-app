@@ -217,6 +217,22 @@ const Message = () => {
       handleNewMessage(message, true)
       addMessageApi()
       socket.emit(SOCKET_EVENTS.SEND_MESSAGE, socketMessage)
+      setConversationList((prevValue) => {
+        let current = null
+        const temp = prevValue.filter((row) => {
+          if (row?.participants?._id !== activeUser?.participants?._id) {
+            return true
+          } else {
+            current = row
+          }
+        })
+
+        if (current) {
+          return [current, ...temp]
+        } else {
+          return [...temp]
+        }
+      })
     }
   }
 
