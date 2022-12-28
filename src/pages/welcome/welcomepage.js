@@ -13,19 +13,25 @@ import {
 import welcomeicon from "../../assets/images/welcomeIcon.png";
 import shortLogo from "../../assets/images/short_logo.png";
 import { UserProfile } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {
+  const navigate = useNavigate();
   return (
     <RegisterWraper>
       <HalfScreen>
         <WelcomeLogoWrapper src={shortLogo} />
         <WelcomeTextWrapper>
           <WelcomeTextHello>
-            Hello,{" "}
-            <WelcomeTextspan>{UserProfile.userDetails?.name}</WelcomeTextspan>
+            Hello,{' '}
+            <WelcomeTextspan>
+              {UserProfile.userDetails?.user?.name}
+            </WelcomeTextspan>
           </WelcomeTextHello>
           <WelcomeText>Welcome to Columbia HPM SAYge Link</WelcomeText>
-          <ButtonWithCreateProfile>Create your profile</ButtonWithCreateProfile>
+          <ButtonWithCreateProfile onClick={() => navigate(`/create-account`)}>
+            Get Started!
+          </ButtonWithCreateProfile>
         </WelcomeTextWrapper>
       </HalfScreen>
       <HalfScreen>
@@ -34,6 +40,6 @@ const Welcome = () => {
         </LogoContainer>
       </HalfScreen>
     </RegisterWraper>
-  );
+  )
 };
 export default Welcome;

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { devices } from "../utils/constants";
-import theme from "../utils/variables";
+import theme, { UNIVERSITY_COLOR } from '../utils/variables'
 
 export const InputStyle = css`
   height: 45px;
@@ -12,7 +12,7 @@ export const InputStyle = css`
     border: 1px solid #abe9dc;
     outline: 1px solid #abe9dc;
   }
-`;
+`
 
 export const Button = css`
   background: #abe9dc;
@@ -25,6 +25,7 @@ export const Button = css`
   color: ${theme.lightTheme.secondary.color};
   cursor: pointer;
   transition: 0.1s;
+  user-select: none;
 
   &:hover {
     box-shadow: 0px 2px 13px rgba(64, 189, 163, 0.3);
@@ -39,7 +40,7 @@ export const Button = css`
     color: #e8819a;
     background: #cfece6;
   }
-`;
+`
 
 export const GraysmallText = css`
   font-family: Poppins;
@@ -48,7 +49,7 @@ export const GraysmallText = css`
   font-size: 14px;
   line-height: 21px;
   color: #5c5353;
-`;
+`
 
 export const CardStyle = css`
   background: #ffffff;
@@ -57,7 +58,7 @@ export const CardStyle = css`
   border-radius: 17px;
   z-index: 1;
   user-select: none;
-`;
+`
 
 export const HeadingStyle = css`
   font-weight: 700;
@@ -72,7 +73,7 @@ export const HeadingStyle = css`
     font-weight: 600;
     font-size: 35px;
   }
-`;
+`
 
 export const LineText = css`
   font-weight: 500;
@@ -86,7 +87,7 @@ export const LineText = css`
     font-weight: 450;
     font-size: 20px;
   }
-`;
+`
 
 const BodyStyled = styled.div`
   background-size: cover;
@@ -96,7 +97,7 @@ const BodyStyled = styled.div`
   background: ${theme.lightTheme.background.primary};
   min-height: 100vh;
   color: ${theme.lightTheme.secondary.font};
-`;
+`
 
 export const DarkGrayLable = styled.p`
   font-family: Poppins;
@@ -104,9 +105,9 @@ export const DarkGrayLable = styled.p`
   font-weight: 600;
   font-size: 25px;
   line-height: 38px;
-`;
+`
 
-export const CheckBox = styled.input``;
+export const CheckBox = styled.input``
 
 export const PinkLink = styled.a`
   color: ${theme.lightTheme.secondary.color};
@@ -115,6 +116,92 @@ export const PinkLink = styled.a`
   &:hover {
     font-weight: 600;
   }
-`;
+`
+
+export const TextAreaStyle = css`
+  ${InputStyle}
+  height: auto;
+  resize: none;
+`
+
+export const OutlinedButton = css`
+  color: ${UNIVERSITY_COLOR.primary};
+  border-radius: 8px;
+  border: 1px;
+  font-weight: 600;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.1s;
+`
+
+export const DropdownStyle = css`
+  border: 1px solid #e0e0e0;
+  border-radius: 9px;
+  padding: 11.5px 18px;
+  background: ${theme.lightTheme.black};
+
+  &:focus {
+    border: 1px solid #abe9dc;
+    outline: 1px solid #abe9dc;
+  }
+`
+
+export const FlexAlignCenter = css`
+  display: flex;
+  align-items: center;
+`
+
+export const FlexJustifyCenter = css`
+  display: flex;
+  justify-content: center;
+`
+
+export const FlexJustifySpaceBetween = css`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const FlexCenter = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const SmallWeekDayStyle = css`
+  .weekDayContainer {
+    display: flex;
+    gap: 20px;
+
+    .weekDay {
+      background: #d9d9d9;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      span {
+        color: #4a4a4a;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 16px;
+      }
+    }
+
+    .addedWeekDay {
+      background: ${theme.lightTheme.primary.color};
+      border: ${theme.lightTheme.primary.color};
+    }
+
+    .selectedWeekDay {
+      background: rgba(250, 47, 102, 0.2);
+      border: 2px solid #fa2f66;
+    }
+  }
+`
 
 export default BodyStyled;

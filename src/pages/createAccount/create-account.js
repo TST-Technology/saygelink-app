@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 import CreateAccountWrapper, {
   Dot,
   PlanItem,
@@ -7,26 +7,40 @@ import CreateAccountWrapper, {
   StepStatus,
   StepWrapper,
   WhiteLineText,
+  StepperBodyContainer,
 } from "../../style-component/createAccount/create-account";
 import shortLogo from "../../assets/images/short_logo.png";
 import CONSTANT from "../../utils/constants";
+import Yourself from "./tell-about-youself";
+import UploadProfilePicture from "./upload-profile-picture";
+import Availability from "./availability";
+import Experiences from "./experiences";
+
+export const CreateAccountContext = createContext({
+  step: 1,
+  setStep: (val) => {},
+  formData: null,
+  setFormData: (val) => {},
+});
 
 const CreateAccount = () => {
-  const [step, steStep] = useState(1);
+  const TOTAL_STEPS = 4;
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState(null);
 
   let StepView = <p></p>;
   switch (step) {
     case 1:
-      StepView = <p>Tell us about yourself</p>;
+      StepView = <Yourself />;
       break;
     case 2:
-      StepView = <p>Now upload your profile picture. </p>;
+      StepView = <UploadProfilePicture />;
       break;
     case 3:
-      StepView = <p>My availability </p>;
+      StepView = <Availability />;
       break;
     case 4:
-      StepView = <p>Important step! Select the experiences you have.</p>;
+      StepView = <Experiences />;
       break;
     case 5:
       StepView = <p>Congratulations</p>;
@@ -36,28 +50,44 @@ const CreateAccount = () => {
   }
   return (
     <>
-      <CreateAccountWrapper>
-        <RegisterLeftSideBarWrapper>
-          <RegisterLeftSideBarLogoWrapper src={shortLogo} />
-          <WhiteLineText>Quick & Easy Setup</WhiteLineText>
-          <StepWrapper>
-            {CONSTANT.planningStage.map((MenuItem, index) => {
-              return (
-                <PlanItem key={`MenuItem${index}`} active={index + 1 === step}>
-                  <Dot />
-                  {MenuItem}
-                  <StepStatus>fbvhjb</StepStatus>
-                </PlanItem>
-              );
-            })}
-          </StepWrapper>
-        </RegisterLeftSideBarWrapper>
+      <CreateAccountContext.Provider
+        value={{
+          step: step,
+          setStep: setStep,
+          formData: formData,
+          setFormData: setFormData,
+        }}
+      >
+        <CreateAccountWrapper>
+          <RegisterLeftSideBarWrapper>
+            <RegisterLeftSideBarLogoWrapper src={shortLogo} />
+            <WhiteLineText>Quick & Easy Setup</WhiteLineText>
+            <StepWrapper>
+              {CONSTANT.planningStage.map((MenuItem, index) => {
+                return (
+                  <PlanItem
+                    key={`MenuItem${index}`}
+                    active={index + 1 === step}
+                  >
+                    <Dot />
+                    {MenuItem}
+                    {index + 1 === step ? (
+                      <StepStatus>{`${step} out of ${TOTAL_STEPS}`}</StepStatus>
+                    ) : null}
+                  </PlanItem>
+                );
+              })}
+            </StepWrapper>
+          </RegisterLeftSideBarWrapper>
 
-        {StepView}
-        <button onClick={() => steStep((previous) => previous + 1)}>
-          Click
-        </button>
-      </CreateAccountWrapper>
+          <StepperBodyContainer>
+            {StepView}
+            {/* <button onClick={() => setStep((previous) => previous + 1)}>
+            Click
+          </button> */}
+          </StepperBodyContainer>
+        </CreateAccountWrapper>
+      </CreateAccountContext.Provider>
     </>
   );
 };
