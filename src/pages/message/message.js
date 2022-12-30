@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import SearchImage from '../../assets/images/search.svg'
 import MessageBackgroundImage from '../../assets/images/messageBackground.svg'
 import CalenderRedImage from '../../assets/images/calendar-red.svg'
@@ -7,6 +7,7 @@ import {
   ChatInputHeight,
   MessageContainerStyle,
   MessageInputStyle,
+  MessageMemberList,
   MessageStyle,
   SearchInputStyle,
   SendButtonStyle,
@@ -47,7 +48,9 @@ const Message = () => {
   const open = Boolean(anchorEl)
   const [messages, setMessages] = useState(null)
   const [activeUser, setActiveUser] = useState(null)
+  const [allConversationList, setAllConversationList] = useState([])
   const [conversationList, setConversationList] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
   const [message, setMessage] = useState('')
   const { profileDetail } = useContext(UserContext)
   const messageRef = useRef()
@@ -106,6 +109,10 @@ const Message = () => {
     }
   }, [activeUser])
 
+  useEffect(() => {
+    prepareSearchResult()
+  }, [searchTerm])
+
   const responseHandler = (resp) => {
     const uniqueTimeStamp = {}
     const uniqueDate = {}
@@ -124,6 +131,7 @@ const Message = () => {
           uniqueDate[format2] = true
         }
         if (
+          lastMessageTimestamp &&
           Date.parse(mes?.timestamp) > lastMessageTimestamp &&
           newMessage === false
         ) {
@@ -183,6 +191,7 @@ const Message = () => {
       }
       setUnseenMessageUsers({ ...tempUnreadUser })
       setConversationList(temp)
+      setAllConversationList(temp)
     }
   }
 
@@ -218,6 +227,23 @@ const Message = () => {
       addMessageApi()
       socket.emit(SOCKET_EVENTS.SEND_MESSAGE, socketMessage)
       setConversationList((prevValue) => {
+        let current = null
+        const temp = prevValue.filter((row) => {
+          if (row?.participants?._id !== activeUser?.participants?._id) {
+            return true
+          } else {
+            current = row
+          }
+        })
+
+        if (current) {
+          return [current, ...temp]
+        } else {
+          return [...temp]
+        }
+      })
+
+      setAllConversationList((prevValue) => {
         let current = null
         const temp = prevValue.filter((row) => {
           if (row?.participants?._id !== activeUser?.participants?._id) {
@@ -307,6 +333,30 @@ const Message = () => {
     scrollToLastMessage()
   }
 
+  const handleSearch = (e) => {
+    if (e.target.value.trim === '') {
+      setConversationList([...allConversationList])
+    } else {
+      setSearchTerm(e.target.value)
+    }
+  }
+
+  const prepareSearchResult = useCallback(async () => {
+    if (searchTerm === '') {
+      setConversationList([...allConversationList])
+    } else {
+      if (searchTerm) {
+        if (searchTerm) {
+          console.log(allConversationList)
+          const filteredDoctors = allConversationList.filter((row) => {
+            return row?.participants?.name.indexOf(searchTerm) > -1
+          })
+          setConversationList([...filteredDoctors])
+        }
+      }
+    }
+  }, [searchTerm])
+
   return (
     <>
       {conversationListApi.isLoading ? (
@@ -315,56 +365,63 @@ const Message = () => {
         <>
           <MessageContainerStyle>
             <div className='messageContainer'>
-              <div className='leftSection'>
-                <div className='membersHeadingContainer'>
-                  <h2 className='membersHeading'>Members</h2>
-                </div>
-                <div className='membersChatListing'>
-                  <img src={SearchImage} className='searchImage' />
-                  <SearchInputStyle placeholder='Search here...' />
+              <MessageMemberList>
+                <>
+                  <div className='membersHeadingContainer'>
+                    <h2 className='membersHeading'>Members</h2>
+                  </div>
+                  <div className='membersChatListing'>
+                    <img src={SearchImage} className='searchImage' />
+                    <SearchInputStyle
+                      placeholder='Search here...'
+                      onChange={handleSearch}
+                      value={searchTerm}
+                    />
 
-                  {!isEmptyArray(conversationList)
-                    ? conversationList.map((user, index) => {
-                        const currentUser = user?.participants
-                        return (
-                          <UserChatStyle
-                            key={index}
-                            onClick={() => {
-                              handleUserChange(user)
-                            }}
-                            selected={user?._id === activeUser?._id}
-                          >
-                            <div className='leftContainer'>
-                              <ImageRole
-                                src={currentUser?.profile_image}
-                                className='profileImage'
-                                role={currentUser?.qualification}
-                              />
-                              {/* <div className='activeUser'></div> */}
-                              <div className='nameContainer'>
-                                <p className='nameText'>{currentUser?.name}</p>
-                                <span className='roleText'>
-                                  {currentUser?.qualification
-                                    ? capitalizeFirstLetter(
-                                        currentUser?.qualification
-                                      )
-                                    : ''}
-                                </span>
+                    {!isEmptyArray(conversationList)
+                      ? conversationList.map((user, index) => {
+                          const currentUser = user?.participants
+                          return (
+                            <UserChatStyle
+                              key={index}
+                              onClick={() => {
+                                handleUserChange(user)
+                              }}
+                              selected={user?._id === activeUser?._id}
+                            >
+                              <div className='leftContainer'>
+                                <ImageRole
+                                  src={currentUser?.profile_image}
+                                  className='profileImage'
+                                  role={currentUser?.qualification}
+                                />
+                                {/* <div className='activeUser'></div> */}
+                                <div className='nameContainer'>
+                                  <p className='nameText'>
+                                    {currentUser?.name}
+                                  </p>
+                                  <span className='roleText'>
+                                    {currentUser?.qualification
+                                      ? capitalizeFirstLetter(
+                                          currentUser?.qualification
+                                        )
+                                      : ''}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
 
-                            <div className='rightContainer'>
-                              {unseenMessageUsers[currentUser?._id] ? (
-                                <div className='unreadMessage'></div>
-                              ) : null}
-                            </div>
-                          </UserChatStyle>
-                        )
-                      })
-                    : null}
-                </div>
-              </div>
-
+                              <div className='rightContainer'>
+                                {unseenMessageUsers[currentUser?._id] ? (
+                                  <div className='unreadMessage'></div>
+                                ) : null}
+                              </div>
+                            </UserChatStyle>
+                          )
+                        })
+                      : null}
+                  </div>
+                </>
+              </MessageMemberList>
               <div className='rightSectionContainer'>
                 {activeUser ? (
                   <>

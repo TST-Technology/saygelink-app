@@ -1,7 +1,13 @@
 import styled from 'styled-components'
 import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import theme from '../../utils/variables'
-import { Button, FlexCenter, InputStyle } from '../general'
+import {
+  Button,
+  FlexCenter,
+  FlexJustifyCenter,
+  FlexJustifySpaceBetween,
+  InputStyle
+} from '../general'
 
 export const ChatInputHeight = '127px'
 
@@ -21,48 +27,6 @@ export const MessageContainerStyle = styled.div`
 
     @media ${devices.tablet} {
       width: 90%;
-    }
-
-    .leftSection {
-      background: ${theme.lightTheme.seashell};
-      width: ${LEFT_WIDTH};
-      height: 100%;
-      border-right: 3px solid rgba(204, 204, 204, 0.25);
-      display: flex;
-      flex-direction: column;
-      border-radius: 8.33333px;
-
-      .membersHeadingContainer {
-        display: flex;
-        align-items: center;
-        height: ${DashboardHeaderHeight};
-        min-height: ${DashboardHeaderHeight};
-        border-bottom: 0.833333px solid rgba(38, 38, 38, 0.2);
-
-        .membersHeading {
-          color: ${theme.lightTheme.primary.textcolor};
-          font-family: 'Poppins';
-          font-style: normal;
-          font-weight: 600;
-          font-size: 20px;
-          line-height: 30px;
-          margin-left: 20px;
-          margin-bottom: 0;
-        }
-      }
-
-      .membersChatListing {
-        position: relative;
-        padding: 10px;
-        height: calc(100% - ${DashboardHeaderHeight});
-        overflow-y: auto;
-
-        .searchImage {
-          position: absolute;
-          left: 20px;
-          top: 21px;
-        }
-      }
     }
 
     .rightSection {
@@ -292,6 +256,7 @@ export const UserChatStyle = styled.div`
   .nameContainer {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     flex-direction: column;
     gap: 0px;
 
@@ -380,4 +345,56 @@ export const SendButtonStyle = styled.button`
   position: absolute;
   right: 50px;
   top: 31px;
+`
+
+export const MessageMemberList = styled.div`
+    background: ${theme.lightTheme.seashell};
+    width: ${LEFT_WIDTH};
+    height: 100%;
+    border-right: 3px solid rgba(204, 204, 204, 0.25);
+    display: flex;
+    flex-direction: column;
+    border-radius: 8.33333px;
+
+    ${(props) => {
+      if (props.isFloater) {
+        return {
+          background: theme.lightTheme.black,
+          width: '420px'
+        }
+      }
+    }}
+
+    .membersHeadingContainer {
+      ${FlexJustifySpaceBetween};
+      align-items: center;
+      height: ${DashboardHeaderHeight};
+      min-height: ${DashboardHeaderHeight};
+      border-bottom: 0.833333px solid rgba(38, 38, 38, 0.2);
+
+      .membersHeading {
+        color: ${theme.lightTheme.primary.textcolor};
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 30px;
+        margin-left: 20px;
+        margin-bottom: 0;
+      }
+    }
+
+    .membersChatListing {
+      position: relative;
+      padding: 10px;
+      height: calc(100% - ${DashboardHeaderHeight});
+      overflow-y: auto;
+
+      .searchImage {
+        position: absolute;
+        left: 20px;
+        top: 21px;
+      }
+    }
+  }
 `
