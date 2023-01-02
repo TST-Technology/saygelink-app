@@ -193,6 +193,17 @@ const Message = () => {
       setUnseenMessageUsers({ ...tempUnreadUser })
       setConversationList(temp)
       setAllConversationList(temp)
+    }else{
+      let temp = [];
+      if (
+        visitedMember.detail &&
+        Object.keys(visitedMember.detail).length > 0
+      ) {
+        temp.push(visitedMember.detail)
+        handleUserChange(visitedMember.detail)
+      }
+      setConversationList(temp)
+
     }
   }
 
