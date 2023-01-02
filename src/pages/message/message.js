@@ -95,6 +95,7 @@ const Message = () => {
   useLayoutEffect(() => {
     return () => {
       console.log('layout called')
+      visitedMember.detail = {}
     }
   }, [])
 
