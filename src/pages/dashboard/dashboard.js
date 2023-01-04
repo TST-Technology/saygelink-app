@@ -36,6 +36,7 @@ import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
 import { useNavigate } from 'react-router-dom'
 import useHttp from '../../hooks/use-http'
 import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
+import MessageFloater from '../../components/general/message-floater'
 
 const Dashboard = () => {
   const [categories, setCategories] = useState(null)
@@ -372,17 +373,7 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          <BottomFixedStyle>
-            <div className='nameContainer'>
-              <img src={PersonImage} />
-              <p>Rebecca Shoenfield</p>
-            </div>
-
-            <div className='buttonContainer'>
-              <div className='count'>1</div>
-              <img src={RightArrow} className='arrow' />
-            </div>
-          </BottomFixedStyle>
+          <MessageFloater />
           {open ? (
             <Menu
               anchorEl={anchorEl}

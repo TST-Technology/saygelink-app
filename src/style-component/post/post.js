@@ -63,6 +63,14 @@ export const PostStyle = styled.div`
     word-break: break-word;
     overflow: hidden;
   }
+
+  .postImage {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin: 15px 0 5px 0;
+  }
 `
 
 export const StylePostMenu = styled(Menu)`

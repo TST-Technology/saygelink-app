@@ -44,6 +44,9 @@ const Category = ({ isFindSayge }) => {
     console.log(resp)
     if (resp?.categories) {
       setCategories(resp?.categories)
+      if (!categoryId && resp?.categories && resp?.categories[0]) {
+        handleCategoryClick(resp?.categories[0]?._id)
+      }
     }
   }
 
@@ -53,7 +56,8 @@ const Category = ({ isFindSayge }) => {
     console.log(url)
     url.endpoint = url.endpoint.replace(':categoryId', categoryId)
     console.log(url)
-
+    setSubCategoryList(null)
+    setActiveSubCategory(null)
     subCategoryApi.sendRequest(url, handleSubcategoryResponse)
   }
 
@@ -118,9 +122,10 @@ const Category = ({ isFindSayge }) => {
           })
         }
       } else {
+        console.log('in')
         const tempTopicIds = [topicId]
-        baASaygeApiCall(tempTopicIds)
         setActiveTopic([...tempTopicIds])
+        if (topicId) navigate(ROUTES.HEALTHCARE.replace(':topicId', topicId))
       }
     }
   }
@@ -180,23 +185,31 @@ const Category = ({ isFindSayge }) => {
             </div>
             <div className='topicSectionContainer'>
               <div className='subCategorySection'>
-                {subCategoryList &&
-                  subCategoryList.map((subCategory, index) => {
-                    return (
-                      <StyleSubcategoryTopicItem
-                        key={subCategory?._id}
-                        selected={subCategory?._id === activeSubCategory?._id}
-                        onClick={() => {
-                          handleSubCategoryClick(subCategory)
-                        }}
-                        border={index !== subCategoryList.length - 1}
-                      >
-                        <p className='label'>{subCategory?.name}</p>
+                {subCategoryApi.isLoading ? (
+                  <Loader height='100%' />
+                ) : (
+                  <>
+                    {subCategoryList &&
+                      subCategoryList.map((subCategory, index) => {
+                        return (
+                          <StyleSubcategoryTopicItem
+                            key={subCategory?._id}
+                            selected={
+                              subCategory?._id === activeSubCategory?._id
+                            }
+                            onClick={() => {
+                              handleSubCategoryClick(subCategory)
+                            }}
+                            border={index !== subCategoryList.length - 1}
+                          >
+                            <p className='label'>{subCategory?.name}</p>
 
-                        <img src={RightArrow} />
-                      </StyleSubcategoryTopicItem>
-                    )
-                  })}
+                            <img src={RightArrow} />
+                          </StyleSubcategoryTopicItem>
+                        )
+                      })}
+                  </>
+                )}
               </div>
               <div className='topicSection'>
                 {activeSubCategory &&
@@ -227,14 +240,14 @@ const Category = ({ isFindSayge }) => {
         </div>
       )}
 
-      {isFindSayge && Array.isArray(activeTopic) && activeTopic.length > 0 ? (
+      {/* {isFindSayge && Array.isArray(activeTopic) && activeTopic.length > 0 ? (
         <div className='findASaygeButtonContainer'>
           <FindSaygeButtonStyle onClick={handleFindSayge}>
             <img src={SearchImage} />
             Find A SAYge
           </FindSaygeButtonStyle>
         </div>
-      ) : null}
+      ) : null} */}
     </StyleCategoryContainer>
   )
 }

@@ -80,7 +80,7 @@ const Member = ({ isEdit }) => {
     useState(false)
 
   useEffect(() => {
-    if (email) {
+    if (email && isEdit) {
       getProfile()
     }
   }, [])

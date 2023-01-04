@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   EventDetailStyle,
   StyleViewButton
@@ -23,6 +23,7 @@ import { dateFormat, isEmptyArray } from '../../utils/funcs'
 import GalleryImage from '../../assets/images/gallery.svg'
 import useHttp from '../../hooks/use-http'
 import Loader from '../general/loader'
+import { UserContext } from '../../context/user'
 
 const EventDetail = ({ eventDetail }) => {
   const postApi = useHttp()
@@ -34,6 +35,8 @@ const EventDetail = ({ eventDetail }) => {
   const [postValue, setPostValue] = useState('')
   const [postImage, setPostImage] = useState(null)
   const [postPreviewImage, setPostPreviewImage] = useState(null)
+  const [participants, setParticipants] = useState(null)
+  const { profileDetail } = useContext(UserContext)
 
   const totalMembers =
     eventDetail?.participants && eventDetail?.participants.length
@@ -41,6 +44,21 @@ const EventDetail = ({ eventDetail }) => {
   useEffect(() => {
     if (groupId) getAllPosts()
   }, [])
+
+  useEffect(() => {
+    if (
+      eventDetail &&
+      !isEmptyArray(eventDetail?.participantsInfo) &&
+      profileDetail &&
+      profileDetail?.id
+    ) {
+      setParticipants(
+        eventDetail?.participantsInfo.filter(
+          (row) => row.id !== profileDetail?.id
+        )
+      )
+    }
+  }, [eventDetail, profileDetail])
 
   const handleImageChange = (event) => {
     console.log(event)
@@ -193,6 +211,7 @@ const EventDetail = ({ eventDetail }) => {
                           }
                           description={post?.content}
                           image={ColumbiaImage}
+                          postImage={post?.image}
                         />
                       )
                     })
@@ -207,8 +226,8 @@ const EventDetail = ({ eventDetail }) => {
               <h3 className='eventTitle'>Connect with other members</h3>
 
               <div className='participantsLisContainer'>
-                {eventDetail && !isEmptyArray(eventDetail?.participantsInfo)
-                  ? eventDetail?.participantsInfo.map((participant) => {
+                {participants && !isEmptyArray(participants)
+                  ? participants.map((participant) => {
                       return (
                         <div className='participantCard' key={participant?.id}>
                           <div className='participantHeader'>

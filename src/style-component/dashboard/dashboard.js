@@ -270,58 +270,6 @@ export const HomeContainerStyle = styled.div`
   }
 `
 
-export const BottomFixedStyle = styled.div`
-  position: fixed;
-  bottom: 0;
-  right: 30px;
-  height: 64px;
-  min-width: 420px;
-  padding: 0 20px;
-  ${FlexAlignCenter};
-  justify-content: space-between;
-  background: ${theme.lightTheme.black};
-  box-shadow: 0px -3px 14px rgba(52, 52, 52, 0.15);
-  border-radius: 10px 10px 0px 0px;
-
-  .nameContainer {
-    ${FlexAlignCenter}
-    gap: 20px;
-
-    p {
-      margin: 0;
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 15.8482px;
-      line-height: 24px;
-      color: ${theme.lightTheme.primary.textcolor};
-    }
-  }
-
-  .buttonContainer {
-    display: flex;
-    gap: 20px;
-    .arrow {
-      transform: rotate(-90deg);
-    }
-
-    .count {
-      ${FlexJustifyCenter};
-      align-items: center;
-      height: 24px;
-      width: 24px;
-      border-radius: 50%;
-      background: ${theme.lightTheme.radicalRed};
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 15.8482px;
-      line-height: 24px;
-      color: ${theme.lightTheme.black};
-    }
-  }
-`
-
 export const FindSaygeButtonStyle = styled.button`
   ${Button}
   color: ${theme.lightTheme.black};

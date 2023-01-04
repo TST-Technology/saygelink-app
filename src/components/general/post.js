@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
+import { MenuItem } from '@mui/material'
 import { PostStyle, StylePostMenu } from '../../style-component/post/post'
 import ThreeDotImage from '../../assets/images/threeDotMenu.svg'
-import { MenuItem } from '@mui/material'
 
-const Post = ({ name, time, description, image }) => {
+const Post = ({ name, time, description, image, postImage }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -44,6 +44,8 @@ const Post = ({ name, time, description, image }) => {
           <MenuItem onClick={handleClose}>Report post</MenuItem>
         </StylePostMenu>
       </div>
+
+      {postImage ? <img src={postImage} className='postImage' /> : null}
 
       <div
         className='postDescription'
