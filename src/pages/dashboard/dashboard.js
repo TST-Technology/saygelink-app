@@ -163,7 +163,7 @@ const Dashboard = () => {
           <div className='homeBackgroundContainer'>
             <div className='homeBannerTextContainer'>
               <h2 className='blackText'>
-                Start a <br /> Conversation On
+                Start <br /> connecting On
               </h2>
               <img className='bgLogo' src={BackgroundLogoImage} />
             </div>
@@ -191,7 +191,7 @@ const Dashboard = () => {
               {!isEmptyArray(events) ? (
                 <div className='eventsContainer'>
                   <div className='cardHeading'>
-                    <p className=''>Events</p>
+                    <p className=''>Groups</p>
                     <span className='' onClick={() => redirectToEvent()}>
                       View all
                     </span>

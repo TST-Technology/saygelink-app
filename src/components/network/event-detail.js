@@ -146,7 +146,7 @@ const EventDetail = ({ eventDetail }) => {
                 <ThoughtsTextArea
                   value={postValue}
                   onChange={(e) => setPostValue(e.target.value)}
-                  placeholder='Ask a question or share your thoughts'
+                  placeholder='Healthcare Innovation Board'
                 />
 
                 <img src={PersonImage} className='postPreviewImage' />

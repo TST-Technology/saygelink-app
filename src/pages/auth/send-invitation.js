@@ -10,7 +10,7 @@ const SendInvitation = () => {
     <InfoCard
       iconSrc={pendingIcon}
       heading="Check your email."
-      description="If you’ve been invited to join this network, you will soon receive an email with a special link! If you do not recieve the invite, contact the organization’s admin."
+      description="If you’ve been invited to join this network, you will soon receive an email with a special link! If you do not receive the invite, contact the organization’s admin."
       btnText="Back To Login"
       onClick={() => navigate(`/auth`)}
     />

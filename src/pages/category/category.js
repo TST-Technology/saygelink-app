@@ -174,7 +174,7 @@ const Category = ({ isFindSayge }) => {
             <div>
               <h3 className='heading'>Choose topics</h3>
               <p className='subHeading'>
-                Tip: Choosing the topics in which you can share invalue-able
+                Tip: Choosing the topics in which you can share in value able
                 information and experience will bring a sense of expertise.
               </p>
             </div>

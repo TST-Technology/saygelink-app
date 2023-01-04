@@ -307,7 +307,7 @@ const Healthcare = () => {
                             Parenting | Pregnancy | Career{' '}
                           </p>
 
-                          <p className='insights'>Zoe Jone's insights</p>
+                          <p className='insights'>Zoe Jon's insights</p>
 
                           <ul>
                             <li>RELATIONSHIP</li>
