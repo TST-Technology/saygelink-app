@@ -8,10 +8,7 @@ import {
 } from '../../style-component/dashboard/dashboard'
 import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import cardBackgroundImage3 from '../../assets/images/cardBackground3.png'
-import cardBackgroundImage4 from '../../assets/images/cardBackground4.png'
 import beASaygeBackground from '../../assets/images/beASaygeBackground.svg'
-import PersonImage from '../../assets/images/person.png'
-import RightArrow from '../../assets/images/RightArrow.svg'
 import ImageCard from '../../components/general/image-card'
 import { StyleCategoryCard } from '../../style-component/createAccount/experiences'
 import Post from '../../components/general/post'
@@ -24,7 +21,7 @@ import CONSTANT, {
   scheduleMeetingStyle
 } from '../../utils/constants'
 import { Services } from '../../api/service'
-import ColumbiaImage from '../../assets/images/columbia_logo.png'
+import ColumbiaImage from '../../assets/images/profileIcon.svg'
 import SearchImage from '../../assets/images/search-white.svg'
 import { dateFormat, isEmptyArray } from '../../utils/funcs'
 import Loader from '../../components/general/loader'
@@ -37,6 +34,8 @@ import { useNavigate } from 'react-router-dom'
 import useHttp from '../../hooks/use-http'
 import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
 import MessageFloater from '../../components/general/message-floater'
+import { ImageCardStyle, ImageCardStyleNew } from '../../style-component/image-card/image-card'
+import { border } from '@mui/system'
 
 const Dashboard = () => {
   const [categories, setCategories] = useState(null)
@@ -155,6 +154,7 @@ const Dashboard = () => {
     }
   }
 
+ 
   return (
     <>
       {isLoading ? (
@@ -180,15 +180,15 @@ const Dashboard = () => {
           </div>
           <div className='homeContentContainer'>
             <div className='homeContentLeftContainer'>
-              <ImageCard
-                backgroundImage={beASaygeBackground}
-                buttonText={'Be a SAYge'}
-                cardText={"Everyone has a story. What's your story?"}
-                showBorder={false}
-                onButtonClick={() => {
-                  navigate(ROUTES.CATEGORY)
-                }}
-              />
+              <ImageCardStyleNew bgImage={beASaygeBackground} showBorder={false}>
+                <div className='cardBody'>
+                  <div className='cardImage'>
+                    <p className='cardImageText'>Everyone has a story. What's your story?</p>
+                    <a onClick={() => { navigate(ROUTES.CATEGORY) }}>Be a SAYge</a>
+                  </div>
+                </div>
+              </ImageCardStyleNew>
+
               {!isEmptyArray(events) ? (
                 <div className='eventsContainer'>
                   <div className='cardHeading'>
@@ -202,9 +202,12 @@ const Dashboard = () => {
                       return (
                         <ImageCard
                           key={event._id}
+                          mainId={event._id}
+                          field='event'
                           backgroundImage={
                             event?.image ? event?.image : cardBackgroundImage2
                           }
+                          participant={event.iamPartecipant}
                           buttonText={
                             event.openGroup && event.iamPartecipant === false
                               ? 'Join'
@@ -235,14 +238,17 @@ const Dashboard = () => {
                     return (
                       <ImageCard
                         key={interest._id}
+                        field='interest'
+                        mainId={interest._id}
                         backgroundImage={
                           interest?.image
                             ? interest?.image
                             : cardBackgroundImage3
                         }
+                        participant={interest.iamPartecipant}
                         buttonText={
                           interest.openGroup &&
-                          interest.iamPartecipant === false
+                            interest.iamPartecipant === false
                             ? 'Join'
                             : null
                         }
@@ -299,6 +305,8 @@ const Dashboard = () => {
                         }
                         description={post?.content}
                         image={ColumbiaImage}
+                        postImage={post?.image}
+                        
                       />
                     )
                   })
@@ -335,9 +343,9 @@ const Dashboard = () => {
                               <span className='connectionTime'>
                                 {conn?.connect_on?.day
                                   ? dateFormat(
-                                      conn?.connect_on?.day,
-                                      DATE_FORMAT.FORMAT_1
-                                    )
+                                    conn?.connect_on?.day,
+                                    DATE_FORMAT.FORMAT_1
+                                  )
                                   : ''}
                               </span>
                             </div>

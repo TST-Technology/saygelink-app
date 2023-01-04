@@ -9,7 +9,7 @@ import {
   StylePostButton,
   ThoughtsTextArea
 } from '../../style-component/healthcare/healthcare'
-import ColumbiaImage from '../../assets/images/columbia_logo.png'
+import ColumbiaImage from '../../assets/images/Columbia_logo.svg'
 import Loader from '../../components/general/loader'
 import ImageRole from '../../components/general/image-role'
 import PersonImage from '../../assets/images/person.png'
@@ -275,7 +275,7 @@ const Healthcare = () => {
           <div className='healthCareContainer'>
             <div className='leftContainer'>
               <h3 className='heading'>{topicDetail?.name}</h3>
-              <span className='subHeading'>Members </span>
+              <span className='subHeading'>Here are your SAYge Matches! </span>
 
               <StyleMembersCardContainer>
                 {Array.isArray(allMembers) && allMembers.length > 0
@@ -327,7 +327,7 @@ const Healthcare = () => {
               </StyleMembersCardContainer>
 
               <StyleFeedContainer>
-                <h3 className='heading'>Work life board</h3>
+                <h3 className='heading'>{topicDetail?.name} board</h3>
 
                 <ThoughtsTextArea
                   value={postValue}
@@ -378,6 +378,7 @@ const Healthcare = () => {
                           }
                           description={post?.content}
                           image={ColumbiaImage}
+                          postImage={post?.image}
                         />
                       )
                     })

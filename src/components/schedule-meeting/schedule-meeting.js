@@ -14,7 +14,6 @@ import ImageRole from '../general/image-role'
 import Loader from '../general/loader'
 
 const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
-  console.log(email)
   const profileApi = useHttp()
   const rescheduleApi = useHttp()
 
@@ -32,7 +31,6 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
   }, [email])
 
   const responseHandler = (res) => {
-    console.log(res)
     if (res?.userInfo) {
       setProfileDetail({ ...res?.userInfo })
     }

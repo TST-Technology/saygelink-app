@@ -3,7 +3,7 @@ import { MenuItem } from '@mui/material'
 import { PostStyle, StylePostMenu } from '../../style-component/post/post'
 import ThreeDotImage from '../../assets/images/threeDotMenu.svg'
 
-const Post = ({ name, time, description, image, postImage }) => {
+const Post = ({ name, profileId, time, description, image, postImage }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -15,6 +15,7 @@ const Post = ({ name, time, description, image, postImage }) => {
 
   return (
     <PostStyle>
+
       <div className='individualPost'>
         <div className='leftSidePostHeader'>
           <div className='postImageContainer'>
@@ -44,9 +45,9 @@ const Post = ({ name, time, description, image, postImage }) => {
           <MenuItem onClick={handleClose}>Report post</MenuItem>
         </StylePostMenu>
       </div>
-
-      {postImage ? <img src={postImage} className='postImage' /> : null}
-
+      <div className='mainImageDiv'>
+        {postImage ? <img src={postImage} className='postImage' /> : null}
+      </div>
       <div
         className='postDescription'
         dangerouslySetInnerHTML={{ __html: description }}

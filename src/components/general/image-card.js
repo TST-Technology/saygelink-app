@@ -1,7 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import { ImageCardStyle } from '../../style-component/image-card/image-card'
 
 const ImageCard = ({
+  mainId,
+  field,
+  participant,
   headingTitle,
   headingButton,
   cardText,
@@ -12,6 +16,14 @@ const ImageCard = ({
   blueButton = true,
   onHeadingButtonClick = () => {}
 }) => {
+  let history = useNavigate();
+
+  const onClickEvent = (mainId,participant,field) => {
+    if(participant){
+      history(`/network/${field}/${mainId}`);
+    }
+  }
+
   return (
     <ImageCardStyle bgImage={backgroundImage} showBorder={showBorder}>
       {headingTitle && headingButton ? (
@@ -22,7 +34,7 @@ const ImageCard = ({
           </span>
         </div>
       ) : null}
-      <div className='cardBody'>
+      <div className='cardBody' onClick={() => onClickEvent(mainId, participant,field)}>
         <div className='cardImage'>
           <p className='cardImageText'>{cardText}</p>
           {buttonText && blueButton ? (

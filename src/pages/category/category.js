@@ -230,7 +230,6 @@ const Category = ({ isFindSayge }) => {
                       >
                         <p className='label'>{topic?.name}</p>
 
-                        {isFindSayge ? <img src={RightArrow} /> : null}
                       </StyleSubcategoryTopicItem>
                     )
                   })}

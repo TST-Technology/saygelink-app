@@ -53,8 +53,8 @@ export const PostStyle = styled.div`
   .postDescription {
     font-family: 'Poppins';
     font-style: normal;
-    font-weight: 500;
-    font-size: 17px;
+    /* font-weight: 500; */
+    font-size: 15px;
     line-height: 30px;
     color: #262626;
     padding: 15px 0;
@@ -62,15 +62,25 @@ export const PostStyle = styled.div`
     border-bottom: 0.833333px solid rgba(38, 38, 38, 0.08);
     word-break: break-word;
     overflow: hidden;
+
+    p{
+      font-size: 15px;
+    }
   }
 
-  .postImage {
-    width: 100%;
-    height: 200px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin: 15px 0 5px 0;
+  .mainImageDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(217, 217, 217, 0.50) !important;
+    border-radius: 8px;
+    margin-top: 10px;
+
+    .postImage {
+      height: 200px;
+    }
   }
+
 `
 
 export const StylePostMenu = styled(Menu)`

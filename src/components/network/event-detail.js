@@ -17,7 +17,7 @@ import CONSTANT, {
   ROUTES
 } from '../../utils/constants'
 import { useNavigate, useParams } from 'react-router-dom'
-import ColumbiaImage from '../../assets/images/columbia_logo.png'
+import ColumbiaImage from '../../assets/images/Columbia_logo.svg'
 import Post from '../general/post'
 import { dateFormat, isEmptyArray } from '../../utils/funcs'
 import GalleryImage from '../../assets/images/gallery.svg'
@@ -37,6 +37,7 @@ const EventDetail = ({ eventDetail }) => {
   const [postPreviewImage, setPostPreviewImage] = useState(null)
   const [participants, setParticipants] = useState(null)
   const { profileDetail } = useContext(UserContext)
+  
 
   const totalMembers =
     eventDetail?.participants && eventDetail?.participants.length
@@ -167,7 +168,7 @@ const EventDetail = ({ eventDetail }) => {
                   placeholder='Healthcare Innovation Board'
                 />
 
-                <img src={PersonImage} className='postPreviewImage' />
+                <img src={profileDetail?.profile_image} className='postPreviewImage' />
 
                 <label htmlFor='postImage' className='profileImage'>
                   <input

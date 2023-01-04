@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import theme from '../../utils/variables'
 import { Button, FlexAlignCenter, FlexJustifyCenter } from '../general'
-import BackgroundImage from '../../assets/images/homeBackground.png'
+import BackgroundImage from '../../assets/images/home_background.svg'
 
 export const DashboardContainerStyle = styled.div`
   ${(props) => {
@@ -15,8 +15,10 @@ export const DashboardContainerStyle = styled.div`
   }}
 `
 
-const HEADER_LEFT_WIDTH = 'min(320px, 20%)'
-const HEADER_RIGHT_WIDTH = 'min(350px, 30%)'
+// const HEADER_RIGHT_WIDTH = 'min(350px, 30%)'
+// const HEADER_LEFT_WIDTH = 'min(320px, 20%)'
+const HEADER_RIGHT_WIDTH = '25%'
+const HEADER_LEFT_WIDTH = '25%'
 
 export const HomeContainerStyle = styled.div`
   background: ${theme.lightTheme.quillGrey};
@@ -92,7 +94,7 @@ export const HomeContainerStyle = styled.div`
     top: -20px;
     padding: 50px;
     display: flex;
-    gap: 20px;
+    gap: 35px;
 
     @media ${devices.laptop} {
       padding: 30px;
@@ -110,15 +112,10 @@ export const HomeContainerStyle = styled.div`
       width: ${HEADER_LEFT_WIDTH};
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      /* gap: 20px; */
 
-      > div,
-      img {
-        padding-bottom: 20px;
-
-        &:last-child {
-          border-bottom: none;
-        }
+      .cardHeading{
+        margin-top: 20px;
       }
 
       .eventsContainer,
@@ -129,7 +126,7 @@ export const HomeContainerStyle = styled.div`
 
     .homeContentCenterContainer {
       width: calc(100% - ${HEADER_LEFT_WIDTH} - ${HEADER_RIGHT_WIDTH});
-      padding: 0 20px;
+      padding: 0 35px;
 
       .categoryContainer {
         display: flex;
@@ -151,7 +148,7 @@ export const HomeContainerStyle = styled.div`
 
     .homeContentRightContainer {
       width: ${HEADER_RIGHT_WIDTH};
-      padding-left: 20px;
+      padding-left: 35px;
 
       @media ${devices.laptop} {
         padding-left: 15px;

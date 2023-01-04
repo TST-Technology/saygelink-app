@@ -137,6 +137,7 @@ export const StyleNetworkContainer = styled.div`
               height: 160px;
               width: 100%;
               object-fit: cover;
+              border-radius: 8px;
             }
           }
         }

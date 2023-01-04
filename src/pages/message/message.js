@@ -37,7 +37,7 @@ import { UserContext } from '../../context/user'
 import { useRef } from 'react'
 import ImageRole from '../../components/general/image-role'
 import { useLayoutEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const Message = () => {
   const messageApi = useHttp()
@@ -56,6 +56,7 @@ const Message = () => {
   const messageRef = useRef()
   const [unseenMessageUsers, setUnseenMessageUsers] = useState({})
   const lastMessageTimestamp = localStorage.getItem('messageTimestamp')
+  const history = useNavigate();
 
   const todayLabelDate = dateFormat(new Date(), DATE_FORMAT.FORMAT_5)
 
@@ -193,7 +194,7 @@ const Message = () => {
       setUnseenMessageUsers({ ...tempUnreadUser })
       setConversationList(temp)
       setAllConversationList(temp)
-    }else{
+    } else {
       let temp = [];
       if (
         visitedMember.detail &&
@@ -369,6 +370,10 @@ const Message = () => {
     }
   }, [searchTerm])
 
+  const goToProfile = (id) => {
+    history(`/member/${id}`);
+  }
+
   return (
     <>
       {conversationListApi.isLoading ? (
@@ -392,44 +397,44 @@ const Message = () => {
 
                     {!isEmptyArray(conversationList)
                       ? conversationList.map((user, index) => {
-                          const currentUser = user?.participants
-                          return (
-                            <UserChatStyle
-                              key={index}
-                              onClick={() => {
-                                handleUserChange(user)
-                              }}
-                              selected={user?._id === activeUser?._id}
-                            >
-                              <div className='leftContainer'>
-                                <ImageRole
-                                  src={currentUser?.profile_image}
-                                  className='profileImage'
-                                  role={currentUser?.qualification}
-                                />
-                                {/* <div className='activeUser'></div> */}
-                                <div className='nameContainer'>
-                                  <p className='nameText'>
-                                    {currentUser?.name}
-                                  </p>
-                                  <span className='roleText'>
-                                    {currentUser?.qualification
-                                      ? capitalizeFirstLetter(
-                                          currentUser?.qualification
-                                        )
-                                      : ''}
-                                  </span>
-                                </div>
+                        const currentUser = user?.participants
+                        return (
+                          <UserChatStyle
+                            key={index}
+                            onClick={() => {
+                              handleUserChange(user)
+                            }}
+                            selected={user?._id === activeUser?._id}
+                          >
+                            <div className='leftContainer'>
+                              <ImageRole
+                                src={currentUser?.profile_image}
+                                className='profileImage'
+                                role={currentUser?.qualification}
+                              />
+                              {/* <div className='activeUser'></div> */}
+                              <div className='nameContainer'>
+                                <p className='nameText'>
+                                  {currentUser?.name}
+                                </p>
+                                <span className='roleText'>
+                                  {currentUser?.qualification
+                                    ? capitalizeFirstLetter(
+                                      currentUser?.qualification
+                                    )
+                                    : ''}
+                                </span>
                               </div>
+                            </div>
 
-                              <div className='rightContainer'>
-                                {unseenMessageUsers[currentUser?._id] ? (
-                                  <div className='unreadMessage'></div>
-                                ) : null}
-                              </div>
-                            </UserChatStyle>
-                          )
-                        })
+                            <div className='rightContainer'>
+                              {unseenMessageUsers[currentUser?._id] ? (
+                                <div className='unreadMessage'></div>
+                              ) : null}
+                            </div>
+                          </UserChatStyle>
+                        )
+                      })
                       : null}
                   </div>
                 </>
@@ -439,7 +444,7 @@ const Message = () => {
                   <>
                     <div className='rightSection'>
                       <div className='activeChatNameContainer'>
-                        <div className='leftContainer'>
+                        <div className='leftContainer' onClick={() => goToProfile(activeUser?.participants?._id)}>
                           <ImageRole
                             src={activeUser?.participants?.profile_image}
                             className='profileImage'
@@ -452,8 +457,8 @@ const Message = () => {
                             <span className='roleText'>
                               {activeUser?.participants?.qualification
                                 ? capitalizeFirstLetter(
-                                    activeUser?.participants?.qualification
-                                  )
+                                  activeUser?.participants?.qualification
+                                )
                                 : null}
                             </span>
                           </div>
@@ -481,39 +486,39 @@ const Message = () => {
                           <div className='chatMessagesContainer'>
                             {!isEmptyArray(messages)
                               ? messages.map((message, index) => {
-                                  return (
-                                    <>
-                                      {message?.uniqueDate ? (
-                                        <p className='chatDateText'>
-                                          {getDayLabel(message?.uniqueDate)}
-                                        </p>
-                                      ) : null}
+                                return (
+                                  <>
+                                    {message?.uniqueDate ? (
+                                      <p className='chatDateText'>
+                                        {getDayLabel(message?.uniqueDate)}
+                                      </p>
+                                    ) : null}
 
-                                      {message?.newMessage ? (
-                                        <p className='newChatDateText'>
-                                          New Messages
+                                    {message?.newMessage ? (
+                                      <p className='newChatDateText'>
+                                        New Messages
+                                      </p>
+                                    ) : null}
+                                    <MessageStyle
+                                      sent={message?.fromSelf}
+                                      key={message.id}
+                                    >
+                                      {message?.uniqueTimeStamp ? (
+                                        <p className='messageHelperText'>
+                                          {dateFormat(
+                                            message?.uniqueTimeStamp,
+                                            DATE_FORMAT.FORMAT_3
+                                          )}
                                         </p>
                                       ) : null}
-                                      <MessageStyle
-                                        sent={message?.fromSelf}
-                                        key={message.id}
-                                      >
-                                        {message?.uniqueTimeStamp ? (
-                                          <p className='messageHelperText'>
-                                            {dateFormat(
-                                              message?.uniqueTimeStamp,
-                                              DATE_FORMAT.FORMAT_3
-                                            )}
-                                          </p>
-                                        ) : null}
-                                        <p className='messageText'>
-                                          {message?.message}
-                                        </p>
-                                        {/* <p className='messageHelperText'>VIEWED AT</p> */}
-                                      </MessageStyle>
-                                    </>
-                                  )
-                                })
+                                      <p className='messageText'>
+                                        {message?.message}
+                                      </p>
+                                      {/* <p className='messageHelperText'>VIEWED AT</p> */}
+                                    </MessageStyle>
+                                  </>
+                                )
+                              })
                               : null}
                             <div ref={messageRef}></div>
                           </div>
