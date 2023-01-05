@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import theme from '../../utils/variables'
+import styled from "styled-components";
+import theme from "../../utils/variables";
 
 export const StyledExperienceContainer = styled.div`
   display: flex;
@@ -21,11 +21,11 @@ export const StyledExperienceContainer = styled.div`
       font-weight: 500;
     }
   }
-`
+`;
 
 export const StyleSubcategoryItem = styled.div`
   background: ${(props) =>
-    props.selected ? theme.lightTheme.primary.color : 'transparent'};
+    props.selected ? theme.lightTheme.primary.color : "transparent"};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,8 +36,8 @@ export const StyleSubcategoryItem = styled.div`
   ${(props) => {
     if (props.border) {
       return {
-        borderTop: `1px solid ${theme.lightTheme.pastelGrey}`
-      }
+        borderTop: `1px solid ${theme.lightTheme.pastelGrey}`,
+      };
     }
   }}
 
@@ -50,19 +50,19 @@ export const StyleSubcategoryItem = styled.div`
     line-height: 27px;
     margin-bottom: 0;
   }
-`
+`;
 
 export const StyleTopicItem = styled.div`
   background: ${(props) =>
-    props.selected ? theme.lightTheme.primary.color : 'transparent'};
+    props.selected ? theme.lightTheme.primary.color : "transparent"};
   cursor: pointer;
   padding: 7px 10px;
 
   ${(props) => {
     if (props.border) {
       return {
-        borderTop: `1px solid ${theme.lightTheme.pastelGrey}`
-      }
+        borderTop: `1px solid ${theme.lightTheme.pastelGrey}`,
+      };
     }
   }}
 
@@ -75,11 +75,12 @@ export const StyleTopicItem = styled.div`
     line-height: 27px;
     margin-bottom: 0;
   }
-`
+`;
 
 export const StyleCategoryCard = styled.div`
   box-shadow: rgb(188 187 187 / 37%) 1px 5.50327px 14px;
   // box-shadow: 0px 5.50327px 5.50327px rgba(0, 0, 0, 0.25);
+  background: #fff;
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -89,8 +90,8 @@ export const StyleCategoryCard = styled.div`
   ${(props) => {
     if (props.selected) {
       return {
-        border: `3px solid ${theme.lightTheme.primary.color}`
-      }
+        border: `3px solid ${theme.lightTheme.primary.color}`,
+      };
     }
   }}
 
@@ -109,16 +110,20 @@ export const StyleCategoryCard = styled.div`
     text-align: center;
     border-radius: 0px 0px 11.0065px 11.0065px;
     margin: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .label {
       color: ${theme.lightTheme.secondary.font};
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 500;
       font-size: 18px;
     }
   }
-`
+`;
 
 export const StyleCompleteProfileContainer = styled.div`
   display: flex;
@@ -132,4 +137,4 @@ export const StyleCompleteProfileContainer = styled.div`
     width: 400px;
     object-fit: cover;
   }
-`
+`;

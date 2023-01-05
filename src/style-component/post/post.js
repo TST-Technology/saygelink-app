@@ -1,11 +1,16 @@
-import styled from 'styled-components'
-import { Menu } from '@mui/material'
+import styled from "styled-components";
+import { Menu } from "@mui/material";
 
 export const PostStyle = styled.div`
+  background: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-bottom: 10px;
   .individualPost {
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
 
     .leftSidePostHeader {
       display: flex;
@@ -26,7 +31,7 @@ export const PostStyle = styled.div`
 
         .postName {
           margin-bottom: 0;
-          font-family: 'Poppins';
+          font-family: "Poppins";
           font-style: normal;
           font-weight: 500;
           font-size: 18px;
@@ -35,7 +40,7 @@ export const PostStyle = styled.div`
         }
 
         .postTime {
-          font-family: 'Poppins';
+          font-family: "Poppins";
           font-style: normal;
           font-weight: 500;
           font-size: 11.6667px;
@@ -51,7 +56,7 @@ export const PostStyle = styled.div`
   }
 
   .postDescription {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     /* font-weight: 500; */
     font-size: 15px;
@@ -59,37 +64,37 @@ export const PostStyle = styled.div`
     color: #262626;
     padding: 15px 0;
     margin-bottom: 0;
-    border-bottom: 0.833333px solid rgba(38, 38, 38, 0.08);
     word-break: break-word;
     overflow: hidden;
 
-    p{
+    p {
       font-size: 15px;
+      margin: 0;
     }
   }
 
-  .mainImageDiv{
+  .mainImageDiv {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(217, 217, 217, 0.50) !important;
+    background-color: rgba(217, 217, 217, 0.5) !important;
     border-radius: 8px;
     margin-top: 10px;
 
     .postImage {
-      height: 200px;
+      width: 100%;
+      border-radius: 10px;
     }
   }
-
-`
+`;
 
 export const StylePostMenu = styled(Menu)`
   .MuiMenuItem-root {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
     color: #262626;
   }
-`
+`;
