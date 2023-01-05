@@ -9,7 +9,7 @@ import {
 } from '../general'
 
 const CALENDER_LEFT_WIDTH = 'min(320px, 30%)'
-const CALENDER_PREVIEW_HEADER = '95px'
+const CALENDER_PREVIEW_HEADER = '75px'
 const CALENDER_EVENT_LEFT = 'min(200px, 20%)'
 
 export const CalenderContainerStyle = styled.div`
@@ -33,12 +33,16 @@ export const CalenderContainerStyle = styled.div`
 
     .calenderLeft {
       width: ${CALENDER_LEFT_WIDTH};
+      @media ${devices.tablet} {
+        width: min(320px, 40%)
+      }
     }
 
     .calenderRight {
       width: calc(100vw - ${CALENDER_LEFT_WIDTH});
       display: flex;
       flex-direction: column;
+
 
       .calenderPreviewHeader {
         height: ${CALENDER_PREVIEW_HEADER};
@@ -47,10 +51,18 @@ export const CalenderContainerStyle = styled.div`
         ${FlexAlignCenter}
         width: 100%;
 
+        @media ${devices.tablet} {
+          height: 70px;
+        }
+
         .calenderPreviewHeaderSectionContainer {
           ${FlexJustifySpaceBetween}
           width: 85%;
           margin: 0 auto;
+
+          @media ${devices.tablet} {
+            width:90%;
+          }
 
           .calenderPreviewHeaderSection {
             ${FlexAlignCenter}
@@ -62,6 +74,9 @@ export const CalenderContainerStyle = styled.div`
 
             img {
               cursor: pointer;
+              @media ${devices.tablet} {
+                width: 20px;
+              }
             }
 
             p {
@@ -72,6 +87,9 @@ export const CalenderContainerStyle = styled.div`
               line-height: 25px;
               color: ${theme.lightTheme.secondary.font};
               margin: 0;
+              @media ${devices.tablet} {
+                font-size: 14.6667px;
+              }
             }
           }
         }

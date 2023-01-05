@@ -34,6 +34,21 @@ export const HomeContainerStyle = styled.div`
     background-size: cover;
     padding: 100px 0 0 100px;
 
+    @media ${devices.laptop} {
+      padding: 100px 0 0 120px;
+      height: 450px;
+      margin-top: -40px;
+      height: 480px;
+      background-position-y: -20px;
+      }
+
+    @media ${devices.tablet}{
+      padding: 100px 0 0 45px;
+      margin-top: -85px;
+      background-position-x: 88%;
+      background-position-y: -20px;
+    }
+
     .homeBannerTextContainer {
       display: flex;
       gap: 20px;
@@ -42,7 +57,9 @@ export const HomeContainerStyle = styled.div`
       @media ${devices.laptop} {
         flex-direction: column;
         align-items: flex-start;
-        padding: 50px 0 0 50px;
+      }
+      @media ${devices.tablet} {
+        padding-top: 40px;
       }
 
       .blackText {
@@ -53,13 +70,25 @@ export const HomeContainerStyle = styled.div`
         line-height: 48px;
         text-transform: uppercase;
         color: ${theme.lightTheme.primary.textcolor};
+/* 
+        @media ${devices.tablet} {
+          font-weight: 600;
+          font-size: 22px;
+          line-height: 31px;
+        } */
       }
 
+     
       .bgLogo {
         height: 52px;
         width: 255px;
         object-fit: contain;
         margin-bottom: 5px;
+        /* TABLET */
+        @media ${devices.tablet} {
+          height: 40px;
+          width: 180px;
+        }
       }
     }
 
@@ -74,6 +103,15 @@ export const HomeContainerStyle = styled.div`
       border-radius: 20px;
       width: fit-content;
       margin-top: 50px;
+
+      @media ${devices.laptop} {
+        margin-top: 75px;
+        margin-left: 35px;
+      }
+      @media ${devices.tablet} {
+        margin-top: 38px;
+        margin-left: 0px;
+      }
 
       p {
         margin: 0;
@@ -103,6 +141,10 @@ export const HomeContainerStyle = styled.div`
     > div {
       border-left: 1px solid ${theme.lightTheme.greyGoose};
 
+      @media ${devices.tablet} {
+        border-left:none;
+      }
+
       &:first-child {
         border-left: none;
       }
@@ -113,6 +155,10 @@ export const HomeContainerStyle = styled.div`
       display: flex;
       flex-direction: column;
       /* gap: 20px; */
+
+      @media ${devices.tablet} {
+        display: none;
+      }
 
       .cardHeading{
         margin-top: 20px;
@@ -127,6 +173,13 @@ export const HomeContainerStyle = styled.div`
     .homeContentCenterContainer {
       width: calc(100% - ${HEADER_LEFT_WIDTH} - ${HEADER_RIGHT_WIDTH});
       padding: 0 35px;
+
+      @media ${devices.laptop} {
+        width: calc(100% - ${HEADER_LEFT_WIDTH});
+      }
+      @media ${devices.tablet} {
+        width: calc(100%);
+      }
 
       .categoryContainer {
         display: flex;
@@ -151,7 +204,10 @@ export const HomeContainerStyle = styled.div`
       padding-left: 35px;
 
       @media ${devices.laptop} {
-        padding-left: 15px;
+        display: none;
+      }
+      @media ${devices.tablet} {
+        display: none;
       }
 
       .calenderTitle {

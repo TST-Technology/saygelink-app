@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { DashboardHeaderHeight } from '../../utils/constants'
+import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import { Button } from '../general'
 
 export const StyleNetworkContainer = styled.div`
@@ -12,11 +12,19 @@ export const StyleNetworkContainer = styled.div`
     padding: 30px;
     gap: 30px;
 
+    @media ${devices.tablet} {
+      flex-direction: column;
+    }
+
     .leftSideNetwork {
-      width: 300px;
+      width: 30%;
+
+      @media ${devices.tablet} {
+        width: 100%;
+      }
 
       .tabsContainer {
-        width: 250px;
+        width: 100%;
         margin: 0 auto;
       }
     }
@@ -24,12 +32,16 @@ export const StyleNetworkContainer = styled.div`
     .rightSideNetwork {
       width: calc(100vw - 300px);
 
+      @media ${devices.tablet} {
+        width: 100%
+      }
+
       .connectionContainer {
         background: #f8f8f8;
         border-radius: 10px;
         height: 100%;
         padding: 20px;
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
         height: 100%;
         overflow-y: auto;
@@ -38,7 +50,7 @@ export const StyleNetworkContainer = styled.div`
           font-family: 'Poppins';
           font-style: normal;
           font-weight: 600;
-          font-size: 20px;
+          font-size: 16px;
           line-height: 30px;
           color: #000000;
         }
