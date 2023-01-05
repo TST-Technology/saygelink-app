@@ -44,7 +44,7 @@ const useHttp = () => {
             errorHandler(err?.response?.data?.msg);
           }
         } else {
-          notify.error("Something Wents Wrong Please Try again");
+          notify.error("Something Wrong Please Try again");
         }
       }
       setIsLoading(false);

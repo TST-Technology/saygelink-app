@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import SearchImage from '../../assets/images/search.svg'
 import MessageBackgroundImage from '../../assets/images/messageBackground.svg'
 import CalenderRedImage from '../../assets/images/calendar-red.svg'
@@ -7,6 +7,7 @@ import {
   ChatInputHeight,
   MessageContainerStyle,
   MessageInputStyle,
+  MessageMemberList,
   MessageStyle,
   SearchInputStyle,
   SendButtonStyle,
@@ -36,7 +37,7 @@ import { UserContext } from '../../context/user'
 import { useRef } from 'react'
 import ImageRole from '../../components/general/image-role'
 import { useLayoutEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const Message = () => {
   const messageApi = useHttp()
@@ -47,12 +48,15 @@ const Message = () => {
   const open = Boolean(anchorEl)
   const [messages, setMessages] = useState(null)
   const [activeUser, setActiveUser] = useState(null)
+  const [allConversationList, setAllConversationList] = useState([])
   const [conversationList, setConversationList] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
   const [message, setMessage] = useState('')
   const { profileDetail } = useContext(UserContext)
   const messageRef = useRef()
   const [unseenMessageUsers, setUnseenMessageUsers] = useState({})
   const lastMessageTimestamp = localStorage.getItem('messageTimestamp')
+  const history = useNavigate();
 
   const todayLabelDate = dateFormat(new Date(), DATE_FORMAT.FORMAT_5)
 
@@ -92,6 +96,7 @@ const Message = () => {
   useLayoutEffect(() => {
     return () => {
       console.log('layout called')
+      visitedMember.detail = {}
     }
   }, [])
 
@@ -105,6 +110,10 @@ const Message = () => {
       socket.emit(SOCKET_EVENTS.ADD_USER, addUser)
     }
   }, [activeUser])
+
+  useEffect(() => {
+    prepareSearchResult()
+  }, [searchTerm])
 
   const responseHandler = (resp) => {
     const uniqueTimeStamp = {}
@@ -124,6 +133,7 @@ const Message = () => {
           uniqueDate[format2] = true
         }
         if (
+          lastMessageTimestamp &&
           Date.parse(mes?.timestamp) > lastMessageTimestamp &&
           newMessage === false
         ) {
@@ -183,6 +193,18 @@ const Message = () => {
       }
       setUnseenMessageUsers({ ...tempUnreadUser })
       setConversationList(temp)
+      setAllConversationList(temp)
+    } else {
+      let temp = [];
+      if (
+        visitedMember.detail &&
+        Object.keys(visitedMember.detail).length > 0
+      ) {
+        temp.push(visitedMember.detail)
+        handleUserChange(visitedMember.detail)
+      }
+      setConversationList(temp)
+
     }
   }
 
@@ -218,6 +240,23 @@ const Message = () => {
       addMessageApi()
       socket.emit(SOCKET_EVENTS.SEND_MESSAGE, socketMessage)
       setConversationList((prevValue) => {
+        let current = null
+        const temp = prevValue.filter((row) => {
+          if (row?.participants?._id !== activeUser?.participants?._id) {
+            return true
+          } else {
+            current = row
+          }
+        })
+
+        if (current) {
+          return [current, ...temp]
+        } else {
+          return [...temp]
+        }
+      })
+
+      setAllConversationList((prevValue) => {
         let current = null
         const temp = prevValue.filter((row) => {
           if (row?.participants?._id !== activeUser?.participants?._id) {
@@ -307,6 +346,34 @@ const Message = () => {
     scrollToLastMessage()
   }
 
+  const handleSearch = (e) => {
+    if (e.target.value.trim === '') {
+      setConversationList([...allConversationList])
+    } else {
+      setSearchTerm(e.target.value)
+    }
+  }
+
+  const prepareSearchResult = useCallback(async () => {
+    if (searchTerm === '') {
+      setConversationList([...allConversationList])
+    } else {
+      if (searchTerm) {
+        if (searchTerm) {
+          console.log(allConversationList)
+          const filteredDoctors = allConversationList.filter((row) => {
+            return row?.participants?.name.indexOf(searchTerm) > -1
+          })
+          setConversationList([...filteredDoctors])
+        }
+      }
+    }
+  }, [searchTerm])
+
+  const goToProfile = (id) => {
+    history(`/member/${id}`);
+  }
+
   return (
     <>
       {conversationListApi.isLoading ? (
@@ -315,16 +382,21 @@ const Message = () => {
         <>
           <MessageContainerStyle>
             <div className='messageContainer'>
-              <div className='leftSection'>
-                <div className='membersHeadingContainer'>
-                  <h2 className='membersHeading'>Members</h2>
-                </div>
-                <div className='membersChatListing'>
-                  <img src={SearchImage} className='searchImage' />
-                  <SearchInputStyle placeholder='Search here...' />
+              <MessageMemberList>
+                <>
+                  <div className='membersHeadingContainer'>
+                    <h2 className='membersHeading'>Members</h2>
+                  </div>
+                  <div className='membersChatListing'>
+                    <img src={SearchImage} className='searchImage' />
+                    <SearchInputStyle
+                      placeholder='Search here...'
+                      onChange={handleSearch}
+                      value={searchTerm}
+                    />
 
-                  {!isEmptyArray(conversationList)
-                    ? conversationList.map((user, index) => {
+                    {!isEmptyArray(conversationList)
+                      ? conversationList.map((user, index) => {
                         const currentUser = user?.participants
                         return (
                           <UserChatStyle
@@ -342,12 +414,14 @@ const Message = () => {
                               />
                               {/* <div className='activeUser'></div> */}
                               <div className='nameContainer'>
-                                <p className='nameText'>{currentUser?.name}</p>
+                                <p className='nameText'>
+                                  {currentUser?.name}
+                                </p>
                                 <span className='roleText'>
                                   {currentUser?.qualification
                                     ? capitalizeFirstLetter(
-                                        currentUser?.qualification
-                                      )
+                                      currentUser?.qualification
+                                    )
                                     : ''}
                                 </span>
                               </div>
@@ -361,16 +435,16 @@ const Message = () => {
                           </UserChatStyle>
                         )
                       })
-                    : null}
-                </div>
-              </div>
-
+                      : null}
+                  </div>
+                </>
+              </MessageMemberList>
               <div className='rightSectionContainer'>
                 {activeUser ? (
                   <>
                     <div className='rightSection'>
                       <div className='activeChatNameContainer'>
-                        <div className='leftContainer'>
+                        <div className='leftContainer' onClick={() => goToProfile(activeUser?.participants?._id)}>
                           <ImageRole
                             src={activeUser?.participants?.profile_image}
                             className='profileImage'
@@ -383,8 +457,8 @@ const Message = () => {
                             <span className='roleText'>
                               {activeUser?.participants?.qualification
                                 ? capitalizeFirstLetter(
-                                    activeUser?.participants?.qualification
-                                  )
+                                  activeUser?.participants?.qualification
+                                )
                                 : null}
                             </span>
                           </div>
@@ -412,39 +486,39 @@ const Message = () => {
                           <div className='chatMessagesContainer'>
                             {!isEmptyArray(messages)
                               ? messages.map((message, index) => {
-                                  return (
-                                    <>
-                                      {message?.uniqueDate ? (
-                                        <p className='chatDateText'>
-                                          {getDayLabel(message?.uniqueDate)}
-                                        </p>
-                                      ) : null}
+                                return (
+                                  <>
+                                    {message?.uniqueDate ? (
+                                      <p className='chatDateText'>
+                                        {getDayLabel(message?.uniqueDate)}
+                                      </p>
+                                    ) : null}
 
-                                      {message?.newMessage ? (
-                                        <p className='newChatDateText'>
-                                          New Messages
+                                    {message?.newMessage ? (
+                                      <p className='newChatDateText'>
+                                        New Messages
+                                      </p>
+                                    ) : null}
+                                    <MessageStyle
+                                      sent={message?.fromSelf}
+                                      key={message.id}
+                                    >
+                                      {message?.uniqueTimeStamp ? (
+                                        <p className='messageHelperText'>
+                                          {dateFormat(
+                                            message?.uniqueTimeStamp,
+                                            DATE_FORMAT.FORMAT_3
+                                          )}
                                         </p>
                                       ) : null}
-                                      <MessageStyle
-                                        sent={message?.fromSelf}
-                                        key={message.id}
-                                      >
-                                        {message?.uniqueTimeStamp ? (
-                                          <p className='messageHelperText'>
-                                            {dateFormat(
-                                              message?.uniqueTimeStamp,
-                                              DATE_FORMAT.FORMAT_3
-                                            )}
-                                          </p>
-                                        ) : null}
-                                        <p className='messageText'>
-                                          {message?.message}
-                                        </p>
-                                        {/* <p className='messageHelperText'>VIEWED AT</p> */}
-                                      </MessageStyle>
-                                    </>
-                                  )
-                                })
+                                      <p className='messageText'>
+                                        {message?.message}
+                                      </p>
+                                      {/* <p className='messageHelperText'>VIEWED AT</p> */}
+                                    </MessageStyle>
+                                  </>
+                                )
+                              })
                               : null}
                             <div ref={messageRef}></div>
                           </div>

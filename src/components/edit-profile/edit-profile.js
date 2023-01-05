@@ -48,9 +48,12 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
     if (e.target.name.value) {
       newPayload.name = e.target.name.value
     }
-    if (e.target.about.value) {
-      newPayload.about = e.target.about.value
-    }
+    // if (e.target.about.value) {
+    newPayload.about = e.target.about.value
+    // }
+    // else{
+    //   newPayload.about = null
+    // }
     if (e.target.role.value) {
       newPayload.role = e.target.role.value.toLowerCase()
     }

@@ -6,6 +6,7 @@ import {
   StyleJoinButton,
   StyleNetworkContainer
 } from '../../style-component/network/network'
+import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import cardBackgroundImage3 from '../../assets/images/cardBackground3.png'
 import EventImage from '../../assets/images/event.svg'
 import HeartImage from '../../assets/images/heart.png'
@@ -92,7 +93,6 @@ const Network = ({ activateTabValue, isDetailPage }) => {
   }
 
   const handleGroupDetailResponse = (resp) => {
-    console.log(resp)
     if (resp && resp?.groupInfo) {
       setEventDetail(resp.groupInfo)
     }
@@ -245,7 +245,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                         src={
                                           event?.image
                                             ? event?.image
-                                            : cardBackgroundImage3
+                                            : cardBackgroundImage2
                                         }
                                       />
 

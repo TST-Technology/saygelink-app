@@ -80,7 +80,7 @@ const Member = ({ isEdit }) => {
     useState(false)
 
   useEffect(() => {
-    if (email) {
+    if (email && isEdit) {
       getProfile()
     }
   }, [])
@@ -463,7 +463,7 @@ const Member = ({ isEdit }) => {
 
               <div className='section'>
                 <div className='sectionHeadingContainer'>
-                  <h2 className='memberSectionHeading'>Insigths</h2>
+                  <h2 className='memberSectionHeading'>Insights</h2>
                   {isEdit ? (
                     <a
                       className='editAction'

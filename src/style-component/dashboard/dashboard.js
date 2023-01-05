@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { DashboardHeaderHeight, devices } from '../../utils/constants'
 import theme from '../../utils/variables'
 import { Button, FlexAlignCenter, FlexJustifyCenter } from '../general'
-import BackgroundImage from '../../assets/images/homeBackground.png'
+import BackgroundImage from '../../assets/images/home_background.svg'
 
 export const DashboardContainerStyle = styled.div`
   ${(props) => {
@@ -15,8 +15,10 @@ export const DashboardContainerStyle = styled.div`
   }}
 `
 
-const HEADER_LEFT_WIDTH = 'min(320px, 20%)'
-const HEADER_RIGHT_WIDTH = 'min(350px, 30%)'
+// const HEADER_RIGHT_WIDTH = 'min(350px, 30%)'
+// const HEADER_LEFT_WIDTH = 'min(320px, 20%)'
+const HEADER_RIGHT_WIDTH = '25%'
+const HEADER_LEFT_WIDTH = '25%'
 
 export const HomeContainerStyle = styled.div`
   background: ${theme.lightTheme.quillGrey};
@@ -92,7 +94,7 @@ export const HomeContainerStyle = styled.div`
     top: -20px;
     padding: 50px;
     display: flex;
-    gap: 20px;
+    gap: 35px;
 
     @media ${devices.laptop} {
       padding: 30px;
@@ -110,15 +112,10 @@ export const HomeContainerStyle = styled.div`
       width: ${HEADER_LEFT_WIDTH};
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      /* gap: 20px; */
 
-      > div,
-      img {
-        padding-bottom: 20px;
-
-        &:last-child {
-          border-bottom: none;
-        }
+      .cardHeading{
+        margin-top: 20px;
       }
 
       .eventsContainer,
@@ -129,7 +126,7 @@ export const HomeContainerStyle = styled.div`
 
     .homeContentCenterContainer {
       width: calc(100% - ${HEADER_LEFT_WIDTH} - ${HEADER_RIGHT_WIDTH});
-      padding: 0 20px;
+      padding: 0 35px;
 
       .categoryContainer {
         display: flex;
@@ -151,7 +148,7 @@ export const HomeContainerStyle = styled.div`
 
     .homeContentRightContainer {
       width: ${HEADER_RIGHT_WIDTH};
-      padding-left: 20px;
+      padding-left: 35px;
 
       @media ${devices.laptop} {
         padding-left: 15px;
@@ -266,58 +263,6 @@ export const HomeContainerStyle = styled.div`
         color: #f62e5f;
         cursor: pointer;
       }
-    }
-  }
-`
-
-export const BottomFixedStyle = styled.div`
-  position: fixed;
-  bottom: 0;
-  right: 30px;
-  height: 64px;
-  min-width: 420px;
-  padding: 0 20px;
-  ${FlexAlignCenter};
-  justify-content: space-between;
-  background: ${theme.lightTheme.black};
-  box-shadow: 0px -3px 14px rgba(52, 52, 52, 0.15);
-  border-radius: 10px 10px 0px 0px;
-
-  .nameContainer {
-    ${FlexAlignCenter}
-    gap: 20px;
-
-    p {
-      margin: 0;
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 15.8482px;
-      line-height: 24px;
-      color: ${theme.lightTheme.primary.textcolor};
-    }
-  }
-
-  .buttonContainer {
-    display: flex;
-    gap: 20px;
-    .arrow {
-      transform: rotate(-90deg);
-    }
-
-    .count {
-      ${FlexJustifyCenter};
-      align-items: center;
-      height: 24px;
-      width: 24px;
-      border-radius: 50%;
-      background: ${theme.lightTheme.radicalRed};
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 15.8482px;
-      line-height: 24px;
-      color: ${theme.lightTheme.black};
     }
   }
 `
