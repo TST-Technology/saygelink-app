@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { devices } from '../../utils/constants'
 import { Button, FlexAlignCenter, FlexJustifySpaceBetween } from '../general'
 
 export const EventDetailStyle = styled.div`
@@ -42,16 +43,35 @@ export const EventDetailStyle = styled.div`
     display: flex;
     gap: 20px;
 
+    @media ${devices.tablet} {
+     flex-direction: column-reverse;
+    }
+
     .eventDetailPostContainer {
       width: 70%;
       border-right: 1px solid #d4d4d4;
+
+      @media ${devices.tablet} {
+        width: 100%;
+        border-right:none;
+      }
     }
 
     .eventParticipantsDetail {
       width: 30%;
+      @media ${devices.tablet} {
+          width: 100%;
+      }
 
       .participantsLisContainer {
         padding-right: 20px;
+
+        @media ${devices.tablet} {
+          display: flex;
+          width: 100%;
+          overflow-y: scroll;
+          gap: 20px;
+        }
 
         .participantCard {
           background: #ffffff;
@@ -59,10 +79,18 @@ export const EventDetailStyle = styled.div`
           border-radius: 12px;
           padding: 20px;
           margin-top: 20px;
+          @media ${devices.tablet} {
+            width: 275px;
+            height: 260px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
 
           .participantHeader {
             ${FlexJustifySpaceBetween};
             gap: 20px;
+            width: 100%;
 
             .participantImage {
               height: 80px;

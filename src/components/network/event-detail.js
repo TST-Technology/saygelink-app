@@ -37,7 +37,7 @@ const EventDetail = ({ eventDetail }) => {
   const [postPreviewImage, setPostPreviewImage] = useState(null)
   const [participants, setParticipants] = useState(null)
   const { profileDetail } = useContext(UserContext)
-  
+
 
   const totalMembers =
     eventDetail?.participants && eventDetail?.participants.length
@@ -160,6 +160,8 @@ const EventDetail = ({ eventDetail }) => {
           {/* <p className='eventDetailText'>{eventDetail?.}</p> */}
 
           <div className='eventDetailParticipantContainer'>
+
+
             <div className='eventDetailPostContainer'>
               <StyleFeedContainer isEventDetailPage={true}>
                 <ThoughtsTextArea
@@ -205,9 +207,9 @@ const EventDetail = ({ eventDetail }) => {
                           time={
                             post?.createdAt
                               ? dateFormat(
-                                  post?.createdAt,
-                                  DATE_FORMAT.FORMAT_1
-                                )
+                                post?.createdAt,
+                                DATE_FORMAT.FORMAT_1
+                              )
                               : ''
                           }
                           description={post?.content}
@@ -222,14 +224,14 @@ const EventDetail = ({ eventDetail }) => {
                 </div>
               </StyleFeedContainer>
             </div>
-
             <div className='eventParticipantsDetail'>
               <h3 className='eventTitle'>Connect with other members</h3>
 
               <div className='participantsLisContainer'>
                 {participants && !isEmptyArray(participants)
                   ? participants.map((participant) => {
-                      return (
+                    return (
+                      <div>
                         <div className='participantCard' key={participant?.id}>
                           <div className='participantHeader'>
                             <ImageRole
@@ -243,7 +245,7 @@ const EventDetail = ({ eventDetail }) => {
                             {participant?.name}
                           </h4>
                           {participant?.experience &&
-                          !isEmptyArray(participant?.experience) ? (
+                            !isEmptyArray(participant?.experience) ? (
                             <p className='participantExperience'>
                               {participant?.experience.map((row, index) => {
                                 if (index > 0) {
@@ -268,11 +270,13 @@ const EventDetail = ({ eventDetail }) => {
                             View
                           </StyleViewButton>
                         </div>
-                      )
-                    })
+                      </div>
+                    )
+                  })
                   : null}
               </div>
             </div>
+
           </div>
         </EventDetailStyle>
       )}
