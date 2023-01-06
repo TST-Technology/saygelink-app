@@ -132,6 +132,13 @@ export const HeaderContainerStyle = styled.div`
         }
       }
     }
+    .rightSectionIcon{
+      display: none;
+      @media ${devices.tablet} {
+        gap: 25px;
+        display: block;
+      }
+    }
   }
 `
 

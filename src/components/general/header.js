@@ -24,6 +24,8 @@ import { useContext } from 'react'
 import { UserContext } from '../../context/user'
 import ImageRole from './image-role'
 import { socket } from '../../utils/socket'
+import ReorderIcon from '@mui/icons-material/Reorder';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Header = () => {
   const [activeTab, setActiveTab] = useState(window.location.pathname)
@@ -36,10 +38,25 @@ const Header = () => {
   const [requestDetail, setRequestDetail] = useState(null)
   const { profileDetail } = useContext(UserContext)
   const [isNotification, setIsNotification] = useState(false)
+  const [tabletMenuOpen, setTabletMenuOpen] = useState(false)
+  const [screenWidth, setScreenWidth] = useState(0)
+  // const [flag, setFlag] = useState(!)
 
   useEffect(() => {
     setActiveTab(window.location.pathname)
   }, [window.location.pathname])
+
+  const displayWindowSize = () => {
+    setScreenWidth(window.innerWidth)
+  }
+
+  useEffect(() => {
+    displayWindowSize()
+  })
+
+  window.addEventListener("resize", displayWindowSize);
+
+
 
   useEffect(() => {
     getRequests()
@@ -86,10 +103,8 @@ const Header = () => {
   }
 
   const handleRequestClick = (event) => {
-    // if (!isEmptyArray(requestDetail)) {
     setFloatMenuType('request')
     setAnchorEl(event.currentTarget)
-    // }
   }
 
   const handleClose = (e) => {
@@ -116,6 +131,10 @@ const Header = () => {
     nav(ROUTES.HOME)
   }
 
+  const onClickNav = () => {
+    setTabletMenuOpen(!tabletMenuOpen)
+  }
+
   return (
     <HeaderContainerStyle>
       <div className='headerContainer'>
@@ -125,19 +144,23 @@ const Header = () => {
             handleLogoClick()
           }}
         >
-          <img src={shortLogo} />
+          {
+            tabletMenuOpen ? null :
+              <>
+                <img src={shortLogo} />
+                <p>Sayge Link</p>
+              </>
+          }
 
-          <p>Sayge Link</p>
         </div>
 
-        <div className='rightSection'>
+        <div className={(screenWidth > 768 || tabletMenuOpen ? 'rightSection' : 'd-none')}>
           {HEADER_TABS.map((tab, index) => {
             return (
               <div
                 key={tab.label}
-                className={`headerTab ${
-                  activeTab === tab.route ? 'activeHeader' : ''
-                }`}
+                className={`headerTab ${activeTab === tab.route ? 'activeHeader' : ''
+                  }`}
                 onClick={() => {
                   handleHeaderClick(tab)
                 }}
@@ -181,6 +204,20 @@ const Header = () => {
             className='headerImages'
             defaultImage={defaultWhiteImage}
           />
+        </div>
+
+        <div className='rightSectionIcon'>
+          {
+            tabletMenuOpen ?
+              <div onClick={onClickNav} >
+                <CloseIcon />
+              </div>
+              :
+              <div onClick={onClickNav} >
+                <ReorderIcon />
+              </div>
+
+          }
         </div>
       </div>
 
