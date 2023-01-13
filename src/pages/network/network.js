@@ -20,12 +20,14 @@ import ImageRole from '../../components/general/image-role'
 import EventDetail from '../../components/network/event-detail'
 
 export const TAB = {
+  CONNECTION_REQUEST: 'Connection Requests',
   MY_CONNECTIONS: 'My Connections',
   EVENT_GROUPS: 'Event Groups',
   INTEREST_GROUPS: 'Interest Groups'
 }
 
 export const NETWORK_TABS = [
+  { label: TAB.CONNECTION_REQUEST, imageUrl: UsersImage, value: 'request' },
   { label: TAB.MY_CONNECTIONS, imageUrl: UsersImage, value: '' },
   { label: TAB.EVENT_GROUPS, imageUrl: EventImage, value: 'event' },
   { label: TAB.INTEREST_GROUPS, imageUrl: HeartImage, value: 'interest' }
@@ -72,7 +74,6 @@ const Network = ({ activateTabValue, isDetailPage }) => {
   }
 
   const responseGroupHandler = (res) => {
-    console.log(res)
     if (res?.groups) {
       const event = res.groups.filter((group) => group.groupType === 'event')
       const interest = res.groups.filter(
@@ -178,6 +179,58 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                   {!isDetailPage ? (
                     <>
                       {
+                        activeTab === TAB.CONNECTION_REQUEST ? (
+                          <div>
+                            <h2 className='connectionHeading'>
+                              Connection Requests
+                            </h2>
+                            {!isEmptyArray(connections) ? (
+                              <div className='connectionCardContainer'>
+                                {!isEmptyArray(connections)
+                                  ? connections.map((conn, index) => {
+                                    return (
+                                      <div
+                                        className='connectionCard'
+                                        key={index}
+                                      >
+                                        <div className='connectionHeader'>
+                                          <div className='connectionLeft'>
+                                            <ImageRole
+                                              src={conn?.profileImage}
+                                              role={conn?.qualification}
+                                              className='connectionImage'
+                                            />
+
+                                            <div className='nameContainer'>
+                                              <h3>{conn?.name}</h3>
+                                              <span>
+                                                {conn?.qualification}
+                                              </span>
+                                            </div>
+                                          </div>
+
+                                          <div>
+                                            <StyleConnectButton
+                                              onClick={() => {
+                                                redirectToMember(conn?.id)
+                                              }}
+                                            >
+                                              Connect
+                                            </StyleConnectButton>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )
+                                  })
+                                  : null}
+                              </div>
+                            ) : (
+                              <p className='text-center mt-2'>No Connections</p>
+                            )}
+                          </div>
+                        ) : null
+                      }
+                      {
                         activeTab === TAB.MY_CONNECTIONS ? (
                           <div>
                             <h2 className='connectionHeading'>
@@ -187,40 +240,40 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                               <div className='connectionCardContainer'>
                                 {!isEmptyArray(connections)
                                   ? connections.map((conn, index) => {
-                                      return (
-                                        <div
-                                          className='connectionCard'
-                                          key={index}
-                                        >
-                                          <div className='connectionHeader'>
-                                            <div className='connectionLeft'>
-                                              <ImageRole
-                                                src={conn?.profileImage}
-                                                role={conn?.qualification}
-                                                className='connectionImage'
-                                              />
+                                    return (
+                                      <div
+                                        className='connectionCard'
+                                        key={index}
+                                      >
+                                        <div className='connectionHeader'>
+                                          <div className='connectionLeft'>
+                                            <ImageRole
+                                              src={conn?.profileImage}
+                                              role={conn?.qualification}
+                                              className='connectionImage'
+                                            />
 
-                                              <div className='nameContainer'>
-                                                <h3>{conn?.name}</h3>
-                                                <span>
-                                                  {conn?.qualification}
-                                                </span>
-                                              </div>
-                                            </div>
-
-                                            <div>
-                                              <StyleConnectButton
-                                                onClick={() => {
-                                                  redirectToMember(conn?.id)
-                                                }}
-                                              >
-                                                Connect
-                                              </StyleConnectButton>
+                                            <div className='nameContainer'>
+                                              <h3>{conn?.name}</h3>
+                                              <span>
+                                                {conn?.qualification}
+                                              </span>
                                             </div>
                                           </div>
+
+                                          <div>
+                                            <StyleConnectButton
+                                              onClick={() => {
+                                                redirectToMember(conn?.id)
+                                              }}
+                                            >
+                                              Connect
+                                            </StyleConnectButton>
+                                          </div>
                                         </div>
-                                      )
-                                    })
+                                      </div>
+                                    )
+                                  })
                                   : null}
                               </div>
                             ) : (
@@ -229,7 +282,6 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                           </div>
                         ) : null
                       }
-
                       {
                         activeTab === TAB.EVENT_GROUPS ? (
                           <>
@@ -254,7 +306,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                       </p>
 
                                       {event.openGroup &&
-                                      event.iamPartecipant === false ? (
+                                        event.iamPartecipant === false ? (
                                         <StyleJoinButton
                                           onClick={() => {
                                             handleJoinClick(event)
@@ -312,7 +364,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                       </p>
 
                                       {event.openGroup &&
-                                      event.iamPartecipant === false ? (
+                                        event.iamPartecipant === false ? (
                                         <StyleJoinButton
                                           onClick={() => {
                                             handleJoinClick(event)

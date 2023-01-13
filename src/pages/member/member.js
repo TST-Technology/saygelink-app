@@ -214,6 +214,7 @@ const Member = ({ isEdit }) => {
   // Edit Api Calls
   const responseHandler = (res) => {
     if (res?.userInfo) {
+      console.log('res?.userInfo',res?.userInfo)
       setProfile({ ...res?.userInfo })
       setProfileDetail({ ...res?.userInfo })
       setMaximumRequests(res?.userInfo?.max_chat_requests)

@@ -118,6 +118,7 @@ const Header = () => {
 
   const responseHandler = (resp) => {
     if (resp && resp?.count && resp?.connections) {
+      console.log('resp',resp)
       setPendingRequestCount(resp?.count)
       setRequestDetail(resp?.connections)
     }
@@ -179,10 +180,7 @@ const Header = () => {
             {isNotification ? <div className='notificationDot'></div> : null}
           </div>
 
-          <div
-            className='profileHeaderImageContainer width-30'
-            onClick={handleRequestClick}
-          >
+          <div className='profileHeaderImageContainer width-30' onClick={handleRequestClick}>
             <img
               src={ProfileLogo}
               className='headerImages profileHeaderImage'
