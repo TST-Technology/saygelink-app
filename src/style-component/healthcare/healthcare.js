@@ -1,7 +1,4 @@
 import styled from 'styled-components'
-import theme from '../../utils/variables'
-import cardBackgroundImage1 from '../../assets/images/cardBackground1.png'
-import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import { Button, TextAreaStyle } from '../general'
 import { DashboardHeaderHeight } from '../../utils/constants'
 
@@ -172,7 +169,7 @@ export const StyleMembersCard = styled.div`
 export const StyleConnectButton = styled.button`
   ${Button}
   margin: 0;
-  background: #fa2f66;
+  background: #1186ef;
   border-radius: 5.07534px;
   color: #f3f3f3;
   padding: 5px 10px;

@@ -120,19 +120,19 @@ export const HeaderContainerStyle = styled.div`
 
         .requestCount {
           position: absolute;
-          background: ${theme.lightTheme.black};
-          padding: 15px;
-          height: 20px;
-          width: 20px;
+          background: #f62e5f;
+          height: 18px;
+          width: 18px;
           ${FlexCenter};
-          color: #1186ef;
+          color: ${theme.lightTheme.black};
           border-radius: 50%;
-          top: -18px;
-          right: -15px;
+          right: 10px;
+          bottom: -7px;
+          font-size: 12px;
         }
       }
     }
-    .rightSectionIcon{
+    .rightSectionIcon {
       display: none;
       @media ${devices.tablet} {
         gap: 25px;

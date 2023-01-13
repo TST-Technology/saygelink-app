@@ -4,7 +4,7 @@ import {
   ConnectionRequestStyle,
   DeclineButtonStyle
 } from '../../style-component/connection-request'
-import { isEmptyArray } from '../../utils/funcs'
+import { isEmptyArray, notify } from '../../utils/funcs'
 import useHttp from '../../hooks/use-http'
 import CONSTANT from '../../utils/constants'
 import ImageRole from './image-role'
@@ -18,6 +18,9 @@ const ConnectionRequest = ({ detail, getDetail }) => {
     console.log(resp)
     if (resp) {
       getDetail()
+      notify.success(
+        'Confirmed! You can view your call in the Calendar section.'
+      )
     }
   }
 

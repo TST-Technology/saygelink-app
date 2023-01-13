@@ -34,7 +34,7 @@ import CONSTANT, {
 import ScheduleMeeting from '../../components/schedule-meeting/schedule-meeting'
 import { Menu } from '@mui/material'
 import { UserContext } from '../../context/user'
-import { getEmail, isEmptyArray } from '../../utils/funcs'
+import { getEmail, isEmptyArray, prepareURL } from '../../utils/funcs'
 import EditProfile from '../../components/edit-profile/edit-profile'
 import Dialog from '../../components/dialog/dialog'
 import AddLink from '../../components/profile/add-link'
@@ -134,7 +134,11 @@ const Member = ({ isEdit }) => {
             return (
               <div className='socialMediaLink'>
                 <div className=''>
-                  <a target='_blank' className='mediaLink' href={media.url}>
+                  <a
+                    target='_blank'
+                    className='mediaLink'
+                    href={prepareURL(media.url)}
+                  >
                     <img src={image} className='socialImage' />
                     {media.url}
                   </a>
@@ -214,7 +218,7 @@ const Member = ({ isEdit }) => {
   // Edit Api Calls
   const responseHandler = (res) => {
     if (res?.userInfo) {
-      console.log('res?.userInfo',res?.userInfo)
+      console.log('res?.userInfo', res?.userInfo)
       setProfile({ ...res?.userInfo })
       setProfileDetail({ ...res?.userInfo })
       setMaximumRequests(res?.userInfo?.max_chat_requests)

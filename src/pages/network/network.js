@@ -27,10 +27,10 @@ export const TAB = {
 }
 
 export const NETWORK_TABS = [
-  { label: TAB.CONNECTION_REQUEST, imageUrl: UsersImage, value: 'request' },
-  { label: TAB.MY_CONNECTIONS, imageUrl: UsersImage, value: '' },
   { label: TAB.EVENT_GROUPS, imageUrl: EventImage, value: 'event' },
-  { label: TAB.INTEREST_GROUPS, imageUrl: HeartImage, value: 'interest' }
+  { label: TAB.INTEREST_GROUPS, imageUrl: HeartImage, value: 'interest' },
+  { label: TAB.CONNECTION_REQUEST, imageUrl: UsersImage, value: 'request' },
+  { label: TAB.MY_CONNECTIONS, imageUrl: UsersImage, value: '' }
 ]
 
 const Network = ({ activateTabValue, isDetailPage }) => {
@@ -42,7 +42,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
   const { groupId } = useParams()
 
   const [activeTab, setActiveTab] = useState(
-    activateTabValue || TAB.MY_CONNECTIONS
+    activateTabValue || TAB.EVENT_GROUPS
   )
   const joinApi = useHttp()
   const [joinEventConfirmation, setJoinEventConfirmation] = useState(false)
@@ -178,16 +178,15 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                 <>
                   {!isDetailPage ? (
                     <>
-                      {
-                        activeTab === TAB.CONNECTION_REQUEST ? (
-                          <div>
-                            <h2 className='connectionHeading'>
-                              Connection Requests
-                            </h2>
-                            {!isEmptyArray(connections) ? (
-                              <div className='connectionCardContainer'>
-                                {!isEmptyArray(connections)
-                                  ? connections.map((conn, index) => {
+                      {activeTab === TAB.CONNECTION_REQUEST ? (
+                        <div>
+                          <h2 className='connectionHeading'>
+                            Connection Requests
+                          </h2>
+                          {!isEmptyArray(connections) ? (
+                            <div className='connectionCardContainer'>
+                              {!isEmptyArray(connections)
+                                ? connections.map((conn, index) => {
                                     return (
                                       <div
                                         className='connectionCard'
@@ -203,9 +202,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
 
                                             <div className='nameContainer'>
                                               <h3>{conn?.name}</h3>
-                                              <span>
-                                                {conn?.qualification}
-                                              </span>
+                                              <span>{conn?.qualification}</span>
                                             </div>
                                           </div>
 
@@ -222,14 +219,13 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                       </div>
                                     )
                                   })
-                                  : null}
-                              </div>
-                            ) : (
-                              <p className='text-center mt-2'>No Connections</p>
-                            )}
-                          </div>
-                        ) : null
-                      }
+                                : null}
+                            </div>
+                          ) : (
+                            <p className='text-center mt-2'>No Connections</p>
+                          )}
+                        </div>
+                      ) : null}
                       {
                         activeTab === TAB.MY_CONNECTIONS ? (
                           <div>
@@ -240,40 +236,40 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                               <div className='connectionCardContainer'>
                                 {!isEmptyArray(connections)
                                   ? connections.map((conn, index) => {
-                                    return (
-                                      <div
-                                        className='connectionCard'
-                                        key={index}
-                                      >
-                                        <div className='connectionHeader'>
-                                          <div className='connectionLeft'>
-                                            <ImageRole
-                                              src={conn?.profileImage}
-                                              role={conn?.qualification}
-                                              className='connectionImage'
-                                            />
+                                      return (
+                                        <div
+                                          className='connectionCard'
+                                          key={index}
+                                        >
+                                          <div className='connectionHeader'>
+                                            <div className='connectionLeft'>
+                                              <ImageRole
+                                                src={conn?.profileImage}
+                                                role={conn?.qualification}
+                                                className='connectionImage'
+                                              />
 
-                                            <div className='nameContainer'>
-                                              <h3>{conn?.name}</h3>
-                                              <span>
-                                                {conn?.qualification}
-                                              </span>
+                                              <div className='nameContainer'>
+                                                <h3>{conn?.name}</h3>
+                                                <span>
+                                                  {conn?.qualification}
+                                                </span>
+                                              </div>
+                                            </div>
+
+                                            <div>
+                                              <StyleConnectButton
+                                                onClick={() => {
+                                                  redirectToMember(conn?.id)
+                                                }}
+                                              >
+                                                Connect
+                                              </StyleConnectButton>
                                             </div>
                                           </div>
-
-                                          <div>
-                                            <StyleConnectButton
-                                              onClick={() => {
-                                                redirectToMember(conn?.id)
-                                              }}
-                                            >
-                                              Connect
-                                            </StyleConnectButton>
-                                          </div>
                                         </div>
-                                      </div>
-                                    )
-                                  })
+                                      )
+                                    })
                                   : null}
                               </div>
                             ) : (
@@ -306,7 +302,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                       </p>
 
                                       {event.openGroup &&
-                                        event.iamPartecipant === false ? (
+                                      event.iamPartecipant === false ? (
                                         <StyleJoinButton
                                           onClick={() => {
                                             handleJoinClick(event)
@@ -338,64 +334,58 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                           </>
                         ) : null
                       }
-                      {
-                        activeTab === TAB.INTEREST_GROUPS ? (
-                          <>
-                            <h2 className='connectionHeading'>
-                              Interest Groups
-                            </h2>
+                      {activeTab === TAB.INTEREST_GROUPS ? (
+                        <>
+                          <h2 className='connectionHeading'>Interest Groups</h2>
 
-                            <div className='eventCardContainer'>
-                              {!isEmptyArray(interests) ? (
-                                interests.map((event, index) => {
-                                  return (
-                                    <div className='eventCard' key={event._id}>
-                                      <img
-                                        className='eventImage'
-                                        src={
-                                          event?.image
-                                            ? event?.image
-                                            : cardBackgroundImage3
-                                        }
-                                      />
+                          <div className='eventCardContainer'>
+                            {!isEmptyArray(interests) ? (
+                              interests.map((event, index) => {
+                                return (
+                                  <div className='eventCard' key={event._id}>
+                                    <img
+                                      className='eventImage'
+                                      src={
+                                        event?.image
+                                          ? event?.image
+                                          : cardBackgroundImage3
+                                      }
+                                    />
 
-                                      <p className='eventHeading'>
-                                        {event?.title}
-                                      </p>
+                                    <p className='eventHeading'>
+                                      {event?.title}
+                                    </p>
 
-                                      {event.openGroup &&
-                                        event.iamPartecipant === false ? (
-                                        <StyleJoinButton
-                                          onClick={() => {
-                                            handleJoinClick(event)
-                                          }}
-                                          disabled={joinApi.isLoading}
-                                        >
-                                          {joinApi.isLoading
-                                            ? 'Joining'
-                                            : 'Join'}
-                                        </StyleJoinButton>
-                                      ) : (
-                                        <StyleJoinButton
-                                          onClick={() => {
-                                            onEventDetailClick(event?._id)
-                                          }}
-                                        >
-                                          Visit
-                                        </StyleJoinButton>
-                                      )}
-                                    </div>
-                                  )
-                                })
-                              ) : (
-                                <p className='text-center mt-3'>
-                                  No interest available.
-                                </p>
-                              )}
-                            </div>
-                          </>
-                        ) : null
-                      }
+                                    {event.openGroup &&
+                                    event.iamPartecipant === false ? (
+                                      <StyleJoinButton
+                                        onClick={() => {
+                                          handleJoinClick(event)
+                                        }}
+                                        disabled={joinApi.isLoading}
+                                      >
+                                        {joinApi.isLoading ? 'Joining' : 'Join'}
+                                      </StyleJoinButton>
+                                    ) : (
+                                      <StyleJoinButton
+                                        onClick={() => {
+                                          onEventDetailClick(event?._id)
+                                        }}
+                                      >
+                                        Visit
+                                      </StyleJoinButton>
+                                    )}
+                                  </div>
+                                )
+                              })
+                            ) : (
+                              <p className='text-center mt-3'>
+                                No interest available.
+                              </p>
+                            )}
+                          </div>
+                        </>
+                      ) : null}
                     </>
                   ) : (
                     <EventDetail eventDetail={eventDetail} />

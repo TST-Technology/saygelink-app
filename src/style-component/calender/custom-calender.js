@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import theme from '../../utils/variables'
 import Calendar from 'react-calendar'
 import { devices } from '../../utils/constants'
+import { FlexCenter } from '../general'
 
 export const ReactCalenderStyle = styled(Calendar)`
   padding: 15px;
@@ -82,14 +83,27 @@ export const ReactCalenderStyle = styled(Calendar)`
         font-size: 12px;
         line-height: 14px;
         color: ${theme.lightTheme.white};
+        height: 25px;
+        width: 25px;
+        padding: 3px;
 
         abbr {
           height: 25px;
+          display: block;
+          ${FlexCenter};
+          padding: 3px;
           width: 25px;
+          border-radius: 50%;
         }
       }
 
+      .react-calendar__tile {
+        padding: 0;
+      }
+
       .react-calender__tile {
+        padding: 0;
+
         abbr {
           font-family: 'Lato';
           font-style: normal;
@@ -104,7 +118,7 @@ export const ReactCalenderStyle = styled(Calendar)`
 
         abbr {
           background: ${theme.lightTheme.quillGrey};
-          padding: 8px;
+          /* padding: 8px; */
           border-radius: 50%;
 
           @media ${devices.laptop} {
@@ -118,12 +132,12 @@ export const ReactCalenderStyle = styled(Calendar)`
 
         abbr {
           background: ${theme.lightTheme.primary.color};
-          padding: 8px;
+          /* padding: 8px; */
           border-radius: 50%;
 
-          @media ${devices.laptop} {
+          /* @media ${devices.laptop} {
             padding: 5px;
-          }
+          } */
         }
       }
 
@@ -133,12 +147,12 @@ export const ReactCalenderStyle = styled(Calendar)`
         abbr {
           color: ${theme.lightTheme.black};
           background: ${theme.lightTheme.darkSkyBlue};
-          padding: 8px;
+          /* padding: 8px; */
           border-radius: 50%;
 
-          @media ${devices.laptop} {
+          /* @media ${devices.laptop} {
             padding: 5px;
-          }
+          } */
         }
       }
 

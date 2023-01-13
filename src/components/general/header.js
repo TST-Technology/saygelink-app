@@ -92,7 +92,7 @@ const Header = () => {
     {
       label: 'Network',
       icon: GlobLogo,
-      route: ROUTES.NETWORK
+      route: ROUTES.NETWORK_EVENT
     }
   ]
 
@@ -118,7 +118,7 @@ const Header = () => {
 
   const responseHandler = (resp) => {
     if (resp && resp?.count && resp?.connections) {
-      console.log('resp',resp)
+      console.log('resp', resp)
       setPendingRequestCount(resp?.count)
       setRequestDetail(resp?.connections)
     }
@@ -145,23 +145,26 @@ const Header = () => {
             handleLogoClick()
           }}
         >
-          {
-            tabletMenuOpen ? null :
-              <>
-                <img src={shortLogo} />
-                <p>Sayge Link</p>
-              </>
-          }
-
+          {tabletMenuOpen ? null : (
+            <>
+              <img src={shortLogo} />
+              <p>Sayge Link</p>
+            </>
+          )}
         </div>
 
-        <div className={(screenWidth > 768 || tabletMenuOpen ? 'rightSection' : 'd-none')}>
+        <div
+          className={
+            screenWidth > 768 || tabletMenuOpen ? 'rightSection' : 'd-none'
+          }
+        >
           {HEADER_TABS.map((tab, index) => {
             return (
               <div
                 key={tab.label}
-                className={`headerTab ${activeTab === tab.route ? 'activeHeader' : ''
-                  }`}
+                className={`headerTab ${
+                  activeTab === tab.route ? 'activeHeader' : ''
+                }`}
                 onClick={() => {
                   handleHeaderClick(tab)
                 }}
@@ -180,12 +183,15 @@ const Header = () => {
             {isNotification ? <div className='notificationDot'></div> : null}
           </div>
 
-          <div className='profileHeaderImageContainer width-30' onClick={handleRequestClick}>
+          <div
+            className='profileHeaderImageContainer width-30'
+            onClick={handleRequestClick}
+          >
             <img
               src={ProfileLogo}
               className='headerImages profileHeaderImage'
             />
-            {!isEmptyArray(pendingRequestCount) ? (
+            {pendingRequestCount ? (
               <div className='requestCount'>{pendingRequestCount}</div>
             ) : null}
           </div>
@@ -205,17 +211,15 @@ const Header = () => {
         </div>
 
         <div className='rightSectionIcon'>
-          {
-            tabletMenuOpen ?
-              <div onClick={onClickNav} >
-                <CloseIcon />
-              </div>
-              :
-              <div onClick={onClickNav} >
-                <ReorderIcon />
-              </div>
-
-          }
+          {tabletMenuOpen ? (
+            <div onClick={onClickNav}>
+              <CloseIcon />
+            </div>
+          ) : (
+            <div onClick={onClickNav}>
+              <ReorderIcon />
+            </div>
+          )}
         </div>
       </div>
 

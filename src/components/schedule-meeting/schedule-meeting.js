@@ -66,7 +66,7 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
         payload,
         type === 'reschedule'
           ? 'Meeting rescheduled successfully!'
-          : 'Meeting scheduled successfully!'
+          : 'Call request sent!'
       )
     }
   }
