@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import { DashboardHeaderHeight, devices } from '../../utils/constants'
-import { Button } from '../general'
+import styled from "styled-components";
+import { DashboardHeaderHeight, devices } from "../../utils/constants";
+import { Button } from "../general";
 
 export const StyleNetworkContainer = styled.div`
   height: calc(100vh - ${DashboardHeaderHeight});
@@ -33,7 +33,7 @@ export const StyleNetworkContainer = styled.div`
       width: calc(100vw - 300px);
 
       @media ${devices.tablet} {
-        width: 100%
+        width: 100%;
       }
 
       .connectionContainer {
@@ -47,7 +47,7 @@ export const StyleNetworkContainer = styled.div`
         overflow-y: auto;
 
         .connectionHeading {
-          font-family: 'Poppins';
+          font-family: "Poppins";
           font-style: normal;
           font-weight: 600;
           font-size: 16px;
@@ -87,7 +87,7 @@ export const StyleNetworkContainer = styled.div`
                   flex-direction: column;
 
                   h3 {
-                    font-family: 'Poppins';
+                    font-family: "Poppins";
                     font-style: normal;
                     font-weight: 600;
                     font-size: 15px;
@@ -96,7 +96,7 @@ export const StyleNetworkContainer = styled.div`
                   }
 
                   span {
-                    font-family: 'Poppins';
+                    font-family: "Poppins";
                     font-style: normal;
                     font-weight: 400;
                     font-size: 10px;
@@ -109,7 +109,7 @@ export const StyleNetworkContainer = styled.div`
             }
 
             .connectionDescription {
-              font-family: 'Poppins';
+              font-family: "Poppins";
               font-style: normal;
               font-weight: 400;
               font-size: 12px;
@@ -130,17 +130,20 @@ export const StyleNetworkContainer = styled.div`
             background: #ffffff;
             border: 1px solid #d4d4d4;
             border-radius: 6.96585px;
-            padding: 15px;
 
             .eventHeading {
-              font-family: 'Poppins';
+              font-family: "Poppins";
               font-style: normal;
               font-weight: 600;
               font-size: 18px;
               line-height: 27px;
-              color: #5c5353;
+              color: #ffffff;
               margin-top: 8px;
               white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              width: 90%;
               overflow: hidden;
               text-overflow: ellipsis;
             }
@@ -156,14 +159,14 @@ export const StyleNetworkContainer = styled.div`
       }
     }
   }
-`
+`;
 
 export const StyleConnectButton = styled.button`
   ${Button}
   margin: 0;
   color: #f3f3f3;
   padding: 5px 25px;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   font-size: 10.1507px;
@@ -172,14 +175,14 @@ export const StyleConnectButton = styled.button`
   background: #1186ef;
   border: 0.833333px solid #1186ef;
   border-radius: 5px;
-`
+`;
 
 export const StyleJoinButton = styled.button`
   ${Button}
-  width: 100%;
+  width: 50%;
   margin: 0;
   box-shadow: none;
   border: 1.16098px solid #abe9dc;
   border-radius: 7px;
   color: #5c5353;
-`
+`;

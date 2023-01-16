@@ -1,6 +1,7 @@
-import styled from 'styled-components'
-import { devices } from '../../utils/constants'
-import { Button, FlexAlignCenter, FlexJustifySpaceBetween } from '../general'
+import styled from "styled-components";
+import { devices } from "../../utils/constants";
+import { Button, FlexAlignCenter, FlexJustifySpaceBetween } from "../general";
+import cardBackgroundImage2 from "../../assets/images/cardBackground2.png";
 
 export const EventDetailStyle = styled.div`
   .eventImage {
@@ -16,7 +17,7 @@ export const EventDetailStyle = styled.div`
     gap: 20px;
 
     .eventTitle {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 600;
       font-size: 25px;
@@ -26,7 +27,7 @@ export const EventDetailStyle = styled.div`
     }
 
     .memberCount {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
@@ -44,7 +45,7 @@ export const EventDetailStyle = styled.div`
     gap: 20px;
 
     @media ${devices.tablet} {
-     flex-direction: column-reverse;
+      flex-direction: column-reverse;
     }
 
     .eventDetailPostContainer {
@@ -53,14 +54,14 @@ export const EventDetailStyle = styled.div`
 
       @media ${devices.tablet} {
         width: 100%;
-        border-right:none;
+        border-right: none;
       }
     }
 
     .eventParticipantsDetail {
       width: 30%;
       @media ${devices.tablet} {
-          width: 100%;
+        width: 100%;
       }
 
       .participantsLisContainer {
@@ -101,7 +102,7 @@ export const EventDetailStyle = styled.div`
           }
 
           .participantName {
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 600;
             font-size: 20px;
@@ -113,7 +114,7 @@ export const EventDetailStyle = styled.div`
           }
 
           .participantExperience {
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 400;
             font-size: 12px;
@@ -124,7 +125,7 @@ export const EventDetailStyle = styled.div`
       }
     }
   }
-`
+`;
 
 export const StyleViewButton = styled.button`
   ${Button}
@@ -135,4 +136,19 @@ export const StyleViewButton = styled.button`
   background: #1186ef;
   border-radius: 9px;
   color: #ffffff;
-`
+`;
+
+export const EventCardMain = styled.div`
+  background: 
+    /* top, transparent red, faked with gradient */ linear-gradient(
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.45)
+    ),
+    url("${(props) => (props.image ? props.image : cardBackgroundImage2)}");
+  background-repeat: no-repeat;
+  object-fit: cover;
+  background-size: cover;
+  padding: 20px;
+  border-radius: 8px;
+  background-position: center;
+`;
