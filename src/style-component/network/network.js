@@ -130,6 +130,7 @@ export const StyleNetworkContainer = styled.div`
             background: #ffffff;
             border: 1px solid #d4d4d4;
             border-radius: 6.96585px;
+            height: 180px;
 
             .eventHeading {
               font-family: "Poppins";

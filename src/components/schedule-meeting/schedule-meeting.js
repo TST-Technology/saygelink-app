@@ -110,7 +110,7 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
       if (e.target[`option${no}date`].value) {
         const date = dateFormat(
           e.target[`option${no}date`].value,
-          DATE_FORMAT.FORMAT_4
+          DATE_FORMAT.FORMAT_7
         );
         tempDate.push(date);
       }
@@ -126,6 +126,8 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
     });
 
     newPayload.times = tempTime;
+
+    console.log("newPayload", JSON.stringify(newPayload));
     return newPayload;
   };
 

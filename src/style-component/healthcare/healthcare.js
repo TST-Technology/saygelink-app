@@ -55,9 +55,15 @@ export const StyleMembersCardContainer = styled.div`
   margin-top: 5px;
   display: flex;
   gap: 20px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  // overflow-x: auto;
+  overflow: hidden;
   padding: 20px 0;
+`;
+
+export const ScrollArrowButton = styled.button`
+  border-radius: 35px;
+  padding: 8px 10px;
+  margin: 0 5px;
 `;
 
 export const StyleMembersCard = styled.div`

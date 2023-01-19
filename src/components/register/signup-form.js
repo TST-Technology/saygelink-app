@@ -26,14 +26,14 @@ const SignUpForm = () => {
   const navigate = useNavigate();
 
   const responseHandler = (res) => {
-console.log('object',res);
+    console.log("object", res);
     if (res?.success === true) {
       UserProfile.userDetails["user"] = res?.user;
       UserProfile.userDetails["token"] = res?.token;
       UserProfile.userDetails["email"] = userInviteEmail.userData?.email;
       localStorage.setItem("authToken", res?.token);
-      localStorage.setItem('email', res?.user?.email)
-      navigate(`/welcome`);
+      localStorage.setItem("email", res?.user?.email);
+      window.location.assign("/welcome");
     }
   };
 

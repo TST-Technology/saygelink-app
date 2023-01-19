@@ -25,6 +25,7 @@ import {
   ConnectionRequestStyle,
 } from "../../style-component/connection-request";
 import { EventCardMain } from "../../style-component/network/event-detail";
+import { Tooltip } from "@mui/material";
 
 export const TAB = {
   CONNECTION_REQUEST: "Connection Requests",
@@ -363,18 +364,32 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                       ) : null}
                       {activeTab === TAB.EVENT_GROUPS ? (
                         <>
-                          <h2 className="connectionHeading">Event Groups</h2>
+                          <h2 className="connectionHeading"></h2>
 
                           <div className="eventCardContainer">
                             {!isEmptyArray(events) ? (
                               events.map((event, index) => {
                                 return (
-                                  <div className="eventCard" key={event._id}>
+                                  <div
+                                    className="eventCard"
+                                    key={event._id}
+                                    onClick={() => {
+                                      event.openGroup &&
+                                      event.iamPartecipant === false
+                                        ? handleJoinClick(event)
+                                        : onEventDetailClick(event?._id);
+                                    }}
+                                  >
                                     <EventCardMain image={event?.image}>
-                                      <div className="d-flex flex-column align-items-center p-3">
-                                        <p className="eventHeading">
-                                          {event?.title}
-                                        </p>
+                                      <div className="d-flex flex-column align-items-center p-3 h-100 justify-content-center">
+                                        <Tooltip
+                                          title={event?.title}
+                                          placement="top"
+                                        >
+                                          <p className="eventHeading text-center">
+                                            {event?.title}
+                                          </p>
+                                        </Tooltip>
                                         {event.openGroup &&
                                         event.iamPartecipant === false ? (
                                           <StyleJoinButton
@@ -388,25 +403,18 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                               : "Join"}
                                           </StyleJoinButton>
                                         ) : (
-                                          <StyleJoinButton
-                                            onClick={() => {
-                                              onEventDetailClick(event?._id);
-                                            }}
-                                          >
-                                            Visit
-                                          </StyleJoinButton>
+                                          <>
+                                            {/* <StyleJoinButton
+                                              onClick={() => {
+                                                onEventDetailClick(event?._id);
+                                              }}
+                                            >
+                                              Visit
+                                            </StyleJoinButton> */}
+                                          </>
                                         )}
                                       </div>
                                     </EventCardMain>
-
-                                    {/* <img
-                                      className="eventImage"
-                                      src={
-                                        event?.image
-                                          ? event?.image
-                                          : cardBackgroundImage2
-                                      }
-                                    /> */}
                                   </div>
                                 );
                               })
@@ -426,39 +434,51 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                             {!isEmptyArray(interests) ? (
                               interests.map((event, index) => {
                                 return (
-                                  <div className="eventCard" key={event._id}>
-                                    <img
-                                      className="eventImage"
-                                      src={
-                                        event?.image
-                                          ? event?.image
-                                          : cardBackgroundImage3
-                                      }
-                                    />
-
-                                    <p className="eventHeading">
-                                      {event?.title}
-                                    </p>
-
-                                    {event.openGroup &&
-                                    event.iamPartecipant === false ? (
-                                      <StyleJoinButton
-                                        onClick={() => {
-                                          handleJoinClick(event);
-                                        }}
-                                        disabled={joinApi.isLoading}
-                                      >
-                                        {joinApi.isLoading ? "Joining" : "Join"}
-                                      </StyleJoinButton>
-                                    ) : (
-                                      <StyleJoinButton
-                                        onClick={() => {
-                                          onEventDetailClick(event?._id);
-                                        }}
-                                      >
-                                        Visit
-                                      </StyleJoinButton>
-                                    )}
+                                  <div
+                                    className="eventCard"
+                                    key={event._id}
+                                    onClick={() => {
+                                      event.openGroup &&
+                                      event.iamPartecipant === false
+                                        ? handleJoinClick(event)
+                                        : onEventDetailClick(event?._id);
+                                    }}
+                                  >
+                                    <EventCardMain image={event?.image}>
+                                      <div className="d-flex flex-column align-items-center p-3 h-100 justify-content-center">
+                                        <Tooltip
+                                          title={event?.title}
+                                          placement="top"
+                                        >
+                                          <p className="eventHeading text-center">
+                                            {event?.title}
+                                          </p>
+                                        </Tooltip>
+                                        {event.openGroup &&
+                                        event.iamPartecipant === false ? (
+                                          <StyleJoinButton
+                                            onClick={() => {
+                                              handleJoinClick(event);
+                                            }}
+                                            disabled={joinApi.isLoading}
+                                          >
+                                            {joinApi.isLoading
+                                              ? "Joining"
+                                              : "Join"}
+                                          </StyleJoinButton>
+                                        ) : (
+                                          <>
+                                            {/* <StyleJoinButton
+                                            onClick={() => {
+                                              onEventDetailClick(event?._id);
+                                            }}
+                                          >
+                                            Visit
+                                          </StyleJoinButton> */}
+                                          </>
+                                        )}
+                                      </div>
+                                    </EventCardMain>
                                   </div>
                                 );
                               })

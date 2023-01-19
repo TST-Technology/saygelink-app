@@ -60,6 +60,17 @@ export const EventDetailStyle = styled.div`
 
     .eventParticipantsDetail {
       width: 30%;
+
+      .eventAllText {
+        text-decoration: none;
+        color: #f62e5f;
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 17px;
+        line-height: 16px;
+      }
+
       @media ${devices.tablet} {
         width: 100%;
       }
@@ -151,4 +162,6 @@ export const EventCardMain = styled.div`
   padding: 20px;
   border-radius: 8px;
   background-position: center;
+  cursor: pointer;
+  height: 100%;
 `;
