@@ -1,8 +1,8 @@
-import styled from 'styled-components'
-import theme from '../../utils/variables'
-import Calendar from 'react-calendar'
-import { devices } from '../../utils/constants'
-import { FlexCenter } from '../general'
+import styled from "styled-components";
+import theme from "../../utils/variables";
+import Calendar from "react-calendar";
+import { devices } from "../../utils/constants";
+import { FlexCenter } from "../general";
 
 export const ReactCalenderStyle = styled(Calendar)`
   padding: 15px;
@@ -41,7 +41,7 @@ export const ReactCalenderStyle = styled(Calendar)`
   .react-calendar__navigation__label {
     order: 0;
     flex-grow: 0 !important;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
@@ -64,7 +64,7 @@ export const ReactCalenderStyle = styled(Calendar)`
 
     abbr[title] {
       text-decoration: none;
-      font-family: 'Lato';
+      font-family: "Lato";
       font-style: normal;
       font-weight: 500;
       font-size: 8px;
@@ -77,7 +77,7 @@ export const ReactCalenderStyle = styled(Calendar)`
     .react-calendar__month-view {
       .react-calendar__month-view__days__day,
       .react-calendar__month-view__days__day--weekend {
-        font-family: 'Lato';
+        font-family: "Lato";
         font-style: normal;
         font-weight: 500;
         font-size: 12px;
@@ -86,6 +86,7 @@ export const ReactCalenderStyle = styled(Calendar)`
         height: 25px;
         width: 25px;
         padding: 3px;
+        background-color: transparent;
 
         abbr {
           height: 25px;
@@ -94,6 +95,27 @@ export const ReactCalenderStyle = styled(Calendar)`
           padding: 3px;
           width: 25px;
           border-radius: 50%;
+        }
+      }
+      .react-calendar__tile--hasActive {
+        font-family: "Lato";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 14px;
+        color: ${theme.lightTheme.white};
+        height: 25px;
+        width: 25px;
+        padding: 3px;
+        background-color: transparent;
+        abbr {
+          height: 25px;
+          display: block;
+          ${FlexCenter};
+          padding: 3px;
+          width: 25px;
+          border-radius: 50%;
+          background-color: ${theme.lightTheme.primary.color};
         }
       }
 
@@ -105,7 +127,7 @@ export const ReactCalenderStyle = styled(Calendar)`
         padding: 0;
 
         abbr {
-          font-family: 'Lato';
+          font-family: "Lato";
           font-style: normal;
           font-weight: 500;
           font-size: 12px;
@@ -168,4 +190,4 @@ export const ReactCalenderStyle = styled(Calendar)`
     }
   }
   // End:: Calender Body Style
-`
+`;

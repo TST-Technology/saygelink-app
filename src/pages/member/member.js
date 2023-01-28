@@ -44,6 +44,7 @@ import { StyleSingleItem } from "../../style-component/profile/profile";
 
 const Member = ({ isEdit }) => {
   console.log(isEdit);
+
   const nav = useNavigate();
   const api = useHttp();
   const messageApi = useHttp();
@@ -80,16 +81,17 @@ const Member = ({ isEdit }) => {
     useState(false);
 
   useEffect(() => {
+    debugger;
     if (email && isEdit) {
       getProfile();
     }
-  }, []);
+  }, [isEdit]);
 
   useEffect(() => {
     if (!isEdit && memberId) {
       getMemberDetail();
     }
-  }, [memberId]);
+  }, [memberId, isEdit]);
 
   const handleMemberResponse = (resp) => {
     if (resp && resp?.userInfo) {

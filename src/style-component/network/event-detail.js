@@ -76,7 +76,7 @@ export const EventDetailStyle = styled.div`
       }
 
       .participantsLisContainer {
-        padding-right: 20px;
+        // padding-right: 20px;
 
         @media ${devices.tablet} {
           display: flex;

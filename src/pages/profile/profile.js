@@ -92,12 +92,14 @@ const Profile = () => {
   const [updatePasswordDialog, setUpdatePasswordDialog] = useState(false);
 
   useEffect(() => {
+    debugger;
     if (email) {
       getProfile();
     }
   }, []);
 
   const responseHandler = (res) => {
+    console.log("profile", res);
     if (res?.userInfo) {
       setProfile({ ...res?.userInfo });
       setProfileDetail({ ...res?.userInfo });

@@ -232,6 +232,7 @@ const Header = () => {
             boxShadow: "none",
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            width: 500,
             mt: 2.5,
             "&:before": {
               content: '""',

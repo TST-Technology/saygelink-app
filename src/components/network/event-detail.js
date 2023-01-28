@@ -225,12 +225,11 @@ const EventDetail = ({ eventDetail }) => {
               </StyleFeedContainer>
             </div>
             <div className="eventParticipantsDetail align-items-end">
-              <div className="d-flex w-100">
-                <h3 className="eventTitle">Connect with other members</h3>
-                <Link
-                  to={"/event/" + groupId}
-                  className="w-25 align-items-end eventAllText"
-                >
+              <div className="w-100">
+                <h5 className="eventTitle">Connect with other members</h5>
+              </div>
+              <div className="d-flex text-align-end justify-content-end mt-3">
+                <Link to={"/event/" + groupId} className="eventAllText">
                   See All
                 </Link>
               </div>

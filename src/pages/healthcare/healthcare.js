@@ -304,7 +304,6 @@ const Healthcare = () => {
                   </span>
                 </div>
                 <div>
-                  {console.log("allMembers", allMembers)}
                   {allMembers.length > 5 ? (
                     <div class="button-contianer">
                       <ScrollArrowButton
