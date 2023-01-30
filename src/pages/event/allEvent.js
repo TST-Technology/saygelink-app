@@ -10,10 +10,11 @@ import { EventAllContainer } from "../../style-component/network/event-all";
 import { StyleConnectButton } from "../../style-component/network/network";
 import CONSTANT, { DashboardHeaderHeight, ROUTES } from "../../utils/constants";
 import Loader from "../../components/general/loader";
+import { Alert, Input, InputGroup, InputGroupText } from "reactstrap";
+import SearchIcon from "@mui/icons-material/Search";
 
 const AllEventList = () => {
-  const [eventDetail, setEventDetail] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [eventDetail, setEventDetail] = useState({});
   const { groupId } = useParams();
   const api = useHttp();
   const nav = useNavigate();
@@ -26,7 +27,6 @@ const AllEventList = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     const url = {
       ...CONSTANT.API.getGroupDetails,
       endpoint: CONSTANT.API.getGroupDetails.endpoint.replace(
@@ -35,7 +35,6 @@ const AllEventList = () => {
       ),
     };
     api.sendRequest(url, handleGroupDetailResponse);
-    setIsLoading(false);
   }, []);
 
   const redirectToMember = (memberId) => {
@@ -43,69 +42,80 @@ const AllEventList = () => {
       nav(ROUTES.MEMBER.replace(":memberId", memberId));
     }
   };
+  let filterData = [];
 
+  filterData = eventDetail?.participantsInfo
+    ? eventDetail?.participantsInfo.filter((data) => {
+        if (search != null && search.length > 0) {
+          return data?.name.toLowerCase().includes(search.toLowerCase());
+        } else {
+          return data;
+        }
+      })
+    : [];
   return (
     <>
       <Header />
-      {isLoading ? (
+      {api.isLoading ? (
         <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
       ) : (
         <EventAllContainer>
           <div className="row">
             <div className="col-4 d-block">
-              <input
-                type="text"
-                name="search"
-                className="form-control"
-                placeholder="Search"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                  setSearch(e.target.value);
-                }}
-              />
+              <InputGroup>
+                <InputGroupText>
+                  <SearchIcon />
+                </InputGroupText>
+                <Input
+                  type="text"
+                  name="search"
+                  className="form-control"
+                  placeholder="Search"
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                />
+              </InputGroup>
             </div>
           </div>
           <div className="row">
-            {eventDetail?.participantsInfo
-              .filter((data) =>
-                search != null && search.length > 0
-                  ? data?.name.toLowerCase().includes(search.toLowerCase())
-                  : data
-              )
-              .map((conn) => {
-                return (
-                  <div className="connectionCard col-12 col-sm-6 col-md-4 p-3">
-                    <div className="connectionHeader d-flex justify-content-between bg-white p-3">
-                      <div className="connectionLeft d-flex">
-                        <ImageRole
-                          src={conn?.profile_image}
-                          role={conn?.qualification}
-                          className="connectionImage"
-                          height="50px"
-                          width="50px"
-                          radius="25px"
-                        />
+            {filterData.map((conn) => {
+              return (
+                <div className="connectionCard col-12 col-sm-6 col-md-4 p-3">
+                  <div className="connectionHeader d-flex justify-content-between bg-white p-3">
+                    <div className="connectionLeft d-flex">
+                      <ImageRole
+                        src={conn?.profile_image}
+                        role={conn?.qualification}
+                        className="connectionImage"
+                        height="50px"
+                        width="50px"
+                        radius="25px"
+                      />
 
-                        <div className="nameContainer ps-3">
-                          <h5>{conn?.name}</h5>
-                          <span>{conn?.qualification}</span>
-                        </div>
-                      </div>
-
-                      <div>
-                        <StyleConnectButton
-                          onClick={() => {
-                            redirectToMember(conn?.id);
-                          }}
-                        >
-                          Connect
-                        </StyleConnectButton>
+                      <div className="nameContainer ps-3">
+                        <h5>{conn?.name}</h5>
+                        <span>{conn?.qualification}</span>
                       </div>
                     </div>
+
+                    <div>
+                      <StyleConnectButton
+                        onClick={() => {
+                          redirectToMember(conn?.id);
+                        }}
+                      >
+                        Connect
+                      </StyleConnectButton>
+                    </div>
                   </div>
-                );
-              })}
+                </div>
+              );
+            })}
           </div>
+          {filterData.length === 0 && !api.isLoading && (
+            <Alert color="danger text-center mt-5">Data Not Found!</Alert>
+          )}
         </EventAllContainer>
       )}
     </>
