@@ -24,6 +24,7 @@ import GalleryImage from "../../assets/images/gallery.svg";
 import useHttp from "../../hooks/use-http";
 import Loader from "../general/loader";
 import { UserContext } from "../../context/user";
+import PersonImg from "../../assets/images/personCircleBlack.svg";
 
 const EventDetail = ({ eventDetail }) => {
   const postApi = useHttp();
@@ -168,7 +169,11 @@ const EventDetail = ({ eventDetail }) => {
                 />
 
                 <img
-                  src={profileDetail?.profile_image}
+                  src={
+                    profileDetail?.profile_image
+                      ? profileDetail?.profile_image
+                      : PersonImg
+                  }
                   className="postPreviewImage"
                 />
 
@@ -213,7 +218,11 @@ const EventDetail = ({ eventDetail }) => {
                               : ""
                           }
                           description={post?.content}
-                          image={ColumbiaImage}
+                          image={
+                            post?.author?.profile_image
+                              ? post?.author?.profile_image
+                              : PersonImg
+                          }
                           postImage={post?.image}
                         />
                       );

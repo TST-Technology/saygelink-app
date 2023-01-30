@@ -17,9 +17,9 @@ const AllEventList = () => {
   const { groupId } = useParams();
   const api = useHttp();
   const nav = useNavigate();
+  const [search, setSearch] = useState(null);
 
   const handleGroupDetailResponse = (resp) => {
-    console.log(resp?.groupInfo);
     if (resp && resp?.groupInfo) {
       setEventDetail(resp.groupInfo);
     }
@@ -52,39 +52,59 @@ const AllEventList = () => {
       ) : (
         <EventAllContainer>
           <div className="row">
-            {eventDetail?.participantsInfo.map((conn) => {
-              return (
-                <div className="connectionCard col-12 col-sm-6 col-md-4 p-3">
-                  <div className="connectionHeader d-flex justify-content-between bg-white p-3">
-                    <div className="connectionLeft d-flex">
-                      <ImageRole
-                        src={conn?.profile_image}
-                        role={conn?.qualification}
-                        className="connectionImage"
-                        height="50px"
-                        width="50px"
-                        radius="25px"
-                      />
+            <div className="col-4 d-block">
+              <input
+                type="text"
+                name="search"
+                className="form-control"
+                placeholder="Search"
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setSearch(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+          <div className="row">
+            {eventDetail?.participantsInfo
+              .filter((data) =>
+                search != null && search.length > 0
+                  ? data?.name.toLowerCase().includes(search.toLowerCase())
+                  : data
+              )
+              .map((conn) => {
+                return (
+                  <div className="connectionCard col-12 col-sm-6 col-md-4 p-3">
+                    <div className="connectionHeader d-flex justify-content-between bg-white p-3">
+                      <div className="connectionLeft d-flex">
+                        <ImageRole
+                          src={conn?.profile_image}
+                          role={conn?.qualification}
+                          className="connectionImage"
+                          height="50px"
+                          width="50px"
+                          radius="25px"
+                        />
 
-                      <div className="nameContainer ps-3">
-                        <h5>{conn?.name}</h5>
-                        <span>{conn?.qualification}</span>
+                        <div className="nameContainer ps-3">
+                          <h5>{conn?.name}</h5>
+                          <span>{conn?.qualification}</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <StyleConnectButton
+                          onClick={() => {
+                            redirectToMember(conn?.id);
+                          }}
+                        >
+                          Connect
+                        </StyleConnectButton>
                       </div>
                     </div>
-
-                    <div>
-                      <StyleConnectButton
-                        onClick={() => {
-                          redirectToMember(conn?.id);
-                        }}
-                      >
-                        Connect
-                      </StyleConnectButton>
-                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </EventAllContainer>
       )}

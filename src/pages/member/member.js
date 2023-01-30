@@ -81,7 +81,6 @@ const Member = ({ isEdit }) => {
     useState(false);
 
   useEffect(() => {
-    debugger;
     if (email && isEdit) {
       getProfile();
     }

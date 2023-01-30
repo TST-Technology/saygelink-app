@@ -188,7 +188,7 @@ const Dashboard = () => {
               >
                 <div className="cardBody">
                   <div className="cardImage" style={{ height: "180px" }}>
-                    <p className="cardImageText">
+                    <p className="cardImageText text-dark">
                       Everyone has a story.
                       <br /> What's your story?
                     </p>

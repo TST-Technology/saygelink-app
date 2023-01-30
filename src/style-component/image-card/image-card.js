@@ -104,6 +104,7 @@ export const ImageCardStyleNew = styled.div`
       justify-content: center;
       height: 135px;
       border-radius: 6.64px;
+      background-position: right top;
 
       ${({ bgImage }) => {
         if (bgImage) {

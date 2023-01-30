@@ -61,7 +61,9 @@ export const StyleMembersCardContainer = styled.div`
 `;
 
 export const ScrollArrowButton = styled.button`
-  border-radius: 35px;
+  border: none;
+  outline: none;
+  background: none;
   padding: 8px 10px;
   margin: 0 5px;
 `;

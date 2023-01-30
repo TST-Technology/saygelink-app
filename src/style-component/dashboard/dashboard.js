@@ -1,24 +1,24 @@
-import styled from 'styled-components'
-import { DashboardHeaderHeight, devices } from '../../utils/constants'
-import theme from '../../utils/variables'
-import { Button, FlexAlignCenter, FlexJustifyCenter } from '../general'
-import BackgroundImage from '../../assets/images/home_background.svg'
+import styled from "styled-components";
+import { DashboardHeaderHeight, devices } from "../../utils/constants";
+import theme from "../../utils/variables";
+import { Button, FlexAlignCenter, FlexJustifyCenter } from "../general";
+import BackgroundImage from "../../assets/images/home_background.svg";
 
 export const DashboardContainerStyle = styled.div`
   ${(props) => {
     if (props.includeHeader) {
       return {
-        display: 'flex',
-        flexDirection: 'column'
-      }
+        display: "flex",
+        flexDirection: "column",
+      };
     }
   }}
-`
+`;
 
 // const HEADER_RIGHT_WIDTH = 'min(350px, 30%)'
 // const HEADER_LEFT_WIDTH = 'min(320px, 20%)'
-const HEADER_RIGHT_WIDTH = '25%'
-const HEADER_LEFT_WIDTH = '25%'
+const HEADER_RIGHT_WIDTH = "25%";
+const HEADER_LEFT_WIDTH = "25%";
 
 export const HomeContainerStyle = styled.div`
   background: ${theme.lightTheme.quillGrey};
@@ -40,9 +40,9 @@ export const HomeContainerStyle = styled.div`
       margin-top: -40px;
       height: 480px;
       background-position-y: -20px;
-      }
+    }
 
-    @media ${devices.tablet}{
+    @media ${devices.tablet} {
       padding: 100px 0 0 45px;
       margin-top: -85px;
       background-position-x: 88%;
@@ -63,14 +63,14 @@ export const HomeContainerStyle = styled.div`
       }
 
       .blackText {
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 32px;
         line-height: 48px;
         text-transform: uppercase;
         color: ${theme.lightTheme.primary.textcolor};
-/* 
+        /* 
         @media ${devices.tablet} {
           font-weight: 600;
           font-size: 22px;
@@ -78,7 +78,6 @@ export const HomeContainerStyle = styled.div`
         } */
       }
 
-     
       .bgLogo {
         height: 52px;
         width: 255px;
@@ -115,7 +114,7 @@ export const HomeContainerStyle = styled.div`
 
       p {
         margin: 0;
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 500;
         font-size: 20px;
@@ -142,7 +141,7 @@ export const HomeContainerStyle = styled.div`
       border-left: 1px solid ${theme.lightTheme.greyGoose};
 
       @media ${devices.tablet} {
-        border-left:none;
+        border-left: none;
       }
 
       &:first-child {
@@ -160,7 +159,7 @@ export const HomeContainerStyle = styled.div`
         display: none;
       }
 
-      .cardHeading{
+      .cardHeading {
         margin-top: 20px;
       }
 
@@ -184,12 +183,12 @@ export const HomeContainerStyle = styled.div`
       .categoryContainer {
         display: flex;
         flex-wrap: wrap;
-        gap: 30px;
+        gap: 10px;
       }
 
       .postTitle {
         color: ${theme.lightTheme.secondary.font};
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 24px;
@@ -212,7 +211,7 @@ export const HomeContainerStyle = styled.div`
 
       .calenderTitle {
         color: ${theme.lightTheme.primary.textcolor};
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 24px;
@@ -236,7 +235,7 @@ export const HomeContainerStyle = styled.div`
 
           .connectionName {
             color: ${theme.lightTheme.primary.font};
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 600;
             font-size: 16px;
@@ -245,7 +244,7 @@ export const HomeContainerStyle = styled.div`
           }
 
           .connectionTime {
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 500;
             font-size: 10px;
@@ -255,7 +254,7 @@ export const HomeContainerStyle = styled.div`
         }
 
         .connectionLink {
-          font-family: 'Poppins';
+          font-family: "Poppins";
           font-style: normal;
           font-weight: 500;
           font-size: 14px;
@@ -275,7 +274,7 @@ export const HomeContainerStyle = styled.div`
             margin: 0;
             box-shadow: none;
             heigh: fit-content;
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 400;
             font-size: 12px;
@@ -302,7 +301,7 @@ export const HomeContainerStyle = styled.div`
       border-bottom: none;
 
       p {
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 16.6667px;
@@ -311,7 +310,7 @@ export const HomeContainerStyle = styled.div`
       }
 
       span {
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 13.3333px;
@@ -321,7 +320,7 @@ export const HomeContainerStyle = styled.div`
       }
     }
   }
-`
+`;
 
 export const FindSaygeButtonStyle = styled.button`
   ${Button}
@@ -333,4 +332,4 @@ export const FindSaygeButtonStyle = styled.button`
   display: flex;
   gap: 10px;
   padding: 10px 30px;
-`
+`;
