@@ -25,6 +25,24 @@ export const StyleCategoryContainer = styled.div`
     color: #696f79;
   }
 
+  .newHeading {
+    font-family: "Poppins";
+    font-style: normal;
+    text-align: center;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 36px;
+    color: #fa2f66;
+  }
+
+  .newSubHeading {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #696f79;
+  }
+
   .categoryPageContainer {
     display: flex;
     height: 100%;
@@ -88,7 +106,7 @@ export const CommonCardStyle = css`
     if (props.selected) {
       return {
         borderColor: "#abe9dc",
-        background: "rgba(171, 233, 220, 0.2)",
+        background: "rgba(171, 233, 220, 0.2)"
       };
     }
   }}
@@ -107,7 +125,7 @@ export const CommonCardStyle = css`
       if (props.selected) {
         return {
           color: "#5C5353",
-          fontWeight: 600,
+          fontWeight: 600
         };
       }
     }}
@@ -136,7 +154,7 @@ export const StyleSubcategoryTopicItem = styled.div`
     if (props.isFindSayge && props.selected) {
       return {
         borderColor: "",
-        background: "#F62E5F",
+        background: "#F62E5F"
       };
     }
   }}
@@ -145,7 +163,7 @@ export const StyleSubcategoryTopicItem = styled.div`
     ${(props) => {
       if (props.isFindSayge && props.selected) {
         return {
-          color: "white",
+          color: "white"
         };
       }
     }}

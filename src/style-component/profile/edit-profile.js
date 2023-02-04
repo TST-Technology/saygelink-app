@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import Dialog from '@mui/material/Dialog'
+import styled from "styled-components";
+import Dialog from "@mui/material/Dialog";
 import {
   Button,
   DropdownStyle,
@@ -8,8 +8,8 @@ import {
   FlexJustifyCenter,
   FlexJustifySpaceBetween,
   InputStyle
-} from '../general'
-import theme, { UNIVERSITY_COLOR } from '../../utils/variables'
+} from "../general";
+import theme, { UNIVERSITY_COLOR } from "../../utils/variables";
 
 export const EditProfileDialogStyle = styled(Dialog)`
   .MuiPaper-root {
@@ -31,7 +31,7 @@ export const EditProfileDialogStyle = styled(Dialog)`
       .dialogTitle {
         width: fit-content;
         margin: 0 auto;
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 20px;
@@ -75,7 +75,7 @@ export const EditProfileDialogStyle = styled(Dialog)`
       }
     }
   }
-`
+`;
 
 export const DialogInputStyle = styled.input`
   ${InputStyle}
@@ -84,7 +84,7 @@ export const DialogInputStyle = styled.input`
   height: auto;
 
   border-radius: 15px;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   font-size: 22px;
@@ -93,14 +93,14 @@ export const DialogInputStyle = styled.input`
   padding: 10px 18px;
 
   &::placeholder {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
     line-height: 27px;
     color: ${theme.lightTheme.quillGrey};
   }
-`
+`;
 
 export const DialogDropdownStyle = styled.select`
   ${DropdownStyle}
@@ -108,14 +108,14 @@ export const DialogDropdownStyle = styled.select`
   border: 1px solid ${theme.lightTheme.ternory.font};
 
   border-radius: 15px;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   font-size: 22px;
   line-height: 33px;
   color: ${theme.lightTheme.primary.textcolor};
   padding: 10px 18px;
-`
+`;
 
 export const GenderCardStyle = styled.div`
   ${FlexCenter}
@@ -126,27 +126,27 @@ export const GenderCardStyle = styled.div`
   ${({ first }) => {
     if (first) {
       return {
-        borderRadius: '12px 0 0 12px'
-      }
+        borderRadius: "12px 0 0 12px"
+      };
     }
   }}
   ${({ last }) => {
     if (last) {
       return {
-        borderRadius: '0 12px 12px 0'
-      }
+        borderRadius: "0 12px 12px 0"
+      };
     }
   }}
     ${({ selected }) => {
     if (selected) {
       return {
         background: UNIVERSITY_COLOR.primary
-      }
+      };
     }
   }}
     span {
     color: ${theme.lightTheme.ternory.font};
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -156,17 +156,17 @@ export const GenderCardStyle = styled.div`
       if (selected) {
         return {
           color: theme.lightTheme.black
-        }
+        };
       }
     }};
   }
-`
+`;
 
 export const GenderContainerStyle = styled.div`
   display: flex;
   border-radius: 12px;
   width: 100%;
-`
+`;
 
 export const UploadContainerStyle = styled.div`
   border: 1px solid ${theme.lightTheme.ternory.font};
@@ -185,7 +185,7 @@ export const UploadContainerStyle = styled.div`
   }
 
   a {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
@@ -197,7 +197,7 @@ export const UploadContainerStyle = styled.div`
       color: ${theme.lightTheme.primary.font};
     }
   }
-`
+`;
 
 export const SaveChangesButtonStyle = styled.button`
   ${Button}
@@ -206,4 +206,29 @@ export const SaveChangesButtonStyle = styled.button`
   box-shadow: none;
   background: ${UNIVERSITY_COLOR.primary};
   color: ${theme.lightTheme.black};
-`
+`;
+
+export const DialogTextAreaStyle = styled.textarea`
+  ${InputStyle}
+  width: 100%;
+  border: 1px solid ${theme.lightTheme.ternory.font};
+  height: auto;
+
+  border-radius: 15px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 33px;
+  color: ${theme.lightTheme.primary.textcolor};
+  padding: 10px 18px;
+
+  &::placeholder {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    color: ${theme.lightTheme.quillGrey};
+  }
+`;

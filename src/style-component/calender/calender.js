@@ -34,7 +34,7 @@ export const CalenderContainerStyle = styled.div`
     .calenderLeft {
       width: ${CALENDER_LEFT_WIDTH};
       @media ${devices.tablet} {
-        width: min(320px, 40%)
+        width: min(320px, 40%);
       }
     }
 
@@ -42,7 +42,6 @@ export const CalenderContainerStyle = styled.div`
       width: calc(100vw - ${CALENDER_LEFT_WIDTH});
       display: flex;
       flex-direction: column;
-
 
       .calenderPreviewHeader {
         height: ${CALENDER_PREVIEW_HEADER};
@@ -61,7 +60,7 @@ export const CalenderContainerStyle = styled.div`
           margin: 0 auto;
 
           @media ${devices.tablet} {
-            width:90%;
+            width: 90%;
           }
 
           .calenderPreviewHeaderSection {
@@ -160,6 +159,7 @@ export const CalenderContainerStyle = styled.div`
                       width: 40px;
                       object-fit: cover;
                       border-radius: 50%;
+                      cursor: pointer;
                     }
                   }
 
