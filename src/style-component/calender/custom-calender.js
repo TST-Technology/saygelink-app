@@ -18,7 +18,7 @@ export const ReactCalenderStyle = styled(Calendar)`
     props?.connections.map((SelectedDate) => {
       StyleString += `[aria-label="${moment(
         new Date(SelectedDate?.connect_on?.day)
-      ).format("MMMM DD, YYYY")}"]{
+      ).format("MMMM D, YYYY")}"]{
         background: #4D85EB;
         color:#fff
       } `;

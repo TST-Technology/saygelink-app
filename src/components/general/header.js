@@ -117,7 +117,7 @@ const Header = () => {
   const responseHandler = (resp) => {
     if (resp && resp?.count && resp?.connections) {
       setPendingRequestCount(resp?.count);
-      setRequestDetail(resp?.connections);
+      setRequestDetail(resp?.connections.reverse());
     }
   };
 
