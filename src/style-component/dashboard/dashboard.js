@@ -224,7 +224,6 @@ export const HomeContainerStyle = styled.div`
         .connectionItem {
           ${FlexAlignCenter};
           gap: 20px;
-          margin-top: 25px;
 
           .connectionImage {
             object-fit: contain;
