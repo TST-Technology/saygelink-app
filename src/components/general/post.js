@@ -35,14 +35,12 @@ const Post = ({
   return (
     <PostStyle>
       <div className="individualPost">
-        <div className="leftSidePostHeader">
+        <div className="leftSidePostHeader" onClick={onProfileClick}>
           <div className="postImageContainer">
             <img src={image} />
           </div>
           <div className="postNameContainer">
-            <p className="postName" onClick={onProfileClick}>
-              {name}
-            </p>
+            <p className="postName">{name}</p>
             <span className="postTime">{time}</span>
           </div>
         </div>
