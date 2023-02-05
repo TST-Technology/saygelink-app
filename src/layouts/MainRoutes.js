@@ -86,7 +86,7 @@ const MainRoutes = () => {
       }}
     >
       <DashboardContainerStyle includeHeader={includeHeader}>
-        {includeHeader ? <Header /> : null}
+        {includeHeader && getToken() && getEmail() ? <Header /> : null}
         <Fragment>
           <Routes>
             <Route
@@ -98,7 +98,6 @@ const MainRoutes = () => {
               }
             >
               <Route path="auth/*" element={<Login />} />
-              <Route path="register" element={<Signup />} />
             </Route>
             <Route
               element={
@@ -108,6 +107,7 @@ const MainRoutes = () => {
                 />
               }
             >
+              <Route path="register" element={<Signup />} />
               <Route path="welcome" element={<Welcome />} />
               <Route path="create-account" element={<CreateAccount />} />
               <Route path={ROUTES.HEALTHCARE} element={<Healthcare />} />

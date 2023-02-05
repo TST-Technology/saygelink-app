@@ -3,6 +3,7 @@ import theme from "../../utils/variables";
 import Calendar from "react-calendar";
 import { devices } from "../../utils/constants";
 import { FlexCenter } from "../general";
+import moment from "moment";
 
 export const ReactCalenderStyle = styled(Calendar)`
   padding: 15px;
@@ -10,6 +11,21 @@ export const ReactCalenderStyle = styled(Calendar)`
   border-radius: 13.3333px;
   border: none;
   font-family: Poppins;
+
+  ${(props) => {
+    let StyleString = "";
+
+    props?.connections.map((SelectedDate) => {
+      StyleString += `[aria-label="${moment(
+        new Date(SelectedDate?.connect_on?.day)
+      ).format("MMMM DD, YYYY")}"]{
+        background: #4D85EB;
+        color:#fff
+      } `;
+    });
+
+    return StyleString;
+  }}
 
   //   Start:: Calender Header Style
 
