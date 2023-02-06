@@ -1,66 +1,67 @@
-import React, { Fragment, useState } from 'react'
-import { useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-import Header from '../components/general/header'
-import ProtectedRoute from '../components/protected-route/protected-route'
-import { UserContext } from '../context/user'
-import useHttp from '../hooks/use-http'
-import Login from '../pages/auth'
-import Calender from '../pages/calender/calender'
-import Category from '../pages/category/category'
-import CreateAccount from '../pages/createAccount/create-account'
-import Dashboard from '../pages/dashboard/dashboard'
-import Healthcare from '../pages/healthcare/healthcare'
-import Member from '../pages/member/member'
-import Message from '../pages/message/message'
-import Network, { NETWORK_TABS, TAB } from '../pages/network/network'
-import Profile from '../pages/profile/profile'
-import Signup from '../pages/register/signup'
-import Welcome from '../pages/welcome/welcomepage'
-import { DashboardContainerStyle } from '../style-component/dashboard/dashboard'
-import CONSTANT, { ROUTES } from '../utils/constants'
-import { getEmail, getToken } from '../utils/funcs'
+import React, { Fragment, useState } from "react";
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Header from "../components/general/header";
+import ProtectedRoute from "../components/protected-route/protected-route";
+import { UserContext } from "../context/user";
+import useHttp from "../hooks/use-http";
+import Login from "../pages/auth";
+import Calender from "../pages/calender/calender";
+import Category from "../pages/category/category";
+import CreateAccount from "../pages/createAccount/create-account";
+import Dashboard from "../pages/dashboard/dashboard";
+import AllEventList from "../pages/event/allEvent";
+import Healthcare from "../pages/healthcare/healthcare";
+import Member from "../pages/member/member";
+import Message from "../pages/message/message";
+import Network, { NETWORK_TABS, TAB } from "../pages/network/network";
+import Profile from "../pages/profile/profile";
+import Signup from "../pages/register/signup";
+import Welcome from "../pages/welcome/welcomepage";
+import { DashboardContainerStyle } from "../style-component/dashboard/dashboard";
+import CONSTANT, { ROUTES } from "../utils/constants";
+import { getEmail, getToken } from "../utils/funcs";
 
 const MainRoutes = () => {
-  const profileApi = useHttp()
-  const [includeHeader, setIncludeHeader] = useState(false)
-  const [user, setUser] = useState(null)
-  const [profileDetail, setProfileDetail] = useState(null)
-  const location = useLocation()
+  const profileApi = useHttp();
+  const [includeHeader, setIncludeHeader] = useState(false);
+  const [user, setUser] = useState(null);
+  const [profileDetail, setProfileDetail] = useState(null);
+  const location = useLocation();
 
-  const token = getToken()
-  const email = getEmail()
+  const token = getToken();
+  const email = getEmail();
 
   useEffect(() => {
     if (email && !profileDetail) {
-      getProfileDetail()
+      getProfileDetail();
     }
-  }, [email])
+  }, [email]);
 
   useEffect(() => {
     setIncludeHeader(
       HEADER_VISIBLE_ROUTES.includes(location.pathname) ||
-        location.pathname.includes('/members') ||
-        location.pathname.includes('/member') ||
-        location.pathname.includes('/message') ||
-        location.pathname.includes('/category') ||
-        location.pathname.includes('/network')
-    )
-  }, [location])
+        location.pathname.includes("/members") ||
+        location.pathname.includes("/member") ||
+        location.pathname.includes("/message") ||
+        location.pathname.includes("/category") ||
+        location.pathname.includes("/network")
+    );
+  }, [location]);
 
   const getProfileDetail = () => {
     const url = {
       ...CONSTANT.API.getProfileDetail,
-      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(':email', email)
-    }
-    profileApi.sendRequest(url, responseHandler)
-  }
+      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(":email", email),
+    };
+    profileApi.sendRequest(url, responseHandler);
+  };
 
   const responseHandler = (res) => {
     if (res?.userInfo) {
-      setProfileDetail({ ...res?.userInfo })
+      setProfileDetail({ ...res?.userInfo });
     }
-  }
+  };
 
   const HEADER_VISIBLE_ROUTES = [
     ROUTES.HEALTHCARE,
@@ -72,8 +73,8 @@ const MainRoutes = () => {
     ROUTES.CATEGORY,
     ROUTES.CATEGORY_FIND,
     ROUTES.MEMBER,
-    ROUTES.TEMP_PROFILE
-  ]
+    ROUTES.TEMP_PROFILE,
+  ];
 
   return (
     <UserContext.Provider
@@ -81,11 +82,11 @@ const MainRoutes = () => {
         setUser: setUser,
         user: user,
         profileDetail: profileDetail,
-        setProfileDetail: setProfileDetail
+        setProfileDetail: setProfileDetail,
       }}
     >
       <DashboardContainerStyle includeHeader={includeHeader}>
-        {includeHeader ? <Header /> : null}
+        {includeHeader && getToken() && getEmail() ? <Header /> : null}
         <Fragment>
           <Routes>
             <Route
@@ -96,8 +97,7 @@ const MainRoutes = () => {
                 />
               }
             >
-              <Route path='auth/*' element={<Login />} />
-              <Route path='register' element={<Signup />} />
+              <Route path="auth/*" element={<Login />} />
             </Route>
             <Route
               element={
@@ -107,8 +107,9 @@ const MainRoutes = () => {
                 />
               }
             >
-              <Route path='welcome' element={<Welcome />} />
-              <Route path='create-account' element={<CreateAccount />} />
+              <Route path="register" element={<Signup />} />
+              <Route path="welcome" element={<Welcome />} />
+              <Route path="create-account" element={<CreateAccount />} />
               <Route path={ROUTES.HEALTHCARE} element={<Healthcare />} />
 
               <Route path={ROUTES.NETWORK} element={<Network />} />
@@ -160,6 +161,8 @@ const MainRoutes = () => {
                 }
               />
 
+              <Route path={ROUTES.EVENT_ALL} element={<AllEventList />} />
+
               {/* <Route
                 path={ROUTES.TEMP_PROFILE}
                 element={<Member isEdit={true} />}
@@ -169,7 +172,7 @@ const MainRoutes = () => {
         </Fragment>
       </DashboardContainerStyle>
     </UserContext.Provider>
-  )
-}
+  );
+};
 
-export default MainRoutes
+export default MainRoutes;

@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import PersonImage from '../../assets/images/person.png'
-import PlusImage from '../../assets/images/plus.svg'
-import EditImage from '../../assets/images/edit.svg'
-import TrashIcon from '../../assets/images/trash.svg'
-import LockIcon from '../../assets/images/lock.svg'
-import NotAllowedIcon from '../../assets/images/not-allowed.svg'
-import LogoutIcon from '../../assets/images/log-out.svg'
-import FBIcon from '../../assets/images/profileFacebook.svg'
-import IGIcon from '../../assets/images/profileInstagram.svg'
-import LIIcon from '../../assets/images/profileLinkedIn.svg'
-import TWIcon from '../../assets/images/profileTwitter.svg'
-import LinkIcon from '../../assets/images/profileLink.svg'
+import React, { useEffect, useState } from "react";
+import PersonImage from "../../assets/images/person.png";
+import PlusImage from "../../assets/images/plus.svg";
+import EditImage from "../../assets/images/edit.svg";
+import TrashIcon from "../../assets/images/trash.svg";
+import LockIcon from "../../assets/images/lock.svg";
+import NotAllowedIcon from "../../assets/images/not-allowed.svg";
+import LogoutIcon from "../../assets/images/log-out.svg";
+import FBIcon from "../../assets/images/profileFacebook.svg";
+import IGIcon from "../../assets/images/profileInstagram.svg";
+import LIIcon from "../../assets/images/profileLinkedIn.svg";
+import TWIcon from "../../assets/images/profileTwitter.svg";
+import LinkIcon from "../../assets/images/profileLink.svg";
 
 import {
   AddAvailabilityButtonStyle,
@@ -18,198 +18,200 @@ import {
   ProfileCardStyle,
   ProfileStyleContainer,
   StyleSingleItem,
-  AddFileStyle
-} from '../../style-component/profile/profile'
+  AddFileStyle,
+} from "../../style-component/profile/profile";
 import {
   StyleInput,
-  StyleInputButton
-} from '../../style-component/createAccount/availability'
+  StyleInputButton,
+} from "../../style-component/createAccount/availability";
 import CONSTANT, {
   ACCEPT_FILE_TYPE,
   DashboardHeaderHeight,
   ROUTES,
-  UserProfile
-} from '../../utils/constants'
-import TimePicker from '../../components/create-account/time-picker'
-import EditProfile from '../../components/edit-profile/edit-profile'
-import useHttp from '../../hooks/use-http'
-import { useContext } from 'react'
-import { UserContext } from '../../context/user'
-import Loader from '../../components/general/loader'
-import { getEmail, isEmptyArray, notify } from '../../utils/funcs'
-import Dialog from '../../components/dialog/dialog'
-import AddExperience from '../../components/profile/add-experience'
-import AddLink from '../../components/profile/add-link'
-import { useNavigate } from 'react-router-dom'
-import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
-import ImageRole from '../../components/general/image-role'
-import UpdatePassword from '../../components/update-password/update-password'
+  UserProfile,
+} from "../../utils/constants";
+import TimePicker from "../../components/create-account/time-picker";
+import EditProfile from "../../components/edit-profile/edit-profile";
+import useHttp from "../../hooks/use-http";
+import { useContext } from "react";
+import { UserContext } from "../../context/user";
+import Loader from "../../components/general/loader";
+import { getEmail, isEmptyArray, notify } from "../../utils/funcs";
+import Dialog from "../../components/dialog/dialog";
+import AddExperience from "../../components/profile/add-experience";
+import AddLink from "../../components/profile/add-link";
+import { useNavigate } from "react-router-dom";
+import DeleteConfirmation from "../../components/delete-confirmation/delete-confirmation";
+import ImageRole from "../../components/general/image-role";
+import UpdatePassword from "../../components/update-password/update-password";
 
 const Profile = () => {
   const INIT_TIME = {
-    hour: '',
-    minute: '',
-    time: 'AM'
-  }
+    hour: "",
+    minute: "",
+    time: "AM",
+  };
 
-  const profileApi = useHttp()
-  const userApi = useHttp()
-  const chatRequestApi = useHttp()
-  const navigate = useNavigate()
-  const [editProfileDialog, setEditProfileDialog] = useState()
+  const profileApi = useHttp();
+  const userApi = useHttp();
+  const chatRequestApi = useHttp();
+  const navigate = useNavigate();
+  const [editProfileDialog, setEditProfileDialog] = useState();
   const {
     setUser,
     user,
     setProfileDetail: setProfile,
-    profileDetail: detail
-  } = useContext(UserContext)
-  const [profileDetail, setProfileDetail] = useState(null)
-  const [maximumRequests, setMaximumRequests] = useState(null)
-  const email = getEmail()
-  const [maximinRequestsChanged, setMaximinRequestsChanged] = useState(false)
-  const [experienceDialogVisible, setExperienceDialogVisible] = useState(false)
-  const [linkDialogVisible, setLinkDialogVisible] = useState(false)
-  const [pdfFile, setPdfFile] = useState(null)
-  const [selectedWeekday, setSelectedWeekDay] = useState('Sun')
+    profileDetail: detail,
+  } = useContext(UserContext);
+  const [profileDetail, setProfileDetail] = useState(null);
+  const [maximumRequests, setMaximumRequests] = useState(null);
+  const email = getEmail();
+  const [maximinRequestsChanged, setMaximinRequestsChanged] = useState(false);
+  const [experienceDialogVisible, setExperienceDialogVisible] = useState(false);
+  const [linkDialogVisible, setLinkDialogVisible] = useState(false);
+  const [pdfFile, setPdfFile] = useState(null);
+  const [selectedWeekday, setSelectedWeekDay] = useState("Sun");
   const [interval, setInterval] = useState(() => {
     return {
       start_time: JSON.parse(JSON.stringify(INIT_TIME)),
       end_time: JSON.parse(JSON.stringify(INIT_TIME)),
-      timezone: 'EDT'
-    }
-  })
+      timezone: "EDT",
+    };
+  });
   const [isDeleteLinkConfirmation, setIsDeleteLinkConfirmation] =
-    useState(false)
+    useState(false);
   const [isDeleteFileConfirmation, setIsDeleteFileConfirmation] =
-    useState(false)
-  const [deleteLink, setDeleteLink] = useState(null)
+    useState(false);
+  const [deleteLink, setDeleteLink] = useState(null);
   const [
     isDeleteAvailabilityConfirmation,
-    setIsDeleteAvailabilityConfirmation
-  ] = useState(false)
-  const [availabilityId, setAvailabilityId] = useState(null)
-  const deactivateApi = useHttp()
-  const [updatePasswordDialog, setUpdatePasswordDialog] = useState(false)
+    setIsDeleteAvailabilityConfirmation,
+  ] = useState(false);
+  const [availabilityId, setAvailabilityId] = useState(null);
+  const deactivateApi = useHttp();
+  const [updatePasswordDialog, setUpdatePasswordDialog] = useState(false);
 
   useEffect(() => {
+    debugger;
     if (email) {
-      getProfile()
+      getProfile();
     }
-  }, [])
+  }, []);
 
   const responseHandler = (res) => {
+    console.log("profile", res);
     if (res?.userInfo) {
-      setProfile({ ...res?.userInfo })
-      setProfileDetail({ ...res?.userInfo })
-      setMaximumRequests(res?.userInfo?.max_chat_requests)
+      setProfile({ ...res?.userInfo });
+      setProfileDetail({ ...res?.userInfo });
+      setMaximumRequests(res?.userInfo?.max_chat_requests);
     }
-  }
+  };
 
   const getProfile = () => {
     const url = {
       ...CONSTANT.API.getProfileDetail,
-      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(':email', email)
-    }
-    profileApi.sendRequest(url, responseHandler)
-  }
+      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(":email", email),
+    };
+    profileApi.sendRequest(url, responseHandler);
+  };
 
   const updateProfile = (payload) => {
     chatRequestApi.sendRequest(
       CONSTANT.API.updateUser,
       () => {},
       payload,
-      'Profile updated successfully!'
-    )
-  }
+      "Profile updated successfully!"
+    );
+  };
 
   const onChatRequestChange = (flag) => {
-    setMaximinRequestsChanged(true)
-    if (flag === '+') {
-      setMaximumRequests((prevValue) => prevValue + 1)
-    } else if (flag === '-') {
-      setMaximumRequests((prevValue) => prevValue - 1)
+    setMaximinRequestsChanged(true);
+    if (flag === "+") {
+      setMaximumRequests((prevValue) => prevValue + 1);
+    } else if (flag === "-") {
+      setMaximumRequests((prevValue) => prevValue - 1);
     } else {
-      setMaximumRequests(flag.target.value)
+      setMaximumRequests(flag.target.value);
     }
-  }
+  };
 
   const updateChatRequests = () => {
     const payload = {
-      max_chat_requests: maximumRequests
-    }
+      max_chat_requests: maximumRequests,
+    };
     chatRequestApi.sendRequest(
       CONSTANT.API.updateUser,
       () => {},
       payload,
-      'Maximum chat requests updated successfully!'
-    )
-  }
+      "Maximum chat requests updated successfully!"
+    );
+  };
 
   const handleCloseExperienceDialog = (apiCall) => {
     if (apiCall) {
-      getProfile()
+      getProfile();
     }
-    setExperienceDialogVisible(false)
-  }
+    setExperienceDialogVisible(false);
+  };
 
   const handleCloseLinkDialog = (apiCall) => {
     if (apiCall) {
-      getProfile()
+      getProfile();
     }
-    setLinkDialogVisible(false)
-  }
+    setLinkDialogVisible(false);
+  };
 
   const handleCloseUpdatePasswordDialog = () => {
-    setUpdatePasswordDialog(false)
-  }
+    setUpdatePasswordDialog(false);
+  };
 
   const handleDeleteLinkClick = (link) => {
-    setIsDeleteLinkConfirmation(true)
-    setDeleteLink({ ...link })
-  }
+    setIsDeleteLinkConfirmation(true);
+    setDeleteLink({ ...link });
+  };
 
   const handlePdfChange = (event) => {
-    const file = event.target.files[0]
+    const file = event.target.files[0];
     if (file) {
-      setPdfFile(file)
-      handleUploadFile(file)
+      setPdfFile(file);
+      handleUploadFile(file);
     }
-  }
+  };
 
   const handleUploadFile = (pdfFile) => {
     if (pdfFile) {
-      const formData = new FormData()
-      formData.append('file', pdfFile)
+      const formData = new FormData();
+      formData.append("file", pdfFile);
       profileApi.sendRequest(
         CONSTANT.API.uploadUserFile,
         getProfile,
         formData,
-        'Attachment added successfully!'
-      )
+        "Attachment added successfully!"
+      );
     }
-  }
+  };
 
   const deleteUserFile = () => {
     profileApi.sendRequest(
       CONSTANT.API.deleteFile,
       getProfile,
       {},
-      'Attachment deleted successfully!'
-    )
-    setIsDeleteFileConfirmation(false)
-  }
+      "Attachment deleted successfully!"
+    );
+    setIsDeleteFileConfirmation(false);
+  };
 
   const onChangeInterval = (key, subKey, value) => {
     setInterval((prevValue) => {
-      const temp = prevValue
+      const temp = prevValue;
 
       if (temp) {
-        temp[key][subKey] = value
+        temp[key][subKey] = value;
 
-        return { ...JSON.parse(JSON.stringify(temp)) }
+        return { ...JSON.parse(JSON.stringify(temp)) };
       }
-    })
-  }
+    });
+  };
 
   const handleAddAvailability = () => {
     if (
@@ -226,47 +228,47 @@ const Profile = () => {
       interval?.end_time?.time
     ) {
       if (
-        interval?.start_time?.time === 'PM' &&
-        interval?.end_time?.time === 'AM'
+        interval?.start_time?.time === "PM" &&
+        interval?.end_time?.time === "AM"
       ) {
-        notify.error('Please enter valid time')
-        return
+        notify.error("Please enter valid time");
+        return;
       }
 
       if (
-        (interval?.start_time?.time === 'AM' &&
-          interval?.end_time?.time === 'AM') ||
-        (interval?.start_time?.time === 'PM' &&
-          interval?.end_time?.time === 'PM')
+        (interval?.start_time?.time === "AM" &&
+          interval?.end_time?.time === "AM") ||
+        (interval?.start_time?.time === "PM" &&
+          interval?.end_time?.time === "PM")
       ) {
         if (interval?.start_time?.hour === interval?.end_time?.hour) {
           if (interval?.start_time?.minute >= interval?.end_time?.minute) {
-            notify.error('Please enter valid time')
-            return
+            notify.error("Please enter valid time");
+            return;
           }
         }
 
         if (interval?.start_time?.hour > interval?.end_time?.hour) {
-          notify.error('Please enter valid time')
-          return
+          notify.error("Please enter valid time");
+          return;
         }
       }
 
-      const tempAvail = {}
-      tempAvail.start_time = `${interval.start_time.hour}:${interval.start_time.minute}${interval.start_time.time}`
-      tempAvail.end_time = `${interval.end_time.hour}:${interval.end_time.minute}${interval.end_time.time}`
-      tempAvail.day = selectedWeekday
-      tempAvail.timezone = interval.timezone
+      const tempAvail = {};
+      tempAvail.start_time = `${interval.start_time.hour}:${interval.start_time.minute}${interval.start_time.time}`;
+      tempAvail.end_time = `${interval.end_time.hour}:${interval.end_time.minute}${interval.end_time.time}`;
+      tempAvail.day = selectedWeekday;
+      tempAvail.timezone = interval.timezone;
       const payload = {
-        availability: tempAvail
-      }
+        availability: tempAvail,
+      };
 
       profileApi.sendRequest(
         CONSTANT.API.addAvailability,
         getProfile,
         payload,
-        'Availability added successfully!'
-      )
+        "Availability added successfully!"
+      );
     } else {
       // if (
       //   !interval.start_time ||
@@ -276,101 +278,101 @@ const Profile = () => {
       // ) {
       //   notify.error('Please enter start time!')
       // } else {
-      notify.error('Please enter start time, end time!')
+      notify.error("Please enter start time, end time!");
       // }
     }
-  }
+  };
 
   const handleEditProfileClose = (apiCall) => {
-    setEditProfileDialog(false)
+    setEditProfileDialog(false);
     if (apiCall) {
-      getProfile()
+      getProfile();
     }
-  }
+  };
 
   const handleLogoutClick = () => {
-    localStorage.removeItem('authToken')
-    localStorage.removeItem('email')
-    navigate(ROUTES.AUTH)
-  }
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("email");
+    navigate(ROUTES.AUTH);
+  };
 
   const handleDeleteUserFile = () => {
-    setIsDeleteFileConfirmation(true)
-  }
+    setIsDeleteFileConfirmation(true);
+  };
 
   const handleConfirmLinkClick = () => {
     if (deleteLink?._id) {
       const url = {
         ...CONSTANT.API.deleteLink,
         endpoint: CONSTANT.API.deleteLink.endpoint.replace(
-          ':id',
+          ":id",
           deleteLink?._id
-        )
-      }
-      setIsDeleteLinkConfirmation(false)
-      profileApi.sendRequest(url, getProfile, {}, 'Link deleted successfully!')
+        ),
+      };
+      setIsDeleteLinkConfirmation(false);
+      profileApi.sendRequest(url, getProfile, {}, "Link deleted successfully!");
     }
-  }
+  };
 
   const handleAvailabilityDelete = (avail) => {
     if (avail) {
-      setIsDeleteAvailabilityConfirmation(true)
-      setAvailabilityId(avail?._id)
+      setIsDeleteAvailabilityConfirmation(true);
+      setAvailabilityId(avail?._id);
     }
-  }
+  };
 
   const deleteAvailability = () => {
     if (availabilityId) {
       const url = {
         ...CONSTANT.API.deleteAvailability,
         endpoint: CONSTANT.API.deleteAvailability.endpoint.replace(
-          ':availId',
+          ":availId",
           availabilityId
-        )
-      }
+        ),
+      };
       profileApi.sendRequest(
         url,
         getProfile,
         {},
-        'Availability deleted successfully!'
-      )
-      setIsDeleteAvailabilityConfirmation(false)
+        "Availability deleted successfully!"
+      );
+      setIsDeleteAvailabilityConfirmation(false);
     }
-  }
+  };
 
-  const deactivateResponseHandler = () => {}
+  const deactivateResponseHandler = () => {};
 
   const handleDeactivateAccount = () => {
     const url = {
       ...CONSTANT.API.deleteUser,
-      endpoint: CONSTANT.API.deleteUser.endpoint.replace(':email', email)
-    }
+      endpoint: CONSTANT.API.deleteUser.endpoint.replace(":email", email),
+    };
     deactivateApi.sendRequest(
       url,
       deactivateResponseHandler,
       {},
-      'Account deactivated successfully!'
-    )
-  }
+      "Account deactivated successfully!"
+    );
+  };
 
   const getSocialMediaIcon = (name) => {
     switch (name) {
-      case 'Facebook':
-        return <img src={FBIcon} />
-      case 'Instagram':
-        return <img src={IGIcon} />
-      case 'Twitter':
-        return <img src={TWIcon} />
-      case 'LinkedIn':
-        return <img src={LIIcon} />
+      case "Facebook":
+        return <img src={FBIcon} />;
+      case "Instagram":
+        return <img src={IGIcon} />;
+      case "Twitter":
+        return <img src={TWIcon} />;
+      case "LinkedIn":
+        return <img src={LIIcon} />;
       default:
-        return <img src={LinkIcon} />
+        return <img src={LinkIcon} />;
     }
-  }
+  };
 
   const currentWeekDay = !isEmptyArray(profileDetail?.availability)
     ? profileDetail?.availability.filter((row) => row?.day === selectedWeekday)
-    : []
+    : [];
 
   return (
     <>
@@ -378,40 +380,40 @@ const Profile = () => {
         <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
       ) : (
         <ProfileStyleContainer>
-          <div className='profileLeftSide'>
-            <div className='profileNameCard'>
-              <div className='profileNameTop'>
-                <div className='profileNameContainer'>
+          <div className="profileLeftSide">
+            <div className="profileNameCard">
+              <div className="profileNameTop">
+                <div className="profileNameContainer">
                   <ImageRole
                     src={profileDetail?.profile_image}
                     role={profileDetail?.qualification}
                   />
-                  <div className='profileNameRightContainer'>
+                  <div className="profileNameRightContainer">
                     <h3>{profileDetail?.name}</h3>
                     <span>{profileDetail?.qualification}</span>
                   </div>
                 </div>
 
-                <div className='countContainer'>
-                  <p className='count'>{profileDetail?.num_posts}</p>
-                  <p className='countText'>Posts</p>
+                <div className="countContainer">
+                  <p className="count">{profileDetail?.num_posts}</p>
+                  <p className="countText">Posts</p>
                 </div>
 
-                <div className='countContainer'>
-                  <p className='count'>{profileDetail?.num_meets}</p>
-                  <p className='countText'>Meets</p>
+                <div className="countContainer">
+                  <p className="count">{profileDetail?.num_meets}</p>
+                  <p className="countText">Meets</p>
                 </div>
 
-                <div className='countContainer'>
-                  <p className='count'>Bio</p>
-                  <span className='countDescription'>
+                <div className="countContainer">
+                  <p className="count">Bio</p>
+                  <span className="countDescription">
                     {profileDetail?.about}
                   </span>
                 </div>
               </div>
-              <div className='profileNameBottom'>
-                <div className='shareExperienceContainer'>
-                  <h3 className='shareExperience'>Share your experiences</h3>
+              <div className="profileNameBottom">
+                <div className="shareExperienceContainer">
+                  <h3 className="shareExperience">Share your experiences</h3>
                   <AddExperienceButtonStyle
                     onClick={() => {
                       // setExperienceDialogVisible(true)
@@ -421,10 +423,10 @@ const Profile = () => {
                   </AddExperienceButtonStyle>
                 </div>
 
-                <div className='experienceTextContainer'>
+                <div className="experienceTextContainer">
                   {profileDetail && !isEmptyArray(profileDetail?.experience)
                     ? profileDetail?.experience.map((exp) => {
-                        return <p key={exp.category_id}>{exp?.name}</p>
+                        return <p key={exp.category_id}>{exp?.name}</p>;
                       })
                     : null}
                 </div>
@@ -433,41 +435,41 @@ const Profile = () => {
 
             <ProfileCardStyle>
               <div>
-                <h3 className='profileCardHeading'>Maximum chat requests</h3>
+                <h3 className="profileCardHeading">Maximum chat requests</h3>
 
-                <p className='tip'>
+                <p className="tip">
                   Tip: Feel free to select a limit for the number of chat
                   requests you'd like per month.
                 </p>
 
-                <div className='chatRequestsContainer'>
+                <div className="chatRequestsContainer">
                   <StyleInputButton>
                     <a
-                      className='decrement button'
+                      className="decrement button"
                       onClick={() => {
-                        onChatRequestChange('-')
+                        onChatRequestChange("-");
                       }}
                     >
                       -
                     </a>
                     <StyleInput
-                      type={'number'}
+                      type={"number"}
                       value={maximumRequests}
                       onChange={(e) => {
-                        onChatRequestChange(e)
+                        onChatRequestChange(e);
                       }}
                     ></StyleInput>
                     <a
-                      className='increment button'
+                      className="increment button"
                       onClick={() => {
-                        onChatRequestChange('+')
+                        onChatRequestChange("+");
                       }}
                     >
                       +
                     </a>
                   </StyleInputButton>
 
-                  <span className='chatRequestsPerMonth'>
+                  <span className="chatRequestsPerMonth">
                     chat requests per month.
                   </span>
                 </div>
@@ -485,8 +487,8 @@ const Profile = () => {
 
             <ProfileCardStyle>
               <div>
-                <h3 className='profileCardHeading'>General Availability</h3>
-                <div className='weekDayContainer'>
+                <h3 className="profileCardHeading">General Availability</h3>
+                <div className="weekDayContainer">
                   {CONSTANT.WEEK_DIGIT.map((day, index) => {
                     return (
                       <div
@@ -494,44 +496,44 @@ const Profile = () => {
                           profileDetail?.availability
                             .map((avail) => avail.day)
                             .includes(day)
-                            ? 'addedWeekDay'
-                            : ''
-                        } ${selectedWeekday === day ? 'selectedWeekDay' : ''}`}
+                            ? "addedWeekDay"
+                            : ""
+                        } ${selectedWeekday === day ? "selectedWeekDay" : ""}`}
                         key={index}
                         onClick={() => {
-                          setSelectedWeekDay(day)
+                          setSelectedWeekDay(day);
                         }}
                       >
                         <span>{day.substring(0, 2)}</span>
                       </div>
-                    )
+                    );
                   })}
                 </div>
 
-                <div className='viewColumn'>
+                <div className="viewColumn">
                   {!isEmptyArray(currentWeekDay) ? (
                     currentWeekDay.map((row, index) => {
                       return (
-                        <div className='viewRow' key={index}>
-                          <div className='textContainer'>
-                            <p className='durationText'>
+                        <div className="viewRow" key={index}>
+                          <div className="textContainer">
+                            <p className="durationText">
                               {row?.start_time} to {row?.end_time}
                             </p>
                           </div>
 
                           <div
-                            className='buttonContainer'
+                            className="buttonContainer"
                             onClick={() => {
-                              handleAvailabilityDelete(row)
+                              handleAvailabilityDelete(row);
                             }}
                           >
                             <img src={TrashIcon} />
                           </div>
                         </div>
-                      )
+                      );
                     })
                   ) : (
-                    <p className='mt-3'>No Availability</p>
+                    <p className="mt-3">No Availability</p>
                   )}
                 </div>
               </div>
@@ -545,28 +547,28 @@ const Profile = () => {
             </ProfileCardStyle>
 
             <ProfileCardStyle>
-              <div className='width50'>
-                <h3 className='profileCardHeading'>Social Media</h3>
+              <div className="width50">
+                <h3 className="profileCardHeading">Social Media</h3>
 
                 {profileDetail && !isEmptyArray(profileDetail?.social_media)
                   ? profileDetail?.social_media.map((row, index) => {
                       return (
-                        <div className='viewRow' key={index}>
-                          <div className='textContainer'>
+                        <div className="viewRow" key={index}>
+                          <div className="textContainer">
                             {getSocialMediaIcon(row?.name)}
-                            <a href={row?.url} className='durationText'>
+                            <a href={row?.url} className="durationText">
                               {row?.url}
                             </a>
                           </div>
 
                           <div
-                            className='buttonContainer'
+                            className="buttonContainer"
                             onClick={() => handleDeleteLinkClick(row)}
                           >
                             <img src={TrashIcon} />
                           </div>
                         </div>
-                      )
+                      );
                     })
                   : null}
               </div>
@@ -574,7 +576,7 @@ const Profile = () => {
               <div>
                 <AddExperienceButtonStyle
                   onClick={() => {
-                    setLinkDialogVisible(true)
+                    setLinkDialogVisible(true);
                   }}
                 >
                   <img src={PlusImage} />
@@ -583,38 +585,38 @@ const Profile = () => {
               </div>
             </ProfileCardStyle>
 
-            <div className='paddingBottom30'>
+            <div className="paddingBottom30">
               <ProfileCardStyle>
-                <div className='width50'>
-                  <h3 className='profileCardHeading'>Attachments</h3>
+                <div className="width50">
+                  <h3 className="profileCardHeading">Attachments</h3>
                   {profileDetail?.file ? (
-                    <div className='viewRow'>
-                      <div className='textContainer'>
-                        <a href={profileDetail?.file} className='durationText'>
+                    <div className="viewRow">
+                      <div className="textContainer">
+                        <a href={profileDetail?.file} className="durationText">
                           File
                         </a>
                       </div>
 
                       <div
-                        className='buttonContainer'
+                        className="buttonContainer"
                         onClick={() => {
-                          handleDeleteUserFile()
+                          handleDeleteUserFile();
                         }}
                       >
                         <img src={TrashIcon} />
                       </div>
                     </div>
                   ) : (
-                    <p className='mt-3'>No Attachments</p>
+                    <p className="mt-3">No Attachments</p>
                   )}
                 </div>
 
-                <div className='attachmentContainer'>
-                  <label htmlFor='attachment' className='attachment'>
+                <div className="attachmentContainer">
+                  <label htmlFor="attachment" className="attachment">
                     <input
-                      name='attachment'
-                      type='file'
-                      id='attachment'
+                      name="attachment"
+                      type="file"
+                      id="attachment"
                       hidden
                       onChange={handlePdfChange}
                       accept={ACCEPT_FILE_TYPE}
@@ -629,8 +631,8 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className='profileRightSide'>
-            <ProfileCardStyle column={true} gap={'10px'}>
+          <div className="profileRightSide">
+            <ProfileCardStyle column={true} gap={"10px"}>
               <StyleSingleItem onClick={() => setEditProfileDialog(true)}>
                 <img src={EditImage}></img>
                 <span>Edit Profile</span>
@@ -658,46 +660,46 @@ const Profile = () => {
               </StyleSingleItem>
             </ProfileCardStyle>
 
-            <div className='addTimeContainer'>
-              <ProfileCardStyle column={true} gap={'10px'}>
-                <p className='timeLabel'>Start Time</p>
+            <div className="addTimeContainer">
+              <ProfileCardStyle column={true} gap={"10px"}>
+                <p className="timeLabel">Start Time</p>
                 <TimePicker
-                  name='startTime'
+                  name="startTime"
                   minute={interval.start_time.minute}
                   hour={interval.start_time.hour}
                   time={interval.start_time.time}
                   onChangeHour={(val) =>
-                    onChangeInterval('start_time', 'hour', val)
+                    onChangeInterval("start_time", "hour", val)
                   }
                   onChangeMinute={(val) =>
-                    onChangeInterval('start_time', 'minute', val)
+                    onChangeInterval("start_time", "minute", val)
                   }
                   onChangeTime={(val) =>
-                    onChangeInterval('start_time', 'time', val)
+                    onChangeInterval("start_time", "time", val)
                   }
                 />
 
-                <p className='timeLabel'>End Time</p>
+                <p className="timeLabel">End Time</p>
                 <TimePicker
-                  name='endTime'
+                  name="endTime"
                   minute={interval.end_time.minute}
                   hour={interval.end_time.hour}
                   time={interval.end_time.time}
                   onChangeHour={(val) =>
-                    onChangeInterval('end_time', 'hour', val)
+                    onChangeInterval("end_time", "hour", val)
                   }
                   onChangeMinute={(val) =>
-                    onChangeInterval('end_time', 'minute', val)
+                    onChangeInterval("end_time", "minute", val)
                   }
                   onChangeTime={(val) =>
-                    onChangeInterval('end_time', 'time', val)
+                    onChangeInterval("end_time", "time", val)
                   }
                 />
 
-                <div className='availabilityButtonContainer'>
+                <div className="availabilityButtonContainer">
                   <AddAvailabilityButtonStyle
                     onClick={() => {
-                      handleAddAvailability()
+                      handleAddAvailability();
                     }}
                   >
                     Add Availability Slots
@@ -720,30 +722,30 @@ const Profile = () => {
         content={
           <AddExperience onClose={() => handleCloseExperienceDialog(true)} />
         }
-        title='Add Experience'
+        title="Add Experience"
         onClose={() => {
-          handleCloseExperienceDialog(false)
+          handleCloseExperienceDialog(false);
         }}
         open={experienceDialogVisible}
-        width='500px'
+        width="500px"
       />
       <Dialog
         content={<AddLink onClose={() => handleCloseLinkDialog(true)} />}
-        title='Add Link'
+        title="Add Link"
         onClose={() => {
-          handleCloseLinkDialog(false)
+          handleCloseLinkDialog(false);
         }}
         open={linkDialogVisible}
-        width='500px'
+        width="500px"
       />
 
       {isDeleteLinkConfirmation ? (
         <DeleteConfirmation
           onCancelButtonClick={() => {
-            setIsDeleteLinkConfirmation(false)
+            setIsDeleteLinkConfirmation(false);
           }}
           onConfirmButtonClick={() => {
-            handleConfirmLinkClick()
+            handleConfirmLinkClick();
           }}
         />
       ) : null}
@@ -751,10 +753,10 @@ const Profile = () => {
       {isDeleteFileConfirmation ? (
         <DeleteConfirmation
           onCancelButtonClick={() => {
-            setIsDeleteFileConfirmation(false)
+            setIsDeleteFileConfirmation(false);
           }}
           onConfirmButtonClick={() => {
-            deleteUserFile()
+            deleteUserFile();
           }}
         />
       ) : null}
@@ -762,10 +764,10 @@ const Profile = () => {
       {isDeleteAvailabilityConfirmation ? (
         <DeleteConfirmation
           onCancelButtonClick={() => {
-            setIsDeleteAvailabilityConfirmation(false)
+            setIsDeleteAvailabilityConfirmation(false);
           }}
           onConfirmButtonClick={() => {
-            deleteAvailability()
+            deleteAvailability();
           }}
         />
       ) : null}
@@ -774,16 +776,15 @@ const Profile = () => {
         content={
           <UpdatePassword onClose={() => handleCloseUpdatePasswordDialog()} />
         }
-        title='Update Password'
+        title="Update Password"
         onClose={() => {
-          handleCloseUpdatePasswordDialog(false)
+          handleCloseUpdatePasswordDialog(false);
         }}
         open={updatePasswordDialog}
-        width='500px'
+        width="500px"
       />
     </>
-  )
-}
+  );
+};
 
-export default Profile
- 
+export default Profile;

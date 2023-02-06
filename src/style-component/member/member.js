@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import { DashboardHeaderHeight, devices } from '../../utils/constants'
-import theme from '../../utils/variables'
+import styled from "styled-components";
+import { DashboardHeaderHeight, devices } from "../../utils/constants";
+import theme from "../../utils/variables";
 import {
   Button,
   FlexAlignCenter,
@@ -8,10 +8,10 @@ import {
   FlexJustifyCenter,
   FlexJustifySpaceBetween,
   SmallWeekDayStyle
-} from '../general'
+} from "../general";
 
-const ProfileWidth = '400px'
-const TopSectionHeight = '160px'
+const ProfileWidth = "400px";
+const TopSectionHeight = "160px";
 
 export const MemberContainerStyle = styled.div`
   height: calc(100vh - ${DashboardHeaderHeight});
@@ -53,7 +53,7 @@ export const MemberContainerStyle = styled.div`
 
         .nameRoleContainer {
           h3 {
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 500;
             font-size: 32px;
@@ -62,7 +62,7 @@ export const MemberContainerStyle = styled.div`
           }
 
           span {
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 500;
             font-size: 16px;
@@ -81,7 +81,7 @@ export const MemberContainerStyle = styled.div`
             gap: 10px;
 
             .title {
-              font-family: 'Poppins';
+              font-family: "Poppins";
               font-style: normal;
               font-weight: 600;
               font-size: 24px;
@@ -90,7 +90,7 @@ export const MemberContainerStyle = styled.div`
             }
 
             .value {
-              font-family: 'Poppins';
+              font-family: "Poppins";
               font-style: normal;
               font-weight: 500;
               font-size: 16px;
@@ -149,7 +149,7 @@ export const MemberContainerStyle = styled.div`
       }
 
       .memberSectionHeading {
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 24px;
@@ -159,8 +159,9 @@ export const MemberContainerStyle = styled.div`
       }
 
       .bioDetail {
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
+        white-space: pre-line;
         font-weight: 400;
         font-size: 14px;
         line-height: 21px;
@@ -193,7 +194,7 @@ export const MemberContainerStyle = styled.div`
           .addTimeContainer {
             ${FlexAlignCenter};
             gap: 5px;
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 500;
             font-size: 14px;
@@ -246,7 +247,7 @@ export const MemberContainerStyle = styled.div`
         }
 
         span {
-          font-family: 'Poppins';
+          font-family: "Poppins";
           font-style: normal;
           font-weight: 400;
           font-size: 14px;
@@ -366,7 +367,7 @@ export const MemberContainerStyle = styled.div`
   }
 
   ${SmallWeekDayStyle}
-`
+`;
 
 export const StyleCategoryCard = styled.div`
   width: 100%;    ${FlexAlignCenter};
@@ -400,7 +401,7 @@ export const StyleCategoryCard = styled.div`
       border-radius: 8px;
     }
   }
-`
+`;
 
 export const ScheduleCallButtonStyle = styled.button`
   ${Button}
@@ -412,7 +413,7 @@ export const ScheduleCallButtonStyle = styled.button`
   display: flex;
   gap: 10px;
   padding: 10px 40px;
-`
+`;
 
 export const SendMessageButtonStyle = styled.button`
   ${Button}
@@ -425,7 +426,7 @@ export const SendMessageButtonStyle = styled.button`
   gap: 10px;
   padding: 10px 42px;
   border: 1px solid #1186ef;
-`
+`;
 
 export const StyleChatRequestInput = styled.input`
   background: ${theme.lightTheme.black};
@@ -433,7 +434,7 @@ export const StyleChatRequestInput = styled.input`
   border: none;
   width: 60px;
   padding: 8px 20px 8px 20px;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -449,7 +450,7 @@ export const StyleChatRequestInput = styled.input`
   /* Firefox */
 
   -moz-appearance: textfield;
-`
+`;
 
 export const EditButtonStyle = styled.button`
   ${Button}
@@ -462,10 +463,9 @@ export const EditButtonStyle = styled.button`
   display: flex;
   gap: 10px;
   padding: 10px 22px;
-`
+`;
 
 export const AddAvailabilityStyle = styled.div`
   display: flex;
   flex-direction: column;
-`
-
+`;

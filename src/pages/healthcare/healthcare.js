@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   HealthcareContainerStyle,
+  ScrollArrowButton,
   StyleConnectButton,
   StyleFeedContainer,
   StyleMembersCard,
@@ -31,14 +32,19 @@ import CONSTANT, {
   DATE_FORMAT,
   ROUTES
 } from '../../utils/constants'
-import { dateFormat, isEmptyArray } from '../../utils/funcs'
+import { dateFormat, getEmail, isEmptyArray } from '../../utils/funcs'
 import DeleteConfirmation from '../../components/delete-confirmation/delete-confirmation'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import PersonImg from '../../assets/images/personCircleBlack.svg'
+import { Tooltip } from '@mui/material'
 
 const Healthcare = () => {
   const nav = useNavigate()
   const api = useHttp()
   const joinApi = useHttp()
   const postApi = useHttp()
+  const email = getEmail()
   const { topicId } = useParams()
   const [allMembers, setAllMembers] = useState([])
   const [events, setEvents] = useState(null)
@@ -50,6 +56,7 @@ const Healthcare = () => {
   const [postImage, setPostImage] = useState(null)
   const [postPreviewImage, setPostPreviewImage] = useState(null)
   const [topicDetail, setTopicDetail] = useState(null)
+  const [profileDetail, setProfileDetail] = useState(null)
 
   useEffect(() => {
     if (topicId) {
@@ -57,6 +64,7 @@ const Healthcare = () => {
       getAllGroups()
       getAllPosts()
       getTopicDetail()
+      getProfile()
     }
   }, [topicId])
 
@@ -69,7 +77,6 @@ const Healthcare = () => {
   }
 
   const handleMembersResponse = (resp) => {
-    console.log(resp)
     if (resp && resp?.matchesProfiles) {
       setAllMembers(resp.matchesProfiles)
     }
@@ -124,13 +131,11 @@ const Healthcare = () => {
   }
 
   const responseGroupHandler = (res) => {
-    console.log(res)
     if (res?.groups) {
       const event = res.groups.filter((group) => group.groupType === 'event')
       const interest = res.groups.filter(
         (group) => group.groupType === 'interest'
       )
-      console.log(event, interest)
       setEvents(event)
       setInterests(interest)
     }
@@ -141,13 +146,11 @@ const Healthcare = () => {
   }
 
   const handleJoinClick = (event) => {
-    console.log(event)
     setActiveEvent(event)
     setJoinEventConfirmation(true)
   }
 
   const joinResponseHandler = (resp) => {
-    console.log(resp)
     getAllGroups()
     setJoinEventConfirmation(false)
   }
@@ -172,9 +175,8 @@ const Healthcare = () => {
   }
 
   const handlePostsResponse = (resp) => {
-    console.log(resp)
     if (resp && resp?.posts) {
-      setPosts(resp?.posts)
+      setPosts(resp?.posts.reverse())
     }
   }
 
@@ -214,7 +216,6 @@ const Healthcare = () => {
   }
 
   const handleAddPostResponse = (resp) => {
-    console.log(resp?.post?._id, resp)
     if (resp && resp?.post && resp?.post?._id) {
       if (postImage) {
         updatePostImageApi(resp?.post?._id)
@@ -241,9 +242,7 @@ const Healthcare = () => {
   }
 
   const handleImageChange = (event) => {
-    console.log(event)
     const file = event.target.files[0]
-    console.log(file)
     if (file) {
       setPostImage(file)
       setPostPreviewImage(URL.createObjectURL(file))
@@ -266,6 +265,41 @@ const Healthcare = () => {
     api.sendRequest(url, handleTopicResponse)
   }
 
+  const elementRef = useRef(null)
+  const [arrowDisable, setArrowDisable] = useState(true)
+
+  const horizantalScroll = (element, speed, distance, step) => {
+    let scrollAmount = 0
+    const slideTimer = setInterval(() => {
+      element.scrollLeft += step
+      scrollAmount += Math.abs(step)
+      if (scrollAmount >= distance) {
+        clearInterval(slideTimer)
+      }
+      if (element.scrollLeft === 0) {
+        setArrowDisable(true)
+      } else {
+        setArrowDisable(false)
+      }
+    }, speed)
+  }
+
+  // get Profile
+  const responseHandler = (res) => {
+    if (res?.userInfo) {
+      console.log('userProfile', res?.userInfo?.profile_image)
+      setProfileDetail({ ...res?.userInfo })
+    }
+  }
+
+  const getProfile = () => {
+    const url = {
+      ...CONSTANT.API.getProfileDetail,
+      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(':email', email)
+    }
+    api.sendRequest(url, responseHandler)
+  }
+
   return (
     <>
       <HealthcareContainerStyle>
@@ -273,11 +307,38 @@ const Healthcare = () => {
           <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
         ) : (
           <div className='healthCareContainer'>
-            <div className='leftContainer'>
-              <h3 className='heading'>{topicDetail?.name}</h3>
-              <span className='subHeading'>Here are your SAYge Matches! </span>
+            <div className='leftContainer w-75'>
+              <div className='d-flex justify-content-between align-items-end'>
+                <div>
+                  <h3 className='heading'>{topicDetail?.name}</h3>
+                  <h3 className='heading text-muted'>
+                    Here are your SAYge Matches!{' '}
+                  </h3>
+                </div>
+                <div>
+                  {allMembers.length > 4 ? (
+                    <div class='button-contianer'>
+                      <ScrollArrowButton
+                        onClick={() => {
+                          horizantalScroll(elementRef.current, 25, 100, -10)
+                        }}
+                        disabled={arrowDisable}
+                      >
+                        <ArrowBackIcon />
+                      </ScrollArrowButton>
+                      <ScrollArrowButton
+                        onClick={() => {
+                          horizantalScroll(elementRef.current, 25, 100, 10)
+                        }}
+                      >
+                        <ArrowForwardIcon />
+                      </ScrollArrowButton>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
 
-              <StyleMembersCardContainer>
+              <StyleMembersCardContainer ref={elementRef}>
                 {Array.isArray(allMembers) && allMembers.length > 0
                   ? allMembers.map((member, index) => {
                       return (
@@ -301,25 +362,28 @@ const Healthcare = () => {
                               Connect
                             </StyleConnectButton>
                           </div>
-                          <h2 className='memberName'>{member.name}</h2>
+
+                          <Tooltip title={member.name} placement='top'>
+                            <h2 className='memberName'>{member.name}</h2>
+                          </Tooltip>
 
                           <p className='skills'>
                             Parenting | Pregnancy | Career{' '}
                           </p>
 
-                          <p className='insights'>Zoe Jon's insights</p>
-
-                          <ul>
-                            <li>RELATIONSHIP</li>
-                            <li>PARENTING</li>
-                          </ul>
-
                           <p className='insights'>Available</p>
-
-                          {getAvailability(member?.availability)}
+                          {member?.availability.length > 0 ? (
+                            <>{getAvailability(member?.availability)}</>
+                          ) : (
+                            <p className='skills'>No Schedule Available</p>
+                          )}
 
                           <p className='insights'>Social profiles</p>
-                          {getSocialMediaIcons(member?.social_media)}
+                          {member?.social_media.length > 0 ? (
+                            <>{getSocialMediaIcons(member?.social_media)}</>
+                          ) : (
+                            <p className='skills'>No Social Media Available</p>
+                          )}
                         </StyleMembersCard>
                       )
                     })
@@ -335,7 +399,14 @@ const Healthcare = () => {
                   placeholder='Share your thoughts...'
                 />
 
-                <img src={PersonImage} className='postPreviewImage' />
+                <img
+                  src={
+                    profileDetail?.profile_image
+                      ? profileDetail?.profile_image
+                      : PersonImg
+                  }
+                  className='postPreviewImage'
+                />
 
                 <label htmlFor='postImage' className='profileImage'>
                   <input
@@ -364,6 +435,7 @@ const Healthcare = () => {
                 <div className='postContainer'>
                   {!isEmptyArray(posts) ? (
                     posts.map((post, index) => {
+                      console.log('post', post)
                       return (
                         <Post
                           key={post._id}
@@ -377,8 +449,13 @@ const Healthcare = () => {
                               : ''
                           }
                           description={post?.content}
-                          image={ColumbiaImage}
+                          image={
+                            post?.author?.profile_image
+                              ? post?.author?.profile_image
+                              : PersonImg
+                          }
                           postImage={post?.image}
+                          authorId={post?.author_id}
                         />
                       )
                     })
@@ -388,7 +465,7 @@ const Healthcare = () => {
                 </div>
               </StyleFeedContainer>
             </div>
-            <div className='rightContainer'>
+            <div className='rightContainer w-25'>
               <h3 className='heading'>My Groups</h3>
 
               <div className='rightSideCard'>

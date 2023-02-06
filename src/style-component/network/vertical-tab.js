@@ -1,10 +1,15 @@
 import styled from 'styled-components'
+import { devices } from '../../utils/constants'
 
 export const VerticalTabContainerStyle = styled.div`
   display: flex;
   flex-direction: column;
-  background: #f8f8f8;
   border-radius: 8px;
+  @media ${devices.tablet} {
+    flex-direction: row;
+    justify-content: space-between;
+    background: transparent;
+  }
 `
 
 export const VerticalTabStyle = styled.div`
@@ -14,11 +19,20 @@ export const VerticalTabStyle = styled.div`
   padding: 15px 20px;
   border-radius: 8.33333px 8.33333px 0px 0px;
   cursor: pointer;
+  @media ${devices.tablet} {
+    border-radius: 8px;
+  }
+
 
   ${(props) => {
     if (props.activeTab) {
       return {
         background: '#ABE9DE'
+      }
+    }
+    else{
+      return{
+        background: '#f8f8f8'
       }
     }
   }}

@@ -2,10 +2,23 @@ import React, { useState } from "react";
 import { MenuItem } from "@mui/material";
 import { PostStyle, StylePostMenu } from "../../style-component/post/post";
 import ThreeDotImage from "../../assets/images/threeDotMenu.svg";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../utils/constants";
 
-const Post = ({ name, profileId, time, description, image, postImage }) => {
+const Post = ({
+  name,
+  profileId,
+  time,
+  description,
+  image,
+  postImage,
+  authorId,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const nav = useNavigate();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -13,10 +26,16 @@ const Post = ({ name, profileId, time, description, image, postImage }) => {
     setAnchorEl(null);
   };
 
+  const onProfileClick = () => {
+    if (authorId) {
+      nav(ROUTES.MEMBER.replace(":memberId", authorId));
+    }
+  };
+
   return (
     <PostStyle>
       <div className="individualPost">
-        <div className="leftSidePostHeader">
+        <div className="leftSidePostHeader" onClick={onProfileClick}>
           <div className="postImageContainer">
             <img src={image} />
           </div>
@@ -26,13 +45,13 @@ const Post = ({ name, profileId, time, description, image, postImage }) => {
           </div>
         </div>
 
-        <div className="rightSidePostHeader">
+        {/* <div className="rightSidePostHeader">
           <div onClick={handleClick}>
             <img src={ThreeDotImage} />
           </div>
-        </div>
+        </div> */}
 
-        <StylePostMenu
+        {/* <StylePostMenu
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
@@ -42,7 +61,7 @@ const Post = ({ name, profileId, time, description, image, postImage }) => {
           }}
         >
           <MenuItem onClick={handleClose}>Report post</MenuItem>
-        </StylePostMenu>
+        </StylePostMenu> */}
       </div>
       <div className="mainImageDiv">
         {postImage ? <img src={postImage} className="postImage" /> : null}

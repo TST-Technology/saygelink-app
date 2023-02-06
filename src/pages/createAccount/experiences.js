@@ -21,6 +21,7 @@ import { CreateAccountContext } from './create-account'
 import { notify } from '../../utils/funcs'
 import PeopleImage from '../../assets/images/people.png'
 import { useNavigate } from 'react-router-dom'
+import { CircularProgress } from '@mui/material'
 
 const Experiences = () => {
   const categoryApi = useHttp()
@@ -37,6 +38,7 @@ const Experiences = () => {
   const [activeSubCategory, setActiveSubCategory] = useState(null)
   const [activeTopic, setActiveTopic] = useState(null)
   const [isExperienceGiven, setIsExperienceGiven] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getCategories()
@@ -47,25 +49,26 @@ const Experiences = () => {
   }
 
   const handleCategoryResponse = (resp) => {
-    console.log(resp)
     if (resp?.categories) {
       setCategories(resp?.categories)
       // handleCategoryClick(resp?.categories[0]?._id)
     }
   }
-
   const handleCategoryClick = (category) => {
-    console.log(category?._id)
+    setLoading(true)
+    setActiveSubCategory()
     setActiveCategory(category)
     const url = JSON.parse(JSON.stringify(CONSTANT.API.getSubcategories))
-    console.log(url)
     url.endpoint = url.endpoint.replace(':categoryId', category?._id)
-    console.log(url)
-
     subCategoryApi.sendRequest(url, handleSubcategoryResponse)
+
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000);
   }
 
   const handleSubcategoryResponse = (resp) => {
+
     if (
       resp?.subcategoriesWithTopics &&
       Array.isArray(resp?.subcategoriesWithTopics)
@@ -110,7 +113,6 @@ const Experiences = () => {
   }
 
   const handleAddExperienceResponse = (resp) => {
-    console.log(resp)
     if (resp) {
       setIsExperienceGiven(true)
     }
@@ -175,24 +177,33 @@ const Experiences = () => {
                 })}
             </div>
 
+            
+
             <div className='subCategoryContainer'>
               <p className='subCategoryHeading'>{activeCategory?.name}</p>
-              {subCategoryList &&
-                subCategoryList.map((subCategory, index) => {
-                  return (
-                    <StyleSubcategoryItem
-                      selected={subCategory?._id === activeSubCategory?._id}
-                      onClick={() => {
-                        setActiveSubCategory(subCategory)
-                      }}
-                      border={index !== subCategoryList.length - 1}
-                    >
-                      <p>{subCategory?.name}</p>
-
-                      <img src={RightArrow} />
-                    </StyleSubcategoryItem>
-                  )
-                })}
+              {
+                loading ? 
+                <div className='text-center mt-5'>
+                  <CircularProgress  size="2rem"/>
+                </div> : 
+                subCategoryList &&
+                  subCategoryList.map((subCategory, index) => {
+                    return (
+                      <StyleSubcategoryItem
+                        selected={subCategory?._id === activeSubCategory?._id}
+                        onClick={() => {
+                          setActiveSubCategory(subCategory)
+                        }}
+                        border={index !== subCategoryList.length - 1}
+                      >
+                        <p>{subCategory?.name}</p>
+  
+                        <img src={RightArrow} />
+                      </StyleSubcategoryItem>
+                    )
+                  })
+              }
+             
             </div>
 
             <div className='topicContainer'>

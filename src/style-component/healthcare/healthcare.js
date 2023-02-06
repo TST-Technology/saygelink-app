@@ -1,7 +1,4 @@
 import styled from 'styled-components'
-import theme from '../../utils/variables'
-import cardBackgroundImage1 from '../../assets/images/cardBackground1.png'
-import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
 import { Button, TextAreaStyle } from '../general'
 import { DashboardHeaderHeight } from '../../utils/constants'
 
@@ -55,12 +52,20 @@ export const HealthcareContainerStyle = styled.div`
 `
 
 export const StyleMembersCardContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 5px;
   display: flex;
   gap: 20px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  // overflow-x: auto;
+  overflow: hidden;
   padding: 20px 0;
+`
+
+export const ScrollArrowButton = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  padding: 8px 10px;
+  margin: 0 5px;
 `
 
 export const StyleMembersCard = styled.div`
@@ -72,7 +77,7 @@ export const StyleMembersCard = styled.div`
   transition: scale 0.2s;
 
   &:hover {
-    scale: 1.05;
+    scale: 0.95;
   }
 
   .headingContainer {
@@ -96,6 +101,9 @@ export const StyleMembersCard = styled.div`
     line-height: 28px;
     color: #1186ef;
     margin-top: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .skills {
@@ -172,7 +180,7 @@ export const StyleMembersCard = styled.div`
 export const StyleConnectButton = styled.button`
   ${Button}
   margin: 0;
-  background: #fa2f66;
+  background: #1186ef;
   border-radius: 5.07534px;
   color: #f3f3f3;
   padding: 5px 10px;
@@ -184,7 +192,7 @@ export const StyleConnectButton = styled.button`
 `
 
 export const StyleFeedContainer = styled.div`
-  margin-top: 80px;
+  margin-top: 20px;
   margin-bottom: 40px;
   background: #f8f8f8;
   border-radius: 8.33333px;

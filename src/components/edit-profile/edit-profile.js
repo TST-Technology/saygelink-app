@@ -1,129 +1,130 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   DialogDropdownStyle,
   DialogInputStyle,
+  DialogTextAreaStyle,
   EditProfileDialogStyle,
   GenderCardStyle,
   GenderContainerStyle,
   SaveChangesButtonStyle,
   UploadContainerStyle
-} from '../../style-component/profile/edit-profile'
-import CrossIcon from '../../assets/images/close.svg'
-import CONSTANT, { ACCEPT_IMAGE_TYPE } from '../../utils/constants'
+} from "../../style-component/profile/edit-profile";
+import CrossIcon from "../../assets/images/close.svg";
+import CONSTANT, { ACCEPT_IMAGE_TYPE } from "../../utils/constants";
 import {
   capitalizeFirstLetter,
   getQualificationYear,
   notify
-} from '../../utils/funcs'
-import useHttp from '../../hooks/use-http'
-import ImageRole from '../general/image-role'
+} from "../../utils/funcs";
+import useHttp from "../../hooks/use-http";
+import ImageRole from "../general/image-role";
 
 const EditProfile = ({ open, onClose, profileDetail }) => {
-  const profileApi = useHttp()
+  const profileApi = useHttp();
   const [selectedGender, setSelectedGender] = useState(() => {
-    return profileDetail?.gender
-  })
+    return profileDetail?.gender;
+  });
   const [selectedRole, setSelectedRole] = useState(() => {
     return profileDetail?.qualification
       ? capitalizeFirstLetter(profileDetail?.qualification)
-      : null
-  })
-  const [profileImage, setPdfFile] = useState(null)
-  const yearList = getQualificationYear()
+      : null;
+  });
+  const [profileImage, setPdfFile] = useState(null);
+  const yearList = getQualificationYear();
   const [qualificationYear, setQualificationYear] = useState(() => {
     return profileDetail?.qualification_year
       ? profileDetail?.qualification_year
-      : null
-  })
+      : null;
+  });
 
   const handleImageChange = (event) => {
-    const file = event.target.files[0]
+    const file = event.target.files[0];
     if (file) {
-      setPdfFile(file)
+      setPdfFile(file);
     }
-  }
+  };
 
   const preparePayload = (e) => {
-    const newPayload = {}
+    const newPayload = {};
     if (e.target.name.value) {
-      newPayload.name = e.target.name.value
+      newPayload.name = e.target.name.value;
     }
     // if (e.target.about.value) {
-    newPayload.about = e.target.about.value
+    newPayload.about = e.target.about.value;
     // }
     // else{
     //   newPayload.about = null
     // }
     if (e.target.role.value) {
-      newPayload.role = e.target.role.value.toLowerCase()
+      newPayload.role = e.target.role.value.toLowerCase();
     }
     if (selectedGender) {
-      newPayload.gender = selectedGender
+      newPayload.gender = selectedGender;
     }
 
-    return newPayload
-  }
+    return newPayload;
+  };
 
   const handleFormSubmit = (e) => {
-    e.preventDefault()
-    const payload = preparePayload(e)
+    e.preventDefault();
+    const payload = preparePayload(e);
     if (payload && payload.name && payload.gender && payload.role) {
       profileApi.sendRequest(
         CONSTANT.API.updateUser,
         handleUserResponse,
         payload
-      )
+      );
     } else {
-      notify.error('Please enter required fields')
+      notify.error("Please enter required fields");
     }
-  }
+  };
 
   const handleUserResponse = () => {
     if (profileImage) {
-      const formData = new FormData()
-      formData.append('image', profileImage)
+      const formData = new FormData();
+      formData.append("image", profileImage);
       profileApi.sendRequest(
         CONSTANT.API.uploadUserProfilePicture,
         handleImageChangeResponse,
         formData,
-        'Profile updated successfully!'
-      )
+        "Profile updated successfully!"
+      );
     } else {
-      handleImageChangeResponse()
-      onClose(true)
+      handleImageChangeResponse();
+      onClose(true);
     }
-  }
+  };
 
   const handleImageChangeResponse = () => {
     const param = {
       qualification: selectedRole.toLowerCase(),
       qualification_year: qualificationYear
-    }
+    };
 
-    console.log(param)
+    console.log(param);
     profileApi.sendRequest(
       CONSTANT.API.updateUserQualification,
       () => {
-        onClose(true)
+        onClose(true);
       },
       param,
-      'Profile updated successfully!'
-    )
-  }
+      "Profile updated successfully!"
+    );
+  };
 
   const handleRoleChange = (e) => {
-    setSelectedRole(e.target.value)
-  }
+    setSelectedRole(e.target.value);
+  };
 
   const handleYearChange = (e) => {
-    setQualificationYear(e.target.value)
-  }
+    setQualificationYear(e.target.value);
+  };
 
   return (
     <EditProfileDialogStyle
       open={open}
       onClose={() => {
-        onClose(false)
+        onClose(false);
       }}
     >
       <div className='dialog'>
@@ -136,7 +137,7 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
             className='closeIcon'
             src={CrossIcon}
             onClick={() => {
-              onClose(false)
+              onClose(false);
             }}
           />
         </div>
@@ -169,7 +170,7 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
                   name='name'
                   type='text'
                   defaultValue={profileDetail?.name}
-                  placeholder={'Enter name'}
+                  placeholder={"Enter name"}
                 />
               </div>
 
@@ -184,14 +185,14 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
                       >
                         {role.label}
                       </option>
-                    )
+                    );
                   })}
                 </DialogDropdownStyle>
               </div>
             </div>
 
             <div className='row2'>
-              {selectedRole !== 'Faculty' ? (
+              {selectedRole !== "Faculty" ? (
                 <div>
                   <DialogDropdownStyle
                     name='qualificationYear'
@@ -206,7 +207,7 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
                         >
                           {year.label}
                         </option>
-                      )
+                      );
                     })}
                   </DialogDropdownStyle>
                 </div>
@@ -218,7 +219,7 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
                     <GenderCardStyle
                       selected={selectedGender === gender.value}
                       onClick={() => {
-                        setSelectedGender(gender.value)
+                        setSelectedGender(gender.value);
                       }}
                       key={gender.value}
                       first={index === 0}
@@ -226,25 +227,26 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
                     >
                       <span>{gender.label}</span>
                     </GenderCardStyle>
-                  )
+                  );
                 })}
               </GenderContainerStyle>
             </div>
 
-            <DialogInputStyle
+            <DialogTextAreaStyle
               name='about'
               defaultValue={profileDetail?.about}
               placeholder='Tell us about yourself'
+              rows='5'
             />
 
             <SaveChangesButtonStyle disabled={profileApi.isLoading}>
-              {profileApi.isLoading ? 'Saving...' : 'Save Changes'}
+              {profileApi.isLoading ? "Saving..." : "Save Changes"}
             </SaveChangesButtonStyle>
           </div>
         </form>
       </div>
     </EditProfileDialogStyle>
-  )
-}
+  );
+};
 
-export default EditProfile
+export default EditProfile;

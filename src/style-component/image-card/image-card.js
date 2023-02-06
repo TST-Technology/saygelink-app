@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const ImageCardStyle = styled.div`
   .cardBody {
@@ -11,15 +11,15 @@ export const ImageCardStyle = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
-      height: 135px;
+      height: 180px !important;
       border-radius: 6.64px;
       cursor: pointer;
 
       ${({ bgImage }) => {
-    if (bgImage) {
-      return { backgroundImage: `url(${bgImage})` }
-    }
-  }}
+        if (bgImage) {
+          return { backgroundImage: `url(${bgImage})` };
+        }
+      }}
 
       a {
         text-decoration: none;
@@ -46,7 +46,7 @@ export const ImageCardStyle = styled.div`
     }
 
     .cardImageText {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 600;
       font-size: 16.6667px;
@@ -67,13 +67,13 @@ export const ImageCardStyle = styled.div`
     padding-bottom: 10px;
 
     ${({ showBorder }) => {
-    if (showBorder) {
-      return { borderBottom: `0.833333px solid rgba(38, 38, 38, 0.1)` }
-    }
-  }}
+      if (showBorder) {
+        return { borderBottom: `0.833333px solid rgba(38, 38, 38, 0.1)` };
+      }
+    }}
 
     p {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 600;
       font-size: 16.6667px;
@@ -82,7 +82,7 @@ export const ImageCardStyle = styled.div`
     }
 
     span {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 600;
       font-size: 13.3333px;
@@ -91,11 +91,10 @@ export const ImageCardStyle = styled.div`
       cursor: pointer;
     }
   }
-`
+`;
 export const ImageCardStyleNew = styled.div`
   .cardBody {
     margin-top: 15px;
-
     .cardImage {
       padding: 20px;
       background-size: cover;
@@ -105,12 +104,13 @@ export const ImageCardStyleNew = styled.div`
       justify-content: center;
       height: 135px;
       border-radius: 6.64px;
+      background-position: right top;
 
       ${({ bgImage }) => {
-    if (bgImage) {
-      return { backgroundImage: `url(${bgImage})` }
-    }
-  }}
+        if (bgImage) {
+          return { backgroundImage: `url(${bgImage})` };
+        }
+      }}
 
       a {
         text-decoration: none;
@@ -120,8 +120,8 @@ export const ImageCardStyleNew = styled.div`
         background: #fafafa;
         border: none;
         border-radius: 7.5px;
-        padding: 2px 18px;
-        color: #F62E5F;
+        padding: 5px 23px;
+        color: #000;
         cursor: pointer;
         font-weight: 700;
         font-size: 15px;
@@ -139,7 +139,7 @@ export const ImageCardStyleNew = styled.div`
     }
 
     .cardImageText {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 600;
       font-size: 16.6667px;
@@ -152,4 +152,4 @@ export const ImageCardStyleNew = styled.div`
       overflow: hidden;
     }
   }
-`
+`;
