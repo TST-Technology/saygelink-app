@@ -10,7 +10,7 @@ import { CalenderContainerStyle } from "../../style-component/calender/calender"
 import CONSTANT, {
   DATE_FORMAT,
   ROUTES,
-  scheduleMeetingStyle,
+  scheduleMeetingStyle
 } from "../../utils/constants";
 import { dateFormat, isEmptyArray } from "../../utils/funcs";
 import Loader from "../../components/general/loader";
@@ -94,8 +94,8 @@ const Calender = () => {
         <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
       ) : ( */}
       <CalenderContainerStyle>
-        <div className="calenderPageContainer">
-          <div className="calenderLeft">
+        <div className='calenderPageContainer'>
+          <div className='calenderLeft'>
             <CustomCalender
               onChange={setValue}
               value={value}
@@ -103,16 +103,16 @@ const Calender = () => {
             />
           </div>
 
-          <div className="calenderRight">
-            <div className="calenderPreviewHeader">
-              <div className="calenderPreviewHeaderSectionContainer">
-                <div className="calenderPreviewHeaderSection">
+          <div className='calenderRight'>
+            <div className='calenderPreviewHeader'>
+              <div className='calenderPreviewHeaderSectionContainer'>
+                <div className='calenderPreviewHeaderSection'>
                   <img src={CalenderImage} />
 
                   <p>{dateFormat(value, DATE_FORMAT.FORMAT_2)}</p>
                 </div>
 
-                <div className="calenderPreviewHeaderSection">
+                <div className='calenderPreviewHeaderSection'>
                   <img
                     src={ArrowLeftDark}
                     onClick={() => handlePreviousDate()}
@@ -127,34 +127,31 @@ const Calender = () => {
                 </div>
               </div>
             </div>
-            <div className="calenderPreviewBody">
+            <div className='calenderPreviewBody'>
               {calenderApi.isLoading ? (
                 <Loader height={`calc(100% - 95px)`} />
               ) : (
-                <div className="calenderPreviewEventsContainer">
+                <div className='calenderPreviewEventsContainer'>
                   {!isEmptyArray(activeConnections) ? (
                     activeConnections.map((conn, index) => {
                       return (
                         <div
-                          className="calenderPreviewEventSection"
+                          className='calenderPreviewEventSection'
                           key={index}
                         >
-                          <div className="calenderPreviewEventsLeft">
+                          <div className='calenderPreviewEventsLeft'>
                             <p>
-                              {conn?.connect_on?.day
-                                ? dateFormat(
-                                    conn?.connect_on?.day,
-                                    DATE_FORMAT.FORMAT_3
-                                  )
+                              {conn?.connect_on?.time
+                                ? conn?.connect_on?.time
                                 : ""}
                             </p>
                           </div>
-                          <div className="calenderPreviewEventsRight">
-                            <div className="calenderPreviewEventCard">
-                              <div className="calenderPreviewEventCardLeft">
-                                <div className="calenderPreviewEventImageContainer">
+                          <div className='calenderPreviewEventsRight'>
+                            <div className='calenderPreviewEventCard'>
+                              <div className='calenderPreviewEventCardLeft'>
+                                <div className='calenderPreviewEventImageContainer'>
                                   <ImageRole
-                                    className="calenderImage"
+                                    className='calenderImage'
                                     src={conn?.seeker?.profile_image}
                                     role={conn?.seeker?.qualification}
                                     onClick={() =>
@@ -164,15 +161,18 @@ const Calender = () => {
                                     }
                                   />
                                 </div>
-                                <div className="calenderPreviewEventTitleContainer">
-                                  <h3 className="heading">{conn?.message}</h3>
+                                <div className='calenderPreviewEventTitleContainer'>
+                                  <h3 className='heading'>{conn?.message}</h3>
 
                                   <p>
                                     {conn?.connect_on?.day
-                                      ? dateFormat(
+                                      ? `${dateFormat(
                                           conn?.connect_on?.day,
-                                          DATE_FORMAT.FORMAT_1
-                                        )
+                                          DATE_FORMAT.FORMAT_4
+                                        )} `
+                                      : ""}
+                                    {conn?.connect_on?.time
+                                      ? `${conn?.connect_on?.time}`
                                       : ""}
                                   </p>
                                   <a href={conn?.zoom_link}>
@@ -180,25 +180,25 @@ const Calender = () => {
                                   </a>
                                 </div>
                               </div>
-                              <div className="calenderPreviewEventCardRight">
+                              <div className='calenderPreviewEventCardRight'>
                                 <a
-                                  className="meetingButton width-fixed"
+                                  className='meetingButton width-fixed'
                                   onClick={(e) => handleClick(e, conn)}
-                                  size="small"
+                                  size='small'
                                   sx={{ ml: 2 }}
                                   aria-controls={
                                     open ? "account-menu" : undefined
                                   }
-                                  aria-haspopup="true"
+                                  aria-haspopup='true'
                                   aria-expanded={open ? "true" : undefined}
                                 >
                                   <img src={RescheduleImage} />
                                   Re-schedule
                                 </a>
                                 <a
-                                  target="_blank"
+                                  target='_blank'
                                   href={conn?.zoom_link}
-                                  className="meetingButton"
+                                  className='meetingButton'
                                 >
                                   <img src={SendDarkImage} />
                                   Join
@@ -210,7 +210,7 @@ const Calender = () => {
                       );
                     })
                   ) : (
-                    <p className="text-center mt-3">No meeting schedule</p>
+                    <p className='text-center mt-3'>No meeting schedule</p>
                   )}
                 </div>
               )}
@@ -221,12 +221,12 @@ const Calender = () => {
         {open ? (
           <Menu
             anchorEl={anchorEl}
-            id="account-menu"
+            id='account-menu'
             open={open}
             onClose={() => handleClose(false)}
             PaperProps={{
               elevation: 0,
-              sx: { ...scheduleMeetingStyle, "&:before": {} },
+              sx: { ...scheduleMeetingStyle, "&:before": {} }
             }}
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}

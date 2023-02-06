@@ -9,7 +9,7 @@ export const DashboardContainerStyle = styled.div`
     if (props.includeHeader) {
       return {
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "column"
       };
     }
   }}
@@ -26,16 +26,16 @@ export const HomeContainerStyle = styled.div`
   overflow-y: auto;
 
   .homeBackgroundContainer {
-    height: 400px;
+    height: 285px;
     width: 100%;
     background-image: url(${BackgroundImage});
     background-position: right;
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 100px 0 0 100px;
+    padding: 25px 0 0 100px;
 
     @media ${devices.laptop} {
-      padding: 100px 0 0 120px;
+      padding: 75px 0 0 120px;
       height: 450px;
       margin-top: -40px;
       height: 480px;
@@ -43,7 +43,7 @@ export const HomeContainerStyle = styled.div`
     }
 
     @media ${devices.tablet} {
-      padding: 100px 0 0 45px;
+      padding: 25px 0 0 45px;
       margin-top: -85px;
       background-position-x: 88%;
       background-position-y: -20px;
@@ -331,4 +331,13 @@ export const FindSaygeButtonStyle = styled.button`
   display: flex;
   gap: 10px;
   padding: 10px 30px;
+  margin-left: 350px;
+
+  @media ${devices.laptop} {
+    margin-left: 0;
+  }
+
+  @media ${devices.tablet} {
+    margin-left: 0;
+  }
 `;
