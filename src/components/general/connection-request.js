@@ -45,7 +45,7 @@ const ConnectionRequest = ({ detail, getDetail }) => {
         ) : (
           <>
             {!isEmptyArray(detail) ? (
-              detail.reverse().map((conn, index) => {
+              detail.map((conn, index) => {
                 return (
                   <>
                     <div className="connectionRequest" key={conn?._id}>
