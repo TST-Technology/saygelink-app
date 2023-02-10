@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import debounce from "debounce";
 import ImageRole from "../../components/general/image-role";
 import Loader from "../../components/general/loader";
 import useHttp from "../../hooks/use-http";
@@ -41,10 +42,9 @@ import AddLink from "../../components/profile/add-link";
 import DeleteConfirmation from "../../components/delete-confirmation/delete-confirmation";
 import AddAvailability from "../../components/profile/add-availability";
 import { StyleSingleItem } from "../../style-component/profile/profile";
+import { useCallback } from "react";
 
 const Member = ({ isEdit }) => {
-  console.log(isEdit);
-
   const nav = useNavigate();
   const api = useHttp();
   const messageApi = useHttp();
@@ -130,31 +130,33 @@ const Member = ({ isEdit }) => {
     if (socialMedia) {
       return (
         <div className="socialProfileContainer">
-          {socialMedia.map((media) => {
-            const image = getSocialIcon(media.name);
-            return (
-              <div className="socialMediaLink">
-                <div className="">
-                  <a
-                    target="_blank"
-                    className="mediaLink"
-                    href={prepareURL(media.url)}
-                  >
-                    <img src={image} className="socialImage" />
-                    {media.url}
-                  </a>
-                </div>
-                {isEdit ? (
-                  <div
-                    className="deleteButtonContainer"
-                    onClick={() => handleDeleteLinkClick(media)}
-                  >
-                    <img src={TrashIcon} />
+          {socialMedia
+            .filter((item) => item?.url)
+            .map((media) => {
+              const image = getSocialIcon(media.name);
+              return (
+                <div className="socialMediaLink">
+                  <div className="">
+                    <a
+                      target="_blank"
+                      className="mediaLink"
+                      href={prepareURL(media.url)}
+                    >
+                      <img src={image} className="socialImage" />
+                      {media.url}
+                    </a>
                   </div>
-                ) : null}
-              </div>
-            );
-          })}
+                  {isEdit ? (
+                    <div
+                      className="deleteButtonContainer"
+                      onClick={() => handleDeleteLinkClick(media)}
+                    >
+                      <img src={TrashIcon} />
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
         </div>
       );
     }
@@ -219,7 +221,6 @@ const Member = ({ isEdit }) => {
   // Edit Api Calls
   const responseHandler = (res) => {
     if (res?.userInfo) {
-      console.log("userProfile", res);
       setProfile({ ...res?.userInfo });
       setProfileDetail({ ...res?.userInfo });
       setMaximumRequests(res?.userInfo?.max_chat_requests);
@@ -234,21 +235,24 @@ const Member = ({ isEdit }) => {
     profileApi.sendRequest(url, responseHandler);
   };
 
-  const updateChatRequests = (currentValue) => {
-    const payload = {
-      max_chat_requests: currentValue,
-    };
-    chatRequestApi.sendRequest(
-      CONSTANT.API.updateUser,
-      () => {},
-      payload,
-      "Maximum chat requests updated successfully!"
-    );
-  };
+  const updateChatRequests = useCallback(
+    debounce((currentValue) => {
+      const payload = {
+        max_chat_requests: currentValue,
+      };
+      chatRequestApi.sendRequest(
+        CONSTANT.API.updateUser,
+        () => {},
+        payload,
+        "Maximum chat requests updated successfully!"
+      );
+    }, 1000),
+    []
+  );
 
   const onChatRequestChange = (flag) => {
     let currentValue = 0;
-    console.log({ flag });
+
     if (flag === "+") {
       setMaximumRequests((prevValue) => {
         currentValue = prevValue + 1;
@@ -269,7 +273,6 @@ const Member = ({ isEdit }) => {
       setMaximumRequests(flag.target.value);
       currentValue = flag.target.value;
     }
-    console.log(currentValue);
   };
 
   const handleEditProfileClose = (apiCall) => {

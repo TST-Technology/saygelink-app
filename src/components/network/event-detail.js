@@ -29,6 +29,7 @@ import PersonImg from "../../assets/images/personCircleBlack.svg";
 const EventDetail = ({ eventDetail }) => {
   const postApi = useHttp();
   const api = useHttp();
+  const deleteApi = useHttp();
 
   const { groupId } = useParams();
   const nav = useNavigate();
@@ -62,9 +63,8 @@ const EventDetail = ({ eventDetail }) => {
   }, [eventDetail, profileDetail]);
 
   const handleImageChange = (event) => {
-    console.log(event);
     const file = event.target.files[0];
-    console.log(file);
+
     if (file) {
       setPostImage(file);
       setPostPreviewImage(URL.createObjectURL(file));
@@ -111,7 +111,6 @@ const EventDetail = ({ eventDetail }) => {
   };
 
   const handleAddPostResponse = (resp) => {
-    console.log(resp?.post?._id, resp);
     if (resp && resp?.post && resp?.post?._id) {
       if (postImage) {
         updatePostImageApi(resp?.post?._id);
@@ -123,7 +122,6 @@ const EventDetail = ({ eventDetail }) => {
   };
 
   const handlePostsResponse = (resp) => {
-    console.log(resp);
     if (resp && resp?.posts) {
       setPosts(resp?.posts);
     }
@@ -138,6 +136,30 @@ const EventDetail = ({ eventDetail }) => {
       ),
     };
     api.sendRequest(url, handlePostsResponse);
+  };
+
+  const handleDeleteResponse = (resp) => {
+    if (resp) {
+      getAllPosts();
+    }
+  };
+
+  const callDeletePost = (postId) => {
+    if (postId) {
+      const url = {
+        ...CONSTANT.API.deletePostOfGroup,
+        endpoint: CONSTANT.API.deletePostOfGroup.endpoint.replace(
+          ":postId",
+          postId
+        ),
+      };
+      deleteApi.sendRequest(
+        url,
+        handleDeleteResponse,
+        {},
+        "Post deleted successfully!"
+      );
+    }
   };
 
   return (
@@ -225,6 +247,10 @@ const EventDetail = ({ eventDetail }) => {
                           }
                           postImage={post?.image}
                           authorId={post?.author_id}
+                          isOptionsVisible={
+                            post?.author_id === profileDetail?.id
+                          }
+                          onDeletePost={() => callDeletePost(post?._id)}
                         />
                       );
                     })

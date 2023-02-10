@@ -60,7 +60,6 @@ const Header = () => {
     getRequests();
 
     socket.on(SOCKET_EVENTS.RECEIVE_NOTIFICATION, (notification) => {
-      console.log(SOCKET_EVENTS.RECEIVE_NOTIFICATION, notification);
       if (notification) {
         setIsNotification(true);
       }

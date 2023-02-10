@@ -17,8 +17,6 @@ export const MemberContainerStyle = styled.div`
   height: calc(100vh - ${DashboardHeaderHeight});
   padding: 20px 80px 0 80px;
   overflow: auto;
-  display: flex;
-  flex-direction: column;
 
   @media ${devices.laptopL} {
     padding: 20px 60px 0 60px;
@@ -121,7 +119,7 @@ export const MemberContainerStyle = styled.div`
     border-radius: 20px 20px 0px 0px;
     display: flex;
     gap: 50px;
-    height: calc(100% - ${TopSectionHeight});
+    min-height: calc(100% - ${TopSectionHeight} - 70px);
 
     > div {
       width: 33%;

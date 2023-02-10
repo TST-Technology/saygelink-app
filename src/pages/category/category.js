@@ -8,7 +8,7 @@ import { FindSaygeButtonStyle } from "../../style-component/dashboard/dashboard"
 import {
   StyleCategoryCard,
   StyleCategoryContainer,
-  StyleSubcategoryTopicItem
+  StyleSubcategoryTopicItem,
 } from "../../style-component/category/category";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/general/loader";
@@ -41,7 +41,6 @@ const Category = ({ isFindSayge }) => {
   };
 
   const handleCategoryResponse = (resp) => {
-    console.log(resp);
     if (resp?.categories) {
       setCategories(resp?.categories);
       if (!categoryId && resp?.categories && resp?.categories[0]) {
@@ -53,9 +52,9 @@ const Category = ({ isFindSayge }) => {
   const handleCategoryClick = (categoryId) => {
     setActiveCategory(categoryId);
     const url = JSON.parse(JSON.stringify(CONSTANT.API.getSubcategories));
-    console.log(url);
+
     url.endpoint = url.endpoint.replace(":categoryId", categoryId);
-    console.log(url);
+
     setSubCategoryList(null);
     setActiveSubCategory(null);
     subCategoryApi.sendRequest(url, handleSubcategoryResponse);
@@ -66,7 +65,6 @@ const Category = ({ isFindSayge }) => {
       resp?.subcategoriesWithTopics &&
       Array.isArray(resp?.subcategoriesWithTopics)
     ) {
-      console.log(resp?.subcategoriesWithTopics);
       setSubCategoryList(resp?.subcategoriesWithTopics);
     }
   };
@@ -88,7 +86,10 @@ const Category = ({ isFindSayge }) => {
     if (topicId && !isFindSayge) {
       const url = {
         ...CONSTANT.API.removeSayge,
-        endpoint: CONSTANT.API.removeSayge.endpoint.replace(":saygeId", topicId)
+        endpoint: CONSTANT.API.removeSayge.endpoint.replace(
+          ":saygeId",
+          topicId
+        ),
       };
       experienceApi.sendRequest(url);
     }
@@ -97,10 +98,10 @@ const Category = ({ isFindSayge }) => {
   const baASaygeApiCall = (topicIds) => {
     if (topicIds && !isFindSayge) {
       const url = {
-        ...CONSTANT.API.beASayge
+        ...CONSTANT.API.beASayge,
       };
       const payload = {
-        experience: topicIds
+        experience: topicIds,
       };
       experienceApi.sendRequest(url, () => {}, payload);
     }
@@ -122,7 +123,6 @@ const Category = ({ isFindSayge }) => {
           });
         }
       } else {
-        console.log("in");
         const tempTopicIds = [topicId];
         setActiveTopic([...tempTopicIds]);
         if (topicId) navigate(ROUTES.HEALTHCARE.replace(":topicId", topicId));
@@ -142,12 +142,12 @@ const Category = ({ isFindSayge }) => {
       {categoryApi.isLoading ? (
         <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
       ) : (
-        <div className='categoryPageContainer'>
-          <div className='categorySection'>
-            <h3 className='heading'>Explore Catagories</h3>
-            <p className='subHeading'>Browse topics</p>
+        <div className="categoryPageContainer">
+          <div className="categorySection">
+            <h3 className="heading">Explore Catagories</h3>
+            <p className="subHeading">Browse topics</p>
 
-            <div className='categoryContainer'>
+            <div className="categoryContainer">
               {categories &&
                 categories.map((category) => {
                   return (
@@ -156,18 +156,18 @@ const Category = ({ isFindSayge }) => {
                       key={category?._id}
                       onClick={() => handleCategoryClick(category?._id)}
                     >
-                      <div className='imageContainer'>
+                      <div className="imageContainer">
                         <img
                           src={
                             category?.image
                               ? category?.image
                               : DefaultCategoryImage
                           }
-                          className='categoryImage'
+                          className="categoryImage"
                         />
                       </div>
-                      <div className='labelContainer'>
-                        <span className='label'>{category?.name}</span>
+                      <div className="labelContainer">
+                        <span className="label">{category?.name}</span>
                       </div>
                     </StyleCategoryCard>
                   );
@@ -175,21 +175,21 @@ const Category = ({ isFindSayge }) => {
             </div>
           </div>
 
-          <div className='topicSection'>
+          <div className="topicSection">
             <div>
-              <h3 className='newHeading'>
+              <h3 className="newHeading">
                 {isFindSayge ? "Find a SAYge" : "Be a SAYge"}
               </h3>
-              <p className='newSubHeading'>
+              <p className="newSubHeading">
                 {isFindSayge
                   ? "Members have signed up to share their insight and are waiting to chat with you. Select a topic to get started!"
                   : "Select topics you have insight on through your experiences and you would be willing to chat with a matched member about!"}
               </p>
             </div>
-            <div className='topicSectionContainer'>
-              <div className='subCategorySection'>
+            <div className="topicSectionContainer">
+              <div className="subCategorySection">
                 {subCategoryApi.isLoading ? (
-                  <Loader height='100%' />
+                  <Loader height="100%" />
                 ) : (
                   <>
                     {subCategoryList &&
@@ -205,7 +205,7 @@ const Category = ({ isFindSayge }) => {
                             }}
                             border={index !== subCategoryList.length - 1}
                           >
-                            <p className='label'>{subCategory?.name}</p>
+                            <p className="label">{subCategory?.name}</p>
 
                             <img src={RightArrow} />
                           </StyleSubcategoryTopicItem>
@@ -214,7 +214,7 @@ const Category = ({ isFindSayge }) => {
                   </>
                 )}
               </div>
-              <div className='topicSection'>
+              <div className="topicSection">
                 {activeSubCategory &&
                   activeSubCategory?.topics &&
                   activeSubCategory?.topics.map((topic, index) => {
@@ -231,7 +231,7 @@ const Category = ({ isFindSayge }) => {
                           handleTopicSelection(topic?._id);
                         }}
                       >
-                        <p className='label'>{topic?.name}</p>
+                        <p className="label">{topic?.name}</p>
                       </StyleSubcategoryTopicItem>
                     );
                   })}

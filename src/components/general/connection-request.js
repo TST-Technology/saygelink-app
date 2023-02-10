@@ -11,7 +11,6 @@ import ImageRole from "./image-role";
 import Loader from "./loader";
 
 const ConnectionRequest = ({ detail, getDetail }) => {
-  console.log(detail);
   const requestApi = useHttp();
 
   const responseHandler = (resp) => {
@@ -24,7 +23,6 @@ const ConnectionRequest = ({ detail, getDetail }) => {
   };
 
   const handleAcceptDecline = (optionId, connectionId, status) => {
-    console.log(optionId, connectionId);
     const payload = {
       connection_id: connectionId,
       option_id: optionId,
@@ -45,7 +43,7 @@ const ConnectionRequest = ({ detail, getDetail }) => {
         ) : (
           <>
             {!isEmptyArray(detail) ? (
-              detail.reverse().map((conn, index) => {
+              detail.map((conn, index) => {
                 return (
                   <>
                     <div className="connectionRequest" key={conn?._id}>

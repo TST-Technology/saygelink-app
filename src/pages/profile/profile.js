@@ -99,7 +99,6 @@ const Profile = () => {
   }, []);
 
   const responseHandler = (res) => {
-    console.log("profile", res);
     if (res?.userInfo) {
       setProfile({ ...res?.userInfo });
       setProfileDetail({ ...res?.userInfo });

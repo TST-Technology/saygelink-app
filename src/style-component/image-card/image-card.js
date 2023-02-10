@@ -109,6 +109,8 @@ export const ImageCardStyleNew = styled.div`
       ${({ bgImage }) => {
         if (bgImage) {
           return { backgroundImage: `url(${bgImage})` };
+        } else {
+          return { background: "#ABE9DC" };
         }
       }}
 

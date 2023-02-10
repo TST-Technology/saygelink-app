@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import PersonImage from "../../assets/images/person.png";
 import useHttp from "../../hooks/use-http";
@@ -108,8 +109,7 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
 
     tempArr.map((no) => {
       if (e.target[`option${no}date`].value) {
-        const date = dateFormat(
-          e.target[`option${no}date`].value,
+        const date = moment(e.target[`option${no}date`].value).format(
           DATE_FORMAT.FORMAT_7
         );
         tempDate.push(date);
@@ -127,7 +127,6 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
 
     newPayload.times = tempTime;
 
-    console.log("newPayload", JSON.stringify(newPayload));
     return newPayload;
   };
 

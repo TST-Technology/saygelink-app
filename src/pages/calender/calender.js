@@ -62,7 +62,7 @@ const Calender = () => {
 
   const handleClick = (event, connection) => {
     setAnchorEl(event.currentTarget);
-    console.log(connection);
+
     setSelectedConnection({ ...connection });
   };
   const handleClose = (apiCall) => {
@@ -141,11 +141,8 @@ const Calender = () => {
                         >
                           <div className="calenderPreviewEventsLeft">
                             <p>
-                              {conn?.connect_on?.day
-                                ? dateFormat(
-                                    conn?.connect_on?.day,
-                                    DATE_FORMAT.FORMAT_3
-                                  )
+                              {conn?.connect_on?.time
+                                ? conn?.connect_on?.time
                                 : ""}
                             </p>
                           </div>
@@ -169,10 +166,13 @@ const Calender = () => {
 
                                   <p>
                                     {conn?.connect_on?.day
-                                      ? dateFormat(
+                                      ? `${dateFormat(
                                           conn?.connect_on?.day,
-                                          DATE_FORMAT.FORMAT_1
-                                        )
+                                          DATE_FORMAT.FORMAT_4
+                                        )} `
+                                      : ""}
+                                    {conn?.connect_on?.time
+                                      ? `${conn?.connect_on?.time}`
                                       : ""}
                                   </p>
                                   <a href={conn?.zoom_link}>

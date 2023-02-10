@@ -98,17 +98,17 @@ const Dashboard = () => {
     const newConn = connections.filter((conn) => {
       if (conn.connect_on.day) {
         const selectedDate = dateFormat(value, DATE_FORMAT.FORMAT_2);
-        console.log(selectedDate, conn.connect_on.day);
+
         return selectedDate === conn.connect_on.day;
       }
     });
-    console.log(newConn);
+
     setActiveConnection(newConn);
   };
 
   const handleClick = (event, connection) => {
     setAnchorEl(event.currentTarget);
-    console.log(connection);
+
     setSelectedConnection({ ...connection });
   };
   const handleClose = (apiCall) => {
@@ -135,13 +135,11 @@ const Dashboard = () => {
   };
 
   const handleJoinClick = (event) => {
-    console.log(event);
     setActiveEvent(event);
     setJoinEventConfirmation(true);
   };
 
   const joinResponseHandler = (resp) => {
-    console.log(resp);
     getAllData();
     setJoinEventConfirmation(false);
   };
@@ -171,21 +169,18 @@ const Dashboard = () => {
               <img className="bgLogo" src={BackgroundLogoImage} />
             </div>
 
-            <div className="homeBannerButtonContainer">
-              <p>Someone has the insight you need today.</p>
+            {/* <div className='homeBannerButtonContainer'> */}
+            {/* <p>Someone has the insight you need today.</p> */}
 
-              <FindSaygeButtonStyle onClick={handleFindSayge}>
-                <img src={SearchImage} />
-                Start Here
-              </FindSaygeButtonStyle>
-            </div>
+            <FindSaygeButtonStyle onClick={handleFindSayge}>
+              <img src={SearchImage} />
+              Find a SAYge
+            </FindSaygeButtonStyle>
+            {/* </div> */}
           </div>
           <div className="homeContentContainer">
             <div className="homeContentLeftContainer">
-              <ImageCardStyleNew
-                bgImage={beASaygeBackground}
-                showBorder={false}
-              >
+              <ImageCardStyleNew bgImage={false} showBorder={false}>
                 <div className="cardBody">
                   <div className="cardImage" style={{ height: "180px" }}>
                     <p className="cardImageText text-dark">
@@ -283,7 +278,6 @@ const Dashboard = () => {
               <div className="categoryContainer">
                 {!isEmptyArray(categories) ? (
                   categories.map((category, index) => {
-                    console.log(category);
                     return (
                       <StyleCategoryCard
                         key={index}

@@ -41,11 +41,11 @@ const MainRoutes = () => {
   useEffect(() => {
     setIncludeHeader(
       HEADER_VISIBLE_ROUTES.includes(location.pathname) ||
-        location.pathname.includes("/members") ||
-        location.pathname.includes("/member") ||
-        location.pathname.includes("/message") ||
-        location.pathname.includes("/category") ||
-        location.pathname.includes("/network")
+      location.pathname.includes("/members") ||
+      location.pathname.includes("/member") ||
+      location.pathname.includes("/message") ||
+      location.pathname.includes("/category") ||
+      location.pathname.includes("/network")
     );
   }, [location]);
 
@@ -98,6 +98,7 @@ const MainRoutes = () => {
               }
             >
               <Route path="auth/*" element={<Login />} />
+              <Route path="register" element={<Signup />} />
             </Route>
             <Route
               element={

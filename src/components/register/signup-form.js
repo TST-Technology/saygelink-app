@@ -26,7 +26,6 @@ const SignUpForm = () => {
   const navigate = useNavigate();
 
   const responseHandler = (res) => {
-    console.log("object", res);
     if (res?.success === true) {
       UserProfile.userDetails["user"] = res?.user;
       UserProfile.userDetails["token"] = res?.token;
@@ -39,7 +38,6 @@ const SignUpForm = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(e.target.password);
 
     if (e.target.password.value !== e.target.confirmPassword.value) {
       notify.error("Password and Confirm Password must be the same");

@@ -1,73 +1,73 @@
-import React, { useContext, useState } from 'react'
-import TimePicker from '../../components/create-account/time-picker'
-import WeekdaySelector from '../../components/create-account/week-day-selector'
+import React, { useContext, useState } from "react";
+import TimePicker from "../../components/create-account/time-picker";
+import WeekdaySelector from "../../components/create-account/week-day-selector";
 import {
   StyleAddIntervalButton,
   StyleDayTimeContainer,
   StyleInput,
   StyleInputButton,
   StyleInputButtonContainer,
-  StyleTimezoneDropdown
-} from '../../style-component/createAccount/availability'
+  StyleTimezoneDropdown,
+} from "../../style-component/createAccount/availability";
 import {
   StepperSubtitle,
   StepperSubtitleBold,
   StyleCreateAccountBodyContainer,
   StyleNextButton,
   StyleNextButtonContainer,
-  StyleMarginTop2
-} from '../../style-component/createAccount/create-account'
-import { DarkGrayLable } from '../../style-component/general'
-import { notify } from '../../utils/funcs'
-import { CreateAccountContext } from './create-account'
-import DeleteIcon from '../../assets/images/delete.svg'
-import useHttp from '../../hooks/use-http'
-import CONSTANT from '../../utils/constants'
+  StyleMarginTop2,
+} from "../../style-component/createAccount/create-account";
+import { DarkGrayLable } from "../../style-component/general";
+import { notify } from "../../utils/funcs";
+import { CreateAccountContext } from "./create-account";
+import DeleteIcon from "../../assets/images/delete.svg";
+import useHttp from "../../hooks/use-http";
+import CONSTANT from "../../utils/constants";
 
 const Availability = () => {
   const INIT_TIME = {
-    hour: '',
-    minute: '',
-    time: 'AM'
-  }
+    hour: "",
+    minute: "",
+    time: "AM",
+  };
 
   const INIT_INTERVAL = {
-    day: 'Sat',
+    day: "Sat",
     start_time: JSON.parse(JSON.stringify(INIT_TIME)),
     end_time: JSON.parse(JSON.stringify(INIT_TIME)),
-    timezone: 'EDT'
-  }
+    timezone: "EDT",
+  };
 
-  const [requests, setRequests] = useState(1)
+  const [requests, setRequests] = useState(1);
   const { formData, setStep, setFormData, step } =
-    useContext(CreateAccountContext)
-  const [interval, setInterval] = useState(INIT_INTERVAL)
-  const [allIntervals, setAllIntervals] = useState(null)
+    useContext(CreateAccountContext);
+  const [interval, setInterval] = useState(INIT_INTERVAL);
+  const [allIntervals, setAllIntervals] = useState(null);
 
-  const availabilityApi = useHttp()
+  const availabilityApi = useHttp();
 
-  const weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const weeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const onChangeTime = (value) => {
     setInterval((prevValue) => {
-      return { ...prevValue, day: value }
-    })
-  }
+      return { ...prevValue, day: value };
+    });
+  };
 
   const onChangeInterval = (key, subKey, value) => {
     setInterval((prevValue) => {
-      const temp = prevValue
+      const temp = prevValue;
 
       if (temp) {
-        temp[key][subKey] = value
+        temp[key][subKey] = value;
 
-        return { ...JSON.parse(JSON.stringify(temp)) }
+        return { ...JSON.parse(JSON.stringify(temp)) };
       }
-    })
-  }
+    });
+  };
 
   const onAddTimeInterval = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (
       interval &&
       interval.day &&
@@ -81,81 +81,78 @@ const Availability = () => {
       interval?.end_time?.minute &&
       interval?.end_time?.time
     ) {
-      const newInterval = JSON.parse(JSON.stringify(interval))
-      console.log(newInterval)
+      const newInterval = JSON.parse(JSON.stringify(interval));
 
       setAllIntervals((prevValue) => {
         if (prevValue) {
-          const temp = prevValue.slice()
+          const temp = prevValue.slice();
 
-          console.log(newInterval)
+          newInterval.start_time = { ...newInterval.start_time };
+          newInterval.end_time = { ...newInterval.end_time };
 
-          newInterval.start_time = { ...newInterval.start_time }
-          newInterval.end_time = { ...newInterval.end_time }
+          temp.push(newInterval);
 
-          temp.push(newInterval)
-
-          return temp
+          return temp;
         } else {
-          return [JSON.parse(JSON.stringify(newInterval))]
+          return [JSON.parse(JSON.stringify(newInterval))];
         }
-      })
+      });
       setInterval((prevValue) => {
-        prevValue.start_time = JSON.parse(JSON.stringify(INIT_TIME))
-        prevValue.end_time = JSON.parse(JSON.stringify(INIT_TIME))
+        prevValue.start_time = JSON.parse(JSON.stringify(INIT_TIME));
+        prevValue.end_time = JSON.parse(JSON.stringify(INIT_TIME));
 
-        return { ...prevValue }
-      })
+        return { ...prevValue };
+      });
     } else {
-      notify.error('Please select all fields')
+      notify.error("Please select all fields");
     }
-  }
+  };
 
   const handleNextButtonClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const intervalPayload = prepareIntervalForApiCall()
+    const intervalPayload = prepareIntervalForApiCall();
 
     const payload = {
       availability: intervalPayload,
-      max_chat_requests: requests
-    }
+      max_chat_requests: requests,
+    };
 
     availabilityApi.sendRequest(
       CONSTANT.API.updateUser,
       handleUpdateResponse,
       payload,
-      'Availability added successfully!'
-    )
-  }
+      "Availability added successfully!"
+    );
+  };
 
   const handleUpdateResponse = (resp) => {
     if (resp) {
-      setStep((prevValue) => prevValue + 1)
+      setStep((prevValue) => prevValue + 1);
     }
-  }
+  };
 
   const prepareIntervalForApiCall = () => {
     if (allIntervals && Array.isArray(allIntervals)) {
       const temp = allIntervals.map((interval) => {
-        const newInterval = JSON.parse(JSON.stringify(interval))
-        newInterval.start_time = `${newInterval.start_time.hour}:${newInterval.start_time.minute}${newInterval.start_time.time}`
-        newInterval.end_time = `${newInterval.end_time.hour}:${newInterval.end_time.minute}${newInterval.end_time.time}`
-        return newInterval
-      })
+        const newInterval = JSON.parse(JSON.stringify(interval));
+        newInterval.start_time = `${newInterval.start_time.hour}:${newInterval.start_time.minute}${newInterval.start_time.time}`;
+        newInterval.end_time = `${newInterval.end_time.hour}:${newInterval.end_time.minute}${newInterval.end_time.time}`;
+        return newInterval;
+      });
 
-      return temp
+      return temp;
     }
-  }
+  };
 
   const onRemoveInterval = (index) => {
     setAllIntervals((prevValue) => {
-      const temp = prevValue.slice()
+      const temp = prevValue.slice();
 
-      temp.splice(index, 1)
-      return [...temp]
-    })
-  }
+      temp.splice(index, 1);
+      return [...temp];
+    });
+  };
 
   return (
     <>
@@ -172,88 +169,88 @@ const Availability = () => {
       <StyleInputButtonContainer>
         <StyleInputButton>
           <a
-            className='decrement button'
+            className="decrement button"
             onClick={() => setRequests((prevValue) => parseInt(prevValue) - 1)}
           >
             -
           </a>
           <StyleInput
-            type={'number'}
+            type={"number"}
             value={requests}
             onChange={(e) => setRequests(e.target.value)}
           ></StyleInput>
           <a
-            className='increment button'
+            className="increment button"
             onClick={() => setRequests((prevValue) => parseInt(prevValue) + 1)}
           >
             +
           </a>
         </StyleInputButton>
 
-        <div className='requestsPerMonthText'>Requests per month</div>
+        <div className="requestsPerMonthText">Requests per month</div>
       </StyleInputButtonContainer>
 
       <StyleDayTimeContainer>
-        <p className='dayTimeText'>Select the day & time your available</p>
+        <p className="dayTimeText">Select the day & time your available</p>
 
-        <div className='dayTimeContainer'>
+        <div className="dayTimeContainer">
           <WeekdaySelector
             items={weeks}
             selectedItemLabel={interval.day}
             onClick={(val) => {
-              onChangeTime(val)
+              onChangeTime(val);
             }}
             addedItems={allIntervals ? allIntervals.map((row) => row.day) : []}
           />
 
-          <div className='timePickerContainer'>
-            <div className='startTimeContainer'>
-              <p className='timeLabel'>Start time</p>
+          <div className="timePickerContainer">
+            <div className="startTimeContainer">
+              <p className="timeLabel">Start time</p>
               <TimePicker
-                name='startTime'
+                name="startTime"
                 minute={interval.start_time.minute}
                 hour={interval.start_time.hour}
                 time={interval.start_time.time}
                 onChangeHour={(val) =>
-                  onChangeInterval('start_time', 'hour', val)
+                  onChangeInterval("start_time", "hour", val)
                 }
                 onChangeMinute={(val) =>
-                  onChangeInterval('start_time', 'minute', val)
+                  onChangeInterval("start_time", "minute", val)
                 }
                 onChangeTime={(val) =>
-                  onChangeInterval('start_time', 'time', val)
+                  onChangeInterval("start_time", "time", val)
                 }
               />
             </div>
 
-            <div className='endTimeContainer'>
-              <p className='timeLabel'>End time</p>
+            <div className="endTimeContainer">
+              <p className="timeLabel">End time</p>
               <TimePicker
-                name='endTime'
+                name="endTime"
                 minute={interval.end_time.minute}
                 hour={interval.end_time.hour}
                 time={interval.end_time.time}
                 onChangeHour={(val) =>
-                  onChangeInterval('end_time', 'hour', val)
+                  onChangeInterval("end_time", "hour", val)
                 }
                 onChangeMinute={(val) =>
-                  onChangeInterval('end_time', 'minute', val)
+                  onChangeInterval("end_time", "minute", val)
                 }
                 onChangeTime={(val) =>
-                  onChangeInterval('end_time', 'time', val)
+                  onChangeInterval("end_time", "time", val)
                 }
               />
             </div>
 
             <StyleTimezoneDropdown
-              onChange={(e) => onChangeTime('timezone', e.target.value)}
+              onChange={(e) => onChangeTime("timezone", e.target.value)}
             >
-              <option value='EDT'>EDT</option>
+              <option value="EDT">EDT</option>
             </StyleTimezoneDropdown>
 
             <StyleAddIntervalButton
               onClick={(e) => {
-                onAddTimeInterval(e)
+                onAddTimeInterval(e);
               }}
             >
               Add interval
@@ -265,19 +262,19 @@ const Availability = () => {
           allIntervals.length > 0 &&
           allIntervals.filter((row) => row?.day === interval?.day).length >
             0 ? (
-            <div className='viewDateTime'>
+            <div className="viewDateTime">
               {allIntervals.map((row, index) => {
                 return (
                   <>
                     {row?.day === interval?.day ? (
                       <div
                         onClick={() => {
-                          onRemoveInterval(index)
+                          onRemoveInterval(index);
                         }}
-                        className='viewRow'
+                        className="viewRow"
                         key={index}
                       >
-                        <div className='textContainer'>
+                        <div className="textContainer">
                           <span>{row?.start_time?.hour}</span>
                           <span>:</span>
                           <span>{row?.start_time?.minute}</span>
@@ -290,13 +287,13 @@ const Availability = () => {
                           <span>{row?.end_time?.time}</span>
                         </div>
 
-                        <div className='buttonContainer'>
+                        <div className="buttonContainer">
                           <img src={DeleteIcon} />
                         </div>
                       </div>
                     ) : null}
                   </>
-                )
+                );
               })}
             </div>
           ) : null}
@@ -305,7 +302,7 @@ const Availability = () => {
       <StyleNextButtonContainer>
         <StyleNextButton
           onClick={(e) => {
-            handleNextButtonClick(e)
+            handleNextButtonClick(e);
           }}
           disabled={availabilityApi.isLoading}
         >
@@ -313,7 +310,7 @@ const Availability = () => {
         </StyleNextButton>
       </StyleNextButtonContainer>
     </>
-  )
-}
+  );
+};
 
-export default Availability
+export default Availability;
