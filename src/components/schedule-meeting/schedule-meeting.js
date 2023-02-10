@@ -127,7 +127,6 @@ const ScheduleMeeting = ({ connectionId, email, optionId, onClose, type }) => {
 
     newPayload.times = tempTime;
 
-    console.log("newPayload", JSON.stringify(newPayload));
     return newPayload;
   };
 

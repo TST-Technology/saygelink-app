@@ -98,6 +98,7 @@ const MainRoutes = () => {
               }
             >
               <Route path="auth/*" element={<Login />} />
+              <Route path="register" element={<Signup />} />
             </Route>
             <Route
               element={

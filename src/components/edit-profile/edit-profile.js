@@ -7,14 +7,14 @@ import {
   GenderCardStyle,
   GenderContainerStyle,
   SaveChangesButtonStyle,
-  UploadContainerStyle
+  UploadContainerStyle,
 } from "../../style-component/profile/edit-profile";
 import CrossIcon from "../../assets/images/close.svg";
 import CONSTANT, { ACCEPT_IMAGE_TYPE } from "../../utils/constants";
 import {
   capitalizeFirstLetter,
   getQualificationYear,
-  notify
+  notify,
 } from "../../utils/funcs";
 import useHttp from "../../hooks/use-http";
 import ImageRole from "../general/image-role";
@@ -98,10 +98,9 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
   const handleImageChangeResponse = () => {
     const param = {
       qualification: selectedRole.toLowerCase(),
-      qualification_year: qualificationYear
+      qualification_year: qualificationYear,
     };
 
-    console.log(param);
     profileApi.sendRequest(
       CONSTANT.API.updateUserQualification,
       () => {
@@ -127,14 +126,14 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
         onClose(false);
       }}
     >
-      <div className='dialog'>
-        <div className='dialogHeader'>
-          <div className='dialogHeadingLeft'>
-            <h3 className='dialogTitle'>Edit Profile</h3>
+      <div className="dialog">
+        <div className="dialogHeader">
+          <div className="dialogHeadingLeft">
+            <h3 className="dialogTitle">Edit Profile</h3>
           </div>
 
           <img
-            className='closeIcon'
+            className="closeIcon"
             src={CrossIcon}
             onClick={() => {
               onClose(false);
@@ -143,12 +142,12 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
         </div>
 
         <form onSubmit={handleFormSubmit}>
-          <div className='dialogBody'>
-            <label htmlFor='uploadAttachment' className='profileImage'>
+          <div className="dialogBody">
+            <label htmlFor="uploadAttachment" className="profileImage">
               <input
-                name='uploadAttachment'
-                type='file'
-                id='uploadAttachment'
+                name="uploadAttachment"
+                type="file"
+                id="uploadAttachment"
                 hidden
                 onChange={handleImageChange}
                 accept={ACCEPT_IMAGE_TYPE}
@@ -159,23 +158,23 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
                     ? URL.createObjectURL(profileImage)
                     : profileDetail?.profile_image
                 }
-                className='profileImage'
+                className="profileImage"
                 role={profileDetail?.qualification}
               />
             </label>
 
-            <div className='row2'>
+            <div className="row2">
               <div>
                 <DialogInputStyle
-                  name='name'
-                  type='text'
+                  name="name"
+                  type="text"
                   defaultValue={profileDetail?.name}
                   placeholder={"Enter name"}
                 />
               </div>
 
               <div>
-                <DialogDropdownStyle name='role' onChange={handleRoleChange}>
+                <DialogDropdownStyle name="role" onChange={handleRoleChange}>
                   {CONSTANT.role.map((role) => {
                     return (
                       <option
@@ -191,11 +190,11 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
               </div>
             </div>
 
-            <div className='row2'>
+            <div className="row2">
               {selectedRole !== "Faculty" ? (
                 <div>
                   <DialogDropdownStyle
-                    name='qualificationYear'
+                    name="qualificationYear"
                     onChange={handleYearChange}
                   >
                     {yearList.map((year) => {
@@ -233,10 +232,10 @@ const EditProfile = ({ open, onClose, profileDetail }) => {
             </div>
 
             <DialogTextAreaStyle
-              name='about'
+              name="about"
               defaultValue={profileDetail?.about}
-              placeholder='Tell us about yourself'
-              rows='5'
+              placeholder="Tell us about yourself"
+              rows="5"
             />
 
             <SaveChangesButtonStyle disabled={profileApi.isLoading}>

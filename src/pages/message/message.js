@@ -63,17 +63,11 @@ const Message = () => {
   useEffect(() => {
     getConversationList();
 
-    socket.on(SOCKET_EVENTS.CONNECT, (socket) => {
-      console.log("connected", socket);
-    });
+    socket.on(SOCKET_EVENTS.CONNECT, (socket) => {});
 
-    socket.on(SOCKET_EVENTS.DISCONNECT, () => {
-      console.log("disconnected");
-    });
+    socket.on(SOCKET_EVENTS.DISCONNECT, () => {});
 
-    socket.on(SOCKET_EVENTS.RECEIVE_NOTIFICATION, (notification) => {
-      console.log(SOCKET_EVENTS.RECEIVE_NOTIFICATION, notification);
-    });
+    socket.on(SOCKET_EVENTS.RECEIVE_NOTIFICATION, (notification) => {});
 
     socket.on(SOCKET_EVENTS.ONLINE_USERS, (no) => {
       handleOnlineUser(no);
@@ -95,7 +89,6 @@ const Message = () => {
 
   useLayoutEffect(() => {
     return () => {
-      console.log("layout called");
       visitedMember.detail = {};
     };
   }, []);
@@ -141,7 +134,7 @@ const Message = () => {
         }
         return mes;
       });
-      console.log(tempMessages);
+
       setMessages(tempMessages);
       scrollToLastMessage();
     }
@@ -321,9 +314,7 @@ const Message = () => {
 
   //  Socket Handlers
 
-  const handleOnlineUser = (no) => {
-    console.log("online-users", no);
-  };
+  const handleOnlineUser = (no) => {};
 
   const handleNewMessage = (message, isSend = true) => {
     const currentDateTime = new Date();
@@ -359,7 +350,6 @@ const Message = () => {
     } else {
       if (searchTerm) {
         if (searchTerm) {
-          console.log(allConversationList);
           const filteredDoctors = allConversationList.filter((row) => {
             return row?.participants?.name.indexOf(searchTerm) > -1;
           });
