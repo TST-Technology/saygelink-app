@@ -171,7 +171,7 @@ export const HomeContainerStyle = styled.div`
 
     .homeContentCenterContainer {
       width: calc(100% - ${HEADER_LEFT_WIDTH} - ${HEADER_RIGHT_WIDTH});
-      padding: 0 35px;
+      padding: 0 0 0 35px;
 
       @media ${devices.laptop} {
         width: calc(100% - ${HEADER_LEFT_WIDTH});
@@ -182,6 +182,7 @@ export const HomeContainerStyle = styled.div`
 
       .categoryContainer {
         display: flex;
+        justify-content: space-between;
         flex-wrap: wrap;
         gap: 10px;
       }
