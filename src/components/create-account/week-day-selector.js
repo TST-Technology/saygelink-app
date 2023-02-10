@@ -1,11 +1,10 @@
-import React from 'react'
+import React from "react";
 import {
   StyleCard,
-  StyleWeekdayContainer
-} from '../../style-component/createAccount/weekday-selector'
+  StyleWeekdayContainer,
+} from "../../style-component/createAccount/weekday-selector";
 
 const WeekdaySelector = ({ items, selectedItemLabel, onClick, addedItems }) => {
-  console.log({ addedItems })
   return (
     <StyleWeekdayContainer>
       {items &&
@@ -16,17 +15,17 @@ const WeekdaySelector = ({ items, selectedItemLabel, onClick, addedItems }) => {
               selected={item === selectedItemLabel}
               added={addedItems.includes(item)}
               onClick={() => {
-                onClick(item)
+                onClick(item);
               }}
             >
-              <p className='weekdayText'>
-                {item ? item.charAt(0).toUpperCase() : ''}
+              <p className="weekdayText">
+                {item ? item.charAt(0).toUpperCase() : ""}
               </p>
             </StyleCard>
-          )
+          );
         })}
     </StyleWeekdayContainer>
-  )
-}
+  );
+};
 
-export default WeekdaySelector
+export default WeekdaySelector;

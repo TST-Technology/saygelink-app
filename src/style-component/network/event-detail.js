@@ -1,5 +1,7 @@
-import styled from 'styled-components'
-import { Button, FlexAlignCenter, FlexJustifySpaceBetween } from '../general'
+import styled from "styled-components";
+import { devices } from "../../utils/constants";
+import { Button, FlexAlignCenter, FlexJustifySpaceBetween } from "../general";
+import cardBackgroundImage2 from "../../assets/images/cardBackground2.png";
 
 export const EventDetailStyle = styled.div`
   .eventImage {
@@ -15,7 +17,7 @@ export const EventDetailStyle = styled.div`
     gap: 20px;
 
     .eventTitle {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 600;
       font-size: 25px;
@@ -25,7 +27,7 @@ export const EventDetailStyle = styled.div`
     }
 
     .memberCount {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
@@ -42,16 +44,46 @@ export const EventDetailStyle = styled.div`
     display: flex;
     gap: 20px;
 
+    @media ${devices.tablet} {
+      flex-direction: column-reverse;
+    }
+
     .eventDetailPostContainer {
       width: 70%;
       border-right: 1px solid #d4d4d4;
+
+      @media ${devices.tablet} {
+        width: 100%;
+        border-right: none;
+      }
     }
 
     .eventParticipantsDetail {
       width: 30%;
 
+      .eventAllText {
+        text-decoration: none;
+        color: #f62e5f;
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 17px;
+        line-height: 16px;
+      }
+
+      @media ${devices.tablet} {
+        width: 100%;
+      }
+
       .participantsLisContainer {
-        padding-right: 20px;
+        // padding-right: 20px;
+
+        @media ${devices.tablet} {
+          display: flex;
+          width: 100%;
+          overflow-y: scroll;
+          gap: 20px;
+        }
 
         .participantCard {
           background: #ffffff;
@@ -59,10 +91,18 @@ export const EventDetailStyle = styled.div`
           border-radius: 12px;
           padding: 20px;
           margin-top: 20px;
+          @media ${devices.tablet} {
+            width: 275px;
+            height: 260px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
 
           .participantHeader {
             ${FlexJustifySpaceBetween};
             gap: 20px;
+            width: 100%;
 
             .participantImage {
               height: 80px;
@@ -73,7 +113,7 @@ export const EventDetailStyle = styled.div`
           }
 
           .participantName {
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 600;
             font-size: 20px;
@@ -85,7 +125,7 @@ export const EventDetailStyle = styled.div`
           }
 
           .participantExperience {
-            font-family: 'Poppins';
+            font-family: "Poppins";
             font-style: normal;
             font-weight: 400;
             font-size: 12px;
@@ -96,7 +136,7 @@ export const EventDetailStyle = styled.div`
       }
     }
   }
-`
+`;
 
 export const StyleViewButton = styled.button`
   ${Button}
@@ -107,4 +147,21 @@ export const StyleViewButton = styled.button`
   background: #1186ef;
   border-radius: 9px;
   color: #ffffff;
-`
+`;
+
+export const EventCardMain = styled.div`
+  background: 
+    /* top, transparent red, faked with gradient */ linear-gradient(
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.45)
+    ),
+    url("${(props) => (props.image ? props.image : cardBackgroundImage2)}");
+  background-repeat: no-repeat;
+  object-fit: cover;
+  background-size: cover;
+  padding: 20px;
+  border-radius: 8px;
+  background-position: center;
+  cursor: pointer;
+  height: 100%;
+`;

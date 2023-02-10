@@ -8,7 +8,7 @@ import {
 } from "../../style-component/dashboard/dashboard";
 import cardBackgroundImage2 from "../../assets/images/cardBackground2.png";
 import cardBackgroundImage3 from "../../assets/images/cardBackground3.png";
-import beASaygeBackground from "../../assets/images/beASaygeBackground.svg";
+import beASaygeBackground from "../../assets/images/HomeCardBackground.svg";
 import ImageCard from "../../components/general/image-card";
 import { StyleCategoryCard } from "../../style-component/createAccount/experiences";
 import Post from "../../components/general/post";
@@ -46,7 +46,7 @@ const Dashboard = () => {
   const [events, setEvents] = useState(null);
   const [interests, setInterests] = useState(null);
   const [value, setValue] = useState(new Date());
-  const [connections, setConnections] = useState(null);
+  const [connections, setConnections] = useState([]);
   const [activeConnections, setActiveConnection] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [selectedConnection, setSelectedConnection] = useState(null);
@@ -98,17 +98,17 @@ const Dashboard = () => {
     const newConn = connections.filter((conn) => {
       if (conn.connect_on.day) {
         const selectedDate = dateFormat(value, DATE_FORMAT.FORMAT_2);
-        console.log(selectedDate, conn.connect_on.day);
+
         return selectedDate === conn.connect_on.day;
       }
     });
-    console.log(newConn);
+
     setActiveConnection(newConn);
   };
 
   const handleClick = (event, connection) => {
     setAnchorEl(event.currentTarget);
-    console.log(connection);
+
     setSelectedConnection({ ...connection });
   };
   const handleClose = (apiCall) => {
@@ -135,13 +135,11 @@ const Dashboard = () => {
   };
 
   const handleJoinClick = (event) => {
-    console.log(event);
     setActiveEvent(event);
     setJoinEventConfirmation(true);
   };
 
   const joinResponseHandler = (resp) => {
-    console.log(resp);
     getAllData();
     setJoinEventConfirmation(false);
   };
@@ -171,25 +169,23 @@ const Dashboard = () => {
               <img className="bgLogo" src={BackgroundLogoImage} />
             </div>
 
-            <div className="homeBannerButtonContainer">
-              <p>Someone has the insight you need today.</p>
+            {/* <div className='homeBannerButtonContainer'> */}
+            {/* <p>Someone has the insight you need today.</p> */}
 
-              <FindSaygeButtonStyle onClick={handleFindSayge}>
-                <img src={SearchImage} />
-                Start Here
-              </FindSaygeButtonStyle>
-            </div>
+            <FindSaygeButtonStyle onClick={handleFindSayge}>
+              <img src={SearchImage} />
+              Find a SAYge
+            </FindSaygeButtonStyle>
+            {/* </div> */}
           </div>
           <div className="homeContentContainer">
             <div className="homeContentLeftContainer">
-              <ImageCardStyleNew
-                bgImage={beASaygeBackground}
-                showBorder={false}
-              >
+              <ImageCardStyleNew bgImage={false} showBorder={false}>
                 <div className="cardBody">
-                  <div className="cardImage">
-                    <p className="cardImageText">
-                      Everyone has a story. What's your story?
+                  <div className="cardImage" style={{ height: "180px" }}>
+                    <p className="cardImageText text-dark">
+                      Everyone has a story.
+                      <br /> What's your story?
                     </p>
                     <a
                       onClick={() => {
@@ -329,19 +325,36 @@ const Dashboard = () => {
             </div>
             <div className="homeContentRightContainer">
               <h2 className="calenderTitle">Calender</h2>
-              <CustomCalender onChange={setValue} value={value} />
+              <CustomCalender
+                onChange={setValue}
+                value={value}
+                connections={connections}
+              />
 
               {!isEmptyArray(activeConnections) ? (
                 <div className="connectionContainer">
                   <div className="cardHeading">
                     <p className="">Upcoming Meetings</p>
-                    <span className="">View all</span>
+                    <span
+                      className=""
+                      onClick={() => navigate(`${ROUTES.CALENDER}`)}
+                    >
+                      View all
+                    </span>
                   </div>
                   <></>
                   {activeConnections &&
                     activeConnections.map((conn) => {
                       return (
-                        <div key={conn._id}>
+                        <div
+                          key={conn._id}
+                          style={{
+                            background: "#fff",
+                            padding: "12px 0px 17px 11px",
+                            borderRadius: "10px",
+                            marginTop: "10px",
+                          }}
+                        >
                           <div className="connectionItem">
                             <img
                               src={conn?.sharer?.profile_image}

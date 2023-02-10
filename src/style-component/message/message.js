@@ -30,7 +30,7 @@ export const MessageContainerStyle = styled.div`
     }
 
     .rightSection {
-      background: ${theme.lightTheme.seashell};
+      background: ${theme.lightTheme.black};
 
       height: 100%;
       display: flex;
@@ -52,6 +52,7 @@ export const MessageContainerStyle = styled.div`
           display: flex;
           align-items: center;
           gap: 20px;
+          cursor: pointer;
         }
 
         .nameContainer {
@@ -118,6 +119,10 @@ export const MessageContainerStyle = styled.div`
           overflow-y: auto;
           user-select: none;
 
+          @media ${devices.tablet} {
+            height: calc(100% - 92px);
+          }
+
           .chatDateText {
             text-align: center;
             margin: 30px;
@@ -150,21 +155,32 @@ export const MessageContainerStyle = styled.div`
     }
 
     .rightSectionContainer {
-      background: #f0f0f0;
+      background: #ffffff;
       width: calc(100% - ${LEFT_WIDTH});
     }
 
     .messageBackgroundContainer {
       ${FlexCenter};
       margin: 0 auto;
-      max-width: 70%;
+      max-width: 80%;
       height: 100%;
+      text-align: center;
 
       .messageBackground {
         ${FlexCenter};
         flex-direction: column;
         gap: 20px;
         height: 100%;
+        width: 100%;
+
+        img{
+          @media ${devices.laptop} {
+            width: 100%;
+          }
+          @media ${devices.tablet} {
+            width: 100%;
+          }
+        }
 
         h2 {
           font-family: 'Poppins';
@@ -295,7 +311,7 @@ export const MessageStyle = styled.div`
     line-height: 19px;
     color: ${theme.lightTheme.primary.textcolor};
     background: ${(props) =>
-      props.sent ? theme.lightTheme.black : 'rgba(38, 38, 38, 0.05)'};
+    props.sent ? theme.lightTheme.black : 'rgba(38, 38, 38, 0.05)'};
     border-radius: 6.66667px;
     padding: 10px 15px;
     margin-bottom: 8px;
@@ -326,6 +342,12 @@ export const MessageInputStyle = styled.input`
   width: 100%;
   border-radius: 14.1667px;
 
+  @media ${devices.tablet} {
+    padding: 20px 10px;
+    font-weight: 500;
+    font-size: 12.5px;
+  }
+
   &::placeholder {
     color: rgba(38, 38, 38, 0.4);
   }
@@ -345,10 +367,21 @@ export const SendButtonStyle = styled.button`
   position: absolute;
   right: 50px;
   top: 31px;
+
+  @media ${devices.tablet} {
+    top: 27px;
+    padding: 2px 10px;
+    right: 40px;
+    font-size: 13px;
+
+    img{
+      width: 29%;
+    }
+  }
 `
 
 export const MessageMemberList = styled.div`
-    background: ${theme.lightTheme.seashell};
+    background: ${theme.lightTheme.black};
     width: ${LEFT_WIDTH};
     height: 100%;
     border-right: 3px solid rgba(204, 204, 204, 0.25);
@@ -357,13 +390,13 @@ export const MessageMemberList = styled.div`
     border-radius: 8.33333px;
 
     ${(props) => {
-      if (props.isFloater) {
-        return {
-          background: theme.lightTheme.black,
-          width: '420px'
-        }
+    if (props.isFloater) {
+      return {
+        background: theme.lightTheme.black,
+        width: '420px'
       }
-    }}
+    }
+  }}
 
     .membersHeadingContainer {
       ${FlexJustifySpaceBetween};

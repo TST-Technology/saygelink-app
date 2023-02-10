@@ -1,14 +1,14 @@
-import styled, { css } from 'styled-components'
-import { DashboardHeaderHeight } from '../../utils/constants'
-import theme from '../../utils/variables'
-import { FlexAlignCenter, FlexJustifySpaceBetween } from '../general'
+import styled, { css } from "styled-components";
+import { DashboardHeaderHeight } from "../../utils/constants";
+import theme from "../../utils/variables";
+import { FlexAlignCenter, FlexJustifySpaceBetween } from "../general";
 
 export const StyleCategoryContainer = styled.div`
   height: calc(100vh - ${DashboardHeaderHeight});
   background: white;
 
   .heading {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 600;
     font-size: 24px;
@@ -17,11 +17,29 @@ export const StyleCategoryContainer = styled.div`
   }
 
   .subHeading {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
-    line-height: 18px;
+    line-height: 10px;
+    color: #696f79;
+  }
+
+  .newHeading {
+    font-family: "Poppins";
+    font-style: normal;
+    text-align: center;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 36px;
+    color: #fa2f66;
+  }
+
+  .newSubHeading {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
     color: #696f79;
   }
 
@@ -71,7 +89,7 @@ export const StyleCategoryContainer = styled.div`
     right: 50px;
     bottom: 50px;
   }
-`
+`;
 
 export const CommonCardStyle = css`
   ${FlexAlignCenter};
@@ -87,9 +105,9 @@ export const CommonCardStyle = css`
   ${(props) => {
     if (props.selected) {
       return {
-        borderColor: '#abe9dc',
-        background: 'rgba(171, 233, 220, 0.2)'
-      }
+        borderColor: "#abe9dc",
+        background: "rgba(171, 233, 220, 0.2)"
+      };
     }
   }}
 
@@ -106,13 +124,13 @@ export const CommonCardStyle = css`
     ${(props) => {
       if (props.selected) {
         return {
-          color: '#5C5353',
+          color: "#5C5353",
           fontWeight: 600
-        }
+        };
       }
     }}
   }
-`
+`;
 
 export const StyleCategoryCard = styled.div`
   ${CommonCardStyle};
@@ -125,7 +143,7 @@ export const StyleCategoryCard = styled.div`
       border-radius: 8px;
     }
   }
-`
+`;
 
 export const StyleSubcategoryTopicItem = styled.div`
   ${CommonCardStyle};
@@ -135,9 +153,9 @@ export const StyleSubcategoryTopicItem = styled.div`
   ${(props) => {
     if (props.isFindSayge && props.selected) {
       return {
-        borderColor: '',
-        background: '#F62E5F'
-      }
+        borderColor: "",
+        background: "#F62E5F"
+      };
     }
   }}
 
@@ -145,9 +163,9 @@ export const StyleSubcategoryTopicItem = styled.div`
     ${(props) => {
       if (props.isFindSayge && props.selected) {
         return {
-          color: 'white'
-        }
+          color: "white"
+        };
       }
     }}
   }
-`
+`;

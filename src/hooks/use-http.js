@@ -36,7 +36,13 @@ const useHttp = () => {
         if (successMessage) {
           notify.success(successMessage);
         }
-        if (responseHandler) responseHandler(data);
+        try{
+          if (responseHandler) responseHandler(data);
+
+        }
+        catch(e){
+          console.log(e);
+        }
       } catch (err) {
         if (err?.response?.data?.msg) {
           notify.error(err?.response?.data?.msg);
