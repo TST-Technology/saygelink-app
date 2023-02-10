@@ -5,39 +5,33 @@ import Body from "../components/general/Body";
 import MainRoutes from "./MainRoutes";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
+import Mobile from "../pages/Mobile";
 
 const Layout = () => {
-  const [deviceType, setDeviceType] = useState(false);
-  const [size, setSize] = useState(null);
+  let deviceType = false
 
-  useEffect(() => {
-    displayWindowSize();
-    window.addEventListener("resize", displayWindowSize);
-  }, []);
 
-  function displayWindowSize() {
-    // Get width and height of the window excluding scrollbars
-    var w = document.documentElement.clientWidth;
+  var w = document.documentElement.clientWidth;
 
-    setSize(w);
-    if (w < 500) {
-      setDeviceType(true);
-    } else {
-      setDeviceType(false);
-    }
+  if (w < 500) {
+    deviceType = true;
+  } else {
+    deviceType = false;
   }
+
 
   console.log(deviceType);
   return !deviceType ? (
     <Fragment>
-      {/* Toast Container */}
       <ToastContainer />
       <Body>
         <MainRoutes />
       </Body>
     </Fragment>
   ) : (
-    <></>
+    <>
+      <Mobile />
+    </>
   );
 };
 

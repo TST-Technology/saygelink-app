@@ -41,11 +41,11 @@ const MainRoutes = () => {
   useEffect(() => {
     setIncludeHeader(
       HEADER_VISIBLE_ROUTES.includes(location.pathname) ||
-        location.pathname.includes("/members") ||
-        location.pathname.includes("/member") ||
-        location.pathname.includes("/message") ||
-        location.pathname.includes("/category") ||
-        location.pathname.includes("/network")
+      location.pathname.includes("/members") ||
+      location.pathname.includes("/member") ||
+      location.pathname.includes("/message") ||
+      location.pathname.includes("/category") ||
+      location.pathname.includes("/network")
     );
   }, [location]);
 
