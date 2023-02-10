@@ -8,7 +8,7 @@ export const StyledExperienceContainer = styled.div`
   .categoryContainer {
     display: flex;
     flex-wrap: wrap;
-    width: 40%;
+    // width: 40%;
     gap: 2rem;
   }
 
@@ -85,7 +85,7 @@ export const StyleCategoryCard = styled.div`
   flex-direction: column;
   cursor: pointer;
   border-radius: 11px;
-  width: 165px;
+  width: 150px;
 
   ${(props) => {
     if (props.selected) {
@@ -102,7 +102,7 @@ export const StyleCategoryCard = styled.div`
       object-fit: cover;
       border-radius: 11.0065px 11.0065px 0px 0px;
       height: 125px;
-      width: 165px;
+      width: 150px;
     }
   }
 

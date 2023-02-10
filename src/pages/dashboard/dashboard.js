@@ -144,6 +144,21 @@ const Dashboard = () => {
     setJoinEventConfirmation(false);
   };
 
+  const Top_Image = {
+    'Student Sundry': {
+      image: require('../../assets/images/Student_Sunday.png')
+    },
+    'Well-Being': {
+      image: require('../../assets/images/Work_Life_Balance.png')
+    },
+    'Career Interests': {
+      image: require('../../assets/images/Job_Board.png')
+    },
+    'Healthcare Innovation': {
+      image: require('../../assets/images/Healthcare_Innovation.jpg')
+    },
+  }
+
   const handleConfirmJoin = () => {
     const groupId = activeEvent?._id;
     if (groupId) {
@@ -257,7 +272,7 @@ const Dashboard = () => {
                         participant={interest.iamPartecipant}
                         buttonText={
                           interest.openGroup &&
-                          interest.iamPartecipant === false
+                            interest.iamPartecipant === false
                             ? "Join"
                             : null
                         }
@@ -286,7 +301,7 @@ const Dashboard = () => {
                         }}
                       >
                         <div className="imageContainer">
-                          <img src={category?.image} />
+                          <img src={Top_Image[category?.name]?.image} />
                         </div>
                         <div className="labelContainer">
                           <span className="label">{category?.name}</span>
@@ -368,9 +383,9 @@ const Dashboard = () => {
                               <span className="connectionTime">
                                 {conn?.connect_on?.day
                                   ? dateFormat(
-                                      conn?.connect_on?.day,
-                                      DATE_FORMAT.FORMAT_1
-                                    )
+                                    conn?.connect_on?.day,
+                                    DATE_FORMAT.FORMAT_1
+                                  )
                                   : ""}
                               </span>
                             </div>
