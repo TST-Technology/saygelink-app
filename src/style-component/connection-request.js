@@ -1,10 +1,10 @@
-import styled from 'styled-components'
-import { Button, FlexAlignCenter, FlexJustifySpaceBetween } from './general'
+import styled from "styled-components";
+import { Button, FlexAlignCenter, FlexJustifySpaceBetween } from "./general";
 
 export const ConnectionRequestStyle = styled.div`
   padding: 10px 20px 30px;
   height: 400px;
-  width: 500px;
+  width: 100%;
   overflow-y: auto;
 
   .connectionRequest {
@@ -28,7 +28,7 @@ export const ConnectionRequestStyle = styled.div`
       }
 
       .connectionName {
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
@@ -40,7 +40,7 @@ export const ConnectionRequestStyle = styled.div`
 
     .availabilityContainer {
       .availability {
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
@@ -71,14 +71,14 @@ export const ConnectionRequestStyle = styled.div`
       }
     }
   }
-`
+`;
 
 export const DeclineButtonStyle = styled.button`
   ${Button}
   margin: 0;
   border: 1px solid rgba(238, 187, 200, 0.99);
   border-radius: 6px;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -90,7 +90,7 @@ export const DeclineButtonStyle = styled.button`
   &:hover {
     box-shadow: none;
   }
-`
+`;
 
 export const AcceptButtonStyle = styled.button`
   ${Button}
@@ -98,7 +98,7 @@ export const AcceptButtonStyle = styled.button`
   background: #4d85eb;
   border: 1px solid #4d85eb;
   border-radius: 6px;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -109,4 +109,4 @@ export const AcceptButtonStyle = styled.button`
   &:hover {
     box-shadow: none;
   }
-`
+`;

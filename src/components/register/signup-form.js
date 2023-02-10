@@ -29,14 +29,15 @@ const SignUpForm = () => {
     if (res?.success === true) {
       UserProfile.userDetails["user"] = res?.user;
       UserProfile.userDetails["token"] = res?.token;
+      UserProfile.userDetails["email"] = userInviteEmail.userData?.email;
       localStorage.setItem("authToken", res?.token);
-      navigate(`/welcome`);
+      localStorage.setItem("email", res?.user?.email);
+      window.location.assign("/welcome");
     }
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(e.target.password);
 
     if (e.target.password.value !== e.target.confirmPassword.value) {
       notify.error("Password and Confirm Password must be the same");

@@ -1,11 +1,8 @@
-import styled from 'styled-components'
-import theme from '../../utils/variables'
-import cardBackgroundImage1 from '../../assets/images/cardBackground1.png'
-import cardBackgroundImage2 from '../../assets/images/cardBackground2.png'
-import { Button, TextAreaStyle } from '../general'
-import { DashboardHeaderHeight } from '../../utils/constants'
+import styled from "styled-components";
+import { Button, TextAreaStyle } from "../general";
+import { DashboardHeaderHeight } from "../../utils/constants";
 
-const LeftWidth = '350px'
+const LeftWidth = "350px";
 
 export const HealthcareContainerStyle = styled.div`
   height: calc(100vh - ${DashboardHeaderHeight});
@@ -22,7 +19,7 @@ export const HealthcareContainerStyle = styled.div`
       width: calc(100vw - ${LeftWidth});
 
       .subHeading {
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 500;
         font-size: 13.3333px;
@@ -44,24 +41,36 @@ export const HealthcareContainerStyle = styled.div`
     }
 
     .heading {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 600;
       font-size: 20px;
       line-height: 30px;
       color: #000000;
     }
+
+    .topic {
+      font-size: 18px;
+    }
   }
-`
+`;
 
 export const StyleMembersCardContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 5px;
   display: flex;
   gap: 20px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  // overflow-x: auto;
+  overflow: hidden;
   padding: 20px 0;
-`
+`;
+
+export const ScrollArrowButton = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  padding: 8px 10px;
+  margin: 0 5px;
+`;
 
 export const StyleMembersCard = styled.div`
   min-width: 250px;
@@ -72,7 +81,7 @@ export const StyleMembersCard = styled.div`
   transition: scale 0.2s;
 
   &:hover {
-    scale: 1.05;
+    scale: 0.95;
   }
 
   .headingContainer {
@@ -89,17 +98,20 @@ export const StyleMembersCard = styled.div`
   }
 
   .memberName {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 600;
     font-size: 18.6096px;
     line-height: 28px;
     color: #1186ef;
     margin-top: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .skills {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 400;
     font-size: 10.1507px;
@@ -108,7 +120,7 @@ export const StyleMembersCard = styled.div`
   }
 
   .insights {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
@@ -123,7 +135,7 @@ export const StyleMembersCard = styled.div`
     margin-top: 15px;
 
     li {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 600;
       font-size: 10.1507px;
@@ -134,7 +146,7 @@ export const StyleMembersCard = styled.div`
       text-transform: uppercase;
 
       &::before {
-        content: '';
+        content: "";
         width: 6.77px;
         height: 6.76px;
         background: #1186ef;
@@ -147,7 +159,7 @@ export const StyleMembersCard = styled.div`
   }
 
   .dayText {
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
     font-size: 10.1507px;
@@ -167,24 +179,24 @@ export const StyleMembersCard = styled.div`
       width: 20px;
     }
   }
-`
+`;
 
 export const StyleConnectButton = styled.button`
   ${Button}
   margin: 0;
-  background: #fa2f66;
+  background: #1186ef;
   border-radius: 5.07534px;
   color: #f3f3f3;
   padding: 5px 10px;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   font-size: 10.1507px;
   line-height: 15px;
-`
+`;
 
 export const StyleFeedContainer = styled.div`
-  margin-top: 80px;
+  margin-top: 20px;
   margin-bottom: 40px;
   background: #f8f8f8;
   border-radius: 8.33333px;
@@ -194,7 +206,7 @@ export const StyleFeedContainer = styled.div`
 
   ${({ isEventDetailPage }) => {
     if (isEventDetailPage) {
-      return { marginTop: 0 }
+      return { marginTop: 0 };
     }
   }}
 
@@ -209,7 +221,7 @@ export const StyleFeedContainer = styled.div`
 
     ${({ isEventDetailPage }) => {
       if (isEventDetailPage) {
-        return { top: 30 }
+        return { top: 30 };
       }
     }}
   }
@@ -220,7 +232,7 @@ export const StyleFeedContainer = styled.div`
     position: absolute;
     top: 70px;
     right: 40px;
-    font-family: 'Poppins';
+    font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
@@ -229,7 +241,7 @@ export const StyleFeedContainer = styled.div`
 
     ${({ isEventDetailPage }) => {
       if (isEventDetailPage) {
-        return { top: 30 }
+        return { top: 30 };
       }
     }}
 
@@ -246,11 +258,11 @@ export const StyleFeedContainer = styled.div`
 
     ${({ isEventDetailPage }) => {
       if (isEventDetailPage) {
-        return { background: '#ffffff', padding: '20px', borderRadius: '10px' }
+        return { background: "#ffffff", padding: "20px", borderRadius: "10px" };
       }
     }}
   }
-`
+`;
 
 export const ThoughtsTextArea = styled.textarea`
   ${TextAreaStyle}
@@ -260,14 +272,14 @@ export const ThoughtsTextArea = styled.textarea`
   border: 0.739055px solid #e8e8e8;
   border-radius: 9.60772px;
   padding: 10px 100px;
-`
+`;
 
 export const StylePostButton = styled.button`
   ${Button}
   margin: 0;
   color: #f3f3f3;
   padding: 5px 25px;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   font-size: 10.1507px;
@@ -282,7 +294,7 @@ export const StylePostButton = styled.button`
 
   ${({ isEventDetailPage }) => {
     if (isEventDetailPage) {
-      return { top: 70 }
+      return { top: 70 };
     }
   }}
 
@@ -291,4 +303,4 @@ export const StylePostButton = styled.button`
     color: #f3f3f3;
     opacity: 0.4;
   }
-`
+`;

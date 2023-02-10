@@ -23,62 +23,60 @@ import CONSTANT from "../../utils/constants";
 import CloseIcon from "../../assets/images/CrossIcon.svg";
 import { CreateAccountContext } from "./create-account";
 import useHttp from "../../hooks/use-http";
-import { notify, prepareLink } from '../../utils/funcs'
+import { notify, prepareLink } from "../../utils/funcs";
 
 const Yourself = () => {
-  const [selectedGender, setSelectedGender] = useState()
-  const [allLinks, setAllLinks] = useState([''])
+  const [selectedGender, setSelectedGender] = useState();
+  const [allLinks, setAllLinks] = useState([""]);
 
-  const userApi = useHttp()
+  const userApi = useHttp();
 
   const { formData, setStep, setFormData, step } =
-    useContext(CreateAccountContext)
+    useContext(CreateAccountContext);
 
   const onGenderChange = (val) => {
-    console.log(val)
-    setSelectedGender(val)
-  }
+    setSelectedGender(val);
+  };
 
   const handleFormSubmit = (e) => {
-    e.preventDefault()
-    const payload = preparePayload(e)
+    e.preventDefault();
+    const payload = preparePayload(e);
     if (selectedGender) {
       if (payload) {
         userApi.sendRequest(
           CONSTANT.API.updateUser,
           handleUserResponse,
           payload,
-          'Details added successfully!'
-        )
+          "Details added successfully!"
+        );
       }
     } else {
-      notify.error('Please select gender')
+      notify.error("Please select gender");
     }
-  }
+  };
 
   const handleUserResponse = (resp) => {
-    console.log(resp)
     if (resp) {
-      setStep((prevValue) => prevValue + 1)
+      setStep((prevValue) => prevValue + 1);
     }
-  }
+  };
 
   const preparePayload = (e) => {
-    const newPayload = {}
+    const newPayload = {};
     if (e.target.about.value) {
-      newPayload.about = e.target.about.value
+      newPayload.about = e.target.about.value;
     }
     if (e.target.role.value) {
-      newPayload.role = e.target.role.value.toLowerCase()
+      newPayload.role = e.target.role.value.toLowerCase();
     }
     if (selectedGender) {
-      newPayload.gender = selectedGender
+      newPayload.gender = selectedGender;
     }
 
     const links = allLinks.map((row) => {
-      const newLink = prepareLink(row)
-      return newLink
-    })
+      const newLink = prepareLink(row);
+      return newLink;
+    });
 
     if (
       links &&
@@ -87,32 +85,32 @@ const Yourself = () => {
       links[0] &&
       links[0]?.url
     ) {
-      newPayload.social_media = links
+      newPayload.social_media = links;
     }
 
-    return newPayload
-  }
+    return newPayload;
+  };
 
   const handleLinkChange = (val, index) => {
     setAllLinks((prevValue) => {
-      prevValue[index] = val
-      return [...prevValue]
-    })
-  }
+      prevValue[index] = val;
+      return [...prevValue];
+    });
+  };
 
   const onAddLink = () => {
     setAllLinks((prevValue) => {
-      return [...prevValue, '']
-    })
-  }
+      return [...prevValue, ""];
+    });
+  };
 
   const removeLink = (index) => {
     setAllLinks((prevValue) => {
-      const temp = prevValue.slice()
-      temp.splice(index, 1)
-      return [...temp]
-    })
-  }
+      const temp = prevValue.slice();
+      temp.splice(index, 1);
+      return [...temp];
+    });
+  };
 
   return (
     <>
@@ -128,8 +126,8 @@ const Yourself = () => {
           <StyledTextareaContainer>
             <div>
               <TextAreaStyled
-                name='about'
-                placeholder='Type here'
+                name="about"
+                placeholder="Type here"
                 rows={4}
               ></TextAreaStyled>
             </div>
@@ -147,14 +145,14 @@ const Yourself = () => {
 
           <StyleDropdownContainer>
             <DarkGrayLable>Role</DarkGrayLable>
-            <RoledDropdown name='role'>
+            <RoledDropdown name="role">
               <option></option>
               {CONSTANT.role.map((item) => {
                 return (
                   <option key={item.value} value={item.value}>
                     {item.label}
                   </option>
-                )
+                );
               })}
             </RoledDropdown>
           </StyleDropdownContainer>
@@ -164,7 +162,7 @@ const Yourself = () => {
               <DarkGrayLable>Social & Other Links</DarkGrayLable>
               <StyleAddLink
                 onClick={() => {
-                  onAddLink()
+                  onAddLink();
                 }}
               >
                 + Add
@@ -172,23 +170,23 @@ const Yourself = () => {
             </StyleFlexJustifyBetweenContainer>
             {allLinks.map((link, index) => {
               return (
-                <div className='rowContainer' key={index}>
+                <div className="rowContainer" key={index}>
                   <StyledInput
-                    type={'url'}
+                    type={"url"}
                     value={link}
                     onChange={(e) => handleLinkChange(e.target.value, index)}
-                    name='link'
+                    name="link"
                   />
 
                   {allLinks.length > 1 ? (
                     <img
-                      className='closeIcon'
+                      className="closeIcon"
                       src={CloseIcon}
                       onClick={() => removeLink(index)}
                     />
                   ) : null}
                 </div>
-              )
+              );
             })}
           </StyleInputContainer>
         </StyleCreateAccountBodyContainer>
@@ -199,7 +197,7 @@ const Yourself = () => {
         </StyleNextButtonContainer>
       </form>
     </>
-  )
+  );
 };
 
 export default Yourself;
