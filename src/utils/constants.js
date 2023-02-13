@@ -190,7 +190,7 @@ const CONSTANT = {
       endpoint: "/topics/:topicId",
       type: "GET"
     },
-    getGroupDetails: { endpoint: `/groups/:groupId`, type: "GET" },
+    getGroupDetails: { endpoint: `/groups/getGroup`, type: "POST" },
     getAllPostsByGroupId: {
       endpoint: "/feed/groups/:groupId",
       type: "GET"
