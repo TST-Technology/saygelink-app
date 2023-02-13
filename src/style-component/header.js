@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import { devices } from '../utils/constants'
-import theme, { UNIVERSITY_COLOR } from '../utils/variables'
-import { FlexAlignCenter, FlexCenter } from './general'
+import styled from "styled-components";
+import { devices } from "../utils/constants";
+import theme, { UNIVERSITY_COLOR } from "../utils/variables";
+import { FlexAlignCenter, FlexCenter } from "./general";
 
 export const HeaderContainerStyle = styled.div`
   background: ${UNIVERSITY_COLOR.primary};
@@ -30,7 +30,7 @@ export const HeaderContainerStyle = styled.div`
 
       p {
         color: ${theme.lightTheme.seashell};
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 600;
         font-size: 18px;
@@ -74,7 +74,7 @@ export const HeaderContainerStyle = styled.div`
 
         p {
           color: ${theme.lightTheme.seashell};
-          font-family: 'Poppins';
+          font-family: "Poppins";
           font-style: normal;
           font-weight: 600;
           font-size: 15px;
@@ -140,7 +140,7 @@ export const HeaderContainerStyle = styled.div`
       }
     }
   }
-`
+`;
 
 export const NotificationContainerStyle = styled.div`
   padding: 20px 30px;
@@ -163,8 +163,12 @@ export const NotificationContainerStyle = styled.div`
         width: 3%;
       }
 
+      .redRound {
+        background: #f62e5f;
+      }
+
       .text {
-        font-family: 'Poppins';
+        font-family: "Poppins";
         font-style: normal;
         font-weight: 500;
         font-size: 16px;
@@ -176,7 +180,7 @@ export const NotificationContainerStyle = styled.div`
     }
 
     .time {
-      font-family: 'Poppins';
+      font-family: "Poppins";
       font-style: normal;
       font-weight: 500;
       font-size: 13px;
@@ -187,4 +191,4 @@ export const NotificationContainerStyle = styled.div`
       margin-bottom: 3px;
     }
   }
-`
+`;

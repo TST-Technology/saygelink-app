@@ -8,7 +8,7 @@ import {
   StyleMembersCard,
   StyleMembersCardContainer,
   StylePostButton,
-  ThoughtsTextArea,
+  ThoughtsTextArea
 } from "../../style-component/healthcare/healthcare";
 import ColumbiaImage from "../../assets/images/Columbia_logo.svg";
 import Loader from "../../components/general/loader";
@@ -30,7 +30,7 @@ import CONSTANT, {
   ACCEPT_IMAGE_TYPE,
   DashboardHeaderHeight,
   DATE_FORMAT,
-  ROUTES,
+  ROUTES
 } from "../../utils/constants";
 import { dateFormat, getEmail, isEmptyArray } from "../../utils/funcs";
 import DeleteConfirmation from "../../components/delete-confirmation/delete-confirmation";
@@ -74,7 +74,7 @@ const Healthcare = () => {
   const getAllMembers = () => {
     const url = {
       ...CONSTANT.API.findSayge,
-      endpoint: CONSTANT.API.findSayge.endpoint.replace(":topicId", topicId),
+      endpoint: CONSTANT.API.findSayge.endpoint.replace(":topicId", topicId)
     };
     api.sendRequest(url, handleMembersResponse);
   };
@@ -87,7 +87,7 @@ const Healthcare = () => {
 
   const getAvailability = (avail) => {
     return (
-      <div className="dayText">
+      <div className='dayText'>
         {avail.map((row) => {
           return (
             <div>
@@ -119,14 +119,14 @@ const Healthcare = () => {
   const getSocialMediaIcons = (socialMedia) => {
     if (socialMedia) {
       return (
-        <div className="socialProfileContainer">
+        <div className='socialProfileContainer'>
           {socialMedia
             .filter((item) => item?.url)
             .map((media) => {
               const image = getSocialIcon(media?.name);
               return (
-                <a target="_blank" href={media.url}>
-                  <img src={image} className="socialImage" />
+                <a target='_blank' href={media.url}>
+                  <img src={image} className='socialImage' />
                 </a>
               );
             })}
@@ -165,7 +165,7 @@ const Healthcare = () => {
     if (groupId) {
       const url = {
         ...CONSTANT.API.joinGroup,
-        endpoint: CONSTANT.API.joinGroup.endpoint.replace(":groupId", groupId),
+        endpoint: CONSTANT.API.joinGroup.endpoint.replace(":groupId", groupId)
       };
       api.sendRequest(url, joinResponseHandler);
     }
@@ -191,7 +191,7 @@ const Healthcare = () => {
       endpoint: CONSTANT.API.getAllPostsBySubject.endpoint.replace(
         ":subjectId",
         topicId
-      ),
+      )
     };
     api.sendRequest(url, handlePostsResponse);
   };
@@ -212,7 +212,7 @@ const Healthcare = () => {
         endpoint: CONSTANT.API.uploadPostImage.endpoint.replace(
           ":postId",
           postId
-        ),
+        )
       };
       const formData = new FormData();
       formData.append("image", postImage);
@@ -235,12 +235,12 @@ const Healthcare = () => {
     if (postValue && topicId) {
       const url = {
         ...CONSTANT.API.uploadPost,
-        endpoint: CONSTANT.API.uploadPost.endpoint,
+        endpoint: CONSTANT.API.uploadPost.endpoint
       };
       const payload = {
         title: topicDetail?.name,
         content: postValue,
-        subject: topicId,
+        subject: topicId
       };
       api.sendRequest(url, handleAddPostResponse, payload);
     }
@@ -265,7 +265,7 @@ const Healthcare = () => {
       endpoint: CONSTANT.API.getTopicDetails.endpoint.replace(
         ":topicId",
         topicId
-      ),
+      )
     };
     api.sendRequest(url, handleTopicResponse);
   };
@@ -299,7 +299,7 @@ const Healthcare = () => {
   const getProfile = () => {
     const url = {
       ...CONSTANT.API.getProfileDetail,
-      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(":email", email),
+      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(":email", email)
     };
     api.sendRequest(url, responseHandler);
   };
@@ -317,7 +317,7 @@ const Healthcare = () => {
         endpoint: CONSTANT.API.deletePostBySubject.endpoint.replace(
           ":postId",
           postId
-        ),
+        )
       };
       deleteApi.sendRequest(
         url,
@@ -334,18 +334,18 @@ const Healthcare = () => {
         {api.isLoading ? (
           <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
         ) : (
-          <div className="healthCareContainer">
-            <div className="leftContainer w-75">
-              <div className="d-flex justify-content-between align-items-end">
+          <div className='healthCareContainer'>
+            <div className='leftContainer w-75'>
+              <div className='d-flex justify-content-between align-items-end'>
                 <div>
-                  <h3 className="heading">Here are your SAYge Matches! </h3>
-                  <h3 className="heading topic  text-muted">
+                  <h3 className='heading'>Here are your SAYge Matches! </h3>
+                  <h3 className='heading topic  text-muted'>
                     {topicDetail?.name}
                   </h3>
                 </div>
                 <div>
                   {allMembers.length > 4 ? (
-                    <div class="button-contianer">
+                    <div class='button-contianer'>
                       <ScrollArrowButton
                         onClick={() => {
                           horizantalScroll(elementRef.current, 25, 100, -10);
@@ -371,10 +371,10 @@ const Healthcare = () => {
                   ? allMembers.map((member, index) => {
                       return (
                         <StyleMembersCard key={member.id} scale={index}>
-                          <div className="headingContainer">
+                          <div className='headingContainer'>
                             <div>
                               <ImageRole
-                                className="memberImage"
+                                className='memberImage'
                                 src={member?.profile_image}
                                 role={member?.qualification}
                               />
@@ -391,26 +391,26 @@ const Healthcare = () => {
                             </StyleConnectButton>
                           </div>
 
-                          <Tooltip title={member.name} placement="top">
-                            <h2 className="memberName">{member.name}</h2>
+                          <Tooltip title={member.name} placement='top'>
+                            <h2 className='memberName'>{member.name}</h2>
                           </Tooltip>
 
-                          <p className="skills">
+                          <p className='skills'>
                             Parenting | Pregnancy | Career{" "}
                           </p>
 
-                          <p className="insights">Available</p>
+                          <p className='insights'>Available</p>
                           {member?.availability.length > 0 ? (
                             <>{getAvailability(member?.availability)}</>
                           ) : (
-                            <p className="skills">No Schedule Available</p>
+                            <p className='skills'>No Schedule Available</p>
                           )}
 
-                          <p className="insights">Social profiles</p>
+                          <p className='insights'>Social profiles</p>
                           {member?.social_media.length > 0 ? (
                             <>{getSocialMediaIcons(member?.social_media)}</>
                           ) : (
-                            <p className="skills">No Social Media Available</p>
+                            <p className='skills'>No Social Media Available</p>
                           )}
                         </StyleMembersCard>
                       );
@@ -419,48 +419,54 @@ const Healthcare = () => {
               </StyleMembersCardContainer>
 
               <StyleFeedContainer>
-                <h3 className="heading">{topicDetail?.name} board</h3>
+                <h3 className='heading'>{topicDetail?.name} board</h3>
 
-                <ThoughtsTextArea
-                  value={postValue}
-                  onChange={(e) => setPostValue(e.target.value)}
-                  placeholder="Share your thoughts..."
-                />
-
-                <img
-                  src={
-                    profileDetail?.profile_image
-                      ? profileDetail?.profile_image
-                      : PersonImg
-                  }
-                  className="postPreviewImage"
-                />
-
-                <label htmlFor="postImage" className="profileImage">
-                  <input
-                    name="postImage"
-                    type="file"
-                    id="postImage"
-                    hidden
-                    onChange={handleImageChange}
-                    accept={ACCEPT_IMAGE_TYPE}
+                <p>
+                  Reach out and chat with someone who made a post by clicking
+                  their profile!
+                </p>
+                <div className='relativeContainer'>
+                  <ThoughtsTextArea
+                    value={postValue}
+                    onChange={(e) => setPostValue(e.target.value)}
+                    placeholder='Share your thoughts...'
                   />
-                  <span className="photoInput">
-                    <img
-                      src={postPreviewImage ? postPreviewImage : GalleryImage}
-                    />{" "}
-                    Photo
-                  </span>
-                </label>
 
-                <StylePostButton
-                  onClick={onPostClick}
-                  disabled={!postValue || postApi.isLoading}
-                >
-                  {postApi.isLoading ? "Posting" : "Post"}
-                </StylePostButton>
+                  <img
+                    src={
+                      profileDetail?.profile_image
+                        ? profileDetail?.profile_image
+                        : PersonImg
+                    }
+                    className='postPreviewImage'
+                  />
 
-                <div className="postContainer">
+                  <label htmlFor='postImage' className='profileImage'>
+                    <input
+                      name='postImage'
+                      type='file'
+                      id='postImage'
+                      hidden
+                      onChange={handleImageChange}
+                      accept={ACCEPT_IMAGE_TYPE}
+                    />
+                    <span className='photoInput'>
+                      <img
+                        src={postPreviewImage ? postPreviewImage : GalleryImage}
+                      />{" "}
+                      Photo
+                    </span>
+                  </label>
+
+                  <StylePostButton
+                    onClick={onPostClick}
+                    disabled={!postValue || postApi.isLoading}
+                  >
+                    {postApi.isLoading ? "Posting" : "Post"}
+                  </StylePostButton>
+                </div>
+
+                <div className='postContainer'>
                   {!isEmptyArray(posts) ? (
                     posts.map((post, index) => {
                       return (
@@ -496,10 +502,10 @@ const Healthcare = () => {
                 </div>
               </StyleFeedContainer>
             </div>
-            <div className="rightContainer w-25">
-              <h3 className="heading">My Groups</h3>
+            <div className='rightContainer w-25'>
+              <h3 className='heading'>My Groups</h3>
 
-              <div className="rightSideCard">
+              <div className='rightSideCard'>
                 {events &&
                   events.slice(0, 2).map((event, index) => {
                     return (
@@ -527,7 +533,7 @@ const Healthcare = () => {
                   })}
               </div>
 
-              <div className="rightSideCard">
+              <div className='rightSideCard'>
                 {interests &&
                   interests.slice(0, 2).map((event, index) => {
                     return (
@@ -564,7 +570,7 @@ const Healthcare = () => {
                   setJoinEventConfirmation(false);
                 }}
                 onConfirmButtonClick={handleConfirmJoin}
-                message="Aye you sure you want to join?"
+                message='Aye you sure you want to join?'
               />
             ) : null}
           </div>

@@ -210,12 +210,16 @@ export const StyleFeedContainer = styled.div`
     }
   }}
 
+  .relativeContainer {
+    position: relative;
+  }
+
   .postPreviewImage {
     position: absolute;
     object-fit: cover;
     border-radius: 50%;
-    top: 70px;
-    left: 40px;
+    top: 10px;
+    left: 20px;
     height: 45px;
     width: 45px;
 
@@ -230,8 +234,8 @@ export const StyleFeedContainer = styled.div`
     display: flex;
     align-items: center;
     position: absolute;
-    top: 70px;
-    right: 40px;
+    top: 10px;
+    right: 20px;
     font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
@@ -289,8 +293,8 @@ export const StylePostButton = styled.button`
   border: 1.47811px solid #1186ef;
   border-radius: 6.65149px;
   box-shadow: none;
-  top: 110px;
-  right: 40px;
+  top: 50px;
+  right: 15px;
 
   ${({ isEventDetailPage }) => {
     if (isEventDetailPage) {

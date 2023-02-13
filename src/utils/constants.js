@@ -190,7 +190,7 @@ const CONSTANT = {
       endpoint: "/topics/:topicId",
       type: "GET"
     },
-    getGroupDetails: { endpoint: `/groups/getGroup`, type: "POST" },
+    getGroupDetails: { endpoint: `/groups/:groupId`, type: "GET" },
     getAllPostsByGroupId: {
       endpoint: "/feed/groups/:groupId",
       type: "GET"
@@ -209,6 +209,10 @@ const CONSTANT = {
     },
     deletePostBySubject: {
       endpoint: "/feed/userTopic/:postId",
+      type: "DELETE"
+    },
+    leaveUserGroup: {
+      endpoint: "/groups/user/join/:groupId",
       type: "DELETE"
     }
   },
