@@ -59,7 +59,7 @@ export const HomeContainerStyle = styled.div`
         align-items: flex-start;
       }
       @media ${devices.tablet} {
-        padding-top: 40px;
+        padding-top: 120px;
       }
 
       .blackText {
