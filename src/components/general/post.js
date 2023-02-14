@@ -14,7 +14,9 @@ const Post = ({
   postImage,
   authorId,
   onDeletePost,
-  isOptionsVisible
+  isDeleteOptionVisible,
+  isReportOptionVisible,
+  onReportPost
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -39,6 +41,11 @@ const Post = ({
     handleClose();
   };
 
+  const handleReportPost = () => {
+    onReportPost();
+    handleClose();
+  };
+
   return (
     <PostStyle>
       <div className='individualPost'>
@@ -52,7 +59,7 @@ const Post = ({
           </div>
         </div>
 
-        {isOptionsVisible ? (
+        {isDeleteOptionVisible || isReportOptionVisible ? (
           <>
             <div className='rightSidePostHeader'>
               <div onClick={handleClick}>
@@ -69,13 +76,25 @@ const Post = ({
                 "aria-labelledby": "basic-button"
               }}
             >
-              <MenuItem
-                onClick={() => {
-                  handleDeletePost();
-                }}
-              >
-                Delete post
-              </MenuItem>
+              {isDeleteOptionVisible ? (
+                <MenuItem
+                  onClick={() => {
+                    handleDeletePost();
+                  }}
+                >
+                  Delete post
+                </MenuItem>
+              ) : null}
+
+              {isReportOptionVisible ? (
+                <MenuItem
+                  onClick={() => {
+                    handleReportPost();
+                  }}
+                >
+                  Report post
+                </MenuItem>
+              ) : null}
             </StylePostMenu>
           </>
         ) : null}
@@ -92,7 +111,7 @@ const Post = ({
 };
 
 Post.defaultProps = {
-  isOptionsVisible: false
+  isDeleteOptionVisible: false
 };
 
 export default Post;

@@ -15,31 +15,38 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const AllEventList = () => {
   const [eventDetail, setEventDetail] = useState({});
-  const [participantsData, setParticipantsData] = useState([])
-  const [pageNo, setPageNo] = useState(1)
+  const [participantsData, setParticipantsData] = useState([]);
+  const [pageNo, setPageNo] = useState(1);
   const { groupId } = useParams();
   const api = useHttp();
   const nav = useNavigate();
   const [search, setSearch] = useState(null);
-  let Total_Page
+  let Total_Page;
   const handleGroupDetailResponse = (resp) => {
     if (resp && resp?.groupInfo) {
       setEventDetail(resp?.groupInfo);
-      setParticipantsData((privies) => ([...privies, ...resp?.groupInfo?.participantsInfo]))
-      Total_Page = (resp?.groupInfo?.participants.length / 10).toFixed(0)
+      setParticipantsData((privies) => [
+        ...privies,
+        ...resp?.groupInfo?.participantsInfo
+      ]);
+      Total_Page = (resp?.groupInfo?.participants.length / 10).toFixed(0);
       if (pageNo <= Total_Page) {
-        setPageNo(pageNo + 1)
+        setPageNo(pageNo + 1);
       }
     }
   };
-  let payload
+  let payload;
   useEffect(() => {
     payload = {
       id: groupId,
       offset: pageNo,
       numParticipants: 10
     };
-    api.sendRequest(CONSTANT.API.getGroupDetails, handleGroupDetailResponse, payload);
+    api.sendRequest(
+      CONSTANT.API.getGroupDetailsPost,
+      handleGroupDetailResponse,
+      payload
+    );
   }, [pageNo]);
 
   const redirectToMember = (memberId) => {
@@ -51,29 +58,29 @@ const AllEventList = () => {
   let filterData = [];
   filterData = participantsData
     ? participantsData.flat().filter((data) => {
-      if (search != null && search.length > 0) {
-        return data?.name.toLowerCase().includes(search.toLowerCase());
-      } else {
-        return data;
-      }
-    })
+        if (search != null && search.length > 0) {
+          return data?.name.toLowerCase().includes(search.toLowerCase());
+        } else {
+          return data;
+        }
+      })
     : [];
 
   return (
     <>
       <Header />
       <EventAllContainer>
-        <div className="row">
-          <div className="col-4 d-block">
+        <div className='row'>
+          <div className='col-4 d-block'>
             <InputGroup>
               <InputGroupText>
                 <SearchIcon />
               </InputGroupText>
               <Input
-                type="text"
-                name="search"
-                className="form-control"
-                placeholder="Search"
+                type='text'
+                name='search'
+                className='form-control'
+                placeholder='Search'
                 onChange={(e) => {
                   setSearch(e.target.value);
                 }}
@@ -81,22 +88,22 @@ const AllEventList = () => {
             </InputGroup>
           </div>
         </div>
-        <div className="row">
+        <div className='row'>
           {filterData.map((conn) => {
             return (
-              <div className="connectionCard col-12 col-sm-6 col-md-4 p-3">
-                <div className="connectionHeader d-flex justify-content-between bg-white p-3">
-                  <div className="connectionLeft d-flex">
+              <div className='connectionCard col-12 col-sm-6 col-md-4 p-3'>
+                <div className='connectionHeader d-flex justify-content-between bg-white p-3'>
+                  <div className='connectionLeft d-flex'>
                     <ImageRole
                       src={conn?.profile_image}
                       role={conn?.qualification}
-                      className="connectionImage"
-                      height="50px"
-                      width="50px"
-                      radius="25px"
+                      className='connectionImage'
+                      height='50px'
+                      width='50px'
+                      radius='25px'
                     />
 
-                    <div className="nameContainer ps-3">
+                    <div className='nameContainer ps-3'>
                       <h5>{conn?.name}</h5>
                       <span>{conn?.qualification}</span>
                     </div>
@@ -117,10 +124,12 @@ const AllEventList = () => {
           })}
         </div>
         {filterData.length === 0 && !api.isLoading && (
-          <Alert color="danger text-center mt-5">Data Not Found!</Alert>
+          <Alert color='danger text-center mt-5'>Data Not Found!</Alert>
         )}
       </EventAllContainer>
-      {api.isLoading && <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />}
+      {api.isLoading && (
+        <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
+      )}
     </>
   );
 };

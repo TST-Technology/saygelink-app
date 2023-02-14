@@ -32,6 +32,7 @@ const EventDetail = ({ eventDetail }) => {
   const api = useHttp();
   const deleteApi = useHttp();
   const leaveApi = useHttp();
+  const reportApi = useHttp();
 
   const { groupId } = useParams();
   const nav = useNavigate();
@@ -184,6 +185,22 @@ const EventDetail = ({ eventDetail }) => {
     }
   };
 
+  const callReportPost = (postId) => {
+    if (postId) {
+      const url = {
+        ...CONSTANT.API.reportPost
+      };
+      reportApi.sendRequest(
+        url,
+        () => {},
+        {
+          post_id: postId
+        },
+        "Post reported successfully!"
+      );
+    }
+  };
+
   return (
     <>
       {api.isLoading ? (
@@ -198,7 +215,7 @@ const EventDetail = ({ eventDetail }) => {
             />
 
             <LeaveButtonStyle onClick={handleLeaveGroup}>
-              Leave
+              Leave Group
             </LeaveButtonStyle>
           </div>
 
@@ -282,10 +299,12 @@ const EventDetail = ({ eventDetail }) => {
                           }
                           postImage={post?.image}
                           authorId={post?.author_id}
-                          isOptionsVisible={
+                          isDeleteOptionVisible={
                             post?.author_id === profileDetail?.id
                           }
                           onDeletePost={() => callDeletePost(post?._id)}
+                          isReportOptionVisible={true}
+                          onReportPost={() => callReportPost(post?._id)}
                         />
                       );
                     })

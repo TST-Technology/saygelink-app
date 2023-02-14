@@ -191,6 +191,7 @@ const CONSTANT = {
       type: "GET"
     },
     getGroupDetails: { endpoint: `/groups/:groupId`, type: "GET" },
+    getGroupDetailsPost: { endpoint: `/groups/getGroup`, type: "POST" },
     getAllPostsByGroupId: {
       endpoint: "/feed/groups/:groupId",
       type: "GET"
@@ -214,6 +215,10 @@ const CONSTANT = {
     leaveUserGroup: {
       endpoint: "/groups/user/join/:groupId",
       type: "DELETE"
+    },
+    reportPost: {
+      endpoint: "/users/reportUserPost",
+      type: "POST"
     }
   },
   planningStage: [

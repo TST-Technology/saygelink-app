@@ -46,6 +46,7 @@ const Healthcare = () => {
   const joinApi = useHttp();
   const postApi = useHttp();
   const deleteApi = useHttp();
+  const reportApi = useHttp();
   const email = getEmail();
   const { topicId } = useParams();
   const [allMembers, setAllMembers] = useState([]);
@@ -328,6 +329,22 @@ const Healthcare = () => {
     }
   };
 
+  const callReportPost = (postId) => {
+    if (postId) {
+      const url = {
+        ...CONSTANT.API.reportPost
+      };
+      reportApi.sendRequest(
+        url,
+        () => {},
+        {
+          post_id: postId
+        },
+        "Post reported successfully!"
+      );
+    }
+  };
+
   return (
     <>
       <HealthcareContainerStyle>
@@ -489,10 +506,12 @@ const Healthcare = () => {
                           }
                           postImage={post?.image}
                           authorId={post?.author_id}
-                          isOptionsVisible={
+                          isDeleteOptionVisible={
                             post?.author_id === personalInfo?.id
                           }
                           onDeletePost={() => callDeletePost(post?._id)}
+                          isReportOptionVisible={true}
+                          onReportPost={() => callReportPost(post?._id)}
                         />
                       );
                     })
