@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.d1caa3a2.css",
-    "main.js": "/static/js/main.97dce288.js",
+    "main.js": "/static/js/main.9a0aac9f.js",
     "static/media/home_background.svg": "/static/media/home_background.24ce315e23590af7096038d2b8d2fb4e.svg",
     "static/media/welcomeIcon.png": "/static/media/welcomeIcon.b34bbd6dde344edb1fd0.png",
     "static/media/Healthcare_Innovation.jpg": "/static/media/Healthcare_Innovation.b65549bf54d47be33c18.jpg",
@@ -77,10 +77,10 @@
     "static/media/upArrow.svg": "/static/media/upArrow.f208710cf50d621b5a2d10c6507e17ca.svg",
     "static/media/RightArrow.svg": "/static/media/RightArrow.71fafdbba3c9e8954ce15c3ac92461e1.svg",
     "main.d1caa3a2.css.map": "/static/css/main.d1caa3a2.css.map",
-    "main.97dce288.js.map": "/static/js/main.97dce288.js.map"
+    "main.9a0aac9f.js.map": "/static/js/main.9a0aac9f.js.map"
   },
   "entrypoints": [
     "static/css/main.d1caa3a2.css",
-    "static/js/main.97dce288.js"
+    "static/js/main.9a0aac9f.js"
   ]
 }
