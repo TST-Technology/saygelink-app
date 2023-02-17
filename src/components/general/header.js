@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   HeaderContainerStyle,
-  NotificationContainerStyle,
+  NotificationContainerStyle
 } from "../../style-component/header";
 import shortLogo from "../../assets/images/short_logo.png";
 import defaultWhiteImage from "../../assets/images/PersonCircleWhite.svg";
@@ -36,14 +36,17 @@ const Header = () => {
   const [pendingRequestCount, setPendingRequestCount] = useState(null);
   const [floatMenuType, setFloatMenuType] = useState(null);
   const [requestDetail, setRequestDetail] = useState(null);
-  const { profileDetail } = useContext(UserContext);
+  const { profileDetail, isUnreadMessage, setIsUnreadMessage } =
+    useContext(UserContext);
   const [isNotification, setIsNotification] = useState(false);
   const [tabletMenuOpen, setTabletMenuOpen] = useState(false);
   const [screenWidth, setScreenWidth] = useState(0);
-  // const [flag, setFlag] = useState(!)
 
   useEffect(() => {
     setActiveTab(window.location.pathname);
+    if (window.location.pathname.includes(ROUTES.MESSAGE)) {
+      setIsUnreadMessage(false);
+    }
   }, [window.location.pathname]);
 
   const displayWindowSize = () => {
@@ -65,32 +68,37 @@ const Header = () => {
       }
     });
 
+    socket.on(SOCKET_EVENTS.MESSAGE_RECEIVE, (msg) => {
+      handleNewMessage(msg);
+    });
+
     return () => {
       socket.off(SOCKET_EVENTS.RECEIVE_NOTIFICATION);
+      socket.off(SOCKET_EVENTS.MESSAGE_RECEIVE);
     };
-  }, []);
+  }, [window.location.pathname]);
 
   const HEADER_TABS = [
     {
       label: "Home",
       icon: HomeLogo,
-      route: ROUTES.HOME,
+      route: ROUTES.HOME
     },
     {
       label: "Message",
       icon: MessageLogo,
-      route: ROUTES.MESSAGE,
+      route: ROUTES.MESSAGE
     },
     {
       label: "Calender",
       icon: CalenderLogo,
-      route: ROUTES.CALENDER,
+      route: ROUTES.CALENDER
     },
     {
       label: "Network",
       icon: GlobLogo,
-      route: ROUTES.NETWORK_EVENT,
-    },
+      route: ROUTES.NETWORK_EVENT
+    }
   ];
 
   const handleClick = (event) => {
@@ -132,11 +140,15 @@ const Header = () => {
     setTabletMenuOpen(!tabletMenuOpen);
   };
 
+  const handleNewMessage = (message) => {
+    setIsUnreadMessage(true);
+  };
+
   return (
     <HeaderContainerStyle>
-      <div className="headerContainer">
+      <div className='headerContainer'>
         <div
-          className="leftSection"
+          className='leftSection'
           onClick={() => {
             handleLogoClick();
           }}
@@ -165,30 +177,33 @@ const Header = () => {
                   handleHeaderClick(tab);
                 }}
               >
-                <img className="headerTabImage" src={tab.icon} />
+                {tab.route === ROUTES.MESSAGE && isUnreadMessage ? (
+                  <div className='newMessageDot'></div>
+                ) : null}
+                <img className='headerTabImage' src={tab.icon} />
 
                 {tab.label ? (
-                  <p className="headerTabTitle">{tab.label}</p>
+                  <p className='headerTabTitle'>{tab.label}</p>
                 ) : null}
               </div>
             );
           })}
-          <div className="width-30 notificationIcon" onClick={handleClick}>
-            <img src={BellLogo} className="headerImages" />
+          <div className='width-30 notificationIcon' onClick={handleClick}>
+            <img src={BellLogo} className='headerImages' />
 
-            {isNotification ? <div className="notificationDot"></div> : null}
+            {isNotification ? <div className='notificationDot'></div> : null}
           </div>
 
           <div
-            className="profileHeaderImageContainer width-30"
+            className='profileHeaderImageContainer width-30'
             onClick={handleRequestClick}
           >
             <img
               src={ProfileLogo}
-              className="headerImages profileHeaderImage"
+              className='headerImages profileHeaderImage'
             />
             {pendingRequestCount ? (
-              <div className="requestCount">{pendingRequestCount}</div>
+              <div className='requestCount'>{pendingRequestCount}</div>
             ) : null}
           </div>
 
@@ -198,15 +213,15 @@ const Header = () => {
               nav(ROUTES.PROFILE);
             }}
             src={profileDetail?.profile_image}
-            height="33px"
-            width="33px"
+            height='33px'
+            width='33px'
             radius={"50%"}
-            className="headerImages"
+            className='headerImages'
             defaultImage={defaultWhiteImage}
           />
         </div>
 
-        <div className="rightSectionIcon">
+        <div className='rightSectionIcon'>
           {tabletMenuOpen ? (
             <div onClick={onClickNav}>
               <CloseIcon />
@@ -221,7 +236,7 @@ const Header = () => {
 
       <Menu
         anchorEl={anchorEl}
-        id="account-menu"
+        id='account-menu'
         open={open}
         onClose={handleClose}
         PaperProps={{
@@ -243,9 +258,9 @@ const Header = () => {
               height: 40,
               bgcolor: "background.paper",
               transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
+              zIndex: 0
+            }
+          }
         }}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}

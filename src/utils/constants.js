@@ -219,6 +219,14 @@ const CONSTANT = {
     reportPost: {
       endpoint: "/users/reportUserPost",
       type: "POST"
+    },
+    getVariableMeetingTime: {
+      endpoint: "/users/variableTime",
+      type: "GET"
+    },
+    setVariableMeetingTime: {
+      endpoint: "/users/variableTime",
+      type: "PATCH"
     }
   },
   planningStage: [

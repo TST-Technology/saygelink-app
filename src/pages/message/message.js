@@ -63,7 +63,9 @@ const Message = () => {
   useEffect(() => {
     getConversationList();
 
-    socket.on(SOCKET_EVENTS.CONNECT, (socket) => {});
+    socket.on(SOCKET_EVENTS.CONNECT, (socket) => {
+      console.log("connected msg");
+    });
 
     socket.on(SOCKET_EVENTS.DISCONNECT, () => {});
 
@@ -74,6 +76,7 @@ const Message = () => {
     });
 
     socket.on(SOCKET_EVENTS.MESSAGE_RECEIVE, (msg) => {
+      console.log("msg inside msg", msg);
       handleNewMessage(msg, false);
     });
 
@@ -111,7 +114,7 @@ const Message = () => {
   const responseHandler = (resp) => {
     const uniqueTimeStamp = {};
     const uniqueDate = {};
-    const newMessage = false;
+    let newMessage = false;
     if (resp && !isEmptyArray(resp?.messages)) {
       const tempMessages = resp?.messages.map((mes) => {
         const format = dateFormat(mes.timestamp, DATE_FORMAT.FORMAT_1);
@@ -132,6 +135,7 @@ const Message = () => {
           newMessage === false
         ) {
           mes.newMessage = true;
+          newMessage = true;
         }
         return mes;
       });
@@ -390,7 +394,7 @@ const Message = () => {
                           const currentUser = user?.participants;
                           return (
                             <UserChatStyle
-                              key={index}
+                              key={user?._id}
                               onClick={() => {
                                 handleUserChange(user);
                               }}
@@ -484,13 +488,19 @@ const Message = () => {
                                   return (
                                     <>
                                       {message?.uniqueDate ? (
-                                        <p className='chatDateText'>
+                                        <p
+                                          key={message?.uniqueDate}
+                                          className='chatDateText'
+                                        >
                                           {getDayLabel(message?.uniqueDate)}
                                         </p>
                                       ) : null}
 
                                       {message?.newMessage ? (
-                                        <p className='newChatDateText'>
+                                        <p
+                                          key='new-message'
+                                          className='newChatDateText'
+                                        >
                                           New Messages
                                         </p>
                                       ) : null}

@@ -63,9 +63,20 @@ export const HeaderContainerStyle = styled.div`
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        position: relative;
         gap: 4px;
         height: 100%;
         padding: 0 7px;
+
+        .newMessageDot {
+          background: ${theme.lightTheme.secondary.color};
+          position: absolute;
+          top: 7px;
+          right: 28px;
+          height: 8px;
+          width: 8px;
+          border-radius: 50%;
+        }
 
         .headerTabImage {
           height: 22px;
