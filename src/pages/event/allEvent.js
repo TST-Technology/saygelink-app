@@ -16,7 +16,7 @@ import SearchIcon from "@mui/icons-material/Search";
 const AllEventList = () => {
   const [eventDetail, setEventDetail] = useState({});
   const [participantsData, setParticipantsData] = useState([]);
-  const [pageNo, setPageNo] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
   const { groupId } = useParams();
   const api = useHttp();
   const nav = useNavigate();
@@ -24,14 +24,16 @@ const AllEventList = () => {
   let Total_Page;
   const handleGroupDetailResponse = (resp) => {
     if (resp && resp?.groupInfo) {
+      console.log(resp);
       setEventDetail(resp?.groupInfo);
       setParticipantsData((privies) => [
         ...privies,
-        ...resp?.groupInfo?.participantsInfo
+        ...resp?.groupInfo?.participantsInfo,
       ]);
-      Total_Page = (resp?.groupInfo?.participants.length / 10).toFixed(0);
-      if (pageNo <= Total_Page) {
-        setPageNo(pageNo + 1);
+      Total_Page = resp?.groupInfo?.participants.length;
+      console.log(pageNo * 10, Total_Page);
+      if ((pageNo + 1) * 10 < Total_Page) {
+        setPageNo((previous) => previous + 1);
       }
     }
   };
@@ -39,8 +41,8 @@ const AllEventList = () => {
   useEffect(() => {
     payload = {
       id: groupId,
-      offset: pageNo,
-      numParticipants: 10
+      offset: pageNo * 10,
+      numParticipants: 10,
     };
     api.sendRequest(
       CONSTANT.API.getGroupDetailsPost,
@@ -70,17 +72,17 @@ const AllEventList = () => {
     <>
       <Header />
       <EventAllContainer>
-        <div className='row'>
-          <div className='col-4 d-block'>
+        <div className="row">
+          <div className="col-4 d-block">
             <InputGroup>
               <InputGroupText>
                 <SearchIcon />
               </InputGroupText>
               <Input
-                type='text'
-                name='search'
-                className='form-control'
-                placeholder='Search'
+                type="text"
+                name="search"
+                className="form-control"
+                placeholder="Search"
                 onChange={(e) => {
                   setSearch(e.target.value);
                 }}
@@ -88,22 +90,22 @@ const AllEventList = () => {
             </InputGroup>
           </div>
         </div>
-        <div className='row'>
+        <div className="row">
           {filterData.map((conn) => {
             return (
-              <div className='connectionCard col-12 col-sm-6 col-md-4 p-3'>
-                <div className='connectionHeader d-flex justify-content-between bg-white p-3'>
-                  <div className='connectionLeft d-flex'>
+              <div className="connectionCard col-12 col-sm-6 col-md-4 p-3">
+                <div className="connectionHeader d-flex justify-content-between bg-white p-3">
+                  <div className="connectionLeft d-flex">
                     <ImageRole
                       src={conn?.profile_image}
                       role={conn?.qualification}
-                      className='connectionImage'
-                      height='50px'
-                      width='50px'
-                      radius='25px'
+                      className="connectionImage"
+                      height="50px"
+                      width="50px"
+                      radius="25px"
                     />
 
-                    <div className='nameContainer ps-3'>
+                    <div className="nameContainer ps-3">
                       <h5>{conn?.name}</h5>
                       <span>{conn?.qualification}</span>
                     </div>
@@ -124,7 +126,7 @@ const AllEventList = () => {
           })}
         </div>
         {filterData.length === 0 && !api.isLoading && (
-          <Alert color='danger text-center mt-5'>Data Not Found!</Alert>
+          <Alert color="danger text-center mt-5">Data Not Found!</Alert>
         )}
       </EventAllContainer>
       {api.isLoading && (

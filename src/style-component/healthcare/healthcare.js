@@ -172,7 +172,6 @@ export const StyleMembersCard = styled.div`
   .socialProfileContainer {
     display: flex;
     gap: 10px;
-    margin-top: 15px;
 
     .socialImage {
       height: 20px;
