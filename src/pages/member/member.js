@@ -80,6 +80,7 @@ const Member = ({ isEdit }) => {
   const [availabilityId, setAvailabilityId] = useState(null);
   const [availabilityDialogVisible, setAvailabilityDialogVisible] =
     useState(false);
+  const [isVariableTime, setIsVariableTime] = useState(false);
 
   useEffect(() => {
     if (email && isEdit) {
@@ -97,6 +98,7 @@ const Member = ({ isEdit }) => {
   const handleVariableTimeResponse = (resp) => {
     console.log(resp);
     if (resp) {
+      setIsVariableTime(resp?.variableMeetingTime);
     }
   };
 
@@ -553,7 +555,6 @@ const Member = ({ isEdit }) => {
                     );
                   })}
                 </div>
-                {/* <p className='mt-4'>variable, message me for availability.</p> */}
                 <div className='timingContainer'>
                   {isEdit ? (
                     <div className='timing'>
@@ -588,6 +589,9 @@ const Member = ({ isEdit }) => {
                     <p className='mt-3'>No Availability</p>
                   )}
                 </div>
+                {isVariableTime ? (
+                  <p className='mt-4'>variable, message me for availability.</p>
+                ) : null}
               </div>
 
               {isEdit ? (

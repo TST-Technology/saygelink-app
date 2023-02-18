@@ -530,6 +530,9 @@ const Healthcare = () => {
                     return (
                       <ImageCard
                         key={event._id}
+                        mainId={event._id}
+                        field='event'
+                        participant={event.iamPartecipant}
                         backgroundImage={
                           event?.image ? event?.image : cardBackgroundImage2
                         }
@@ -558,6 +561,9 @@ const Healthcare = () => {
                     return (
                       <ImageCard
                         key={event._id}
+                        mainId={event._id}
+                        field='interest'
+                        participant={event.iamPartecipant}
                         backgroundImage={
                           event?.image ? event?.image : cardBackgroundImage2
                         }
