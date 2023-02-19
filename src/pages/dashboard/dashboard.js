@@ -4,7 +4,7 @@ import BackgroundLogoImage from "../../assets/images/saygeLinkBgLogo.png";
 import {
   BottomFixedStyle,
   FindSaygeButtonStyle,
-  HomeContainerStyle
+  HomeContainerStyle,
 } from "../../style-component/dashboard/dashboard";
 import cardBackgroundImage2 from "../../assets/images/cardBackground2.png";
 import cardBackgroundImage3 from "../../assets/images/cardBackground3.png";
@@ -18,12 +18,17 @@ import CONSTANT, {
   DATE_FORMAT,
   NO_DATA_AVAILABLE,
   ROUTES,
-  scheduleMeetingStyle
+  scheduleMeetingStyle,
 } from "../../utils/constants";
 import { Services } from "../../api/service";
 import ColumbiaImage from "../../assets/images/profileIcon.svg";
 import SearchImage from "../../assets/images/search-white.svg";
-import { dateFormat, isEmptyArray } from "../../utils/funcs";
+import {
+  dateFormat,
+  getEmail,
+  getUserOtherDetails,
+  isEmptyArray,
+} from "../../utils/funcs";
 import Loader from "../../components/general/loader";
 import { CalenderEventButtonStyle } from "../../style-component/calender/calender";
 import RescheduleImage from "../../assets/images/reschedule.svg";
@@ -36,9 +41,11 @@ import DeleteConfirmation from "../../components/delete-confirmation/delete-conf
 import MessageFloater from "../../components/general/message-floater";
 import {
   ImageCardStyle,
-  ImageCardStyleNew
+  ImageCardStyleNew,
 } from "../../style-component/image-card/image-card";
+import PersonImg from "../../assets/images/personCircleBlack.svg";
 import { border } from "@mui/system";
+import ImageRole from "../../components/general/image-role";
 
 const Dashboard = () => {
   const [categories, setCategories] = useState(null);
@@ -71,7 +78,7 @@ const Dashboard = () => {
     CONSTANT.API.getCategories.endpoint,
     CONSTANT.API.getAllPost.endpoint,
     CONSTANT.API.getAllGroup.endpoint,
-    CONSTANT.API.getAllConnections.endpoint
+    CONSTANT.API.getAllConnections.endpoint,
   ];
 
   const getAllData = () => {
@@ -146,17 +153,17 @@ const Dashboard = () => {
 
   const Top_Image = {
     "Student Sundry": {
-      image: require("../../assets/images/Student_Sunday.png")
+      image: require("../../assets/images/Student_Sunday.png"),
     },
     "Well-Being": {
-      image: require("../../assets/images/Work_Life_Balance.png")
+      image: require("../../assets/images/Work_Life_Balance.png"),
     },
     "Career Interests": {
-      image: require("../../assets/images/Job_Board.png")
+      image: require("../../assets/images/Job_Board.png"),
     },
     "Healthcare Innovation": {
-      image: require("../../assets/images/Healthcare_Innovation.jpg")
-    }
+      image: require("../../assets/images/Healthcare_Innovation.jpg"),
+    },
   };
 
   const handleConfirmJoin = () => {
@@ -164,7 +171,7 @@ const Dashboard = () => {
     if (groupId) {
       const url = {
         ...CONSTANT.API.joinGroup,
-        endpoint: CONSTANT.API.joinGroup.endpoint.replace(":groupId", groupId)
+        endpoint: CONSTANT.API.joinGroup.endpoint.replace(":groupId", groupId),
       };
       joinApi.sendRequest(url, joinResponseHandler);
     }
@@ -176,12 +183,12 @@ const Dashboard = () => {
         <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
       ) : (
         <HomeContainerStyle>
-          <div className='homeBackgroundContainer'>
-            <div className='homeBannerTextContainer'>
-              <h2 className='blackText'>
+          <div className="homeBackgroundContainer">
+            <div className="homeBannerTextContainer">
+              <h2 className="blackText">
                 Start <br /> connecting On
               </h2>
-              <img className='bgLogo' src={BackgroundLogoImage} />
+              <img className="bgLogo" src={BackgroundLogoImage} />
             </div>
 
             {/* <div className='homeBannerButtonContainer'> */}
@@ -193,12 +200,12 @@ const Dashboard = () => {
             </FindSaygeButtonStyle>
             {/* </div> */}
           </div>
-          <div className='homeContentContainer'>
-            <div className='homeContentLeftContainer'>
+          <div className="homeContentContainer">
+            <div className="homeContentLeftContainer">
               <ImageCardStyleNew bgImage={false} showBorder={false}>
-                <div className='cardBody'>
-                  <div className='cardImage' style={{ height: "180px" }}>
-                    <p className='cardImageText text-dark'>
+                <div className="cardBody">
+                  <div className="cardImage" style={{ height: "180px" }}>
+                    <p className="cardImageText text-dark">
                       Everyone has a story.
                       <br /> What's your story?
                     </p>
@@ -214,10 +221,10 @@ const Dashboard = () => {
               </ImageCardStyleNew>
 
               {!isEmptyArray(events) ? (
-                <div className='eventsContainer'>
-                  <div className='cardHeading'>
-                    <p className=''>Groups</p>
-                    <span className='' onClick={() => redirectToEvent()}>
+                <div className="eventsContainer">
+                  <div className="cardHeading">
+                    <p className="">Groups</p>
+                    <span className="" onClick={() => redirectToEvent()}>
                       View all
                     </span>
                   </div>
@@ -227,7 +234,7 @@ const Dashboard = () => {
                         <ImageCard
                           key={event._id}
                           mainId={event._id}
-                          field='event'
+                          field="event"
                           backgroundImage={
                             event?.image ? event?.image : cardBackgroundImage2
                           }
@@ -252,9 +259,9 @@ const Dashboard = () => {
 
               {!isEmptyArray(interests) ? (
                 <>
-                  <div className='cardHeading'>
-                    <p className=''>Interest</p>
-                    <span className='' onClick={() => redirectToInterest()}>
+                  <div className="cardHeading">
+                    <p className="">Interest</p>
+                    <span className="" onClick={() => redirectToInterest()}>
                       View all
                     </span>
                   </div>
@@ -262,7 +269,7 @@ const Dashboard = () => {
                     return (
                       <ImageCard
                         key={interest._id}
-                        field='interest'
+                        field="interest"
                         mainId={interest._id}
                         backgroundImage={
                           interest?.image
@@ -289,8 +296,8 @@ const Dashboard = () => {
                 <h4>{NO_DATA_AVAILABLE}</h4>
               )}
             </div>
-            <div className='homeContentCenterContainer'>
-              <div className='categoryContainer'>
+            <div className="homeContentCenterContainer">
+              <div className="categoryContainer">
                 {!isEmptyArray(categories) ? (
                   categories.map((category, index) => {
                     return (
@@ -300,11 +307,11 @@ const Dashboard = () => {
                           redirectToCategory(category?._id);
                         }}
                       >
-                        <div className='imageContainer'>
+                        <div className="imageContainer">
                           <img src={Top_Image[category?.name]?.image} />
                         </div>
-                        <div className='labelContainer'>
-                          <span className='label'>{category?.name}</span>
+                        <div className="labelContainer">
+                          <span className="label">{category?.name}</span>
                         </div>
                       </StyleCategoryCard>
                     );
@@ -314,14 +321,13 @@ const Dashboard = () => {
                 )}
               </div>
 
-              <div className='postContainer'>
-                <h2 className='postTitle'>HPM Happenings</h2>
+              <div className="postContainer">
+                <h2 className="postTitle">HPM Happenings</h2>
                 {!isEmptyArray(posts) ? (
                   posts.map((post, index) => {
                     return (
                       <Post
                         key={post._id}
-                        name={post?.name}
                         time={
                           post?.createdAt
                             ? dateFormat(post?.createdAt, DATE_FORMAT.FORMAT_1)
@@ -338,8 +344,8 @@ const Dashboard = () => {
                 )}
               </div>
             </div>
-            <div className='homeContentRightContainer'>
-              <h2 className='calenderTitle'>Calender</h2>
+            <div className="homeContentRightContainer">
+              <h2 className="calenderTitle">Calender</h2>
               <CustomCalender
                 onChange={setValue}
                 value={value}
@@ -347,11 +353,11 @@ const Dashboard = () => {
               />
 
               {!isEmptyArray(activeConnections) ? (
-                <div className='connectionContainer'>
-                  <div className='cardHeading'>
-                    <p className=''>Upcoming Meetings</p>
+                <div className="connectionContainer">
+                  <div className="cardHeading">
+                    <p className="">Upcoming Meetings</p>
                     <span
-                      className=''
+                      className=""
                       onClick={() => navigate(`${ROUTES.CALENDER}`)}
                     >
                       View all
@@ -359,54 +365,64 @@ const Dashboard = () => {
                   </div>
                   <></>
                   {activeConnections &&
-                    activeConnections.map((conn) => {
+                    activeConnections.map((conn, index) => {
+                      const otherUser = getUserOtherDetails(conn);
+
                       return (
                         <div
-                          key={conn._id}
+                          key={`connectionList${index}`}
                           style={{
                             background: "#fff",
                             padding: "12px 0px 17px 11px",
                             borderRadius: "10px",
-                            marginTop: "10px"
+                            marginTop: "10px",
                           }}
                         >
-                          <div className='connectionItem'>
-                            <img
-                              src={conn?.sharer?.profile_image}
-                              className='connectionImage'
+                          <div className="connectionItem">
+                            <ImageRole
+                              src={
+                                otherUser?.profile_image
+                                  ? otherUser?.profile_image
+                                  : PersonImg
+                              }
+                              className="connectionImage"
+                              role={otherUser?.qualification}
                             />
 
-                            <div className='connectionDetail'>
-                              <p className='connectionName'>
-                                {conn?.sharer?.name}
+                            <div className="connectionDetail">
+                              <p className="connectionName">
+                                {otherUser?.name}
                               </p>
-                              <span className='connectionTime'>
+                              <span className="connectionTime">
                                 {conn?.connect_on?.day
-                                  ? dateFormat(
+                                  ? `${dateFormat(
                                       conn?.connect_on?.day,
-                                      DATE_FORMAT.FORMAT_1
-                                    )
+                                      DATE_FORMAT.FORMAT_4
+                                    )} `
+                                  : ""}
+                                {conn?.connect_on?.time
+                                  ? `${conn?.connect_on?.time}`
                                   : ""}
                               </span>
                             </div>
                           </div>
-                          <div className='meetingButtonContainer'>
+                          <div className="meetingButtonContainer">
                             <a
-                              className='meetingButton'
+                              className="meetingButton"
                               onClick={(e) => handleClick(e, conn)}
-                              size='small'
+                              size="small"
                               sx={{ ml: 2 }}
                               aria-controls={open ? "account-menu" : undefined}
-                              aria-haspopup='true'
+                              aria-haspopup="true"
                               aria-expanded={open ? "true" : undefined}
                             >
                               <img src={RescheduleImage} />
                               Re-schedule
                             </a>
                             <a
-                              target='_blank'
+                              target="_blank"
                               href={conn?.zoom_link}
-                              className='meetingButton'
+                              className="meetingButton"
                             >
                               <img src={SendDarkImage} />
                               Join
@@ -417,7 +433,7 @@ const Dashboard = () => {
                     })}
                 </div>
               ) : (
-                <p className='mt-3 text-center'>No schedule found</p>
+                <p className="mt-3 text-center">No schedule found</p>
               )}
             </div>
           </div>
@@ -425,12 +441,12 @@ const Dashboard = () => {
           {open ? (
             <Menu
               anchorEl={anchorEl}
-              id='account-menu'
+              id="account-menu"
               open={open}
               onClose={() => handleClose(false)}
               PaperProps={{
                 elevation: 0,
-                sx: { ...scheduleMeetingStyle, "&:before": {} }
+                sx: { ...scheduleMeetingStyle, "&:before": {} },
               }}
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
@@ -453,7 +469,7 @@ const Dashboard = () => {
                 setJoinEventConfirmation(false);
               }}
               onConfirmButtonClick={handleConfirmJoin}
-              message='Aye you sure you want to join?'
+              message="Aye you sure you want to join?"
             />
           ) : null}
         </HomeContainerStyle>
