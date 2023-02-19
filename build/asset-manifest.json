@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.d1caa3a2.css",
-    "main.js": "/static/js/main.fc2c4deb.js",
+    "main.js": "/static/js/main.01abbb36.js",
     "static/media/home_background.svg": "/static/media/home_background.24ce315e23590af7096038d2b8d2fb4e.svg",
     "static/media/welcomeIcon.png": "/static/media/welcomeIcon.b34bbd6dde344edb1fd0.png",
     "static/media/Healthcare_Innovation.jpg": "/static/media/Healthcare_Innovation.b65549bf54d47be33c18.jpg",
@@ -11,10 +11,10 @@
     "static/media/profileIcon.svg": "/static/media/profileIcon.0050ced1e0aaeaa87348b5ee17593687.svg",
     "static/media/Columbia_logo.svg": "/static/media/Columbia_logo.2882c931f6dce3bcb4d944a93f1cff17.svg",
     "static/media/login_background.png": "/static/media/login_background.8cdf545c5ea93c76f660.png",
-    "static/media/Job_Board.png": "/static/media/Job_Board.8fa8621c250b04faf0bd.png",
     "static/media/Work_Life_Balance.png": "/static/media/Work_Life_Balance.455fcca6090897ef2186.png",
     "static/media/RegisterIcon.svg": "/static/media/RegisterIcon.6e1908b4ef3ee811a090fc17184c791b.svg",
     "static/media/defaultCategoryImage.svg": "/static/media/defaultCategoryImage.cee20a332c9637fd27826515abcb5e09.svg",
+    "static/media/Job_Board.jpg": "/static/media/Job_Board.1616f208d0e6aa342983.jpg",
     "static/media/Student_Sunday.png": "/static/media/Student_Sunday.a11c6f5d53b167a1990c.png",
     "static/media/columbia_logo.png": "/static/media/columbia_logo.38052e625ab6ddc68e28.png",
     "static/media/cardBackground1.png": "/static/media/cardBackground1.65ce2247ccd2dbe825b0.png",
@@ -59,7 +59,7 @@
     "static/media/threeDotMenu.svg": "/static/media/threeDotMenu.fec35ba02143b1f676f41570e334965d.svg",
     "static/media/lock.svg": "/static/media/lock.aaa1950cdcee816e3a94605c6a1574ce.svg",
     "static/media/RequestpendingIcon.svg": "/static/media/RequestpendingIcon.837b6ddf14469ea674923d57b76a4b44.svg",
-    "static/media/main_icon.svg": "/static/media/main_icon.730d7730a46a1e2b2d1ba06392c34810.svg",
+    "static/media/main_icon.svg": "/static/media/main_icon.de45a3346dcace3779f9e4138c092dde.svg",
     "static/media/search.svg": "/static/media/search.22a67eb86eb6491f66f89e2b1c2d80bb.svg",
     "static/media/log-out.svg": "/static/media/log-out.a1122b664c5ef080176ab69a536eb7d0.svg",
     "static/media/edit.svg": "/static/media/edit.62fc997fe147e420729e840d19e5d561.svg",
@@ -77,10 +77,10 @@
     "static/media/upArrow.svg": "/static/media/upArrow.f208710cf50d621b5a2d10c6507e17ca.svg",
     "static/media/RightArrow.svg": "/static/media/RightArrow.71fafdbba3c9e8954ce15c3ac92461e1.svg",
     "main.d1caa3a2.css.map": "/static/css/main.d1caa3a2.css.map",
-    "main.fc2c4deb.js.map": "/static/js/main.fc2c4deb.js.map"
+    "main.01abbb36.js.map": "/static/js/main.01abbb36.js.map"
   },
   "entrypoints": [
     "static/css/main.d1caa3a2.css",
-    "static/js/main.fc2c4deb.js"
+    "static/js/main.01abbb36.js"
   ]
 }

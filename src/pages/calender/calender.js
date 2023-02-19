@@ -173,8 +173,7 @@ const Calender = () => {
                                 </div>
                                 <div className="calenderPreviewEventTitleContainer">
                                   <h3 className="heading">{otherUser?.name}</h3>
-                                  {console.log(otherUser)}
-
+                                  <h3 className="heading">{conn?.message}</h3>
                                   <p>
                                     {conn?.connect_on?.day
                                       ? `${dateFormat(

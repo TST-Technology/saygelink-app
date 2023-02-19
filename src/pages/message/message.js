@@ -11,7 +11,7 @@ import {
   MessageStyle,
   SearchInputStyle,
   SendButtonStyle,
-  UserChatStyle
+  UserChatStyle,
 } from "../../style-component/message/message";
 import { Menu } from "@mui/material";
 import ScheduleMeeting from "../../components/schedule-meeting/schedule-meeting";
@@ -21,14 +21,14 @@ import CONSTANT, {
   KEYBOARD,
   scheduleMeetingStyle,
   SOCKET_EVENTS,
-  visitedMember
+  visitedMember,
 } from "../../utils/constants";
 import useHttp from "../../hooks/use-http";
 import { useEffect } from "react";
 import {
   capitalizeFirstLetter,
   dateFormat,
-  isEmptyArray
+  isEmptyArray,
 } from "../../utils/funcs";
 import Loader from "../../components/general/loader";
 import { socket } from "../../utils/socket";
@@ -63,9 +63,7 @@ const Message = () => {
   useEffect(() => {
     getConversationList();
 
-    socket.on(SOCKET_EVENTS.CONNECT, (socket) => {
-      console.log("connected msg");
-    });
+    socket.on(SOCKET_EVENTS.CONNECT, (socket) => {});
 
     socket.on(SOCKET_EVENTS.DISCONNECT, () => {});
 
@@ -76,7 +74,6 @@ const Message = () => {
     });
 
     socket.on(SOCKET_EVENTS.MESSAGE_RECEIVE, (msg) => {
-      console.log("msg inside msg", msg);
       handleNewMessage(msg, false);
     });
 
@@ -101,7 +98,7 @@ const Message = () => {
       getMessage(activeUser?._id);
       const addUser = {
         to: [activeUser?._id],
-        user_id: profileDetail?.id
+        user_id: profileDetail?.id,
       };
       socket.emit(SOCKET_EVENTS.ADD_USER, addUser);
     }
@@ -148,7 +145,7 @@ const Message = () => {
   const getMessage = (userId) => {
     const url = {
       ...CONSTANT.API.getAllMessages,
-      endpoint: CONSTANT.API.getAllMessages.endpoint.replace(":userId", userId)
+      endpoint: CONSTANT.API.getAllMessages.endpoint.replace(":userId", userId),
     };
     messageApi.sendRequest(url, responseHandler);
   };
@@ -231,7 +228,7 @@ const Message = () => {
       const socketMessage = {
         to: [toId],
         message: message,
-        user_id: fromId
+        user_id: fromId,
       };
       handleNewMessage(message, true);
       addMessageApi();
@@ -278,11 +275,11 @@ const Message = () => {
       endpoint: CONSTANT.API.addMessage.endpoint.replace(
         ":conversationId",
         activeUser?._id
-      )
+      ),
     };
     const payload = {
       message: message,
-      sender: profileDetail?.id
+      sender: profileDetail?.id,
     };
     sendMessageApi.sendRequest(url, sendMessageResponseHandler, payload);
   };
@@ -328,7 +325,7 @@ const Message = () => {
       id: Date.now(),
       message: message,
       timestamp: currentDateTime,
-      uniqueTimeStamp: currentDateTime
+      uniqueTimeStamp: currentDateTime,
     };
     if (isSend) setMessage("");
     setMessages((prevValue) => {
@@ -375,16 +372,16 @@ const Message = () => {
       ) : (
         <>
           <MessageContainerStyle>
-            <div className='messageContainer'>
+            <div className="messageContainer">
               <MessageMemberList>
                 <>
-                  <div className='membersHeadingContainer'>
-                    <h2 className='membersHeading'>Members</h2>
+                  <div className="membersHeadingContainer">
+                    <h2 className="membersHeading">Members</h2>
                   </div>
-                  <div className='membersChatListing'>
-                    <img src={SearchImage} className='searchImage' />
+                  <div className="membersChatListing">
+                    <img src={SearchImage} className="searchImage" />
                     <SearchInputStyle
-                      placeholder='Search here...'
+                      placeholder="Search here..."
                       onChange={handleSearch}
                       value={searchTerm}
                     />
@@ -400,18 +397,18 @@ const Message = () => {
                               }}
                               selected={user?._id === activeUser?._id}
                             >
-                              <div className='leftContainer'>
+                              <div className="leftContainer">
                                 <ImageRole
                                   src={currentUser?.profile_image}
-                                  className='profileImage'
+                                  className="profileImage"
                                   role={currentUser?.qualification}
                                 />
                                 {/* <div className='activeUser'></div> */}
-                                <div className='nameContainer'>
-                                  <p className='nameText'>
+                                <div className="nameContainer">
+                                  <p className="nameText">
                                     {currentUser?.name}
                                   </p>
-                                  <span className='roleText'>
+                                  <span className="roleText">
                                     {currentUser?.qualification
                                       ? capitalizeFirstLetter(
                                           currentUser?.qualification
@@ -421,9 +418,9 @@ const Message = () => {
                                 </div>
                               </div>
 
-                              <div className='rightContainer'>
+                              <div className="rightContainer">
                                 {unseenMessageUsers[currentUser?._id] ? (
-                                  <div className='unreadMessage'></div>
+                                  <div className="unreadMessage"></div>
                                 ) : null}
                               </div>
                             </UserChatStyle>
@@ -433,27 +430,27 @@ const Message = () => {
                   </div>
                 </>
               </MessageMemberList>
-              <div className='rightSectionContainer'>
+              <div className="rightSectionContainer">
                 {activeUser ? (
                   <>
-                    <div className='rightSection'>
-                      <div className='activeChatNameContainer'>
+                    <div className="rightSection">
+                      <div className="activeChatNameContainer">
                         <div
-                          className='leftContainer'
+                          className="leftContainer"
                           onClick={() =>
                             goToProfile(activeUser?.participants?._id)
                           }
                         >
                           <ImageRole
                             src={activeUser?.participants?.profile_image}
-                            className='profileImage'
+                            className="profileImage"
                             role={activeUser?.participants?.qualification}
                           />
-                          <div className='nameContainer'>
-                            <p className='nameText'>
+                          <div className="nameContainer">
+                            <p className="nameText">
                               {activeUser?.participants?.name}
                             </p>
-                            <span className='roleText'>
+                            <span className="roleText">
                               {activeUser?.participants?.qualification
                                 ? capitalizeFirstLetter(
                                     activeUser?.participants?.qualification
@@ -463,14 +460,14 @@ const Message = () => {
                           </div>
                         </div>
 
-                        <div className='rightContainer'>
+                        <div className="rightContainer">
                           <img src={CalenderRedImage} />
                           <p
                             onClick={handleClick}
-                            size='small'
+                            size="small"
                             sx={{ ml: 2 }}
                             aria-controls={open ? "account-menu" : undefined}
-                            aria-haspopup='true'
+                            aria-haspopup="true"
                             aria-expanded={open ? "true" : undefined}
                           >
                             Schedule a call
@@ -478,11 +475,11 @@ const Message = () => {
                         </div>
                       </div>
 
-                      <div className='chatContainer'>
+                      <div className="chatContainer">
                         {messageApi.isLoading ? (
                           <Loader height={`calc(100% - ${ChatInputHeight})`} />
                         ) : (
-                          <div className='chatMessagesContainer'>
+                          <div className="chatMessagesContainer">
                             {!isEmptyArray(messages)
                               ? messages.map((message, index) => {
                                   return (
@@ -490,7 +487,7 @@ const Message = () => {
                                       {message?.uniqueDate ? (
                                         <p
                                           key={message?.uniqueDate}
-                                          className='chatDateText'
+                                          className="chatDateText"
                                         >
                                           {getDayLabel(message?.uniqueDate)}
                                         </p>
@@ -498,8 +495,8 @@ const Message = () => {
 
                                       {message?.newMessage ? (
                                         <p
-                                          key='new-message'
-                                          className='newChatDateText'
+                                          key="new-message"
+                                          className="newChatDateText"
                                         >
                                           New Messages
                                         </p>
@@ -509,14 +506,14 @@ const Message = () => {
                                         key={message.id}
                                       >
                                         {message?.uniqueTimeStamp ? (
-                                          <p className='messageHelperText'>
+                                          <p className="messageHelperText">
                                             {dateFormat(
                                               message?.uniqueTimeStamp,
                                               DATE_FORMAT.FORMAT_3
                                             )}
                                           </p>
                                         ) : null}
-                                        <p className='messageText'>
+                                        <p className="messageText">
                                           {message?.message}
                                         </p>
                                         {/* <p className='messageHelperText'>VIEWED AT</p> */}
@@ -528,9 +525,9 @@ const Message = () => {
                             <div ref={messageRef}></div>
                           </div>
                         )}
-                        <div className='chatInputContainer'>
+                        <div className="chatInputContainer">
                           <MessageInputStyle
-                            placeholder='Text Messages....'
+                            placeholder="Text Messages...."
                             value={message}
                             onChange={(e) => {
                               setMessage(e.target.value);
@@ -550,8 +547,8 @@ const Message = () => {
                     </div>
                   </>
                 ) : (
-                  <div className='messageBackgroundContainer'>
-                    <div className='messageBackground'>
+                  <div className="messageBackgroundContainer">
+                    <div className="messageBackground">
                       <img src={MessageBackgroundImage} />
                     </div>
                   </div>
@@ -562,19 +559,19 @@ const Message = () => {
 
           <Menu
             anchorEl={anchorEl}
-            id='account-menu'
+            id="account-menu"
             open={open}
             onClose={handleClose}
             PaperProps={{
               elevation: 0,
-              sx: scheduleMeetingStyle
+              sx: scheduleMeetingStyle,
             }}
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
             <ScheduleMeeting
               email={activeUser?.participants?.email}
-              type='connect'
+              type="connect"
               onClose={() => {
                 handleClose();
               }}

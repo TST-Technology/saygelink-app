@@ -9,9 +9,16 @@ import useHttp from "../../hooks/use-http";
 import CONSTANT from "../../utils/constants";
 import ImageRole from "./image-role";
 import Loader from "./loader";
+import { useState } from "react";
+import { useEffect } from "react";
 
-const ConnectionRequest = ({ detail, getDetail }) => {
+const ConnectionRequest = ({ detailItems, getDetail }) => {
+  const [detail, setDetails] = useState([]);
   const requestApi = useHttp();
+
+  useEffect(() => {
+    setDetails(detailItems);
+  }, [detailItems]);
 
   const responseHandler = (resp) => {
     if (resp) {

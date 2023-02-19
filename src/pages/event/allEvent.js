@@ -24,14 +24,12 @@ const AllEventList = () => {
   let Total_Page;
   const handleGroupDetailResponse = (resp) => {
     if (resp && resp?.groupInfo) {
-      console.log(resp);
       setEventDetail(resp?.groupInfo);
       setParticipantsData((privies) => [
         ...privies,
         ...resp?.groupInfo?.participantsInfo,
       ]);
       Total_Page = resp?.groupInfo?.participants.length;
-      console.log(pageNo * 10, Total_Page);
       if ((pageNo + 1) * 10 < Total_Page) {
         setPageNo((previous) => previous + 1);
       }
