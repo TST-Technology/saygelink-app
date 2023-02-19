@@ -8,8 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Mobile from "../pages/Mobile";
 
 const Layout = () => {
-  let deviceType = false
-
+  let deviceType = false;
 
   var w = document.documentElement.clientWidth;
 
@@ -19,8 +18,6 @@ const Layout = () => {
     deviceType = false;
   }
 
-
-  console.log(deviceType);
   return !deviceType ? (
     <Fragment>
       <ToastContainer />

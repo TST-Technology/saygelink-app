@@ -4,6 +4,19 @@ import { Button, FlexAlignCenter, FlexJustifySpaceBetween } from "../general";
 import cardBackgroundImage2 from "../../assets/images/cardBackground2.png";
 
 export const EventDetailStyle = styled.div`
+  .relativeContainer {
+    position: relative;
+
+    .postPreviewImage,
+    .photoInput {
+      top: 10px;
+    }
+
+    button {
+      top: 50px;
+    }
+  }
+
   .eventImage {
     width: 100%;
     height: 250px;
@@ -164,4 +177,17 @@ export const EventCardMain = styled.div`
   background-position: center;
   cursor: pointer;
   height: 100%;
+`;
+
+export const LeaveButtonStyle = styled.button`
+  ${Button}
+  margin: 0;
+  box-shadow: none;
+  border: 1.16098px solid #abe9dc;
+  background: #f62e5f;
+  border-radius: 9px;
+  color: #ffffff;
+  position: absolute;
+  top: 10px !important;
+  right: 10px;
 `;

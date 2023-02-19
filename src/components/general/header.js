@@ -35,15 +35,18 @@ const Header = () => {
   const connectApi = useHttp();
   const [pendingRequestCount, setPendingRequestCount] = useState(null);
   const [floatMenuType, setFloatMenuType] = useState(null);
-  const [requestDetail, setRequestDetail] = useState(null);
-  const { profileDetail } = useContext(UserContext);
+  const [requestDetail, setRequestDetail] = useState([]);
+  const { profileDetail, isUnreadMessage, setIsUnreadMessage } =
+    useContext(UserContext);
   const [isNotification, setIsNotification] = useState(false);
   const [tabletMenuOpen, setTabletMenuOpen] = useState(false);
   const [screenWidth, setScreenWidth] = useState(0);
-  // const [flag, setFlag] = useState(!)
 
   useEffect(() => {
     setActiveTab(window.location.pathname);
+    if (window.location.pathname.includes(ROUTES.MESSAGE)) {
+      setIsUnreadMessage(false);
+    }
   }, [window.location.pathname]);
 
   const displayWindowSize = () => {
@@ -65,10 +68,15 @@ const Header = () => {
       }
     });
 
+    socket.on(SOCKET_EVENTS.MESSAGE_RECEIVE, (msg) => {
+      handleNewMessage(msg);
+    });
+
     return () => {
       socket.off(SOCKET_EVENTS.RECEIVE_NOTIFICATION);
+      socket.off(SOCKET_EVENTS.MESSAGE_RECEIVE);
     };
-  }, []);
+  }, [window.location.pathname]);
 
   const HEADER_TABS = [
     {
@@ -114,7 +122,8 @@ const Header = () => {
   };
 
   const responseHandler = (resp) => {
-    if (resp && resp?.count && resp?.connections) {
+    if (resp?.connections) {
+      console.log("resp", resp);
       setPendingRequestCount(resp?.count);
       setRequestDetail(resp?.connections.reverse());
     }
@@ -130,6 +139,10 @@ const Header = () => {
 
   const onClickNav = () => {
     setTabletMenuOpen(!tabletMenuOpen);
+  };
+
+  const handleNewMessage = (message) => {
+    setIsUnreadMessage(true);
   };
 
   return (
@@ -165,6 +178,9 @@ const Header = () => {
                   handleHeaderClick(tab);
                 }}
               >
+                {tab.route === ROUTES.MESSAGE && isUnreadMessage ? (
+                  <div className="newMessageDot"></div>
+                ) : null}
                 <img className="headerTabImage" src={tab.icon} />
 
                 {tab.label ? (
@@ -252,7 +268,10 @@ const Header = () => {
       >
         {floatMenuType === "notification" ? <Notification /> : null}
         {floatMenuType === "request" ? (
-          <ConnectionRequest detail={requestDetail} getDetail={getRequests} />
+          <ConnectionRequest
+            detailItems={requestDetail}
+            getDetail={getRequests}
+          />
         ) : null}
       </Menu>
     </HeaderContainerStyle>

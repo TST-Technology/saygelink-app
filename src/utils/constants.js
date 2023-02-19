@@ -7,8 +7,8 @@ const CONSTANT = {
   URLS: {
     signUp: {
       type: "POST",
-      endpoint: "/users/signup"
-    }
+      endpoint: "/users/signup",
+    },
   },
 
   NAVIGATION_MENU: [
@@ -16,20 +16,20 @@ const CONSTANT = {
       id: "nav-iten-0",
       label: "Home",
       url: "/",
-      type: "normal"
+      type: "normal",
     },
     {
       id: "nav-iten-2",
       label: "My Store",
       url: "/mystore",
-      type: "normal"
+      type: "normal",
     },
     {
       id: "nav-iten-7",
       label: "Lands",
       url: "/lands",
-      type: "normal"
-    }
+      type: "normal",
+    },
   ],
 
   FORM: {
@@ -39,58 +39,58 @@ const CONSTANT = {
         name: "first_name",
         type: "text",
         required: true,
-        placeholder: "First Name"
+        placeholder: "First Name",
       },
       {
         id: "last_name",
         name: "last_name",
         type: "text",
         required: true,
-        placeholder: "Last Name"
+        placeholder: "Last Name",
       },
       {
         id: "last_nemailame",
         name: "email",
         type: "email",
         required: true,
-        placeholder: "Email ID"
-      }
-    ]
+        placeholder: "Email ID",
+      },
+    ],
   },
 
   API: {
     login: { endpoint: `/auth/login`, type: "POST" },
     checkUser: {
       endpoint: `/auth/whitelist/${process.env.REACT_APP_UNIVERSITY_ID}`,
-      type: "GET"
+      type: "GET",
     },
     forgot: { endpoint: `/auth/forgotPassword`, type: "POST" },
     addUserToWhitelist: {
       endpoint: `/auth/whitelist/request-access`,
-      type: "POST"
+      type: "POST",
     },
     register: { endpoint: `/auth/register`, type: "POST" },
     getCategories: { endpoint: `/categories`, type: "GET" },
     addCategories: { endpoint: `/categories`, type: "POST" },
     getSubcategories: {
       endpoint: `/subcategories/search/:categoryId`,
-      type: "GET"
+      type: "GET",
     },
     addExperience: {
       endpoint: `/users/organization/addSayge`,
-      type: "POST"
+      type: "POST",
     },
     uploadUserProfilePicture: {
       endpoint: `/users/uploadUserProfilePicture`,
-      type: "POST"
+      type: "POST",
     },
     uploadUserFile: {
       endpoint: `/users/uploadUserFile`,
-      type: "POST"
+      type: "POST",
     },
     updateUser: {
       endpoint: `/users/updateUser`,
-      type: "PATCH"
+      type: "PATCH",
     },
     getAllPost: { endpoint: `/feed/hpm`, type: "GET" },
     getAllGroup: { endpoint: `/groups/user`, type: "GET" },
@@ -104,129 +104,146 @@ const CONSTANT = {
     addAvailability: { endpoint: "/users/availability/add", type: "PUT" },
     rescheduleAvailability: {
       endpoint: "/connect/rescheduleAvailability",
-      type: "PUT"
+      type: "PUT",
     },
     getConnectionRequest: {
       endpoint: "/connect",
-      type: "GET"
+      type: "GET",
     },
     confirmAvailability: {
       endpoint: "/connect/confirmAvailability",
-      type: "PUT"
+      type: "PUT",
     },
     cancelAvailability: {
       endpoint: "/connect/cancelAvailability",
-      type: "PUT"
+      type: "PUT",
     },
     getAllMessages: {
       endpoint: "/chat/messages/:userId",
-      type: "GET"
+      type: "GET",
     },
     deleteAvailability: {
       endpoint: `/users/availability/remove/:availId`,
-      type: "DELETE"
+      type: "DELETE",
     },
     updateUserQualification: {
       endpoint: `/users/updateUserQualification`,
-      type: "PATCH"
+      type: "PATCH",
     },
     getConversationList: {
       endpoint: "/chat/conversation/getConversations",
-      type: "GET"
+      type: "GET",
     },
     addMessage: {
       endpoint: `/chat/messages/:conversationId`,
-      type: "POST"
+      type: "POST",
     },
     joinGroup: {
       endpoint: `/groups/user/join/:groupId`,
-      type: "PUT"
+      type: "PUT",
     },
     deleteUser: {
       endpoint: "/users/deleteUser/:email",
-      type: "DELETE"
+      type: "DELETE",
     },
     updateUserPassword: {
       endpoint: `/users/updateUserPassword`,
-      type: "PATCH"
+      type: "PATCH",
     },
     connect: {
       endpoint: "/connect",
-      type: "POST"
+      type: "POST",
     },
     beASayge: {
       endpoint: "/users/organization/addSayge",
-      type: "POST"
+      type: "POST",
     },
     removeSayge: {
       endpoint: "/users/organization/removeSayge/:saygeId",
-      type: "DELETE"
+      type: "DELETE",
     },
     findSayge: {
       endpoint: "/users/organization/findSayge/:topicId",
-      type: "GET"
+      type: "GET",
     },
     userDetailById: {
       endpoint: "/users/userId",
-      type: "GET"
+      type: "GET",
     },
     getOrCreateConversation: {
       endpoint: "/chat/conversation/getOrCreateConversation",
-      type: "POST"
+      type: "POST",
     },
     getAllPostsBySubject: {
       endpoint: "/feed/userTopic/:subjectId",
-      type: "GET"
+      type: "GET",
     },
     uploadPost: {
       endpoint: "/feed/userTopic",
-      type: "POST"
+      type: "POST",
     },
     uploadPostImage: {
       endpoint: "/feed/userTopic/uploadImage/:postId",
-      type: "POST"
+      type: "POST",
     },
     getTopicDetails: {
       endpoint: "/topics/:topicId",
-      type: "GET"
+      type: "GET",
     },
-    getGroupDetails: { endpoint: `/groups/getGroup`, type: "POST" },
+    getGroupDetails: { endpoint: `/groups/:groupId`, type: "GET" },
+    getGroupDetailsPost: { endpoint: `/groups/getGroup`, type: "POST" },
     getAllPostsByGroupId: {
       endpoint: "/feed/groups/:groupId",
-      type: "GET"
+      type: "GET",
     },
     uploadPostToGroup: {
       endpoint: "/feed/groups",
-      type: "POST"
+      type: "POST",
     },
     uploadPostImageToGroup: {
       endpoint: "/feed/groups/uploadImage/:postId",
-      type: "POST"
+      type: "POST",
     },
     deletePostOfGroup: {
       endpoint: "/feed/groups/:postId",
-      type: "DELETE"
+      type: "DELETE",
     },
     deletePostBySubject: {
       endpoint: "/feed/userTopic/:postId",
-      type: "DELETE"
-    }
+      type: "DELETE",
+    },
+    leaveUserGroup: {
+      endpoint: "/groups/user/join/:groupId",
+      type: "DELETE",
+    },
+    reportPost: {
+      endpoint: "/users/reportUserPost",
+      type: "POST",
+    },
+    getVariableMeetingTime: {
+      endpoint: "/users/variableTime",
+      type: "GET",
+    },
+    setVariableMeetingTime: {
+      endpoint: "/users/variableTime",
+      type: "PATCH",
+    },
   },
   planningStage: [
     "Tell us about yourself",
     "Upload profile picture",
     "Set up your calendar",
-    "Select your experiences"
+    "Select your experiences",
   ],
   gender: [
     { label: "He", icon: male, value: "male" },
     { label: "She", icon: female, value: "female" },
-    { label: "Non-binary", icon: other, value: "other" }
+    { label: "Non-binary", icon: other, value: "other" },
   ],
   role: [
     { label: "Faculty", value: "Faculty" },
     { label: "Student", value: "Student" },
-    { label: "Alumni", value: "Alumni" }
+    { label: "Alumni", value: "Alumni" },
   ],
   WEEK_DIGIT: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
   TIMEZONE: [
@@ -234,29 +251,29 @@ const CONSTANT = {
     { label: "Alaska", value: "Alaska" },
     {
       label: "Pacific Time (US and Canada)",
-      value: "Pacific Time (US and Canada)"
+      value: "Pacific Time (US and Canada)",
     },
     {
       label: "Mountain Time (US and Canada)",
-      value: "Mountain Time (US and Canada)"
+      value: "Mountain Time (US and Canada)",
     },
     {
       label: "Central Time (US and Canada)",
-      value: "Central Time (US and Canada)"
+      value: "Central Time (US and Canada)",
     },
     {
       label: "Eastern Time (US and Canada)",
-      value: "Eastern Time (US and Canada)"
-    }
-  ]
+      value: "Eastern Time (US and Canada)",
+    },
+  ],
 };
 
 export const UNIVERSITY_DATA = {
-  logo: UNIVERSITY_LOGO
+  logo: UNIVERSITY_LOGO,
 };
 
 export const UserProfile = {
-  userDetails: {}
+  userDetails: {},
 };
 
 export const screenSizes = {
@@ -266,7 +283,7 @@ export const screenSizes = {
   tablet: "768px",
   laptop: "1024px",
   laptopL: "1440px",
-  desktop: "2560px"
+  desktop: "2560px",
 };
 
 export const devices = {
@@ -276,11 +293,11 @@ export const devices = {
   tablet: `(max-width: ${screenSizes.tablet})`,
   laptop: `(max-width: ${screenSizes.laptop})`,
   laptopL: `(max-width: ${screenSizes.laptopL})`,
-  desktop: `(max-width: ${screenSizes.desktop})`
+  desktop: `(max-width: ${screenSizes.desktop})`,
 };
 
 export const userInviteEmail = {
-  userData: {}
+  userData: {},
 };
 
 export const ROUTES = {
@@ -301,12 +318,12 @@ export const ROUTES = {
   NETWORK_EVENT_DETAIL: "/network/event/:groupId",
   NETWORK_INTEREST: "/network/interest",
   NETWORK_INTEREST_DETAIL: "/network/interest/:groupId",
-  EVENT_ALL: "/event/:groupId"
+  EVENT_ALL: "/event/:groupId",
 };
 
 export const WEEKDAY_SELECTOR_TYPE = {
   AVAILABILITY: "AVAILABILITY",
-  SCHEDULE_CALL: "SCHEDULE_CALL"
+  SCHEDULE_CALL: "SCHEDULE_CALL",
 };
 
 export const DashboardHeaderHeight = "70px";
@@ -318,7 +335,7 @@ export const DATE_FORMAT = {
   FORMAT_4: "DD-MM-YYYY",
   FORMAT_5: "DD MMM YYYY",
   FORMAT_6: "YYYY-MM-DD",
-  FORMAT_7: "MM-DD-YYYY"
+  FORMAT_7: "MM-DD-YYYY",
 };
 
 export const NO_DATA_AVAILABLE = "No Data Available";
@@ -337,7 +354,7 @@ export const scheduleMeetingStyle = {
     width: 32,
     height: 32,
     ml: -0.5,
-    mr: 1
+    mr: 1,
   },
   "&:before": {
     content: '""',
@@ -349,8 +366,8 @@ export const scheduleMeetingStyle = {
     height: 40,
     bgcolor: "background.paper",
     transform: "translateY(-50%) rotate(45deg)",
-    zIndex: 0
-  }
+    zIndex: 0,
+  },
 };
 
 export const SOCKET_EVENTS = {
@@ -360,21 +377,21 @@ export const SOCKET_EVENTS = {
   ONLINE_USERS: "online-users",
   MESSAGE_RECEIVE: "msg-receive",
   SEND_MESSAGE: "send-msg",
-  ADD_USER: "add-user"
+  ADD_USER: "add-user",
 };
 
 export const ROLES = {
   STUDENT: "student",
   FACULTY: "faculty",
-  ALUMNI: "alumni"
+  ALUMNI: "alumni",
 };
 
 export const KEYBOARD = {
-  ENTER: "Enter"
+  ENTER: "Enter",
 };
 
 export const visitedMember = {
-  detail: {}
+  detail: {},
 };
 
 export default CONSTANT;

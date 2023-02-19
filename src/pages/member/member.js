@@ -64,6 +64,7 @@ const Member = ({ isEdit }) => {
   // Edit
   const profileApi = useHttp();
   const chatRequestApi = useHttp();
+  const variableTimeApi = useHttp();
   const email = getEmail();
   const [maximumRequests, setMaximumRequests] = useState(null);
   const [linkDialogVisible, setLinkDialogVisible] = useState(false);
@@ -79,10 +80,12 @@ const Member = ({ isEdit }) => {
   const [availabilityId, setAvailabilityId] = useState(null);
   const [availabilityDialogVisible, setAvailabilityDialogVisible] =
     useState(false);
+  const [isVariableTime, setIsVariableTime] = useState(false);
 
   useEffect(() => {
     if (email && isEdit) {
       getProfile();
+      getVariableTime();
     }
   }, [isEdit]);
 
@@ -91,6 +94,19 @@ const Member = ({ isEdit }) => {
       getMemberDetail();
     }
   }, [memberId, isEdit]);
+
+  const handleVariableTimeResponse = (resp) => {
+    if (resp) {
+      setIsVariableTime(resp?.variableMeetingTime);
+    }
+  };
+
+  const getVariableTime = () => {
+    variableTimeApi.sendRequest(
+      CONSTANT.API.getVariableMeetingTime,
+      handleVariableTimeResponse
+    );
+  };
 
   const handleMemberResponse = (resp) => {
     if (resp && resp?.userInfo) {
@@ -538,7 +554,6 @@ const Member = ({ isEdit }) => {
                     );
                   })}
                 </div>
-
                 <div className="timingContainer">
                   {isEdit ? (
                     <div className="timing">
@@ -573,6 +588,9 @@ const Member = ({ isEdit }) => {
                     <p className="mt-3">No Availability</p>
                   )}
                 </div>
+                {isVariableTime ? (
+                  <p className="mt-4">variable, message me for availability.</p>
+                ) : null}
               </div>
 
               {isEdit ? (
