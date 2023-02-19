@@ -7,7 +7,7 @@ import {
   StyleInput,
   StyleInputButton,
   StyleInputButtonContainer,
-  StyleTimezoneDropdown,
+  StyleTimezoneDropdown
 } from "../../style-component/createAccount/availability";
 import {
   StepperSubtitle,
@@ -15,7 +15,7 @@ import {
   StyleCreateAccountBodyContainer,
   StyleNextButton,
   StyleNextButtonContainer,
-  StyleMarginTop2,
+  StyleMarginTop2
 } from "../../style-component/createAccount/create-account";
 import { DarkGrayLable } from "../../style-component/general";
 import { notify } from "../../utils/funcs";
@@ -28,14 +28,14 @@ const Availability = () => {
   const INIT_TIME = {
     hour: "",
     minute: "",
-    time: "AM",
+    time: "AM"
   };
 
   const INIT_INTERVAL = {
     day: "Sat",
     start_time: JSON.parse(JSON.stringify(INIT_TIME)),
     end_time: JSON.parse(JSON.stringify(INIT_TIME)),
-    timezone: "EDT",
+    timezone: "EDT"
   };
 
   const [requests, setRequests] = useState(1);
@@ -43,8 +43,10 @@ const Availability = () => {
     useContext(CreateAccountContext);
   const [interval, setInterval] = useState(INIT_INTERVAL);
   const [allIntervals, setAllIntervals] = useState(null);
+  const [variableTime, setVariableTime] = useState(false);
 
   const availabilityApi = useHttp();
+  const variableTimeApi = useHttp();
 
   const weeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -115,7 +117,7 @@ const Availability = () => {
 
     const payload = {
       availability: intervalPayload,
-      max_chat_requests: requests,
+      max_chat_requests: requests
     };
 
     availabilityApi.sendRequest(
@@ -154,6 +156,13 @@ const Availability = () => {
     });
   };
 
+  const handleVariableTimeChange = (e) => {
+    variableTimeApi.sendRequest(CONSTANT.API.setVariableMeetingTime, () => {}, {
+      variableMeetingTime: e.target.checked
+    });
+    setVariableTime(e.target.checked);
+  };
+
   return (
     <>
       <DarkGrayLable>My availability</DarkGrayLable>
@@ -169,7 +178,7 @@ const Availability = () => {
       <StyleInputButtonContainer>
         <StyleInputButton>
           <a
-            className="decrement button"
+            className='decrement button'
             onClick={() => setRequests((prevValue) => parseInt(prevValue) - 1)}
           >
             -
@@ -180,20 +189,20 @@ const Availability = () => {
             onChange={(e) => setRequests(e.target.value)}
           ></StyleInput>
           <a
-            className="increment button"
+            className='increment button'
             onClick={() => setRequests((prevValue) => parseInt(prevValue) + 1)}
           >
             +
           </a>
         </StyleInputButton>
 
-        <div className="requestsPerMonthText">Requests per month</div>
+        <div className='requestsPerMonthText'>Requests per month</div>
       </StyleInputButtonContainer>
 
       <StyleDayTimeContainer>
-        <p className="dayTimeText">Select the day & time your available</p>
+        <p className='dayTimeText'>Select the day & time your available</p>
 
-        <div className="dayTimeContainer">
+        <div className='dayTimeContainer'>
           <WeekdaySelector
             items={weeks}
             selectedItemLabel={interval.day}
@@ -203,11 +212,20 @@ const Availability = () => {
             addedItems={allIntervals ? allIntervals.map((row) => row.day) : []}
           />
 
-          <div className="timePickerContainer">
-            <div className="startTimeContainer">
-              <p className="timeLabel">Start time</p>
+          <div className='mt-5'>
+            <input
+              type='checkbox'
+              checked={variableTime}
+              onChange={(e) => handleVariableTimeChange(e)}
+            />
+            <span className='ms-2'>variable, message me for availability.</span>
+          </div>
+
+          <div className='timePickerContainer'>
+            <div className='startTimeContainer'>
+              <p className='timeLabel'>Start time</p>
               <TimePicker
-                name="startTime"
+                name='startTime'
                 minute={interval.start_time.minute}
                 hour={interval.start_time.hour}
                 time={interval.start_time.time}
@@ -223,10 +241,10 @@ const Availability = () => {
               />
             </div>
 
-            <div className="endTimeContainer">
-              <p className="timeLabel">End time</p>
+            <div className='endTimeContainer'>
+              <p className='timeLabel'>End time</p>
               <TimePicker
-                name="endTime"
+                name='endTime'
                 minute={interval.end_time.minute}
                 hour={interval.end_time.hour}
                 time={interval.end_time.time}
@@ -245,7 +263,7 @@ const Availability = () => {
             <StyleTimezoneDropdown
               onChange={(e) => onChangeTime("timezone", e.target.value)}
             >
-              <option value="EDT">EDT</option>
+              <option value='EDT'>EDT</option>
             </StyleTimezoneDropdown>
 
             <StyleAddIntervalButton
@@ -262,7 +280,7 @@ const Availability = () => {
           allIntervals.length > 0 &&
           allIntervals.filter((row) => row?.day === interval?.day).length >
             0 ? (
-            <div className="viewDateTime">
+            <div className='viewDateTime'>
               {allIntervals.map((row, index) => {
                 return (
                   <>
@@ -271,10 +289,10 @@ const Availability = () => {
                         onClick={() => {
                           onRemoveInterval(index);
                         }}
-                        className="viewRow"
+                        className='viewRow'
                         key={index}
                       >
-                        <div className="textContainer">
+                        <div className='textContainer'>
                           <span>{row?.start_time?.hour}</span>
                           <span>:</span>
                           <span>{row?.start_time?.minute}</span>
@@ -287,7 +305,7 @@ const Availability = () => {
                           <span>{row?.end_time?.time}</span>
                         </div>
 
-                        <div className="buttonContainer">
+                        <div className='buttonContainer'>
                           <img src={DeleteIcon} />
                         </div>
                       </div>

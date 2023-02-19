@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/constants";
 
 const Post = ({
-  name,
+  name = "HPM Admin",
   profileId,
   time,
   description,
@@ -14,7 +14,9 @@ const Post = ({
   postImage,
   authorId,
   onDeletePost,
-  isOptionsVisible
+  isDeleteOptionVisible,
+  isReportOptionVisible,
+  onReportPost,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -39,52 +41,69 @@ const Post = ({
     handleClose();
   };
 
+  const handleReportPost = () => {
+    onReportPost();
+    handleClose();
+  };
+
   return (
     <PostStyle>
-      <div className='individualPost'>
-        <div className='leftSidePostHeader' onClick={onProfileClick}>
-          <div className='postImageContainer'>
+      <div className="individualPost">
+        <div className="leftSidePostHeader" onClick={onProfileClick}>
+          <div className="postImageContainer">
             <img src={image} />
           </div>
-          <div className='postNameContainer'>
-            <p className='postName'>{name}</p>
-            <span className='postTime'>{time}</span>
+          <div className="postNameContainer">
+            <p className="postName">{name}</p>
+            <span className="postTime">{time}</span>
           </div>
         </div>
 
-        {isOptionsVisible ? (
+        {isDeleteOptionVisible || isReportOptionVisible ? (
           <>
-            <div className='rightSidePostHeader'>
+            <div className="rightSidePostHeader">
               <div onClick={handleClick}>
                 <img src={ThreeDotImage} />
               </div>
             </div>
 
             <StylePostMenu
-              id='basic-menu'
+              id="basic-menu"
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
               MenuListProps={{
-                "aria-labelledby": "basic-button"
+                "aria-labelledby": "basic-button",
               }}
             >
-              <MenuItem
-                onClick={() => {
-                  handleDeletePost();
-                }}
-              >
-                Delete post
-              </MenuItem>
+              {isDeleteOptionVisible ? (
+                <MenuItem
+                  onClick={() => {
+                    handleDeletePost();
+                  }}
+                >
+                  Delete post
+                </MenuItem>
+              ) : null}
+
+              {isReportOptionVisible ? (
+                <MenuItem
+                  onClick={() => {
+                    handleReportPost();
+                  }}
+                >
+                  Report post
+                </MenuItem>
+              ) : null}
             </StylePostMenu>
           </>
         ) : null}
       </div>
-      <div className='mainImageDiv'>
-        {postImage ? <img src={postImage} className='postImage' /> : null}
+      <div className="mainImageDiv">
+        {postImage ? <img src={postImage} className="postImage" /> : null}
       </div>
       <div
-        className='postDescription'
+        className="postDescription"
         dangerouslySetInnerHTML={{ __html: description }}
       ></div>
     </PostStyle>
@@ -92,7 +111,7 @@ const Post = ({
 };
 
 Post.defaultProps = {
-  isOptionsVisible: false
+  isDeleteOptionVisible: false,
 };
 
 export default Post;

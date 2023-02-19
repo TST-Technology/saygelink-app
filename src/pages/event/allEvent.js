@@ -15,31 +15,38 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const AllEventList = () => {
   const [eventDetail, setEventDetail] = useState({});
-  const [participantsData, setParticipantsData] = useState([])
-  const [pageNo, setPageNo] = useState(1)
+  const [participantsData, setParticipantsData] = useState([]);
+  const [pageNo, setPageNo] = useState(0);
   const { groupId } = useParams();
   const api = useHttp();
   const nav = useNavigate();
   const [search, setSearch] = useState(null);
-  let Total_Page
+  let Total_Page;
   const handleGroupDetailResponse = (resp) => {
     if (resp && resp?.groupInfo) {
       setEventDetail(resp?.groupInfo);
-      setParticipantsData((privies) => ([...privies, ...resp?.groupInfo?.participantsInfo]))
-      Total_Page = (resp?.groupInfo?.participants.length / 10).toFixed(0)
-      if (pageNo <= Total_Page) {
-        setPageNo(pageNo + 1)
+      setParticipantsData((privies) => [
+        ...privies,
+        ...resp?.groupInfo?.participantsInfo,
+      ]);
+      Total_Page = resp?.groupInfo?.participants.length;
+      if ((pageNo + 1) * 10 < Total_Page) {
+        setPageNo((previous) => previous + 1);
       }
     }
   };
-  let payload
+  let payload;
   useEffect(() => {
     payload = {
       id: groupId,
-      offset: pageNo,
-      numParticipants: 10
+      offset: pageNo * 10,
+      numParticipants: 10,
     };
-    api.sendRequest(CONSTANT.API.getGroupDetails, handleGroupDetailResponse, payload);
+    api.sendRequest(
+      CONSTANT.API.getGroupDetailsPost,
+      handleGroupDetailResponse,
+      payload
+    );
   }, [pageNo]);
 
   const redirectToMember = (memberId) => {
@@ -51,12 +58,12 @@ const AllEventList = () => {
   let filterData = [];
   filterData = participantsData
     ? participantsData.flat().filter((data) => {
-      if (search != null && search.length > 0) {
-        return data?.name.toLowerCase().includes(search.toLowerCase());
-      } else {
-        return data;
-      }
-    })
+        if (search != null && search.length > 0) {
+          return data?.name.toLowerCase().includes(search.toLowerCase());
+        } else {
+          return data;
+        }
+      })
     : [];
 
   return (
@@ -120,7 +127,9 @@ const AllEventList = () => {
           <Alert color="danger text-center mt-5">Data Not Found!</Alert>
         )}
       </EventAllContainer>
-      {api.isLoading && <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />}
+      {api.isLoading && (
+        <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
+      )}
     </>
   );
 };

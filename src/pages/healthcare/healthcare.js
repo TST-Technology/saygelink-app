@@ -40,12 +40,19 @@ import PersonImg from "../../assets/images/personCircleBlack.svg";
 import { Tooltip } from "@mui/material";
 import { UserContext } from "../../context/user";
 
+const getUrl = (url) => {
+  if (url.includes("http://")) return url;
+  if (url.includes("https://")) return url;
+  return `https://${url}`;
+};
+
 const Healthcare = () => {
   const nav = useNavigate();
   const api = useHttp();
   const joinApi = useHttp();
   const postApi = useHttp();
   const deleteApi = useHttp();
+  const reportApi = useHttp();
   const email = getEmail();
   const { topicId } = useParams();
   const [allMembers, setAllMembers] = useState([]);
@@ -81,7 +88,15 @@ const Healthcare = () => {
 
   const handleMembersResponse = (resp) => {
     if (resp && resp?.matchesProfiles) {
-      setAllMembers(resp.matchesProfiles);
+      setAllMembers(
+        resp.matchesProfiles.map((user) => {
+          let Skills = user?.experience.map((experience) => experience?.name);
+          if (Skills.length) {
+            Skills = Skills.toString().replaceAll(",", " | ");
+          }
+          return { ...user, Skills: Skills };
+        })
+      );
     }
   };
 
@@ -125,9 +140,12 @@ const Healthcare = () => {
             .map((media) => {
               const image = getSocialIcon(media?.name);
               return (
-                <a target="_blank" href={media.url}>
+                <div
+                  style={{ cursor: "pointer" }}
+                  onClick={() => window.open(getUrl(media.url), "_blank")}
+                >
                   <img src={image} className="socialImage" />
-                </a>
+                </div>
               );
             })}
         </div>
@@ -328,6 +346,22 @@ const Healthcare = () => {
     }
   };
 
+  const callReportPost = (postId) => {
+    if (postId) {
+      const url = {
+        ...CONSTANT.API.reportPost,
+      };
+      reportApi.sendRequest(
+        url,
+        () => {},
+        {
+          post_id: postId,
+        },
+        "Post reported successfully!"
+      );
+    }
+  };
+
   return (
     <>
       <HealthcareContainerStyle>
@@ -391,20 +425,30 @@ const Healthcare = () => {
                             </StyleConnectButton>
                           </div>
 
-                          <Tooltip title={member.name} placement="top">
-                            <h2 className="memberName">{member.name}</h2>
+                          <Tooltip title={member?.name} placement="top">
+                            <h2 className="memberName">{member?.name}</h2>
                           </Tooltip>
 
-                          <p className="skills">
-                            Parenting | Pregnancy | Career{" "}
+                          <p className="skills" style={{ height: "27px" }}>
+                            {member?.Skills}
                           </p>
 
                           <p className="insights">Available</p>
-                          {member?.availability.length > 0 ? (
-                            <>{getAvailability(member?.availability)}</>
-                          ) : (
-                            <p className="skills">No Schedule Available</p>
-                          )}
+                          <div
+                            style={{
+                              height: "30px",
+                              overflow: "hidden",
+                              padding: "0",
+                              margin: "0",
+                              marginBottom: "8px",
+                            }}
+                          >
+                            {member?.availability.length > 0 ? (
+                              <>{getAvailability(member?.availability)}</>
+                            ) : (
+                              <p className="skills">No Schedule Available</p>
+                            )}
+                          </div>
 
                           <p className="insights">Social profiles</p>
                           {member?.social_media.length > 0 ? (
@@ -421,44 +465,50 @@ const Healthcare = () => {
               <StyleFeedContainer>
                 <h3 className="heading">{topicDetail?.name} board</h3>
 
-                <ThoughtsTextArea
-                  value={postValue}
-                  onChange={(e) => setPostValue(e.target.value)}
-                  placeholder="Share your thoughts..."
-                />
-
-                <img
-                  src={
-                    profileDetail?.profile_image
-                      ? profileDetail?.profile_image
-                      : PersonImg
-                  }
-                  className="postPreviewImage"
-                />
-
-                <label htmlFor="postImage" className="profileImage">
-                  <input
-                    name="postImage"
-                    type="file"
-                    id="postImage"
-                    hidden
-                    onChange={handleImageChange}
-                    accept={ACCEPT_IMAGE_TYPE}
+                <p>
+                  Reach out and chat with someone who made a post by clicking
+                  their profile!
+                </p>
+                <div className="relativeContainer">
+                  <ThoughtsTextArea
+                    value={postValue}
+                    onChange={(e) => setPostValue(e.target.value)}
+                    placeholder="Share your thoughts..."
                   />
-                  <span className="photoInput">
-                    <img
-                      src={postPreviewImage ? postPreviewImage : GalleryImage}
-                    />{" "}
-                    Photo
-                  </span>
-                </label>
 
-                <StylePostButton
-                  onClick={onPostClick}
-                  disabled={!postValue || postApi.isLoading}
-                >
-                  {postApi.isLoading ? "Posting" : "Post"}
-                </StylePostButton>
+                  <img
+                    src={
+                      profileDetail?.profile_image
+                        ? profileDetail?.profile_image
+                        : PersonImg
+                    }
+                    className="postPreviewImage"
+                  />
+
+                  <label htmlFor="postImage" className="profileImage">
+                    <input
+                      name="postImage"
+                      type="file"
+                      id="postImage"
+                      hidden
+                      onChange={handleImageChange}
+                      accept={ACCEPT_IMAGE_TYPE}
+                    />
+                    <span className="photoInput">
+                      <img
+                        src={postPreviewImage ? postPreviewImage : GalleryImage}
+                      />{" "}
+                      Photo
+                    </span>
+                  </label>
+
+                  <StylePostButton
+                    onClick={onPostClick}
+                    disabled={!postValue || postApi.isLoading}
+                  >
+                    {postApi.isLoading ? "Posting" : "Post"}
+                  </StylePostButton>
+                </div>
 
                 <div className="postContainer">
                   {!isEmptyArray(posts) ? (
@@ -483,10 +533,12 @@ const Healthcare = () => {
                           }
                           postImage={post?.image}
                           authorId={post?.author_id}
-                          isOptionsVisible={
+                          isDeleteOptionVisible={
                             post?.author_id === personalInfo?.id
                           }
                           onDeletePost={() => callDeletePost(post?._id)}
+                          isReportOptionVisible={true}
+                          onReportPost={() => callReportPost(post?._id)}
                         />
                       );
                     })
@@ -505,6 +557,9 @@ const Healthcare = () => {
                     return (
                       <ImageCard
                         key={event._id}
+                        mainId={event._id}
+                        field='event'
+                        participant={event.iamPartecipant}
                         backgroundImage={
                           event?.image ? event?.image : cardBackgroundImage2
                         }
@@ -533,6 +588,9 @@ const Healthcare = () => {
                     return (
                       <ImageCard
                         key={event._id}
+                        mainId={event._id}
+                        field='interest'
+                        participant={event.iamPartecipant}
                         backgroundImage={
                           event?.image ? event?.image : cardBackgroundImage2
                         }

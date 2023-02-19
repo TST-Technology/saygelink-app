@@ -12,13 +12,18 @@ import CONSTANT, {
   ROUTES,
   scheduleMeetingStyle,
 } from "../../utils/constants";
-import { dateFormat, isEmptyArray } from "../../utils/funcs";
+import {
+  dateFormat,
+  getUserOtherDetails,
+  isEmptyArray,
+} from "../../utils/funcs";
 import Loader from "../../components/general/loader";
 import { Menu } from "@mui/material";
 import ScheduleMeeting from "../../components/schedule-meeting/schedule-meeting";
 import moment from "moment";
 import ImageRole from "../../components/general/image-role";
 import { useNavigate } from "react-router-dom";
+import PersonImg from "../../assets/images/personCircleBlack.svg";
 
 const Calender = () => {
   const calenderApi = useHttp();
@@ -134,6 +139,7 @@ const Calender = () => {
                 <div className="calenderPreviewEventsContainer">
                   {!isEmptyArray(activeConnections) ? (
                     activeConnections.map((conn, index) => {
+                      const otherUser = getUserOtherDetails(conn);
                       return (
                         <div
                           className="calenderPreviewEventSection"
@@ -152,18 +158,22 @@ const Calender = () => {
                                 <div className="calenderPreviewEventImageContainer">
                                   <ImageRole
                                     className="calenderImage"
-                                    src={conn?.seeker?.profile_image}
-                                    role={conn?.seeker?.qualification}
+                                    src={
+                                      otherUser?.profile_image
+                                        ? otherUser?.profile_image
+                                        : PersonImg
+                                    }
+                                    role={otherUser?.qualification}
                                     onClick={() =>
                                       handleRedirectToMemberDetail(
-                                        conn?.seeker?.seeker_id
+                                        otherUser?.seeker_id
                                       )
                                     }
                                   />
                                 </div>
                                 <div className="calenderPreviewEventTitleContainer">
+                                  <h3 className="heading">{otherUser?.name}</h3>
                                   <h3 className="heading">{conn?.message}</h3>
-
                                   <p>
                                     {conn?.connect_on?.day
                                       ? `${dateFormat(
@@ -173,7 +183,8 @@ const Calender = () => {
                                       : ""}
                                     {conn?.connect_on?.time
                                       ? `${conn?.connect_on?.time}`
-                                      : ""}
+                                      : ""}{" "}
+                                    ({conn?.timezone})
                                   </p>
                                   <a href={conn?.zoom_link}>
                                     {conn?.zoom_link}
