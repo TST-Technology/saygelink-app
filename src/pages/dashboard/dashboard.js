@@ -159,7 +159,7 @@ const Dashboard = () => {
       image: require("../../assets/images/Work_Life_Balance.png"),
     },
     "Career Interests": {
-      image: require("../../assets/images/Job_Board.png"),
+      image: require("../../assets/images/Job_Board.jpg"),
     },
     "Healthcare Innovation": {
       image: require("../../assets/images/Healthcare_Innovation.jpg"),
@@ -393,17 +393,28 @@ const Dashboard = () => {
                               <p className="connectionName">
                                 {otherUser?.name}
                               </p>
-                              <span className="connectionTime">
-                                {conn?.connect_on?.day
-                                  ? `${dateFormat(
-                                      conn?.connect_on?.day,
-                                      DATE_FORMAT.FORMAT_4
-                                    )} `
-                                  : ""}
-                                {conn?.connect_on?.time
-                                  ? `${conn?.connect_on?.time}`
-                                  : ""}
-                              </span>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  marginTop: "5px",
+                                }}
+                              >
+                                <span className="connectionTime">
+                                  {conn?.connect_on?.day
+                                    ? `${dateFormat(
+                                        conn?.connect_on?.day,
+                                        DATE_FORMAT.FORMAT_4
+                                      )} `
+                                    : ""}
+                                  {conn?.connect_on?.time
+                                    ? `${conn?.connect_on?.time}`
+                                    : ""}
+                                </span>
+                                <span className="connectionTime">
+                                  {conn?.timezone}
+                                </span>
+                              </div>
                             </div>
                           </div>
                           <div className="meetingButtonContainer">

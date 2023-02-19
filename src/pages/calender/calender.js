@@ -184,7 +184,8 @@ const Calender = () => {
                                       : ""}
                                     {conn?.connect_on?.time
                                       ? `${conn?.connect_on?.time}`
-                                      : ""}
+                                      : ""}{" "}
+                                    ({conn?.timezone})
                                   </p>
                                   <a href={conn?.zoom_link}>
                                     {conn?.zoom_link}
