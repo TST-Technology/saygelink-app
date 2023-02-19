@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from "react";
 import {
   ImageRoleContainerStyle,
   ImageRoleStyle,
-  LinearProgressStyle
-} from '../../style-component/image.role'
-import { ROLES } from '../../utils/constants'
-import defaultPersonImage from '../../assets/images/defaultImage.png'
+  LinearProgressStyle,
+} from "../../style-component/image.role";
+import { ROLES } from "../../utils/constants";
+import defaultPersonImage from "../../assets/images/defaultImage.png";
 
 //possible roles => student, alumni, faculty
 const ImageRole = ({
@@ -16,18 +16,18 @@ const ImageRole = ({
   src,
   className,
   onClick,
-  defaultImage
+  defaultImage,
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const ref = useRef()
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const ref = useRef();
 
   const handleLoad = () => {
-    setImageLoaded(true)
-  }
+    setImageLoaded(true);
+  };
 
   const handleError = () => {
-    ref.current.src = defaultImage
-  }
+    ref.current.src = defaultImage;
+  };
 
   return (
     <ImageRoleContainerStyle>
@@ -35,10 +35,10 @@ const ImageRole = ({
         ref={ref}
         src={src}
         onLoad={() => {
-          handleLoad()
+          handleLoad();
         }}
         onError={() => {
-          handleError()
+          handleError();
         }}
         onClick={onClick}
         height={height}
@@ -57,13 +57,13 @@ const ImageRole = ({
         hide={imageLoaded}
       />
     </ImageRoleContainerStyle>
-  )
-}
+  );
+};
 
 ImageRole.defaultProps = {
   radius: 0,
   role: ROLES.STUDENT,
-  defaultImage: defaultPersonImage
-}
+  defaultImage: defaultPersonImage,
+};
 
-export default ImageRole
+export default ImageRole;

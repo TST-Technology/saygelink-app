@@ -27,6 +27,7 @@ const MainRoutes = () => {
   const [includeHeader, setIncludeHeader] = useState(false);
   const [user, setUser] = useState(null);
   const [profileDetail, setProfileDetail] = useState(null);
+  const [isUnreadMessage, setIsUnreadMessage] = useState(false);
   const location = useLocation();
 
   const token = getToken();
@@ -41,18 +42,18 @@ const MainRoutes = () => {
   useEffect(() => {
     setIncludeHeader(
       HEADER_VISIBLE_ROUTES.includes(location.pathname) ||
-      location.pathname.includes("/members") ||
-      location.pathname.includes("/member") ||
-      location.pathname.includes("/message") ||
-      location.pathname.includes("/category") ||
-      location.pathname.includes("/network")
+        location.pathname.includes("/members") ||
+        location.pathname.includes("/member") ||
+        location.pathname.includes("/message") ||
+        location.pathname.includes("/category") ||
+        location.pathname.includes("/network")
     );
   }, [location]);
 
   const getProfileDetail = () => {
     const url = {
       ...CONSTANT.API.getProfileDetail,
-      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(":email", email),
+      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(":email", email)
     };
     profileApi.sendRequest(url, responseHandler);
   };
@@ -73,7 +74,7 @@ const MainRoutes = () => {
     ROUTES.CATEGORY,
     ROUTES.CATEGORY_FIND,
     ROUTES.MEMBER,
-    ROUTES.TEMP_PROFILE,
+    ROUTES.TEMP_PROFILE
   ];
 
   return (
@@ -83,6 +84,8 @@ const MainRoutes = () => {
         user: user,
         profileDetail: profileDetail,
         setProfileDetail: setProfileDetail,
+        isUnreadMessage: isUnreadMessage,
+        setIsUnreadMessage: setIsUnreadMessage
       }}
     >
       <DashboardContainerStyle includeHeader={includeHeader}>
@@ -97,8 +100,8 @@ const MainRoutes = () => {
                 />
               }
             >
-              <Route path="auth/*" element={<Login />} />
-              <Route path="register" element={<Signup />} />
+              <Route path='auth/*' element={<Login />} />
+              <Route path='register' element={<Signup />} />
             </Route>
             <Route
               element={
@@ -108,9 +111,9 @@ const MainRoutes = () => {
                 />
               }
             >
-              <Route path="register" element={<Signup />} />
-              <Route path="welcome" element={<Welcome />} />
-              <Route path="create-account" element={<CreateAccount />} />
+              <Route path='register' element={<Signup />} />
+              <Route path='welcome' element={<Welcome />} />
+              <Route path='create-account' element={<CreateAccount />} />
               <Route path={ROUTES.HEALTHCARE} element={<Healthcare />} />
 
               <Route path={ROUTES.NETWORK} element={<Network />} />

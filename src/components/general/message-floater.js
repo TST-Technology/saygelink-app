@@ -11,7 +11,7 @@ import { BottomFixedStyle } from "../../style-component/dashboard/message-floate
 import {
   MessageMemberList,
   SearchInputStyle,
-  UserChatStyle,
+  UserChatStyle
 } from "../../style-component/message/message";
 import CONSTANT, { ROUTES } from "../../utils/constants";
 import { capitalizeFirstLetter, isEmptyArray } from "../../utils/funcs";
@@ -25,7 +25,7 @@ const MessageFloater = () => {
   const [conversationList, setConversationList] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const nav = useNavigate();
-  const { profileDetail } = useContext(UserContext);
+  const { profileDetail, setIsUnreadMessage } = useContext(UserContext);
   const unreadMessageCount = Object.keys(unseenMessageUsers).length;
 
   useEffect(() => {
@@ -35,6 +35,12 @@ const MessageFloater = () => {
   useEffect(() => {
     getConversationList();
   }, []);
+
+  useEffect(() => {
+    if (unreadMessageCount) {
+      setIsUnreadMessage(true);
+    }
+  }, [unreadMessageCount]);
 
   const conversationListResponseHandler = (resp) => {
     if (resp && !isEmptyArray(resp?.conversations)) {
@@ -95,23 +101,23 @@ const MessageFloater = () => {
   return (
     <BottomFixedStyle isOpen={isOpen}>
       {!isOpen ? (
-        <div className="collapsedMenu">
-          <div className="nameContainer">
+        <div className='collapsedMenu'>
+          <div className='nameContainer'>
             <ImageRole
               src={profileDetail?.profile_image}
-              className="profileFloaterImage"
+              className='profileFloaterImage'
               role={profileDetail?.qualification}
             />
             <p>{profileDetail?.name}</p>
           </div>
 
-          <div className="buttonContainer">
+          <div className='buttonContainer'>
             {unreadMessageCount ? (
-              <div className="count">{unreadMessageCount}</div>
+              <div className='count'>{unreadMessageCount}</div>
             ) : null}
             <img
               src={RightArrow}
-              className="arrow"
+              className='arrow'
               onClick={() => setIsOpen(!isOpen)}
             />
           </div>
@@ -122,31 +128,31 @@ const MessageFloater = () => {
         in={isOpen}
         sx={{
           "&.MuiCollapse-hidden": {
-            display: "auto",
+            display: "auto"
           },
           ".MuiCollapse-wrapper": {
-            width: 0,
-          },
+            width: 0
+          }
         }}
       >
         <div>
           <MessageMemberList isFloater={true}>
             <>
-              <div className="membersHeadingContainer">
-                <h2 className="membersHeading">Members</h2>
+              <div className='membersHeadingContainer'>
+                <h2 className='membersHeading'>Members</h2>
 
                 <img
                   src={RightArrow}
-                  className="arrowDown"
+                  className='arrowDown'
                   onClick={() => setIsOpen(!isOpen)}
                 />
               </div>
-              <div className="membersChatListing">
-                <img src={SearchImage} className="searchImage" />
+              <div className='membersChatListing'>
+                <img src={SearchImage} className='searchImage' />
                 <SearchInputStyle
                   onChange={handleSearch}
                   value={searchTerm}
-                  placeholder="Search here..."
+                  placeholder='Search here...'
                 />
 
                 {!isEmptyArray(conversationList)
@@ -159,16 +165,16 @@ const MessageFloater = () => {
                             handleUserChange(user);
                           }}
                         >
-                          <div className="leftContainer">
+                          <div className='leftContainer'>
                             <ImageRole
                               src={currentUser?.profile_image}
-                              className="profileImage"
+                              className='profileImage'
                               role={currentUser?.qualification}
                             />
                             {/* <div className='activeUser'></div> */}
-                            <div className="nameContainer">
-                              <p className="nameText">{currentUser?.name}</p>
-                              <span className="roleText">
+                            <div className='nameContainer'>
+                              <p className='nameText'>{currentUser?.name}</p>
+                              <span className='roleText'>
                                 {currentUser?.qualification
                                   ? capitalizeFirstLetter(
                                       currentUser?.qualification
@@ -178,9 +184,9 @@ const MessageFloater = () => {
                             </div>
                           </div>
 
-                          <div className="rightContainer">
+                          <div className='rightContainer'>
                             {unseenMessageUsers[currentUser?._id] ? (
-                              <div className="unreadMessage"></div>
+                              <div className='unreadMessage'></div>
                             ) : null}
                           </div>
                         </UserChatStyle>

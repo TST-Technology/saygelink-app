@@ -23,7 +23,12 @@ import CONSTANT, {
 import { Services } from "../../api/service";
 import ColumbiaImage from "../../assets/images/profileIcon.svg";
 import SearchImage from "../../assets/images/search-white.svg";
-import { dateFormat, isEmptyArray } from "../../utils/funcs";
+import {
+  dateFormat,
+  getEmail,
+  getUserOtherDetails,
+  isEmptyArray,
+} from "../../utils/funcs";
 import Loader from "../../components/general/loader";
 import { CalenderEventButtonStyle } from "../../style-component/calender/calender";
 import RescheduleImage from "../../assets/images/reschedule.svg";
@@ -38,7 +43,9 @@ import {
   ImageCardStyle,
   ImageCardStyleNew,
 } from "../../style-component/image-card/image-card";
+import PersonImg from "../../assets/images/personCircleBlack.svg";
 import { border } from "@mui/system";
+import ImageRole from "../../components/general/image-role";
 
 const Dashboard = () => {
   const [categories, setCategories] = useState(null);
@@ -145,19 +152,19 @@ const Dashboard = () => {
   };
 
   const Top_Image = {
-    'Student Sundry': {
-      image: require('../../assets/images/Student_Sunday.png')
+    "Student Sundry": {
+      image: require("../../assets/images/Student_Sunday.png"),
     },
-    'Well-Being': {
-      image: require('../../assets/images/Work_Life_Balance.png')
+    "Well-Being": {
+      image: require("../../assets/images/Work_Life_Balance.png"),
     },
-    'Career Interests': {
-      image: require('../../assets/images/Job_Board.png')
+    "Career Interests": {
+      image: require("../../assets/images/Job_Board.jpg"),
     },
-    'Healthcare Innovation': {
-      image: require('../../assets/images/Healthcare_Innovation.jpg')
+    "Healthcare Innovation": {
+      image: require("../../assets/images/Healthcare_Innovation.jpg"),
     },
-  }
+  };
 
   const handleConfirmJoin = () => {
     const groupId = activeEvent?._id;
@@ -189,7 +196,7 @@ const Dashboard = () => {
 
             <FindSaygeButtonStyle onClick={handleFindSayge}>
               <img src={SearchImage} />
-              Find a SAYge
+              Start Here
             </FindSaygeButtonStyle>
             {/* </div> */}
           </div>
@@ -272,7 +279,7 @@ const Dashboard = () => {
                         participant={interest.iamPartecipant}
                         buttonText={
                           interest.openGroup &&
-                            interest.iamPartecipant === false
+                          interest.iamPartecipant === false
                             ? "Join"
                             : null
                         }
@@ -321,7 +328,6 @@ const Dashboard = () => {
                     return (
                       <Post
                         key={post._id}
-                        name={post?.name}
                         time={
                           post?.createdAt
                             ? dateFormat(post?.createdAt, DATE_FORMAT.FORMAT_1)
@@ -359,10 +365,12 @@ const Dashboard = () => {
                   </div>
                   <></>
                   {activeConnections &&
-                    activeConnections.map((conn) => {
+                    activeConnections.map((conn, index) => {
+                      const otherUser = getUserOtherDetails(conn);
+
                       return (
                         <div
-                          key={conn._id}
+                          key={`connectionList${index}`}
                           style={{
                             background: "#fff",
                             padding: "12px 0px 17px 11px",
@@ -371,23 +379,42 @@ const Dashboard = () => {
                           }}
                         >
                           <div className="connectionItem">
-                            <img
-                              src={conn?.sharer?.profile_image}
+                            <ImageRole
+                              src={
+                                otherUser?.profile_image
+                                  ? otherUser?.profile_image
+                                  : PersonImg
+                              }
                               className="connectionImage"
+                              role={otherUser?.qualification}
                             />
 
                             <div className="connectionDetail">
                               <p className="connectionName">
-                                {conn?.sharer?.name}
+                                {otherUser?.name}
                               </p>
-                              <span className="connectionTime">
-                                {conn?.connect_on?.day
-                                  ? dateFormat(
-                                    conn?.connect_on?.day,
-                                    DATE_FORMAT.FORMAT_1
-                                  )
-                                  : ""}
-                              </span>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  marginTop: "5px",
+                                }}
+                              >
+                                <span className="connectionTime">
+                                  {conn?.connect_on?.day
+                                    ? `${dateFormat(
+                                        conn?.connect_on?.day,
+                                        DATE_FORMAT.FORMAT_4
+                                      )} `
+                                    : ""}
+                                  {conn?.connect_on?.time
+                                    ? `${conn?.connect_on?.time}`
+                                    : ""}
+                                </span>
+                                <span className="connectionTime">
+                                  {conn?.timezone}
+                                </span>
+                              </div>
                             </div>
                           </div>
                           <div className="meetingButtonContainer">

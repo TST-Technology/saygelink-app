@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   EventDetailStyle,
-  StyleViewButton,
+  LeaveButtonStyle,
+  StyleViewButton
 } from "../../style-component/network/event-detail";
 import cardBackgroundImage3 from "../../assets/images/cardBackground3.png";
 import ImageRole from "../general/image-role";
@@ -9,17 +10,17 @@ import PersonImage from "../../assets/images/person.png";
 import {
   StyleFeedContainer,
   StylePostButton,
-  ThoughtsTextArea,
+  ThoughtsTextArea
 } from "../../style-component/healthcare/healthcare";
 import CONSTANT, {
   ACCEPT_IMAGE_TYPE,
   DATE_FORMAT,
-  ROUTES,
+  ROUTES
 } from "../../utils/constants";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ColumbiaImage from "../../assets/images/Columbia_logo.svg";
 import Post from "../general/post";
-import { dateFormat, isEmptyArray } from "../../utils/funcs";
+import { dateFormat, isEmptyArray, notify } from "../../utils/funcs";
 import GalleryImage from "../../assets/images/gallery.svg";
 import useHttp from "../../hooks/use-http";
 import Loader from "../general/loader";
@@ -30,6 +31,8 @@ const EventDetail = ({ eventDetail }) => {
   const postApi = useHttp();
   const api = useHttp();
   const deleteApi = useHttp();
+  const leaveApi = useHttp();
+  const reportApi = useHttp();
 
   const { groupId } = useParams();
   const nav = useNavigate();
@@ -75,12 +78,12 @@ const EventDetail = ({ eventDetail }) => {
     if (postValue && groupId) {
       const url = {
         ...CONSTANT.API.uploadPostToGroup,
-        endpoint: CONSTANT.API.uploadPostToGroup.endpoint,
+        endpoint: CONSTANT.API.uploadPostToGroup.endpoint
       };
       const payload = {
         title: eventDetail?.title,
         content: postValue,
-        group_id: groupId,
+        group_id: groupId
       };
       api.sendRequest(url, handleAddPostResponse, payload);
     }
@@ -102,7 +105,7 @@ const EventDetail = ({ eventDetail }) => {
         endpoint: CONSTANT.API.uploadPostImageToGroup.endpoint.replace(
           ":postId",
           postId
-        ),
+        )
       };
       const formData = new FormData();
       formData.append("image", postImage);
@@ -133,7 +136,7 @@ const EventDetail = ({ eventDetail }) => {
       endpoint: CONSTANT.API.getAllPostsByGroupId.endpoint.replace(
         ":groupId",
         groupId
-      ),
+      )
     };
     api.sendRequest(url, handlePostsResponse);
   };
@@ -151,7 +154,7 @@ const EventDetail = ({ eventDetail }) => {
         endpoint: CONSTANT.API.deletePostOfGroup.endpoint.replace(
           ":postId",
           postId
-        ),
+        )
       };
       deleteApi.sendRequest(
         url,
@@ -162,69 +165,118 @@ const EventDetail = ({ eventDetail }) => {
     }
   };
 
+  const handleLeaveGroupResponse = (resp) => {
+    if (resp) {
+      notify.success("Group Leaved Successfully!");
+      nav(ROUTES.NETWORK_EVENT);
+    }
+  };
+
+  const handleLeaveGroup = () => {
+    if (groupId) {
+      const url = {
+        ...CONSTANT.API.leaveUserGroup,
+        endpoint: CONSTANT.API.leaveUserGroup.endpoint.replace(
+          ":groupId",
+          groupId
+        )
+      };
+      leaveApi.sendRequest(url, handleLeaveGroupResponse);
+    }
+  };
+
+  const callReportPost = (postId) => {
+    if (postId) {
+      const url = {
+        ...CONSTANT.API.reportPost
+      };
+      reportApi.sendRequest(
+        url,
+        () => {},
+        {
+          post_id: postId
+        },
+        "Post reported successfully!"
+      );
+    }
+  };
+
   return (
     <>
       {api.isLoading ? (
         <Loader height={`calc(80vh)`} />
       ) : (
         <EventDetailStyle>
-          <ImageRole
-            className="eventImage"
-            src={eventDetail?.image}
-            defaultImage={cardBackgroundImage3}
-          />
+          <div className='relativeContainer'>
+            <ImageRole
+              className='eventImage'
+              src={eventDetail?.image}
+              defaultImage={cardBackgroundImage3}
+            />
 
-          <div className="titleContainer">
-            <h3 className="eventTitle">{eventDetail?.title}</h3>
-            <span className="memberCount">{totalMembers} Members</span>
+            <LeaveButtonStyle onClick={handleLeaveGroup}>
+              Leave Group
+            </LeaveButtonStyle>
           </div>
 
-          {/* <p className="eventDetailText">{eventDetail?.title}</p> */}
+          <div className='titleContainer'>
+            <h3 className='eventTitle'>{eventDetail?.title}</h3>
+            <span className='memberCount'>{totalMembers} Members</span>
+          </div>
 
-          <div className="eventDetailParticipantContainer">
-            <div className="eventDetailPostContainer">
+          <div>
+            <p>
+              Ask a question or share something with the group here! Chat
+              privately with someone who made a post by clicking their profile!
+            </p>
+          </div>
+
+          <div className='eventDetailParticipantContainer'>
+            <div className='eventDetailPostContainer'>
               <StyleFeedContainer isEventDetailPage={true}>
-                <ThoughtsTextArea
-                  value={postValue}
-                  onChange={(e) => setPostValue(e.target.value)}
-                  placeholder="Share your thoughts"
-                />
-
-                <img
-                  src={
-                    profileDetail?.profile_image
-                      ? profileDetail?.profile_image
-                      : PersonImg
-                  }
-                  className="postPreviewImage"
-                />
-
-                <label htmlFor="postImage" className="profileImage">
-                  <input
-                    name="postImage"
-                    type="file"
-                    id="postImage"
-                    hidden
-                    onChange={handleImageChange}
-                    accept={ACCEPT_IMAGE_TYPE}
+                <div className='relativeContainer'>
+                  <ThoughtsTextArea
+                    value={postValue}
+                    onChange={(e) => setPostValue(e.target.value)}
+                    placeholder='Share your thoughts'
                   />
-                  <span className="photoInput">
-                    <img
-                      src={postPreviewImage ? postPreviewImage : GalleryImage}
-                    />{" "}
-                    Photo
-                  </span>
-                </label>
 
-                <StylePostButton
-                  onClick={onPostClick}
-                  disabled={!postValue || postApi.isLoading}
-                  isEventDetailPage={true}
-                >
-                  {postApi.isLoading ? "Posting" : "Post"}
-                </StylePostButton>
+                  <img
+                    src={
+                      profileDetail?.profile_image
+                        ? profileDetail?.profile_image
+                        : PersonImg
+                    }
+                    className='postPreviewImage'
+                  />
 
-                <div className="postContainer">
+                  <label htmlFor='postImage' className='profileImage'>
+                    <input
+                      name='postImage'
+                      type='file'
+                      id='postImage'
+                      hidden
+                      onChange={handleImageChange}
+                      accept={ACCEPT_IMAGE_TYPE}
+                    />
+                    <span className='photoInput'>
+                      <img
+                        src={postPreviewImage ? postPreviewImage : GalleryImage}
+                      />{" "}
+                      Photo
+                    </span>
+                  </label>
+
+                  <StylePostButton
+                    onClick={onPostClick}
+                    disabled={!postValue || postApi.isLoading}
+                    isEventDetailPage={true}
+                  >
+                    {postApi.isLoading ? "Posting" : "Post"}
+                  </StylePostButton>
+                </div>
+
+                <div className='postContainer'>
                   {!isEmptyArray(posts) ? (
                     posts.map((post, index) => {
                       return (
@@ -247,10 +299,12 @@ const EventDetail = ({ eventDetail }) => {
                           }
                           postImage={post?.image}
                           authorId={post?.author_id}
-                          isOptionsVisible={
+                          isDeleteOptionVisible={
                             post?.author_id === profileDetail?.id
                           }
                           onDeletePost={() => callDeletePost(post?._id)}
+                          isReportOptionVisible={true}
+                          onReportPost={() => callReportPost(post?._id)}
                         />
                       );
                     })
@@ -260,39 +314,39 @@ const EventDetail = ({ eventDetail }) => {
                 </div>
               </StyleFeedContainer>
             </div>
-            <div className="eventParticipantsDetail align-items-end">
-              <div className="w-100">
-                <h5 className="eventTitle">Connect with other members</h5>
+            <div className='eventParticipantsDetail align-items-end'>
+              <div className='w-100'>
+                <h5 className='eventTitle'>Connect with other members</h5>
               </div>
-              <div className="d-flex text-align-end justify-content-end mt-3">
-                <Link to={"/event/" + groupId} className="eventAllText">
+              <div className='d-flex text-align-end justify-content-end mt-3'>
+                <Link to={"/event/" + groupId} className='eventAllText'>
                   See All
                 </Link>
               </div>
 
-              <div className="participantsLisContainer">
+              <div className='participantsLisContainer'>
                 {participants && !isEmptyArray(participants)
                   ? participants.map((participant) => {
                       return (
                         <div>
                           <div
-                            className="participantCard"
+                            className='participantCard'
                             key={participant?.id}
                           >
-                            <div className="participantHeader">
+                            <div className='participantHeader'>
                               <ImageRole
                                 src={participant?.profile_image}
-                                className="participantImage"
+                                className='participantImage'
                                 role={participant?.qualification}
                               />
                             </div>
 
-                            <h4 className="participantName">
+                            <h4 className='participantName'>
                               {participant?.name}
                             </h4>
                             {participant?.experience &&
                             !isEmptyArray(participant?.experience) ? (
-                              <p className="participantExperience">
+                              <p className='participantExperience'>
                                 {participant?.experience.map((row, index) => {
                                   if (index > 0) {
                                     return ` | ${row?.name}`;

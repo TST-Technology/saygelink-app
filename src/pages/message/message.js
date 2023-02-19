@@ -111,7 +111,7 @@ const Message = () => {
   const responseHandler = (resp) => {
     const uniqueTimeStamp = {};
     const uniqueDate = {};
-    const newMessage = false;
+    let newMessage = false;
     if (resp && !isEmptyArray(resp?.messages)) {
       const tempMessages = resp?.messages.map((mes) => {
         const format = dateFormat(mes.timestamp, DATE_FORMAT.FORMAT_1);
@@ -125,12 +125,14 @@ const Message = () => {
           mes.uniqueDate = mes.timestamp;
           uniqueDate[format2] = true;
         }
+
         if (
           lastMessageTimestamp &&
-          Date.parse(mes?.timestamp) > lastMessageTimestamp &&
+          Date.parse(mes?.timestamp) > parseInt(lastMessageTimestamp) &&
           newMessage === false
         ) {
           mes.newMessage = true;
+          newMessage = true;
         }
         return mes;
       });
@@ -389,7 +391,7 @@ const Message = () => {
                           const currentUser = user?.participants;
                           return (
                             <UserChatStyle
-                              key={index}
+                              key={user?._id}
                               onClick={() => {
                                 handleUserChange(user);
                               }}
@@ -483,13 +485,19 @@ const Message = () => {
                                   return (
                                     <>
                                       {message?.uniqueDate ? (
-                                        <p className="chatDateText">
+                                        <p
+                                          key={message?.uniqueDate}
+                                          className="chatDateText"
+                                        >
                                           {getDayLabel(message?.uniqueDate)}
                                         </p>
                                       ) : null}
 
                                       {message?.newMessage ? (
-                                        <p className="newChatDateText">
+                                        <p
+                                          key="new-message"
+                                          className="newChatDateText"
+                                        >
                                           New Messages
                                         </p>
                                       ) : null}
