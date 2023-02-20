@@ -7,7 +7,7 @@ import CreateAccountWrapper, {
   StepStatus,
   StepWrapper,
   WhiteLineText,
-  StepperBodyContainer,
+  StepperBodyContainer
 } from "../../style-component/createAccount/create-account";
 import shortLogo from "../../assets/images/short_logo.png";
 import CONSTANT from "../../utils/constants";
@@ -20,12 +20,12 @@ export const CreateAccountContext = createContext({
   step: 1,
   setStep: (val) => {},
   formData: null,
-  setFormData: (val) => {},
+  setFormData: (val) => {}
 });
 
 const CreateAccount = () => {
   const TOTAL_STEPS = 4;
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
   const [formData, setFormData] = useState(null);
 
   let StepView = <p></p>;
@@ -48,6 +48,7 @@ const CreateAccount = () => {
     default:
       <></>;
   }
+
   return (
     <>
       <CreateAccountContext.Provider
@@ -55,7 +56,7 @@ const CreateAccount = () => {
           step: step,
           setStep: setStep,
           formData: formData,
-          setFormData: setFormData,
+          setFormData: setFormData
         }}
       >
         <CreateAccountWrapper>

@@ -4,7 +4,7 @@ import VerticalTab from "../../components/network/vertical-tabs";
 import {
   StyleConnectButton,
   StyleJoinButton,
-  StyleNetworkContainer,
+  StyleNetworkContainer
 } from "../../style-component/network/network";
 import cardBackgroundImage2 from "../../assets/images/cardBackground2.png";
 import cardBackgroundImage3 from "../../assets/images/cardBackground3.png";
@@ -22,7 +22,7 @@ import { socket } from "../../utils/socket";
 import {
   AcceptButtonStyle,
   DeclineButtonStyle,
-  ConnectionRequestStyle,
+  ConnectionRequestStyle
 } from "../../style-component/connection-request";
 import { EventCardMain } from "../../style-component/network/event-detail";
 import { Tooltip } from "@mui/material";
@@ -31,14 +31,14 @@ export const TAB = {
   CONNECTION_REQUEST: "Connection Requests",
   MY_CONNECTIONS: "My Connections",
   EVENT_GROUPS: "Event Groups",
-  INTEREST_GROUPS: "Interest Groups",
+  INTEREST_GROUPS: "Interest Groups"
 };
 
 export const NETWORK_TABS = [
   { label: TAB.CONNECTION_REQUEST, imageUrl: UsersImage, value: "request" },
   { label: TAB.EVENT_GROUPS, imageUrl: EventImage, value: "event" },
   { label: TAB.INTEREST_GROUPS, imageUrl: HeartImage, value: "interest" },
-  { label: TAB.MY_CONNECTIONS, imageUrl: UsersImage, value: "" },
+  { label: TAB.MY_CONNECTIONS, imageUrl: UsersImage, value: "" }
 ];
 
 const Network = ({ activateTabValue, isDetailPage }) => {
@@ -115,7 +115,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
       endpoint: CONSTANT.API.getGroupDetails.endpoint.replace(
         ":groupId",
         groupId
-      ),
+      )
     };
     networkApi.sendRequest(url, handleGroupDetailResponse);
   };
@@ -135,7 +135,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
     if (groupId) {
       const url = {
         ...CONSTANT.API.joinGroup,
-        endpoint: CONSTANT.API.joinGroup.endpoint.replace(":groupId", groupId),
+        endpoint: CONSTANT.API.joinGroup.endpoint.replace(":groupId", groupId)
       };
       joinApi.sendRequest(url, joinResponseHandler);
     }
@@ -185,7 +185,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
     const payload = {
       connection_id: connectionId,
       option_id: optionId,
-      status: "accepted",
+      status: "accepted"
     };
     networkApi.sendRequest(
       CONSTANT.API.confirmAvailability,
@@ -197,9 +197,9 @@ const Network = ({ activateTabValue, isDetailPage }) => {
   return (
     <>
       <StyleNetworkContainer>
-        <div className="networkContainer">
-          <div className="leftSideNetwork">
-            <div className="tabsContainer">
+        <div className='networkContainer'>
+          <div className='leftSideNetwork'>
+            <div className='tabsContainer'>
               <VerticalTab
                 tabs={NETWORK_TABS}
                 activeTab={activeTab}
@@ -210,8 +210,8 @@ const Network = ({ activateTabValue, isDetailPage }) => {
             </div>
           </div>
 
-          <div className="rightSideNetwork">
-            <div className="connectionContainer">
+          <div className='rightSideNetwork'>
+            <div className='connectionContainer'>
               {networkApi.isLoading ? (
                 <Loader height={`calc(80vh)`} />
               ) : (
@@ -226,45 +226,42 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                 return (
                                   <>
                                     <div
-                                      className="connectionRequest"
+                                      className='connectionRequest'
                                       key={conn?._id}
                                     >
-                                      <div className="connectionNameContainer">
+                                      <div className='connectionNameContainer'>
                                         <ImageRole
-                                          className="connectionImage"
+                                          className='connectionImage'
                                           src={conn?.user?.profile_image}
                                           role={conn?.user?.qualification}
-                                          width="40px"
+                                          width='40px'
                                         />
 
-                                        <p className="connectionName">
+                                        <p className='connectionName'>
                                           {conn?.user?.name}
                                         </p>
                                       </div>
                                       {!isEmptyArray(conn?.options) ? (
-                                        <div className="availabilityContainer w-100">
+                                        <div className='availabilityContainer w-100'>
                                           {conn?.options.map((avail) => {
                                             return (
                                               <div
                                                 key={avail?._id}
-                                                className="availability"
+                                                className='availability'
                                               >
                                                 <div>
-                                                  <p className="availabilityDay">
-                                                    {dateFormat(
-                                                      avail?.createdAt,
-                                                      "DD-MM-YYYY"
-                                                    )}
+                                                  <p className='availabilityDay'>
+                                                    {avail?.day}
                                                   </p>{" "}
-                                                  <span className="availabilityTime">
+                                                  <span className='availabilityTime'>
                                                     {avail?.time}
                                                   </span>
-                                                  <p className="availabilityTimezone">
+                                                  <p className='availabilityTimezone'>
                                                     ({conn?.timezone})
                                                   </p>
                                                 </div>
 
-                                                <div className="connectionAction">
+                                                <div className='connectionAction'>
                                                   <DeclineButtonStyle
                                                     onClick={() =>
                                                       handleAcceptDecline(
@@ -304,7 +301,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                 );
                               })
                             ) : (
-                              <p className="mt-2 text-center">
+                              <p className='mt-2 text-center'>
                                 No Connection Requests.
                               </p>
                             )}
@@ -313,25 +310,25 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                       ) : null}
                       {activeTab === TAB.MY_CONNECTIONS ? (
                         <div>
-                          <h2 className="connectionHeading">My Connections</h2>
+                          <h2 className='connectionHeading'>My Connections</h2>
                           {!isEmptyArray(connections) ? (
-                            <div className="connectionCardContainer">
+                            <div className='connectionCardContainer'>
                               {!isEmptyArray(connections)
                                 ? connections.map((conn, index) => {
                                     return (
                                       <div
-                                        className="connectionCard"
+                                        className='connectionCard'
                                         key={index}
                                       >
-                                        <div className="connectionHeader">
-                                          <div className="connectionLeft">
+                                        <div className='connectionHeader'>
+                                          <div className='connectionLeft'>
                                             <ImageRole
                                               src={conn?.profileImage}
                                               role={conn?.qualification}
-                                              className="connectionImage"
+                                              className='connectionImage'
                                             />
 
-                                            <div className="nameContainer">
+                                            <div className='nameContainer'>
                                               <h3>{conn?.name}</h3>
                                               <span>{conn?.qualification}</span>
                                             </div>
@@ -353,20 +350,20 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                 : null}
                             </div>
                           ) : (
-                            <p className="text-center mt-2">No Connections</p>
+                            <p className='text-center mt-2'>No Connections</p>
                           )}
                         </div>
                       ) : null}
                       {activeTab === TAB.EVENT_GROUPS ? (
                         <>
-                          <h2 className="connectionHeading"></h2>
+                          <h2 className='connectionHeading'></h2>
 
-                          <div className="eventCardContainer">
+                          <div className='eventCardContainer'>
                             {!isEmptyArray(events) ? (
                               events.map((event, index) => {
                                 return (
                                   <div
-                                    className="eventCard"
+                                    className='eventCard'
                                     key={event._id}
                                     onClick={() => {
                                       event.openGroup &&
@@ -376,12 +373,12 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                     }}
                                   >
                                     <EventCardMain image={event?.image}>
-                                      <div className="d-flex flex-column align-items-center p-3 h-100 justify-content-center">
+                                      <div className='d-flex flex-column align-items-center p-3 h-100 justify-content-center'>
                                         <Tooltip
                                           title={event?.title}
-                                          placement="top"
+                                          placement='top'
                                         >
-                                          <p className="eventHeading text-center">
+                                          <p className='eventHeading text-center'>
                                             {event?.title}
                                           </p>
                                         </Tooltip>
@@ -414,7 +411,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                 );
                               })
                             ) : (
-                              <p className="text-center mt-3">
+                              <p className='text-center mt-3'>
                                 No events available.
                               </p>
                             )}
@@ -423,14 +420,14 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                       ) : null}
                       {activeTab === TAB.INTEREST_GROUPS ? (
                         <>
-                          <h2 className="connectionHeading">Interest Groups</h2>
+                          <h2 className='connectionHeading'>Interest Groups</h2>
 
-                          <div className="eventCardContainer">
+                          <div className='eventCardContainer'>
                             {!isEmptyArray(interests) ? (
                               interests.map((event, index) => {
                                 return (
                                   <div
-                                    className="eventCard"
+                                    className='eventCard'
                                     key={event._id}
                                     onClick={() => {
                                       event.openGroup &&
@@ -440,12 +437,12 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                     }}
                                   >
                                     <EventCardMain image={event?.image}>
-                                      <div className="d-flex flex-column align-items-center p-3 h-100 justify-content-center">
+                                      <div className='d-flex flex-column align-items-center p-3 h-100 justify-content-center'>
                                         <Tooltip
                                           title={event?.title}
-                                          placement="top"
+                                          placement='top'
                                         >
-                                          <p className="eventHeading text-center">
+                                          <p className='eventHeading text-center'>
                                             {event?.title}
                                           </p>
                                         </Tooltip>
@@ -478,7 +475,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                 );
                               })
                             ) : (
-                              <p className="text-center mt-3">
+                              <p className='text-center mt-3'>
                                 No interest available.
                               </p>
                             )}
@@ -501,7 +498,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                     setJoinEventConfirmation(false);
                   }}
                   onConfirmButtonClick={handleConfirmJoin}
-                  message="Aye you sure you want to join?"
+                  message='Aye you sure you want to join?'
                 />
               ) : null}
             </div>

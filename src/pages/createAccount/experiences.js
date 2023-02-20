@@ -5,7 +5,7 @@ import {
   StepperSubtitleBold,
   StyleMarginTop2,
   StyleNextButton,
-  StyleNextButtonContainer,
+  StyleNextButtonContainer
 } from "../../style-component/createAccount/create-account";
 import { DarkGrayLable } from "../../style-component/general";
 import CONSTANT, { ROUTES } from "../../utils/constants";
@@ -14,7 +14,7 @@ import {
   StyleCompleteProfileContainer,
   StyledExperienceContainer,
   StyleSubcategoryItem,
-  StyleTopicItem,
+  StyleTopicItem
 } from "../../style-component/createAccount/experiences";
 import RightArrow from "../../assets/images/RightArrow.svg";
 import { CreateAccountContext } from "./create-account";
@@ -39,6 +39,21 @@ const Experiences = () => {
   const [activeTopic, setActiveTopic] = useState(null);
   const [isExperienceGiven, setIsExperienceGiven] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const CATEGORY_IMAGE = {
+    "Student Sundry": {
+      image: require("../../assets/images/Student_Sunday.png")
+    },
+    "Well-Being": {
+      image: require("../../assets/images/Work_Life_Balance.png")
+    },
+    "Career Interests": {
+      image: require("../../assets/images/Job_Board.jpg")
+    },
+    "Healthcare Innovation": {
+      image: require("../../assets/images/Healthcare_Innovation.jpg")
+    }
+  };
 
   useEffect(() => {
     getCategories();
@@ -98,7 +113,7 @@ const Experiences = () => {
     e.preventDefault();
     if (activeTopic && Array.isArray(activeTopic) && activeTopic.length > 0) {
       const payload = {
-        experience: activeTopic,
+        experience: activeTopic
       };
       experienceApi.sendRequest(
         CONSTANT.API.addExperience,
@@ -125,7 +140,7 @@ const Experiences = () => {
               Congratulations, your profile is complete!
             </DarkGrayLable>
 
-            <img src={PeopleImage} className="peopleImage" />
+            <img src={PeopleImage} className='peopleImage' />
           </StyleCompleteProfileContainer>
 
           <StyleNextButtonContainer>
@@ -155,7 +170,7 @@ const Experiences = () => {
           </StyleMarginTop2>
 
           <StyledExperienceContainer>
-            <div className="categoryContainer">
+            <div className='categoryContainer'>
               {categories &&
                 categories.map((category) => {
                   return (
@@ -164,22 +179,22 @@ const Experiences = () => {
                       key={category?._id}
                       onClick={() => handleCategoryClick(category)}
                     >
-                      <div className="imageContainer">
-                        <img src={category?.image} />
+                      <div className='imageContainer'>
+                        <img src={CATEGORY_IMAGE[category?.name]?.image} />
                       </div>
-                      <div className="labelContainer">
-                        <span className="label">{category?.name}</span>
+                      <div className='labelContainer'>
+                        <span className='label'>{category?.name}</span>
                       </div>
                     </StyleCategoryCard>
                   );
                 })}
             </div>
 
-            <div className="subCategoryContainer">
-              <p className="subCategoryHeading">{activeCategory?.name}</p>
+            <div className='subCategoryContainer'>
+              <p className='subCategoryHeading'>{activeCategory?.name}</p>
               {loading ? (
-                <div className="text-center mt-5">
-                  <CircularProgress size="2rem" />
+                <div className='text-center mt-5'>
+                  <CircularProgress size='2rem' />
                 </div>
               ) : (
                 subCategoryList &&
@@ -201,7 +216,7 @@ const Experiences = () => {
               )}
             </div>
 
-            <div className="topicContainer">
+            <div className='topicContainer'>
               {activeSubCategory &&
                 activeSubCategory?.topics &&
                 activeSubCategory?.topics.map((topic, index) => {
