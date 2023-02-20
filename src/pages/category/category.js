@@ -89,9 +89,7 @@ const Category = ({ isFindSayge }) => {
         ...CONSTANT.API.removeSayge,
         endpoint: CONSTANT.API.removeSayge.endpoint.replace(":saygeId", topicId)
       };
-      experienceApi.sendRequest(url, () => {
-        if (activeCategory) handleCategoryClick(activeCategory);
-      });
+      experienceApi.sendRequest(url, () => {});
     }
   };
 
@@ -103,13 +101,7 @@ const Category = ({ isFindSayge }) => {
       const payload = {
         experience: topicIds
       };
-      experienceApi.sendRequest(
-        url,
-        () => {
-          if (activeCategory) handleCategoryClick(activeCategory);
-        },
-        payload
-      );
+      experienceApi.sendRequest(url, () => {}, payload);
     }
   };
 
@@ -121,10 +113,12 @@ const Category = ({ isFindSayge }) => {
             return prevValue.filter((row) => row !== topicId);
           });
           removeSaygeApiCall(topicId);
+          prepareSubCategoryList(topicId, false);
         } else {
           setActiveTopic((prevValue) => {
             const tempTopicIds = [...prevValue, topicId];
             baASaygeApiCall([topicId]);
+            prepareSubCategoryList(topicId, true);
             return [...tempTopicIds];
           });
         }
@@ -141,6 +135,26 @@ const Category = ({ isFindSayge }) => {
       const topicId = activeTopic[0];
       if (topicId) navigate(ROUTES.HEALTHCARE.replace(":topicId", topicId));
     }
+  };
+
+  const prepareSubCategoryList = (topicId, flag) => {
+    setSubCategoryList((prevValue) => {
+      if (prevValue && Array.isArray(prevValue)) {
+        const tempSub = prevValue.map((sub) => {
+          const tempTopics = sub?.topics?.map((top) => {
+            if (top?._id === topicId) {
+              top.hasExperience = flag;
+            }
+            return { ...top };
+          });
+          return { ...sub, topics: [...tempTopics] };
+        });
+
+        return tempSub;
+      } else {
+        return prevValue;
+      }
+    });
   };
 
   return (
