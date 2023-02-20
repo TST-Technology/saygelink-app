@@ -66,7 +66,7 @@ const Category = ({ isFindSayge }) => {
       resp?.subcategoriesWithTopics &&
       Array.isArray(resp?.subcategoriesWithTopics)
     ) {
-      setSubCategoryList(resp?.subcategoriesWithTopics);
+      setSubCategoryList([...resp?.subcategoriesWithTopics]);
     }
   };
 
@@ -89,7 +89,9 @@ const Category = ({ isFindSayge }) => {
         ...CONSTANT.API.removeSayge,
         endpoint: CONSTANT.API.removeSayge.endpoint.replace(":saygeId", topicId)
       };
-      experienceApi.sendRequest(url);
+      experienceApi.sendRequest(url, () => {
+        if (activeCategory) handleCategoryClick(activeCategory);
+      });
     }
   };
 
@@ -101,7 +103,13 @@ const Category = ({ isFindSayge }) => {
       const payload = {
         experience: topicIds
       };
-      experienceApi.sendRequest(url, () => {}, payload);
+      experienceApi.sendRequest(
+        url,
+        () => {
+          if (activeCategory) handleCategoryClick(activeCategory);
+        },
+        payload
+      );
     }
   };
 

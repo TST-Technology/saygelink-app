@@ -177,6 +177,38 @@ export const EventCardMain = styled.div`
   background-position: center;
   cursor: pointer;
   height: 100%;
+
+  .eventHeading {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    color: #ffffff;
+    margin-top: 8px;
+
+    ${({ isJoinButton }) => {
+      if (isJoinButton) {
+        return {
+          "white-space": "nowrap",
+          overflow: "hidden",
+          "text-overflow": "ellipsis",
+          "white-space": "nowrap",
+          width: "90%",
+          overflow: "hidden",
+          "text-overflow": "ellipsis"
+        };
+      } else {
+        return {
+          display: "-webkit-box",
+          "-webkit-box-orient": "vertical",
+          "-webkit-line-clamp": 2,
+          "white-space": "normal",
+          overflow: "hidden"
+        };
+      }
+    }}
+  }
 `;
 
 export const LeaveButtonStyle = styled.button`

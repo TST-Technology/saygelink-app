@@ -170,7 +170,14 @@ const Network = ({ activateTabValue, isDetailPage }) => {
   const responseConnectionHandler = (resp) => {
     if (resp && resp?.count && resp?.connections) {
       setPendingRequestCount(resp?.count);
-      setRequestDetail(resp?.connections.reverse());
+
+      if (Array.isArray(resp?.connections) && resp.connections.length > 0) {
+        setRequestDetail([...resp?.connections.reverse()]);
+      } else {
+        setRequestDetail(null);
+      }
+    } else {
+      setRequestDetail(null);
     }
   };
 
@@ -181,15 +188,19 @@ const Network = ({ activateTabValue, isDetailPage }) => {
     );
   };
 
+  const handleConnectionRequestResponse = (resp) => {
+    getConnectionRequests();
+  };
+
   const handleAcceptDecline = (optionId, connectionId, status) => {
     const payload = {
       connection_id: connectionId,
       option_id: optionId,
-      status: "accepted"
+      status: status
     };
     networkApi.sendRequest(
       CONSTANT.API.confirmAvailability,
-      responseHandler,
+      handleConnectionRequestResponse,
       payload
     );
   };
@@ -372,7 +383,12 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                         : onEventDetailClick(event?._id);
                                     }}
                                   >
-                                    <EventCardMain image={event?.image}>
+                                    <EventCardMain
+                                      isJoinButton={
+                                        event.iamPartecipant === false
+                                      }
+                                      image={event?.image}
+                                    >
                                       <div className='d-flex flex-column align-items-center p-3 h-100 justify-content-center'>
                                         <Tooltip
                                           title={event?.title}
@@ -436,7 +452,12 @@ const Network = ({ activateTabValue, isDetailPage }) => {
                                         : onEventDetailClick(event?._id);
                                     }}
                                   >
-                                    <EventCardMain image={event?.image}>
+                                    <EventCardMain
+                                      isJoinButton={
+                                        event.iamPartecipant === false
+                                      }
+                                      image={event?.image}
+                                    >
                                       <div className='d-flex flex-column align-items-center p-3 h-100 justify-content-center'>
                                         <Tooltip
                                           title={event?.title}
