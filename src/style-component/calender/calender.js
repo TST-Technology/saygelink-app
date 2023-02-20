@@ -1,16 +1,16 @@
-import styled from 'styled-components'
-import { DashboardHeaderHeight, devices } from '../../utils/constants'
-import theme from '../../utils/variables'
+import styled from "styled-components";
+import { DashboardHeaderHeight, devices } from "../../utils/constants";
+import theme from "../../utils/variables";
 import {
   Button,
   FlexAlignCenter,
   FlexCenter,
   FlexJustifySpaceBetween
-} from '../general'
+} from "../general";
 
-const CALENDER_LEFT_WIDTH = 'min(320px, 30%)'
-const CALENDER_PREVIEW_HEADER = '75px'
-const CALENDER_EVENT_LEFT = 'min(200px, 20%)'
+const CALENDER_LEFT_WIDTH = "min(320px, 30%)";
+const CALENDER_PREVIEW_HEADER = "75px";
+const CALENDER_EVENT_LEFT = "min(200px, 20%)";
 
 export const CalenderContainerStyle = styled.div`
   background: ${theme.lightTheme.quillGrey};
@@ -35,6 +35,10 @@ export const CalenderContainerStyle = styled.div`
       width: ${CALENDER_LEFT_WIDTH};
       @media ${devices.tablet} {
         width: min(320px, 40%);
+      }
+
+      .noteCalender {
+        font-size: 16px;
       }
     }
 
@@ -79,7 +83,7 @@ export const CalenderContainerStyle = styled.div`
             }
 
             p {
-              font-family: 'Poppins';
+              font-family: "Poppins";
               font-style: normal;
               font-weight: 500;
               font-size: 16.6667px;
@@ -121,7 +125,7 @@ export const CalenderContainerStyle = styled.div`
 
               p {
                 margin-bottom: 0;
-                font-family: 'Poppins';
+                font-family: "Poppins";
                 font-style: normal;
                 font-weight: 500;
                 font-size: 14px;
@@ -165,7 +169,7 @@ export const CalenderContainerStyle = styled.div`
 
                   .calenderPreviewEventTitleContainer {
                     h3 {
-                      font-family: 'Poppins';
+                      font-family: "Poppins";
                       font-style: normal;
                       font-weight: 500;
                       font-size: 15px;
@@ -174,7 +178,7 @@ export const CalenderContainerStyle = styled.div`
                     }
 
                     p {
-                      font-family: 'Poppins';
+                      font-family: "Poppins";
                       font-style: normal;
                       font-weight: 400;
                       font-size: 12px;
@@ -184,7 +188,7 @@ export const CalenderContainerStyle = styled.div`
                     }
 
                     a {
-                      font-family: 'Poppins';
+                      font-family: "Poppins";
                       font-style: normal;
                       font-weight: 400;
                       font-size: 12px;
@@ -206,7 +210,7 @@ export const CalenderContainerStyle = styled.div`
                     margin: 0;
                     box-shadow: none;
                     heigh: fit-content;
-                    font-family: 'Poppins';
+                    font-family: "Poppins";
                     font-style: normal;
                     font-weight: 400;
                     font-size: 12px;
@@ -229,14 +233,14 @@ export const CalenderContainerStyle = styled.div`
       }
     }
   }
-`
+`;
 
 export const CalenderEventButtonStyle = styled.button`
   ${Button}
   margin: 0;
   box-shadow: none;
   heigh: fit-content;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -245,4 +249,4 @@ export const CalenderEventButtonStyle = styled.button`
   align-items: center;
   gap: 10px;
   color: #000000;
-`
+`;

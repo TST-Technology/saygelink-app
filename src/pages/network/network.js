@@ -170,7 +170,7 @@ const Network = ({ activateTabValue, isDetailPage }) => {
   const responseConnectionHandler = (resp) => {
     if (resp && resp?.count && resp?.connections) {
       setPendingRequestCount(resp?.count);
-      setRequestDetail(resp?.connections);
+      setRequestDetail(resp?.connections.reverse());
     }
   };
 

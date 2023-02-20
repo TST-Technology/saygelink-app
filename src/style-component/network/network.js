@@ -140,13 +140,18 @@ export const StyleNetworkContainer = styled.div`
               line-height: 27px;
               color: #ffffff;
               margin-top: 8px;
-              white-space: nowrap;
+              /* white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
               width: 90%;
               overflow: hidden;
-              text-overflow: ellipsis;
+              text-overflow: ellipsis; */
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              white-space: normal;
+              overflow: hidden;
             }
 
             .eventImage {
