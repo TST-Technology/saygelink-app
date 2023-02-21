@@ -60,6 +60,7 @@ const Member = ({ isEdit }) => {
   } = useContext(UserContext);
   const [selectedWeekday, setSelectedWeekDay] = useState("Sun");
   const [editProfileDialog, setEditProfileDialog] = useState();
+  const [variableTime, setVariableTime] = useState(false);
 
   // Edit
   const profileApi = useHttp();
@@ -398,6 +399,13 @@ const Member = ({ isEdit }) => {
     nav(ROUTES.AUTH);
   };
 
+  const handleVariableTimeChange = (e) => {
+    variableTimeApi.sendRequest(CONSTANT.API.setVariableMeetingTime, () => {}, {
+      variableMeetingTime: e.target.checked
+    });
+    setVariableTime(e.target.checked);
+  };
+
   return (
     <>
       {api.isLoading || profileApi.isLoading ? (
@@ -588,8 +596,21 @@ const Member = ({ isEdit }) => {
                     <p className='mt-3'>No Availability</p>
                   )}
                 </div>
+
+                {isEdit ? (
+                  <div className='mt-4'>
+                    <input
+                      type='checkbox'
+                      checked={variableTime}
+                      onChange={(e) => handleVariableTimeChange(e)}
+                    />
+                    <span className='ms-2'>
+                      variable, message me for availability.
+                    </span>
+                  </div>
+                ) : null}
                 {/* {isVariableTime ? ( */}
-                <p className='mt-4'>variable, message me for availability.</p>
+                {/* <p className='mt-4'>variable, message me for availability.</p> */}
                 {/* ) : null} */}
               </div>
 
