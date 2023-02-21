@@ -18,14 +18,14 @@ import Experiences from "./experiences";
 
 export const CreateAccountContext = createContext({
   step: 1,
-  setStep: (val) => {},
+  setStep: (val) => { },
   formData: null,
-  setFormData: (val) => {}
+  setFormData: (val) => { }
 });
 
 const CreateAccount = () => {
   const TOTAL_STEPS = 4;
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState(null);
 
   let StepView = <p></p>;
