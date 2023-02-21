@@ -38,7 +38,6 @@ const Header = () => {
   const [requestDetail, setRequestDetail] = useState([]);
   const { profileDetail, isUnreadMessage, setIsUnreadMessage } =
     useContext(UserContext);
-  const [isNotification, setIsNotification] = useState(false);
   const [tabletMenuOpen, setTabletMenuOpen] = useState(false);
   const [screenWidth, setScreenWidth] = useState(0);
 
@@ -64,7 +63,7 @@ const Header = () => {
 
     socket.on(SOCKET_EVENTS.RECEIVE_NOTIFICATION, (notification) => {
       if (notification) {
-        setIsNotification(true);
+        setIsUnreadMessage(true);
       }
     });
 
@@ -104,7 +103,7 @@ const Header = () => {
   const handleClick = (event) => {
     setFloatMenuType("notification");
     setAnchorEl(event.currentTarget);
-    setIsNotification(false);
+    setIsUnreadMessage(false);
   };
 
   const handleRequestClick = (event) => {
@@ -191,7 +190,7 @@ const Header = () => {
           <div className='width-30 notificationIcon' onClick={handleClick}>
             <img src={BellLogo} className='headerImages' />
 
-            {isNotification ? <div className='notificationDot'></div> : null}
+            {isUnreadMessage ? <div className='notificationDot'></div> : null}
           </div>
 
           <div

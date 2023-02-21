@@ -25,7 +25,8 @@ const MessageFloater = () => {
   const [conversationList, setConversationList] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const nav = useNavigate();
-  const { profileDetail, setIsUnreadMessage } = useContext(UserContext);
+  const { profileDetail, setIsUnreadMessage, isUnreadMessage } =
+    useContext(UserContext);
   const unreadMessageCount = Object.keys(unseenMessageUsers).length;
 
   useEffect(() => {
@@ -112,8 +113,10 @@ const MessageFloater = () => {
           </div>
 
           <div className='buttonContainer'>
-            {unreadMessageCount ? (
-              <div className='count'>{unreadMessageCount}</div>
+            {unreadMessageCount || isUnreadMessage ? (
+              <div className='count'>
+                {unreadMessageCount ? unreadMessageCount : 1}
+              </div>
             ) : null}
             <img
               src={RightArrow}
