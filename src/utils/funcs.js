@@ -103,7 +103,8 @@ export function formatTime(timeString) {
 }
 
 export const prepareURL = (url) => {
-  if (url.indexOf("http://") != 0) url = "http://" + url;
+  if (!url.includes("http://") && !url.includes("https://"))
+    return "https://" + url;
   return url;
 };
 

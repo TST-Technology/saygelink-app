@@ -52,11 +52,14 @@ const Healthcare = () => {
   const joinApi = useHttp();
   const postApi = useHttp();
   const deleteApi = useHttp();
+  const subCategoryApi = useHttp();
   const reportApi = useHttp();
   const email = getEmail();
   const { topicId } = useParams();
   const [allMembers, setAllMembers] = useState([]);
   const [events, setEvents] = useState(null);
+  const [heading, setHeading] = useState("");
+
   const [interests, setInterests] = useState(null);
   const [joinEventConfirmation, setJoinEventConfirmation] = useState(false);
   const [activeEvent, setActiveEvent] = useState(null);
@@ -272,9 +275,28 @@ const Healthcare = () => {
     }
   };
 
+  const handleSubcategoryResponse = (resp) => {
+    if (resp && resp?.subcategory) {
+      setHeading(resp?.subcategory?.name);
+    }
+  };
+
   const handleTopicResponse = (resp) => {
-    if (resp && resp?.topic);
-    setTopicDetail(resp.topic);
+    if (resp && resp?.topic) {
+      setTopicDetail(resp.topic);
+      if (resp.topic?.name === "General") {
+        const url = JSON.parse(
+          JSON.stringify(CONSTANT.API.getSubcategoriesByID)
+        );
+        url.endpoint = url.endpoint.replace(
+          ":categoryId",
+          resp.topic?.subcategory_id
+        );
+        subCategoryApi.sendRequest(url, handleSubcategoryResponse);
+      } else {
+        setHeading(resp?.topic?.name);
+      }
+    }
   };
 
   const getTopicDetail = () => {
@@ -374,7 +396,8 @@ const Healthcare = () => {
                 <div>
                   <h3 className="heading">Here are your SAYge Matches! </h3>
                   <h3 className="heading topic  text-muted">
-                    {topicDetail?.name}
+                    {heading}
+                    {console.log("topicDetail", topicDetail)}
                   </h3>
                 </div>
                 <div>
@@ -463,7 +486,7 @@ const Healthcare = () => {
               </StyleMembersCardContainer>
 
               <StyleFeedContainer>
-                <h3 className="heading">{topicDetail?.name} board</h3>
+                <h3 className="heading">{heading} board</h3>
 
                 <p>
                   Reach out and chat with someone who made a post by clicking
@@ -558,7 +581,7 @@ const Healthcare = () => {
                       <ImageCard
                         key={event._id}
                         mainId={event._id}
-                        field='event'
+                        field="event"
                         participant={event.iamPartecipant}
                         backgroundImage={
                           event?.image ? event?.image : cardBackgroundImage2
@@ -589,7 +612,7 @@ const Healthcare = () => {
                       <ImageCard
                         key={event._id}
                         mainId={event._id}
-                        field='interest'
+                        field="interest"
                         participant={event.iamPartecipant}
                         backgroundImage={
                           event?.image ? event?.image : cardBackgroundImage2

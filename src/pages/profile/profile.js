@@ -36,7 +36,7 @@ import useHttp from "../../hooks/use-http";
 import { useContext } from "react";
 import { UserContext } from "../../context/user";
 import Loader from "../../components/general/loader";
-import { getEmail, isEmptyArray, notify } from "../../utils/funcs";
+import { getEmail, isEmptyArray, notify, prepareURL } from "../../utils/funcs";
 import Dialog from "../../components/dialog/dialog";
 import AddExperience from "../../components/profile/add-experience";
 import AddLink from "../../components/profile/add-link";
@@ -555,7 +555,10 @@ const Profile = () => {
                         <div className="viewRow" key={index}>
                           <div className="textContainer">
                             {getSocialMediaIcon(row?.name)}
-                            <a href={row?.url} className="durationText">
+                            <a
+                              href={prepareURL(row.url)}
+                              className="durationText"
+                            >
                               {row?.url}
                             </a>
                           </div>

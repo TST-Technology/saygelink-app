@@ -23,14 +23,14 @@ import {
   ScheduleCallButtonStyle,
   SendMessageButtonStyle,
   StyleCategoryCard,
-  StyleChatRequestInput
+  StyleChatRequestInput,
 } from "../../style-component/member/member";
 import CONSTANT, {
   ACCEPT_FILE_TYPE,
   DashboardHeaderHeight,
   ROUTES,
   scheduleMeetingStyle,
-  visitedMember
+  visitedMember,
 } from "../../utils/constants";
 import ScheduleMeeting from "../../components/schedule-meeting/schedule-meeting";
 import { Menu } from "@mui/material";
@@ -56,7 +56,7 @@ const Member = ({ isEdit }) => {
     setUser,
     user,
     setProfileDetail: setProfile,
-    profileDetail: detail
+    profileDetail: detail,
   } = useContext(UserContext);
   const [selectedWeekday, setSelectedWeekDay] = useState("Sun");
   const [editProfileDialog, setEditProfileDialog] = useState();
@@ -75,7 +75,7 @@ const Member = ({ isEdit }) => {
   const [deleteLink, setDeleteLink] = useState(null);
   const [
     isDeleteAvailabilityConfirmation,
-    setIsDeleteAvailabilityConfirmation
+    setIsDeleteAvailabilityConfirmation,
   ] = useState(false);
   const [availabilityId, setAvailabilityId] = useState(null);
   const [availabilityDialogVisible, setAvailabilityDialogVisible] =
@@ -121,7 +121,7 @@ const Member = ({ isEdit }) => {
         endpoint: CONSTANT.API.userDetailById.endpoint.replace(
           "userId",
           memberId
-        )
+        ),
       };
       api.sendRequest(url, handleMemberResponse);
     }
@@ -145,26 +145,26 @@ const Member = ({ isEdit }) => {
   const getSocialMediaIcons = (socialMedia) => {
     if (socialMedia) {
       return (
-        <div className='socialProfileContainer'>
+        <div className="socialProfileContainer">
           {socialMedia
             .filter((item) => item?.url)
             .map((media) => {
               const image = getSocialIcon(media.name);
               return (
-                <div className='socialMediaLink'>
-                  <div className=''>
+                <div className="socialMediaLink">
+                  <div className="">
                     <a
-                      target='_blank'
-                      className='mediaLink'
+                      target="_blank"
+                      className="mediaLink"
                       href={prepareURL(media.url)}
                     >
-                      <img src={image} className='socialImage' />
+                      <img src={image} className="socialImage" />
                       {media.url}
                     </a>
                   </div>
                   {isEdit ? (
                     <div
-                      className='deleteButtonContainer'
+                      className="deleteButtonContainer"
                       onClick={() => handleDeleteLinkClick(media)}
                     >
                       <img src={TrashIcon} />
@@ -195,9 +195,9 @@ const Member = ({ isEdit }) => {
         qualification: profileDetail?.qualification,
         qualification_year: profileDetail?.qualification_year,
         unseen_messages: "N/A",
-        _id: profileDetail?.id
+        _id: profileDetail?.id,
       },
-      _id: conversationId
+      _id: conversationId,
     };
     return newMember;
   };
@@ -221,7 +221,7 @@ const Member = ({ isEdit }) => {
 
   const onSendMessage = (memberId) => {
     const payload = {
-      participants: [memberId, detail?.id]
+      participants: [memberId, detail?.id],
     };
     messageApi.sendRequest(
       CONSTANT.API.getOrCreateConversation,
@@ -246,7 +246,7 @@ const Member = ({ isEdit }) => {
   const getProfile = () => {
     const url = {
       ...CONSTANT.API.getProfileDetail,
-      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(":email", email)
+      endpoint: CONSTANT.API.getProfileDetail.endpoint.replace(":email", email),
     };
     profileApi.sendRequest(url, responseHandler);
   };
@@ -254,7 +254,7 @@ const Member = ({ isEdit }) => {
   const updateChatRequests = useCallback(
     debounce((currentValue) => {
       const payload = {
-        max_chat_requests: currentValue
+        max_chat_requests: currentValue,
       };
       chatRequestApi.sendRequest(
         CONSTANT.API.updateUser,
@@ -330,7 +330,7 @@ const Member = ({ isEdit }) => {
         endpoint: CONSTANT.API.deleteLink.endpoint.replace(
           ":id",
           deleteLink?._id
-        )
+        ),
       };
       setIsDeleteLinkConfirmation(false);
       profileApi.sendRequest(url, getProfile, {}, "Link deleted successfully!");
@@ -373,7 +373,7 @@ const Member = ({ isEdit }) => {
         endpoint: CONSTANT.API.deleteAvailability.endpoint.replace(
           ":availId",
           availabilityId
-        )
+        ),
       };
       profileApi.sendRequest(
         url,
@@ -404,40 +404,40 @@ const Member = ({ isEdit }) => {
         <Loader height={`calc(100vh - ${DashboardHeaderHeight})`} />
       ) : (
         <MemberContainerStyle>
-          <div className='profileTopSection'>
-            <div className='profileTopLeftSection'>
-              <div className='profileImageContainer'>
+          <div className="profileTopSection">
+            <div className="profileTopLeftSection">
+              <div className="profileImageContainer">
                 <ImageRole
-                  className='profileMemberImage'
+                  className="profileMemberImage"
                   src={profileDetail?.profile_image}
-                  alt=''
+                  alt=""
                 />
               </div>
 
-              <div className='profileLeftDetailContainer'>
-                <div className='nameRoleContainer'>
+              <div className="profileLeftDetailContainer">
+                <div className="nameRoleContainer">
                   <h3>{profileDetail?.name}</h3>
                   <span>{profileDetail?.qualification}</span>
                 </div>
-                <div className='otherFieldsContainer'>
-                  <div className='otherField'>
-                    <p className='value'>Post</p>
-                    <b className='title'>{profileDetail?.num_posts}</b>
+                <div className="otherFieldsContainer">
+                  <div className="otherField">
+                    <p className="value">Post</p>
+                    <b className="title">{profileDetail?.num_posts}</b>
                   </div>
 
-                  <div className='otherField'>
-                    <p className='value'>Meets</p>
-                    <b className='title'>{profileDetail?.num_meets}</b>
+                  <div className="otherField">
+                    <p className="value">Meets</p>
+                    <b className="title">{profileDetail?.num_meets}</b>
                   </div>
-                  <div className='otherField'>
-                    <p className='value'>Verified</p>
+                  <div className="otherField">
+                    <p className="value">Verified</p>
                     <img src={VerifiedImage} />
                   </div>
                 </div>
               </div>
             </div>
-            <div className='profileTopRightSection'>
-              <div className='profileButtonContainer'>
+            <div className="profileTopRightSection">
+              <div className="profileButtonContainer">
                 {isEdit ? (
                   <>
                     <EditButtonStyle onClick={() => setEditProfileDialog(true)}>
@@ -467,15 +467,15 @@ const Member = ({ isEdit }) => {
               </div>
             </div>
           </div>
-          <div className='profileBottomSection'>
+          <div className="profileBottomSection">
             <div>
-              <div className='section'>
-                <div className='sectionHeadingContainer'>
-                  <h2 className='memberSectionHeading'>About Me</h2>
+              <div className="section">
+                <div className="sectionHeadingContainer">
+                  <h2 className="memberSectionHeading">About Me</h2>
 
                   {isEdit ? (
                     <a
-                      className='editAction'
+                      className="editAction"
                       onClick={() => setEditProfileDialog(true)}
                     >
                       Edit
@@ -483,15 +483,15 @@ const Member = ({ isEdit }) => {
                   ) : null}
                 </div>
 
-                <p className='bioDetail'>{profileDetail?.about}</p>
+                <p className="bioDetail">{profileDetail?.about}</p>
               </div>
 
-              <div className='section'>
-                <div className='sectionHeadingContainer'>
-                  <h2 className='memberSectionHeading'>Insights</h2>
+              <div className="section">
+                <div className="sectionHeadingContainer">
+                  <h2 className="memberSectionHeading">Insights</h2>
                   {isEdit ? (
                     <a
-                      className='editAction'
+                      className="editAction"
                       onClick={() => {
                         nav(ROUTES.CATEGORY);
                       }}
@@ -501,39 +501,39 @@ const Member = ({ isEdit }) => {
                   ) : null}
                 </div>
 
-                <div className='insightContainer'>
+                <div className="insightContainer">
                   {profileDetail?.experience ? (
                     profileDetail?.experience.map((exp) => {
                       return (
                         <StyleCategoryCard key={exp?.category_id}>
-                          <div className='imageContainer'>
+                          <div className="imageContainer">
                             <img
                               src={
                                 exp?.image ? exp?.image : DefaultCategoryImage
                               }
-                              className='categoryImage'
+                              className="categoryImage"
                             />
                           </div>
-                          <div className='labelContainer'>
-                            <span className='label'>{exp?.name}</span>
+                          <div className="labelContainer">
+                            <span className="label">{exp?.name}</span>
                           </div>
                         </StyleCategoryCard>
                       );
                     })
                   ) : (
-                    <p className='mt-3'>No Insights</p>
+                    <p className="mt-3">No Insights</p>
                   )}
                 </div>
               </div>
             </div>
             <div>
-              <div className='section'>
-                <div className='sectionHeadingContainer'>
-                  <h2 className='memberSectionHeading'>General Availability</h2>
+              <div className="section">
+                <div className="sectionHeadingContainer">
+                  <h2 className="memberSectionHeading">General Availability</h2>
 
-                  {isEdit ? <a className='editAction'>Edit</a> : null}
+                  {isEdit ? <a className="editAction">Edit</a> : null}
                 </div>
-                <div className='weekDayContainer'>
+                <div className="weekDayContainer">
                   {CONSTANT.WEEK_DIGIT.map((day, index) => {
                     return (
                       <div
@@ -554,11 +554,11 @@ const Member = ({ isEdit }) => {
                     );
                   })}
                 </div>
-                <div className='timingContainer'>
+                <div className="timingContainer">
                   {isEdit ? (
-                    <div className='timing'>
+                    <div className="timing">
                       <div
-                        className='addTimeContainer'
+                        className="addTimeContainer"
                         onClick={() => setAvailabilityDialogVisible(true)}
                       >
                         <img src={AddGreenImage} /> Add
@@ -568,12 +568,12 @@ const Member = ({ isEdit }) => {
                   {!isEmptyArray(currentWeekDay) ? (
                     currentWeekDay.map((avail, index) => {
                       return (
-                        <div key={avail?._id} className='timing'>
+                        <div key={avail?._id} className="timing">
                           <span>{`${avail?.start_time} - ${avail?.end_time}`}</span>
 
                           {isEdit ? (
                             <div
-                              className='deleteButtonContainer'
+                              className="deleteButtonContainer"
                               onClick={() => {
                                 handleAvailabilityDelete(avail);
                               }}
@@ -585,28 +585,28 @@ const Member = ({ isEdit }) => {
                       );
                     })
                   ) : (
-                    <p className='mt-3'>No Availability</p>
+                    <p className="mt-3">No Availability</p>
                   )}
                 </div>
                 {/* {isVariableTime ? ( */}
-                <p className='mt-4'>variable, message me for availability.</p>
+                {/* <p className='mt-4'>variable, message me for availability.</p> */}
                 {/* ) : null} */}
               </div>
 
               {isEdit ? (
-                <div className='section'>
-                  <div className='sectionHeadingContainer'>
-                    <h2 className='memberSectionHeading'>
+                <div className="section">
+                  <div className="sectionHeadingContainer">
+                    <h2 className="memberSectionHeading">
                       Maximum chat requests
                     </h2>
                   </div>
 
-                  <p className='tooltipSubHeading'>
+                  <p className="tooltipSubHeading">
                     <b>Tip:</b> Feel free to select a limit for the number of
                     chat requests you’d like per month.
                   </p>
-                  <div className='chatRequestsSection'>
-                    <div className='chatRequestsContainer'>
+                  <div className="chatRequestsSection">
+                    <div className="chatRequestsContainer">
                       <StyleChatRequestInput
                         type={"number"}
                         value={maximumRequests}
@@ -614,23 +614,23 @@ const Member = ({ isEdit }) => {
                           onChatRequestChange(e);
                         }}
                       ></StyleChatRequestInput>
-                      <div className='chatRequestActionContainer'>
+                      <div className="chatRequestActionContainer">
                         <a
-                          className='increment button'
+                          className="increment button"
                           onClick={() => {
                             onChatRequestChange("+");
                           }}
                         >
-                          <img className='upArrow' src={UpImage} />
+                          <img className="upArrow" src={UpImage} />
                         </a>
 
                         <a
-                          className='decrement button'
+                          className="decrement button"
                           onClick={() => {
                             onChatRequestChange("-");
                           }}
                         >
-                          <img className='downArrow' src={UpImage} />
+                          <img className="downArrow" src={UpImage} />
                         </a>
                       </div>
                     </div>
@@ -640,22 +640,22 @@ const Member = ({ isEdit }) => {
               ) : null}
             </div>
             <div>
-              <div className='section'>
-                <div className='sectionHeadingContainer'>
-                  <h2 className='memberSectionHeading'>Attachments</h2>
+              <div className="section">
+                <div className="sectionHeadingContainer">
+                  <h2 className="memberSectionHeading">Attachments</h2>
 
                   {isEdit ? (
-                    <div className='addAttachmentContainer'>
-                      <label htmlFor='attachment' className='attachment'>
+                    <div className="addAttachmentContainer">
+                      <label htmlFor="attachment" className="attachment">
                         <input
-                          name='attachment'
-                          type='file'
-                          id='attachment'
+                          name="attachment"
+                          type="file"
+                          id="attachment"
                           hidden
                           onChange={handlePdfChange}
                           accept={ACCEPT_FILE_TYPE}
                         />{" "}
-                        <a className='editAction'>
+                        <a className="editAction">
                           {profileDetail?.file ? "Edit" : "Add"}
                         </a>
                       </label>{" "}
@@ -664,9 +664,9 @@ const Member = ({ isEdit }) => {
                 </div>
 
                 {profileDetail?.file ? (
-                  <div className='fileContainer'>
+                  <div className="fileContainer">
                     <a
-                      className='attachmentContainer'
+                      className="attachmentContainer"
                       href={profileDetail?.file}
                     >
                       <img src={FileImage} />
@@ -675,7 +675,7 @@ const Member = ({ isEdit }) => {
 
                     {isEdit ? (
                       <div
-                        className='deleteButtonContainer'
+                        className="deleteButtonContainer"
                         onClick={() => {
                           handleDeleteUserFile();
                         }}
@@ -685,17 +685,17 @@ const Member = ({ isEdit }) => {
                     ) : null}
                   </div>
                 ) : (
-                  <p className='mt-3'>No Attachments</p>
+                  <p className="mt-3">No Attachments</p>
                 )}
               </div>
 
-              <div className='section'>
-                <div className='sectionHeadingContainer'>
-                  <h2 className='memberSectionHeading'>Social Media</h2>
+              <div className="section">
+                <div className="sectionHeadingContainer">
+                  <h2 className="memberSectionHeading">Social Media</h2>
 
                   {isEdit ? (
                     <a
-                      className='editAction'
+                      className="editAction"
                       onClick={() => {
                         setLinkDialogVisible(true);
                       }}
@@ -720,12 +720,12 @@ const Member = ({ isEdit }) => {
           ) : null}
           <Dialog
             content={<AddLink onClose={() => handleCloseLinkDialog(true)} />}
-            title='Add Link'
+            title="Add Link"
             onClose={() => {
               handleCloseLinkDialog(false);
             }}
             open={linkDialogVisible}
-            width='500px'
+            width="500px"
           />
 
           <Dialog
@@ -735,12 +735,12 @@ const Member = ({ isEdit }) => {
                 onClose={() => handleCloseAvailabilityDialog(true)}
               />
             }
-            title='Add Availability'
+            title="Add Availability"
             onClose={() => {
               handleCloseAvailabilityDialog(false);
             }}
             open={availabilityDialogVisible}
-            width='500px'
+            width="500px"
           />
 
           {isDeleteLinkConfirmation ? (
@@ -778,19 +778,19 @@ const Member = ({ isEdit }) => {
 
           <Menu
             anchorEl={anchorEl}
-            id='account-menu'
+            id="account-menu"
             open={open}
             onClose={handleClose}
             PaperProps={{
               elevation: 0,
-              sx: scheduleMeetingStyle
+              sx: scheduleMeetingStyle,
             }}
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
             <ScheduleMeeting
               email={profileDetail?.email}
-              type='connect'
+              type="connect"
               onClose={() => {
                 handleClose();
               }}
@@ -803,7 +803,7 @@ const Member = ({ isEdit }) => {
 };
 
 Member.defaultProps = {
-  isEdit: false
+  isEdit: false,
 };
 
 export default Member;

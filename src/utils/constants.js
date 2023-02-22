@@ -76,6 +76,10 @@ const CONSTANT = {
       endpoint: `/subcategories/search/:categoryId`,
       type: "GET",
     },
+    getSubcategoriesByID: {
+      endpoint: `/subcategories/:categoryId`,
+      type: "GET",
+    },
     addExperience: {
       endpoint: `/users/organization/addSayge`,
       type: "POST",
